@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>demo2</title>
+</head>
+<body>
+<script type="text/javascript">
+    var f = function () {
+        return $0 + $1;
+    };
+    var g = eval(f.toString().replace(/\$(\d+)/g,
+            function (_, digits) {
+                return 'arguments[' + digits + ']'
+            }));
+    g(5, 6);
+    JSON.parse
+</script>
+</body>
+</html>

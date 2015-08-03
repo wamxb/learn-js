@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>demo1</title>
+    <style type="text/css">
+        #div1 { width: 200px; height: 200px; background: papayawhip; position: absolute; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+<div id="div1"></div>
+<script type="text/javascript">
+    var oDiv = document.getElementById('div1');
+
+    var disX = 0;
+    var disY = 0;
+
+    oDiv.onmousedown = function (event) {
+        var e = event || window.event;
+        disX = e.clientX - oDiv.offsetLeft;
+        disY = e.clientY - oDiv.offsetTop;
+
+        // IE8之前的版本，选中有bug
+        // setCapture：全局捕获（就是生成了一个透明的层）
+        oDiv.setCapture && oDiv.setCapture();
+
+        document.onmousemove = function (event) {
+            var e = event || window.event;
+            oDiv.style.left = e.clientX - disX + 'px';
+            oDiv.style.top = e.clientY - disY + 'px';
+        };
+
+        document.onmouseup = function () {
+            document.onmousemove = null;
+            document.onmouseup = null;
+            oDiv.releaseCapture && oDiv.releaseCapture();
+        };
+
+        return false;
+    };
+</script>
+</body>
+</html>

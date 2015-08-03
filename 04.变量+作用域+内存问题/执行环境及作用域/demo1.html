@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>demo1</title>
+</head>
+<body>
+<script type="text/javascript">
+    /*    var color = 'blue';
+
+     function changeColor() {
+     if (color === 'blue') {
+     color = 'red';
+     } else {
+     color = 'blue';
+     }
+     console.log(color);
+     }
+
+     changeColor();
+     console.log('color is now ' + color);*/
+
+    // test2
+    // 变量查询是有代价的，局部变量要比访问全局变量更快
+    var color = 'blue';
+    function getColor() {
+        try {
+            return color;
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+    console.log(getColor());
+</script>
+</body>
+</html>

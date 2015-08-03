@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>7.2.3 内存泄漏</title>
+</head>
+<body>
+<script type="text/javascript">
+    // 由于IE9之前的版本对JScript对象和COM对象使用不用的垃圾收集例程
+    // 因此闭包在IE的这些版本中会导致一些特殊的问题
+    // 具体来说，如果闭包的作用域链中保存着一个HTML元素，那么就意味这该元素将无法被销毁
+    function assignHandler() {
+        var element = document.getElementById('someElement');
+        var id = element.id;
+        element.onclick = function () {
+            console.log(id);
+        };
+        element = null;
+    }
+
+</script>
+</body>
+</html>

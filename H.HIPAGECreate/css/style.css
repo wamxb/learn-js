@@ -1,0 +1,90 @@
+@charset "utf-8";
+/*reset [from alice]
+*****************************************************************************/
+html { background: #fff; color: #000; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100% }
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, menu, nav, section { margin: 0; padding: 0 }
+article, aside, details, figcaption, figure, footer, header, menu, nav, section { display: block }
+audio, canvas, video { display: inline-block; *display: inline; *zoom: 1 }
+body, button, input, select, textarea { font: 12px/1.5 tahoma, arial, "Hiragino Sans GB", \5b8b\4f53 }
+input, select, textarea { font-size: 100% }
+table { border-spacing: 0; border-collapse: collapse }
+th { text-align: inherit }
+fieldset, img { border: 0 }
+iframe { display: block }
+abbr, acronym { border: 0; font-variant: normal }
+del { text-decoration: line-through }
+address, caption, cite, code, dfn, em, th, var { font-weight: 500; font-style: normal }
+ol, ul { list-style: none }
+caption, th { text-align: left }
+h1, h2, h3, h4, h5, h6 { font-weight: 500; font-size: 100% }
+q:before, q:after { content: '' }
+sub, sup { position: relative; vertical-align: baseline; font-size: 75%; line-height: 0 }
+sup { top: -0.5em }
+sub { bottom: -0.25em }
+a:link { color: #08c }
+a:hover { color: #08c; text-decoration: underline }
+ins, a { text-decoration: none }
+code, kbd, pre, samp { font-size: 1em; font-family: monospace, serif }
+.fn-clear:after { display: block; visibility: hidden; clear: both; height: 0; content: " "; font-size: 0 }
+.fn-clear { zoom: 1 }
+.fn-hide { display: none }
+.fn-vhide { visibility: hidden; }
+.fn-vshow { visibility: visible; }
+.fn-left, .fn-right { display: inline }
+.fn-left { float: left }
+.fn-right { float: right }
+.fn-text-overflow { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+*, *:before, *:after { -webkit-box-sizing: border-box; }
+/*layout
+*****************************************************************************/
+html, body, .g-wrap, .g-wrap > div { position: relative; height: 100%; }
+.g-side { margin-right: -200px; width: 200px; background: #555454; }
+.g-main { width: 100%; }
+.g-mainc { margin-left: 200px; }
+/* ==================================================
+side pageTeam
+================================================== */
+.page-team { position: relative; margin: 15px auto; width: 120px; height: 180px; outline: #c6c6c6 solid 2px; background-color: #fff; }
+.page-close { position: absolute; top: -1px; right: 0; z-index: 1; width: 20px; height: 20px; background-image: url(http://7te85s.com2.z0.glb.qiniucdn.com/create-close1.png); background-size: 100% 100%; color: #777; font-size: 18px; }
+.page-add { background: #fff url(http://7te85s.com2.z0.glb.qiniucdn.com/create-newpage1.png) no-repeat 50% 50%; cursor: pointer; }
+.page-add .page-close { visibility: hidden; }
+/* ==================================================
+canvas
+================================================== */
+.canvas { position: absolute; top: 50%; left: 50%; overflow: hidden; margin: 0 auto; width: 320px; height: 480px; border: 1px solid #ccc; background: #f3f3f3; -webkit-transform: translate3d(-50%, -50%, 0); }
+/* --------------------------------------------------
+animate-control
+-------------------------------------------------- */
+.animate-control { position: absolute;
+    border: 1px solid #848484; border-radius: 5px; background: #fff; }
+.effects { margin-bottom: 20px; width: 290px; }
+.effect-obj { display: block; margin: 10px 10px 30px; width: 52px; height: 52px; border: 2px solid gray; border-radius: 5px; background-color: transparent; background-repeat: no-repeat; text-align: center; cursor: pointer; }
+.effect-obj:after { line-height: 30px; position: relative; top: 100%; display: block; content: attr(data-effect-desc); text-align: center; font-weight: 500; font-size: 12px; }
+.effect-obj.active { border-color: #ccc; background-color: #000; }
+.effect-item > div { background-image: url(http://7te85s.com2.z0.glb.qiniucdn.com/toolbar-effects.png); }
+.effect-item:nth-of-type(1) .effect-obj { background-image: url(http://7te85s.com2.z0.glb.qiniucdn.com/toolbar-red_bias.png);
+    background-size: 100% 100%; }
+.effect-item:nth-of-type(2) .effect-obj { background-position: -4px -2px; }
+.effect-item:nth-of-type(3) .effect-obj { background-position: -54px 1px; }
+.effect-item:nth-of-type(4) .effect-obj { background-position: -105px -2px; }
+.effect-item:nth-of-type(5) .effect-obj { background-position: -157px -4px; }
+.effect-item:nth-of-type(6) .effect-obj { background-position: 0 -53px; }
+.effect-item:nth-of-type(7) .effect-obj { background-position: -53px -54px; }
+.effect-item:nth-of-type(8) .effect-obj { background-position: -107px -157px; }
+.effect-item:nth-of-type(9) .effect-obj { background-position: -158px -107px; }
+.effect-item:nth-of-type(10) .effect-obj { background-position: -3px -105px; }
+.effect-item:nth-of-type(11) .effect-obj { background-position: -54px -157px; }
+.effect-item:nth-of-type(12) .effect-obj { background-position: -4px -2px; }
+.effect-item:nth-of-type(13) .effect-obj { background-position: -54px 1px; }
+.effect-item:nth-of-type(14) .effect-obj { background-position: -105px -2px; }
+.effect-item:nth-of-type(15) .effect-obj { background-position: -157px -4px; }
+.effect-item:nth-of-type(16) .effect-obj { background-position: -158px -157px; }
+/* --------------------------------------------------
+
+-------------------------------------------------- */
+.input-bar { margin: 0 0 10px 35px; }
+.input-bar .icon { float: left; margin: 3px 0 0; width: 16px; height: 16px; background-repeat: no-repeat; }
+.duration-time .icon { background-image: url(http://7te85s.com2.z0.glb.qiniucdn.com/toolbar-duration.png); }
+.delay-time .icon { background-image: url(http://7te85s.com2.z0.glb.qiniucdn.com/toolbar-delay.png); }
+.input-bar .text { float: left; margin-right: 17px; margin-left: 10px; font-size: 14px; line-height: 22px; }
+.input-bar .num { width: 40px; }

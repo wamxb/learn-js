@@ -1,0 +1,26 @@
+{
+    "name": "微博复制mid--移到内容处可显示mid",
+    "version": "0.2",
+    "manifest_version": 2,
+    "description": "移到内容处可显示mid，Ctrl+C进行复制",
+    "permissions": [ "tabs", "http://*/", "https://*/", "https://*/*", "http://*/*", "contextMenus", "clipboardWrite" ],
+    "icons": {
+        "128": "icon.png",
+        "16": "icon.png",
+        "48": "icon.png"
+    },
+    "description": "微博复制mid",
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_title": "移到内容处可显示mid，Ctrl+C进行复制"
+    },
+    "background": {
+        "scripts": [ "background.js" ]
+    },
+    "content_scripts": [ {
+        "js": [ "content-script.js"],
+        "matches": ["http://*.weibo.com/*", "https://*.weibo.com/*" ],
+        "run_at": "document_end"
+    } ]
+}
+//"http://www.weibo.com/*",

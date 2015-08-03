@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>demo1</title>
+</head>
+<body>
+<script type="text/javascript">
+    // 类的职责不能多，多需要分解
+    // 抽象实体模型
+    // 封装，继承，多态
+
+    /**
+     * 账户
+     * @param balance 余额
+     * @param rank 等级
+     * @constructor
+     */
+    function Account(balance, rank) {
+        this.balance = balance;
+        this.rank = rank;
+    }
+    Account.prototype = {
+        getBalance: function () {
+            return this.balance;
+        },
+        getRank: function () {
+            return this.rank;
+        },
+        setBalance: function (val) {
+            this.balance = val;
+        }
+    };
+
+    /**
+     * 转让交易
+     * @param fromAccount
+     * @param toAccount
+     * @constructor
+     */
+    function TransferTransaction(fromAccount, toAccount) {
+        this.fromAccount = fromAccount;
+        this.toAccount = toAccount;
+    }
+
+    TransferTransaction.prototype = {
+        transfer: function (balance) {
+            console.log('transfer: ' + balance);
+            console.log('fromAccount: ' + (this.fromAccount.getBalance() - balance));
+            console.log('toAccount: ' + (this.toAccount.getBalance() + balance));
+            this.fromAccount.setBalance(this.fromAccount.getBalance() - balance);
+            this.toAccount.setBalance(this.toAccount.getBalance() + balance);
+        },
+        getFromAccount: function () {
+            return this.fromAccount;
+        },
+        getToAccount: function () {
+            return this.toAccount;
+        }
+    };
+
+    /**
+     * 转账管理（负责周边功能任务）
+     * @param fromAccount
+     * @param toAccount
+     * @constructor
+     */
+    function TransTManager(fromAccount, toAccount) {
+        this.fromAccount = fromAccount;
+        this.toAccount = toAccount;
+        this.transferTransaction = null;
+        this.rankVendor = {
+            'normal': {
+                get: function () {
+                    return 1000;
+                }
+            },
+            'vip': {
+                get: function () {
+                    return 5000;
+                }
+            }
+        };
+    }
+    TransTManager.prototype = {
+        transfer: function (balance) {
+            var transBalance = this.rankVendor[this.fromAccount.getRank()].get();
+            if (this.fromAccount.getBalance() > transBalance) {
+                console.error('您的转账金额超出了规定范围！');
+                return;
+            }
+            if (this.fromAccount.getBalance() < balance) {
+                console.error('余额不足');
+                return;
+            }
+            this.transferTransaction = new TransferTransaction(this.fromAccount, this.toAccount);
+            this.transferTransaction.transfer(balance);
+        }
+    };
+
+    var tt0 = new TransTManager(new Account(5000, 'vip'), new Account(3000, 'normal'));
+    var tt1 = new TransTManager(new Account(2000, 'vip'), new Account(3000, 'normal'));
+    var tt2 = new TransTManager(new Account(5000, 'normal'), new Account(3000, 'normal'));
+    tt0.transfer(3000);
+    tt1.transfer(3000);
+    tt2.transfer(3000);
+
+
+    function Student() {
+        this.chenji = {
+            'chinese': {
+                get: function () {
+                    return 100;
+                }
+            },
+            'math': {
+                get: function () {
+                    return 200;
+                }
+            }
+        };
+    }
+    Student.prototype = {
+        getName: function () {
+            return 'wfg';
+        },
+        showChenji: function () {
+            console.log(this.chenji['chinese']['get']());
+        }
+    };
+
+    var student = new Student();
+    console.log(student.showChenji());
+
+
+</script>
+
+</body>
+</html>

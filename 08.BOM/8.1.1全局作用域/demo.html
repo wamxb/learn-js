@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>index</title>
+</head>
+<body>
+<script type="text/javascript">
+    var age = 29;
+    window.color = 'red';
+
+    // 在IE<9抛出错误，在其他浏览器返回false
+    alert(delete window.age);
+    // 在IE<9抛出错误，在其他浏览器返回true
+    alert(delete window.color);
+
+    alert(window.age);
+    alert(window.color);
+</script>
+</body>
+</html>

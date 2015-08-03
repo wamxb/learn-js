@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>demo</title>
+    <style type="text/css">
+        body { margin: 0; }
+        #demo { position: absolute; top: 50px; left: 30px; width: 100px; height: 100px; background: red; }
+    </style>
+</head>
+<body>
+<div id="demo"></div>
+<script type="text/javascript">
+    function getBoundingClientRect(el) {
+        var scrollTop = document.documentElement.scrollTop;
+        var scrollLeft = document.documentElement.scrollLeft;
+
+        if (el.getBoundingClientRect) {
+            if (typeof arguments.callee.offset != 'number') {
+                var temp = document.createElement('div');
+                temp.style.cssText = 'position:about;left:0;top:0';
+                document.body.appendChild(temp);
+                // IE7及以下 temp.getBoundingClientRect().top 为 2
+                arguments.callee.offset = -temp.getBoundingClientRect().top - scrollTop;
+                document.body.removeChild(temp);
+                temp = null;
+            }
+
+            var rect = el.getBoundingClientRect();
+            var offset = arguments.callee.offset;
+
+            return {
+                left: rect.left + offset,
+                right: rect.right + offset,
+                top: rect.top + offset,
+                bottom: rect.bottom + offset
+            };
+        } else {
+            var actualLeft = getElementLeft(el);
+            var actualTop = getElementTop(el);
+
+            return {
+                left: actualLeft - scrollLeft,
+                right: actualLeft + el.offsetWidth - scrollLeft,
+                top: actualTop - scrollTop,
+                bottom: actualTop + el.offsetHeight - scrollTop
+            };
+        }
+    }
+
+    // 表格和内嵌得到的值会不太精确
+    function getElementLeft(el) {
+        var actualLeft = el.offsetLeft;
+        var current = el.offsetParent;
+
+        while (current !== null) {
+            actualLeft += current.offsetLeft;
+            current = current.offsetParent;
+        }
+
+        return actualLeft;
+    }
+
+    function getElementTop(el) {
+        var actualTop = el.offsetTop;
+        var current = el.offsetParent;
+
+        while (current !== null) {
+            actualTop += current.offsetTop;
+            current = current.offsetParent;
+        }
+
+        return actualTop;
+    }
+
+    var rect = getBoundingClientRect(document.getElementById('demo'));
+    alert(rect.top + '|' + rect.left + '|' + rect.bottom + '|' + rect.right);
+</script>
+</body>
+</html>

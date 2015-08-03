@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>demo2</title>
+</head>
+<body>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+    /*  function login(userName, userPass) {
+     if (validate(userName, userPass)) {
+     loginService({
+     userName: userName,
+     userPass: userPass
+     }, function (data) {
+     console.log('登录成功！');
+     });
+     } else {
+     console.error('用户名或者密码不能为空!');
+     }
+     }
+
+     function loginService(params, callback) {
+     $.ajax({
+     url: '/login.json',
+     type: 'post',
+     data: {
+     userName: params.userName,
+     userPass: params.userPass
+     },
+     dataType: 'json'
+     }).done(function (data) {
+     callback(data);
+     });
+     }
+
+     function validate(userName, userPass) {
+     return (!userName || !userPass) ? false : true;
+     }*/
+
+
+    // User
+    function User(userName, userPass, rePass, userMail) {
+        this.userName = userName;
+        this.userPass = userPass;
+        this.rePass = rePass;
+        this.userMail = userMail;
+    }
+    User.prototype = {
+        // 没有涉及到具体的操作，作为静态方法
+        getUserByNameAndPwd: function (params, callback) {
+            return $.ajax({
+                url: 'login.json',
+                type: 'get',
+                data: {
+                    userName: params.userName,
+                    userPass: params.userPass
+                },
+                dataType: 'json'
+            }).done(function (data) {
+                callback(data);
+            });
+        }
+    };
+
+    //  建立UserManager类
+    function UserManager(user) {
+        this.user = user;
+    }
+    UserManager.prototype = {
+        login: function () {
+            if (this.validate()) {
+                this.user.getUserByNameAndPwd({
+                    userName: this.user.userName,
+                    userPass: this.user.userPass
+                }, function (data) {
+                    console.log('登录成功！', data);
+                });
+            } else {
+                console.error('用户名或者密码不能为空!');
+            }
+        },
+        validate: function () {
+            return (!this.user.userName || !this.user.userPass) ? false : true;
+        }
+    };
+
+    function LoginClient() {
+        var userMgr = new UserManager(new User('test', '123456'));
+        userMgr.login();
+    }
+    LoginClient();
+
+</script>
+</body>
+</html>

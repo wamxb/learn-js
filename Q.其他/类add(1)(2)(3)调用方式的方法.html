@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>类add(1)(2)(3)调用方式的方法</title>
+</head>
+<body>
+<script type="text/javascript">
+    // http://www.css88.com/archives/5147
+    function add(x) {
+        var sum = x;
+        var temp = function (y) {
+            sum = sum + y;
+            return temp;
+        };
+        temp.toString = function () {
+            return sum;
+        };
+        return temp;
+    }
+
+    console.log(add(1)(2)(3)(4)(5));
+
+
+</script>
+</body>
+</html>

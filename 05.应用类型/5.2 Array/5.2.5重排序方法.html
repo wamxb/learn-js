@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>5.2.5重排序方法</title>
+</head>
+<body>
+<script type="text/javascript">
+    // 【！】对原本的数组进行操作
+
+    var values = [1, 2, 3, 4, 5];
+    values.reverse();
+    console.log(values);
+
+    // 【！】进行字符串的比较
+    var values2 = [0, 1, 5, 10, 15];
+    values2.sort();
+    console.log(values2);
+
+
+    function compare(val1, val2) {
+        return (val1 < val2) ? -1 : ((val1 > val2) ? 1 : 0);
+    }
+
+    var values3 = [0, 1, 5, 10, 15];
+    values3.sort(compare);
+    console.log(values3);
+</script>
+</body>
+</html>

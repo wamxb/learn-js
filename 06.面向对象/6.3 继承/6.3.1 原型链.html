@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>6.3.1 原型链</title>
+</head>
+<body>
+<script type="text/javascript">
+    function SuperType() {
+        this.property = true;
+    }
+
+    SuperType.prototype.getSuperValue = function () {
+        return this.property;
+    };
+
+    function SubType() {
+        this.subproperty = false;
+    }
+
+    // 继承了SuperType
+    SubType.prototype = new SuperType();
+
+    SubType.prototype.getSubValue = function () {
+        return this.subproperty;
+    };
+
+    var instance = new SubType();
+    // 1）搜索实例
+    // 2）SubType.prototype
+    // 3）搜索SuperType.prototype
+    console.log(instance.getSuperValue());
+
+    // 确定原型和实例的关系
+
+    // 1.instanceof操作符，只要用这个操作符来测试实例与原型链中出现过的构造函数，就会返回true
+    console.log(instance instanceof Object);
+    console.log(instance instanceof SuperType);
+    console.log(instance instanceof SubType);
+
+    // 2.isPrototypeOf()方法，只要是原型链中出现过的原型，都可以说是该原型链所派生的实例的原型
+    console.log(Object.prototype.isPrototypeOf(instance));
+    console.log(SuperType.prototype.isPrototypeOf(instance));
+    console.log(SubType.prototype.isPrototypeOf(instance));
+
+
+
+
+</script>
+</body>
+</html>

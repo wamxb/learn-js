@@ -1,0 +1,39 @@
+html,body{width: 100%; height: 100%; overflow: hidden; margin: 0; padding: 0; background-color: #05070F; font-family: Helvetica,STHeiti STXihei, Microsoft JhengHei, Microsoft YaHei, Arial;}
+.wrapper{position: relative; width: 100%; height: 100%; overflow: hidden; display:none;}
+.mask{position: absolute; width: 100%; height: 100%; left: 0; top: 0; background-color: rgba(0,0,0,.35); -webkit-transition:opacity .6s linear; opacity: 0;}
+.mask .jump{position: absolute; width: 168px; height: 183px; background: url(../images/jump.png) 0 0 no-repeat; background-size: 100% 100%; left: 50%; top: 50%; margin: -122px 0 0 -84px;}
+.mask .text{position: absolute; width: 186px; height: 15px; overflow: hidden; background: url(../images/text.png) 0 0 no-repeat; background-size: 100% 100%; left: 50%; top: 50%; margin: 110px 0 0 -93px;}
+.logo{position: absolute; width: 82px; height: 31px; background: url(../images/logo.png) 0 0 no-repeat; background-size: 100% 100%; right: 10px; bottom: 10px; overflow: hidden;}
+@-webkit-keyframes jump{0%{-webkit-transform:scale(1,1);}5%{-webkit-transform:scale(1.4,.6);}10%{-webkit-transform:scale(.7,1.3);}15%{-webkit-transform:scale(1.2,.8);}20%{-webkit-transform:scale(.85,1.15);}25%{-webkit-transform:scale(1.1,.9);}30%{-webkit-transform:scale(.95,1.05);}35%{-webkit-transform:scale(1,1);}100%{-webkit-transform:scale(1,1);}}
+.jump{-webkit-animation:jump 4.8s linear 1s infinite;}
+.loading{position: absolute; width: 100%; height: 100%; left: 0; top: 0;}
+.loading .bar{position: absolute; width: 240px; height: 4px; border-radius: 2px; top: 50%; left: 50%; margin: -40px 0 0 -120px; background-color: rgba(63,127,60,.4);}
+.loading .bar i{display: block; width: 0; height: 4px; border-radius: 2px; left: 0; top: 0; background-color:  rgba(63,127,60,1); -webkit-box-shadow:0px 1px 6px rgba(255,255,255,.3);}
+.loading .text{position: absolute; font-size:16px; width: 200px; height: 25px; line-height: 25px; left: 50%; top: 50%; color: rgba(255,255,255,.6); text-align: center; margin: -70px 0 0 -100px;}
+.msgbox{background: url(../images/msgbox.png) 0 0 no-repeat; background-size: 320px auto;}
+.champion{position: absolute; width: 258px; height: 286px; overflow: hidden; background-position: 0 0; left: 50%; top: 50%; margin: -180px 0 0 -129px; color:#720013; font-size:14px; line-height: 22px; text-align: center;}
+.champion .title{position: relative; margin: 136px auto 0; width: 210px; height: auto; white-space: auto;}
+	.btns{position: relative; width: 100%; height: auto; margin: 5px auto 0; text-align: center;}
+	.btns b{display: inline-block; width: auto; height: 33px; background-color: #d32020; font-weight: normal; border-radius: 4px;}
+	.btns b span{display: inline-block; width: auto; height: 30px; padding: 0 11px; line-height: 30px; border-radius: 4px; background-color: #ff7f15; color: #fff; font-size: 14px; text-align: center;}
+	.btns b:nth-child(n+1){margin-left: 15px;}
+.res{position: absolute; width: 252px; height: 278px; padding-left: 36px; overflow: hidden; background-position: 0 -300px; left: 50%; top: 50%; margin: -180px 0 0 -165px;}
+.res .floor{position: relative; width: 76px; height: 37px; overflow: hidden; background-position: 0 -590px; margin: 74px auto 0; text-align: center; color: #720013; line-height: 38px; font-size: 18px;}
+.res .title{position: relative; margin: 12px auto 0; width: 210px; height: auto; white-space: auto; text-align: left; color: #720013; line-height: 20px; font-size: 14px;}
+.res .title i{font-style: normal; color: rgba(255,255,255,.8); text-shadow:1px 1px 3px rgba(0,0,0,.5); font-size:12px;}
+@media only screen and (min-width: 360px) and (max-width:399px) {
+	.jump,.logo,.text,.res,.champion,.loading{zoom:1.125;}
+}
+@media only screen and (min-width: 400px) and (max-width:539px) {
+	.jump,.logo,.text,.res,.champion,.loading{zoom:1.25;}
+}
+@media only screen and (min-width: 540px) and (max-width:639px) {
+	.jump,.logo,.text,.res,.champion,.loading{zoom:1.6875;}
+}
+@media only screen and (min-width: 640px) {
+	.jump,.logo,.text,.res,.champion,.loading{zoom:2;}
+}
+/*iphone 4 hack*/
+@media only screen and (max-height: 480px) {
+	.zoom{zoom:.85;}
+}/*  |xGv00|5ee96b093e0f344735d39f59abd50a60 */

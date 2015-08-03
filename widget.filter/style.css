@@ -1,0 +1,18 @@
+* { margin: 0; padding: 0; }
+body { font: 12px/1.5 'Lucida Grande', Arial, '\5b8b\4f53'; }
+a { color: #666; text-decoration: none; cursor: pointer; }
+ul { list-style: none; }
+.buy-area { margin: 20px; }
+.buy-attr { display: block; margin-bottom: 15px; *zoom: 1; }
+.buy-attr:after,
+.buy-attr:before { display: table; content: ""; }
+.buy-attr:after { clear: both; }
+.buy-attr dt,
+.buy-attr dd { float: left; min-height: 34px; line-height: 34px; }
+.buy-attr dt { width: 80px; color: #999; }
+.buy-attr dd { position: relative; width: 432px; }
+.buy-attr a { float: left; margin: 0 5px 5px 0; padding: 1px 10px; height: 30px; border: 1px solid #e2e1e3; color: #333; white-space: nowrap; line-height: 30px; -webkit-transition: border-color .25s ease; -moz-transition: border-color .25s ease; transition: border-color .25s ease; -webkit-user-select: none; }
+.buy-attr a:hover,
+.buy-attr a.cur { padding: 0 9px; border: 2px solid #d70000; text-decoration: none; }
+.buy-attr a.dis,
+.buy-attr a.dis:hover { padding: 1px 10px; border: 1px dashed #d6d6d6; color: #ccc; cursor: not-allowed; }

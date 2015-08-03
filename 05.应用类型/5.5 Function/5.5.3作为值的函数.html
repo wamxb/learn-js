@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>5.5.3作为值的函数</title>
+</head>
+<body>
+<script type="text/javascript">
+    function compareProperty(name) {
+        return function (obj1, obj2) {
+            var val1 = obj1[name];
+            var val2 = obj2[name];
+            return val1 < val2 ? -1 : (val1 > val2 ? 1 : 0);
+        }
+    }
+
+    var data = [
+        {
+            name: 'zachary',
+            age: 28,
+            toString: function () {
+                console.log('data1 toString');
+            }
+        },
+        {
+            name: 'nicholas',
+            age: 29,
+            toString: function () {
+                console.log('data2 toString');
+            }
+        }
+    ];
+
+    data.sort(compareProperty('name'));
+    console.log(data[0].name);
+
+    data.sort(compareProperty('age'));
+    console.log(data[0].name);
+</script>
+</body>
+</html>

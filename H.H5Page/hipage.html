@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>iShow</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="x5-fullscreen" content="true">
+    <!--    <link rel="shortcut icon" type="image/png" href="images/ico.png">
+        <link rel="apple-touch-icon" href="images/ico.png">-->
+    <link rel="stylesheet" href="css/base.css"/>
+    <link rel="stylesheet" href="css/demo.css"/>
+    <script type="text/javascript">
+
+        /*        (function () {
+         var version, phoneScale;
+         /Android (\d+\.\d+)/.test(navigator.userAgent) ? (version = parseFloat(RegExp.$1), version > 2.3 ? (phoneScale = parseInt(window.screen.width) / 640, document.write('<meta name="viewport" content="width=640, minimum-scale = ' + phoneScale + ", maximum-scale = " + phoneScale + ', target-densitydpi=device-dpi">')) : document.write('<meta name="viewport" content="width=640, target-densitydpi=device-dpi">')) : document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
+         })();*/
+    </script>
+</head>
+<body ontouchmove>
+<div id="loader" ontouchmove="return !1" class="loader">
+    <div class="loader-graph"></div>
+    <div id="progress" class="loader-progress">3%</div>
+    <div class="loader-text">LOADING...</div>
+</div>
+<script id="tmpl" type="text/template">
+    <div class="page p-54dd57e51ca81ce85493153d">
+        <div class="stage">
+            <div class="e-54dd7f7135a27d465a59dd79 animate"></div>
+            <div class="e-54dd897235a27d465a59dd90 animate"></div>
+        </div>
+    </div>
+    <div class="page p-54dd7eb835a27d465a59dd71">
+        <div class="stage">
+            <div class="e-54dd7fae35a27d465a59dd7a animate"></div>
+            <div class="e-54dd7fcb35a27d465a59dd7b animate"></div>
+            <div class="e-54dd804e35a27d465a59dd7c animate"></div>
+            <div class="e-54dd805535a27d465a59dd7d animate"></div>
+            <div class="e-54dd805c35a27d465a59dd7e animate"></div>
+            <div class="e-54dd8a2735a27d465a59dd91 animate"></div>
+        </div>
+    </div>
+    <div class="page p-54dd7f0835a27d465a59dd72">
+        <div class="stage">
+            <div class="e-54dd80ca35a27d465a59dd7f animate"></div>
+            <div class="e-54dd80d035a27d465a59dd80 animate"></div>
+            <div class="e-54dd8a4635a27d465a59dd92 animate"></div>
+        </div>
+    </div>
+    <div class="page p-54dd7f0e35a27d465a59dd73">
+        <div class="stage">
+            <div class="e-54dd813f35a27d465a59dd81 animate"></div>
+            <div class="e-54dd815d35a27d465a59dd82 animate"></div>
+            <div class="e-54dd816b35a27d465a59dd83 animate"></div>
+            <div class="e-54dd8a6d35a27d465a59dd93 animate"></div>
+        </div>
+    </div>
+    <div class="page p-54dd7f0f35a27d465a59dd74">
+        <div class="stage">
+            <div class="e-54dd818d35a27d465a59dd84 animate"></div>
+            <div class="e-54dd819b35a27d465a59dd85 animate"></div>
+            <div class="e-54dd8a7635a27d465a59dd94 animate"></div>
+        </div>
+    </div>
+    <div class="page p-54dd7f1035a27d465a59dd75">
+        <div class="stage">
+            <div class="e-54dd81b235a27d465a59dd86 animate"></div>
+            <div class="e-54dd81c435a27d465a59dd87 animate"></div>
+            <div class="e-54dd8a7f35a27d465a59dd95 animate"></div>
+        </div>
+    </div>
+    <div class="page p-54dd7f1135a27d465a59dd76">
+        <div class="stage">
+            <div class="e-54dd81dc35a27d465a59dd88 animate"></div>
+            <div class="e-54dd81ee35a27d465a59dd89 animate"></div>
+            <div class="e-54dd8a8635a27d465a59dd96 animate"></div>
+        </div>
+    </div>
+    <div class="page p-54dd7f1235a27d465a59dd77">
+        <div class="stage">
+            <div class="e-54dd820d35a27d465a59dd8a animate"></div>
+            <div class="e-54dd821e35a27d465a59dd8b animate"></div>
+            <div class="e-54dd8a9735a27d465a59dd97 animate"></div>
+        </div>
+    </div>
+    <div class="page p-54dd7f1435a27d465a59dd78">
+        <div class="stage"><a target="_blank" class="e-54dd824235a27d465a59dd8c animate"
+                              href="http://jdc.jd.com/hi"></a>
+
+            <div class="e-54dd825635a27d465a59dd8d animate"></div>
+            <div class="e-54dd825c35a27d465a59dd8e animate"></div>
+        </div>
+    </div>
+</script>
+<!--音乐-->
+<!--<div class="music ne playing">
+    <svg fill="#fff" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 64 64">
+        <path d="M32.01 15.02c-9.39 0-17 7.61-17 17 0 9.388 7.61 17 17 17s17-7.612 17-17c0-9.39-7.612-17-17-17zm0 32c-8.285 0-15-6.716-15-15 0-8.284 6.715-15 15-15 8.283 0 15 6.716 15 15 0 8.284-6.717 15-15 15zm7.144-24.97c-.052-.007-.1-.03-.154-.03-.147 0-.284.035-.41.092l-9.677 1.88c-.082.016-.152.058-.227.092-.046.015-.09.032-.132.053-.017.01-.032.02-.048.033-.226.132-.388.344-.456.604-.004.012-.004.024-.007.036-.016.07-.043.135-.043.21v9.142c-1.057-.296-2.376-.125-3.584.58-2.02 1.182-2.95 3.384-2.074 4.917.875 1.534 3.223 1.82 5.242.64 1.646-.963 2.548-2.598 2.36-4.002.026-.09.056-.18.056-.28V25.815l8-1.554v7.902c-1.057-.296-2.376-.125-3.584.58-2.02 1.182-2.95 3.384-2.074 4.917.875 1.534 3.223 1.82 5.242.64 1.646-.963 2.548-2.598 2.36-4.002.026-.09.056-.18.056-.28v-11c0-.018-.01-.035-.01-.054 0-.037.014-.073.01-.11-.04-.467-.4-.78-.846-.803zM26.528 38.448c-1.01.59-2.065.654-2.357.143-.29-.512.292-1.405 1.303-1.996 1.01-.59 2.065-.654 2.356-.143.29.514-.292 1.406-1.302 1.997zm10-2c-1.01.59-2.065.654-2.357.143-.29-.512.292-1.405 1.303-1.996 1.01-.59 2.065-.654 2.356-.143.29.514-.292 1.406-1.302 1.997z"/>
+    </svg>
+    <span style="background-color:#fff"></span>
+</div>-->
+
+<!--竖屏代码-->
+<!--<div class="no-support-tip">
+    <div class="no-support-tip-main">
+        <i></i><br>为了更好的体验，请使用竖屏浏览
+    </div>
+</div>-->
+<script src="js/hi.js"></script>
+<script type="text/javascript">
+    !function (undefined) {
+        var PreLoad = function (source, opt) {
+            var cfg = opt || {};
+            this.source = source;
+            this.count = 0;
+            this.total = source.length;
+            // 加载事件
+            this.onload = cfg.onload;
+            this.prefix = cfg.prefix || "";
+            this.init();
+        };
+        PreLoad.prototype.init = function () {
+            var self = this;
+            self.source.forEach(function (item) {
+                var type = item.substr(item.lastIndexOf(".") + 1).toLowerCase(),
+                        src = self.prefix + item;
+                switch (type) {
+                    case"js":
+                        self.script.call(self, src);
+                        break;
+                    case"css":
+                        self.stylesheet.call(self, src);
+                        break;
+                    case"svg":
+                    case"jpg":
+                    case"gif":
+                    case"png":
+                    case"jpeg":
+                        self.image.call(self, src);
+                }
+            })
+        };
+        PreLoad.prototype.getProgress = function () {
+            return Math.round(this.count / this.total * 100)
+        };
+        PreLoad.prototype.image = function (src) {
+            var el = document.createElement("img");
+            this.load(el, src);
+            el.src = src;
+        };
+        PreLoad.prototype.stylesheet = function (src) {
+            var el = document.createElement("link");
+            this.load(el, src);
+            el.rel = "stylesheet";
+            el.type = "text/css";
+            el.href = src;
+            document.head.appendChild(el);
+        };
+        PreLoad.prototype.script = function (src) {
+            var el = document.createElement("script");
+            this.load(el, src);
+            el.type = "text/javascript";
+            el.src = src;
+            document.head.appendChild(el);
+        };
+        PreLoad.prototype.load = function (el, src) {
+            var self = this;
+            el.onload = el.onerror = el.onabort = function (event) {
+                self.onload && self.onload({count: ++self.count, total: self.total, item: src, type: event.type});
+            }
+        };
+
+        var tasks = [/*"js/hi.js", */"images/6c0ec5b40792af137852fad684bc17fb.png", "images/cb522f8f0f27bca494c24da38a49aae6.png", "images/4a754ab5f68f7fed67309d07b3193f27.png", "images/d6aff9661c9aa06441f5d565f9bc13e1.png", "images/3fb9b223393fbedcf43cde89132eb8a7.png", "images/f960df66abdaa07130a5cf5f540c6ee2.png", "images/5b4cead02542718fa02df8070dcf5e64.png", "images/abfde1285346f02a036cd8d5a735c23d.png", "images/aab2ff5f1575dcd7ae89eb78850a02f6.png", "images/374c01758347dc55dbb365a7a00788f2.png", "images/4bd2848568fe3e169f5e1772f3786e92.png", "images/5831e83acb453d1bb362aaa9635fc085.png", "images/56d6749ad38cac2e9e96d50ffe313298.png", "images/b9383f78e437a82a19af5bcdf6d20b37.png", "images/3c5d8beb231ec38c8b5f585b499c02a5.png", "images/d64b1820ad27b125671a70158c07cad3.png", "images/325ec9a2d9da0fab8ef4963afa1b1d0f.png", "images/e90490a845c7045e1fbac332d341077f.png", "images/f81d118713f419170151a3c5a822aada.png", "images/e590c3795acc442a406961be35d02022.png", "images/f791c57b6378592492bfd5802f4a12b7.png", "images/1891b28a358b2a73677e0ac575ade111.png", "images/3f87567c2d26e0bca15d61fbce0590b4.png", "images/5347ce58c9ac85a7d7bb1e6d17f4d3ef.png", "images/d256c83d2f18f55e4ef28c6a92452953.png", "images/3181678e1afd0d5b506a40f7fcf0e723.png", "images/736d4d24b00c4deee2bbcc67bcca8e8d.png", "images/eec2e90c4c766035de1292093652f162.png", "images/8bf90ad72cd0d2a1efb3cf0c359d5643.png", "images/8dd221afe02cb696727f9d1b18e18b61.png", "images/9944ef2f23997403846eeef2b7229901.png"];
+        var $progress = document.getElementById('progress');
+
+        function loading(load) {
+            var count = load.count;
+            var total = load.total;
+            $progress && ($progress.innerHTML = Math.round(100 * count / total) + '%');
+            if (count === total) return complete();
+        }
+
+        function next(el, fn) {
+            el.className += ' scaleOut';
+            setTimeout(function () {
+                el.parentNode.removeChild(el);
+                fn && fn();
+            }, 800);
+        }
+
+        function complete() {
+            var $loader = document.getElementById('loader');
+            var url = '';
+
+            new Hi({
+                effect: 'default',
+                direction: 'Y',
+                title: '有一股正义的力量应运而生，他就是HI PAGE侠！',
+                desc: '轻松玩转H5，满足任性的你。',
+                music: {
+                    src: 'music.mp3',
+                    position: 'ne',
+                    color: '#f00',
+                    loop: true,
+                    autoplay: false
+                }
+            });
+
+            next($loader, function () {
+                if (!url) return;
+                var script = document.createElement('script');
+                script.src = url;
+                document.body.appendChild(script);
+            })
+        }
+
+//        "document"in window && !("classList"in document.createElement("_")) && tasks.unshift("class_list.js");
+        new PreLoad(tasks, {onload: loading, prefix: 'http://wqs.jd.com/hipage/54dd57e41ca81ce85493153c/'});
+    }();
+</script>
+</body>
+</html>

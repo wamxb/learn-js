@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>7.4.1 静态私有变量</title>
+</head>
+<body>
+<script type="text/javascript">
+    (function () {
+        // 私有变量和私有函数
+        var privateVariable = 10;
+
+        function privateFunction() {
+            return false;
+        }
+
+        // 构造函数
+        // 函数声明只能创建局部函数
+        // 初始化未经声明的变量，总是会创建一个全局变量
+        // 【！】在严格模式下给未经声明的变量赋值会导致错误
+        MyObject = function () {
+        };
+
+        // 公有/特权方法
+        MyObject.prototype.publicMethod = function () {
+            privateVariable++;
+            return privateFunction();
+        };
+    })();
+</script>
+</body>
+</html>

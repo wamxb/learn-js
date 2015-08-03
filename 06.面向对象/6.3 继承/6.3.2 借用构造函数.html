@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>6.3.2 借用构造函数</title>
+</head>
+<body>
+<script type="text/javascript">
+
+    function SuperType() {
+        this.colors = ['red', 'blue', 'green'];
+    }
+
+    function SubType() {
+        // 继承了SuperType
+        SuperType.call(this);
+    }
+
+    var instance1 = new SubType();
+    instance1.colors.push('black');
+    console.log(instance1.colors);
+
+    var instance2 = new SubType();
+    console.log(instance2.colors);
+
+
+    // 1.传递参数
+    function SuperType1(name) {
+        this.name = name;
+    }
+    function SubType1() {
+        // 继承了SuperType，同时还传递了参数
+        SuperType1.call(this, 'Nicholas');
+
+        // 实例属性
+        this.age = 29;
+    }
+    var instance = new SubType1();
+    console.log(instance.name);
+    console.log(instance.age);
+
+</script>
+</body>
+</html>

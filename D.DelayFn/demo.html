@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no, minimal-ui"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <title>demo</title>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $.delayFun = {
+            defaultDelayTime: 500,
+            funs: []
+        };
+        $.delayFun.addFunction = function (f, t) {
+            this.funs[this.funs.length] = f;
+            (t != undefined) && (this.defaultDelayTime = t);
+            return this;
+        };
+        $.delayFun.clear = function () {
+            this.funs = [];
+        };
+        $.delayFun.run = function () {
+            var i = 0, j = this.funs.length, funs = this.funs;
+            var t = setInterval(function () {
+                var f = funs[i];
+                f();
+                if (i == j - 1) {
+                    clearInterval(t);
+                    $.delayFun.clear();
+                } else {
+                    i++;
+                }
+            }, this.defaultDelayTime);
+        };
+    </script>
+</head>
+<body>
+
+<div id="div">sjlsjsljsljls</div>
+
+<script type="text/javascript">
+    $.delayFun.addFunction(function () {
+        $('#div').html('content one! ------------ 1');
+    }, 1000).addFunction(function () {
+        $('#div').html('content one! ------------ 2');
+    }, 2000).run();
+</script>
+</body>
+</html>

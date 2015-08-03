@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'/>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="js/plugin/calendar/fullcalendar-2.0.2.css"/>
+    <link rel="stylesheet" href="css/calendar.css"/>
+    <script src='js/lib/moment-2.7.0.min.js'></script>
+    <script src='js/lib/jquery-2.1.1.min.js'></script>
+    <script src='js/plugin/jquery-ui/jquery-ui.custom-1.10.4.min.js'></script>
+    <script src='js/plugin/calendar/fullcalendar-2.0.2.min.js'></script>
+    <script src="js/initCalendar.js"></script>
+</head>
+<body>
+
+<div id='calendar'></div>
+pid: 用户id,
+showall: ,
+start: 开始时间
+end: 结束时间
+dt: 当前时间
+https://worktile.com/api/calendar/events?pid=14b02a5732d8e9&showall=1&start=1406390400000&end=1410019200000&dt=1407237852905
+</body>
+<script>
+    $(function () {
+        initCalendar.init();
+    });
+</script>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>5.4RegExp类型</title>
+</head>
+<body>
+<script type="text/javascript">
+    // ECMAScript3中正则表达式字面量始终会共享同一个RegExp
+    // 而使用构造函数创建的每一个新RegExp实例都是一个新实例
+
+    // ECMAScript5规定，使用正则表达式字面量必选像直接调用RegExp构造函数一样，每次都创建新的RegExp实例 IE9+,Firefox4+,Chrome都据此做出了修改。
+    var re = null, i;
+
+    for (i = 0; i < 10; i++) {
+        re = /cat/g;
+        console.log(re.test('catastrophe'));
+    }
+
+    for (i = 0; i < 10; i++) {
+        re = new RegExp('cat', 'g');
+        var boolean = re.test('catastrophe');
+        console.log(boolean);
+    }
+</script>
+</body>
+</html>

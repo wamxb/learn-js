@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>抢钱小鸡，挑战100层！</title>
+    <link href="css/index.css?v=201411011800" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="wrapper" id="wrap">
+    <canvas width="320" height="480" id="screen">对不起，你的浏览器不支持本游戏！</canvas>
+    <div class="mask" style="opacity:1" id="mask">
+        <div class="jump"></div>
+        <div class="text"></div>
+    </div>
+    <div class="logo"></div>
+</div>
+<div class="loading" id="loading">
+    <div class="bar"><i id="loadPercent"></i></div>
+    <div class="text" id="loadPercentText">0%</div>
+</div>
+<!--结果浮层1-->
+<div class="mask" id="championBox" style="display:none;">
+    <div class="msgbox champion">
+        <div class="title" id="cham_title">
+
+        </div>
+        <div class="btns">
+            <b id="cham_btn_1"><span>再玩一次</span></b><b id="cham_btn_2"><span>兑换优惠券</span></b>
+        </div>
+    </div>
+</div>
+<!--结果浮层2-->
+<div class="mask" id="resBox" style="display:none">
+    <div class="msgbox res">
+        <div class="msgbox floor" id="floor">5层</div>
+        <div class="title" id="res_title">
+
+        </div>
+        <div class="btns">
+            <b id="res_btn_1"><span>再玩一次</span></b><b id="res_btn_2"><span>兑换优惠券</span></b><b
+                id="res_btn_3"><span>发起挑战</span></b>
+        </div>
+    </div>
+</div>
+<!--结果浮层3-->
+<div class="mask" id="couponBox" style="display:none;">
+    <div class="msgbox res">
+        <div class="title" style="margin-top:85px;" id="coupon_title">
+            运气超好，换到一张优惠券<br/>
+            分享即可获得!
+        </div>
+        <div class="btns">
+            <b id="coupon_btn_1"><span>再玩一次</span></b><b id="coupon_btn_2"><span>分享给好友</span></b>
+        </div>
+    </div>
+</div>
+</body>
+<!-- <script src="http://pub.idqqimg.com/qqmobile/qqapi.js?_bid=152"></script> -->
+<script src="http://static.paipaiimg.com/wx/js/halo.14.05.js"></script>
+<script type="text/javascript">
+    //sharetips
+    halo.use(function (m) {
+        halo.add('sharetips', function () {
+            var mask = document.createElement('div'),
+                    icon = document.createElement('div');
+            icon.className = "msgbox";
+
+            mask.style.cssText = 'position:fixed; width:100%; height:100%; background-color:rgba(0,0,0,.5); left:0; top:0; ' + m.webkit + 'transition:opacity .3s linear; opacity:0; z-index:999;';
+            icon.style.cssText = 'display:block; width:120px; height:44px; overflow:hidden; position: absolute; background-position:-100px -590px; right:10px; top:10px;';
+
+            mask.appendChild(icon);
+            mask.addEventListener(('ontouchstart' in window) ? 'touchstart' : 'mouseup', function (e) {
+                hide();
+            }, false);
+
+            var show = function (text) {
+                        document.body.appendChild(mask);
+                        setTimeout(function () {
+                            mask.style.opacity = 1;
+                        }, 60);
+                    },
+                    hide = function () {
+                        mask.style.opacity = 0;
+                        setTimeout(function () {
+                            try {
+                                document.body.removeChild(mask);
+                            } catch (e) {
+                            }
+                        }, 400)
+                    };
+            return show;
+        }());
+    });
+    //cookie
+    halo.add('cookie', function () {
+        /*cookie方法*/
+        var setCookie = function (name, value, expires, domain, path) {
+            if (!name || !value) {
+                return;//空值或空方法
+            }
+            var cookie_expires = '', cookie_path = ';path=/', cookie_domain = '';
+            if (typeof(expires) == 'number')cookie_expires = ';expires=' + new Date(parseInt(expires) * 60 * 1000 + new Date().getTime()).toGMTString();//以分钟计算
+            if (typeof(path) == "string")cookie_path = ';path=' + path;
+            if (typeof(domain) == 'string')cookie_domain = ';domain=' + domain;
+            document.cookie = name + '=' + escape(value) + cookie_expires + cookie_path + cookie_domain;
+        }
+        var deleteCookie = function (name, domain, path) {
+            if (!name)return;//空方法
+            var cookie_path = ';path=/', cookie_domain = '';
+            if (typeof(path) == "string")cookie_path = ';path=' + path;
+            if (typeof(domain) == 'string')cookie_domain = ';domain=' + domain;
+            else cookie_domain = '';
+            document.cookie = name + '=;expires=' + new Date().toGMTString() + cookie_domain + cookie_path;
+        }
+        var getCookie = function (name, index) {
+            if (!name || !document.cookie) {//没有cookie时或空方法
+                return null;
+            }
+            ;
+            var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)", "g"));
+            if (typeof(index) == 'undefined' && !!arr) {
+                //默认取第一个有实的cookie
+                var value;
+                for (var i = 0; i < arr.length; ++i) {
+                    var key_value = unescape(arr[i]);
+                    value = key_value.substring(key_value.indexOf('=') + 1, key_value.length);
+                    value = value.replace(/\;$/, '');
+                    if (!!value) {
+                        return value;
+                        break;
+                    }
+                }
+                return value;
+            } else {
+                if (arr != null && !!arr[index]) {
+                    var key_value = unescape(arr[index]), value = key_value.substring(key_value.indexOf('=') + 1, key_value.length - 1);
+                    return value;
+                }
+            }
+            return null;
+        };
+        var o = {get: getCookie, set: setCookie, del: deleteCookie};
+        return o;
+    }());
+</script>
+<script type="text/javascript">
+    halo.use('uievent', 'cookie', 'msgbox', 'jsonp', 'loader', 'randomsort', 'warn', 'browser', 'request', 'paipailogin', 'weixinshare', 'cookie', function (halo) {
+        //不记录登录状态
+        //m.cookie.del('skey'),m.cookie.del('uin');
+        var _webkit = halo.webkit.replace(/\-/g, ''),
+                transitionend = function () {
+                    _webkit = _webkit == 'ms' ? 'MS' : _webkit;
+                    return _webkit + 'TransitionEnd';
+                }();
+        var skey = halo.cookie.get('skey'),
+                uin = halo.cookie.get('uin') || '',
+                addHisKey = function (key) {
+                    hisKey += ('' == hisKey ? '' : ',') + key;
+                    halo.cookie.set('hisCoupon_' + uin, hisKey, 60 * 24 * 60);//有效期两个月
+                };
+        uin = uin.replace(/^[^0-9]*0*/g, '');//取纯数字的QQ帐号
+        halo.cookie.del('hisCoupon_' + uin);
+        var hisKey = halo.cookie.get('hisCoupon_' + uin) || '', g_tk = makeToken(skey);
+        var COUPON = function () {
+            //领券接口
+            var fetch = function (key, packetid, cb) {
+                console.log('cb', cb);
+                var arg = {g_tk: g_tk};
+                typeof(packetid) != 'string' ? (arg.key = key, cb = typeof(packetid) == 'function' ? packetid : function () {
+                }) : (arg.seller = key, arg.packetid = packetid);
+                halo.jsonp({
+                    url: 'http://party.paipai.com/cgi-bin/v2/shopcoupon_get',
+                    data: arg,
+                    jsonp: 'callback',
+                    jsonpCallback: 'ShopCouponGet',
+                    callback: cb,
+                    timeout: 10000
+                });
+            }, ready = function (cb) {
+                if (isReady)typeof(cb) == 'function' && cb.call(o, isReady);
+                else setTimeout(function () {
+                    ready(cb);
+                }, 500);
+            }, o = {fetch: fetch, ready: ready}, isReady;
+            halo.jsonp({
+                url: 'http://party.paipai.com/cgi-bin/v2/shopcoupon_get',
+                data: {key: 'checklogin', 'v': new Date().getTime(), g_tk: g_tk},
+                jsonp: 'callback',
+                jsonpCallback: 'ShopCouponGet',
+                callback: function (json) {
+                    console.log('json', json);
+                    var ret = json.iRet;
+                    //'999'==ret?m.paipailogin():(isReady=true);//未登录
+                    isReady = ('999' == ret ? 'N' : 'Y');
+                }
+            });
+            return o;
+        }();
+        var couponKeys = [];//要领的券数组
+        function fetch_coupon(key, done) {
+            if (!key) {
+                halo.msgbox.show('对不起，领取优惠券失败，请返回重试！#WHITOUT KEY', {'text': '知道了', close: true});
+                return;
+            }
+            done = done || function () {
+            };
+            COUPON.fetch(key, function (json) {
+                if (typeof(json) == 'string' && 'abort' == json) {
+                    json = {iRet: '404', facevalue: 0};
+                } else if ('parseerror' == json) {
+                    json = {iRet: 999, facevalue: 0};//格式不对就是未登录
+                }
+                var ret = json.iRet, facevalue = json.facevalue;
+                done(ret, facevalue);
+            });
+        };
+        //禁止滚动条
+        halo.on(document.body, 'touchstart', function (e) {
+            e.preventDefault();
+        });
+        var canvas = document.getElementById('screen'),
+                context = canvas.getContext('2d'),
+                wrap = document.getElementById("wrap");
+        var cw = document.documentElement.clientWidth,
+                ch = document.documentElement.clientHeight;
+        if (ch > window.screen.availHeight) {
+            //ios7 webchat 6.0的bug修复
+            ch = window.screen.availHeight - 44;
+        }
+        canvas.width = cw,
+                canvas.height = ch;
+        var bg = new Image(),
+                bgw = 640,
+                bgh = 4488,
+                cw = canvas.width,
+                ch = canvas.height,
+                maxbar = 100,
+                perbgh = (bgh - ch) / maxbar,
+                _perbgh = perbgh * .2,
+                bgoffset = 0,
+                bird = new Image(),
+                bar = new Image(),
+                barInfo = [
+                    [
+                        [268, 82, 0, 0, -80, 108]
+                    ],
+                    [
+                        [208, 82, 0, 100, -80, 48]
+                    ],
+                    [
+                        [288, 84, 0, 200, -80, 124],
+                        [288, 84, 0, 300, -80, 124]
+                    ],
+                    [
+                        [208, 74, 0, 400, -80, 48],
+                        [208, 74, 0, 490, -80, 48]
+                    ],
+                    [
+                        [282, 70, 0, 580, -80, 110]
+                    ],
+                    [
+                        [210, 64, 0, 670, -80, 52]
+                    ],
+                    [
+                        [280, 70, 0, 760, -80, 110]
+                    ],
+                    [
+                        [210, 64, 0, 850, -80, 52]
+                    ],
+                    [
+                        [264, 110, 0, 940, -80, 124]
+                    ],
+                    [
+                        [204, 104, 0, 1070, -80, 52]
+                    ],
+                    [
+                        [372, 92, 0, 1190, -80, 234],
+                        [372, 92, 0, 1300, -80, 234]
+                    ]
+                ],
+                giftInfo = [
+                    [96, 96, 0, 1540],
+                    [96, 96, 100, 1540]
+                ],
+                hatInfo = [
+                    [96, 96, 200, 1540],
+                    [96, 96, 300, 1540]
+                ];
+        var timestamp = parseInt(new Date().getTime() * .000001);
+        bird.src = 'images/bird.png?v=' + timestamp;
+        bar.src = 'images/bar.png?v=' + timestamp;
+        bg.src = 'images/bg.png?v=' + timestamp;
+        var canvasReady = function (cb) {
+            if (3 == canvasImgCount) {
+                cb();
+            } else {
+                setTimeout(function () {
+                    canvasReady(cb);
+                }, 500);
+            }
+        };
+        var canvasImgCount = 0;
+        var GAME;
+        bird.onload = function () {
+            if (this.width == 228 && this.height == 1200) {
+                ++canvasImgCount;
+            } else {
+                //假成功
+                this.src = 'images/bird.png?v=' + new Date().getTime();
+                alert('假成功');
+            }
+        };
+        bar.onload = function () {
+            if (this.width == 400 && this.height == 1700) {
+                ++canvasImgCount;
+            } else {
+                //假成功
+                this.src = 'images/bar.png?v=' + new Date().getTime();
+                alert('假成功');
+            }
+        };
+        bg.onload = function () {
+            var img = document.createElement('img');
+            if (this.width == 640 && this.height == 4488) {
+                ++canvasImgCount;
+            } else {
+                //假成功
+                this.src = 'images/bg.png?v=' + new Date().getTime();
+                alert('假成功');
+            }
+        };
+        //加载图片
+        var loadPercent = document.getElementById('loadPercent'),
+                loadPercentText = document.getElementById('loadPercentText'),
+                loading = document.getElementById('loading');
+        halo.loader([bg.src, bird.src, bar.src, 'images/msgbox.png'])
+                .loadend(function () {
+                    console.log(this);
+                    //console.log(this.percent);
+                    var percent = Math.round(parseFloat(this.percent) * 99) * .01;
+                    loadPercent.style.width = percent + '%';
+                    loadPercentText.innerHTML = percent + '%';
+                })
+                .complete(function () {
+                    canvasReady(function () {
+                        //必要组件完成后，才可以进行canvas处理
+                        COUPON.ready(function (loginState) {
+                            // console.log("halo.browser('android')", halo.browser('android'));
+                            //检查完登录态后，再进行下一步
+                            if ('N' == loginState && halo.browser('weixin')) {
+                                //未登录 需要微信登录
+                                halo.paipailogin();
+                                return;
+                            }
+                            GAME = _GAME();
+                            setTimeout(function () {
+                                GAME.pause();
+                            }, 100);
+                            loading.style.display = 'none';
+                            wrap.style.display = 'block';
+                        });
+                    });
+                });
+        window.addEventListener('resize', function () {
+            cw = document.documentElement.clientWidth;
+            ch = document.documentElement.clientHeight;
+            if (ch > window.screen.availHeight) {
+                //ios7 webchat 6.0的bug修复
+                ch = window.screen.availHeight - 44;
+            }
+            canvas.width = cw;
+            canvas.height = ch;
+            perbgh = (bgh - ch) / 100;
+            console.log(bgh, ch, perbgh);
+            _perbgh = perbgh * .2;
+        });
+        //加入音效
+        var audioSprite = false;
+        if (halo.browser('ios')) {
+            audioSprite = true;
+        } else if (halo.browser('weixin')) {
+            //miui6按照ios的音频标准来做
+            var ua = navigator.userAgent, reg = /Android 4.4.4.*MI \d/;
+            if (reg.test(ua)) {
+                //MIUI6
+                audioSprite = true;
+            }
+        }
+        if (audioSprite) {
+            //ios音效
+            var audio = new Audio(),
+                    audio_src = 'ios.mp3',
+                    addAudio = function () {
+                        audio.load();
+                        document.body.removeEventListener('touchstart', addAudio, true);
+                    };
+            audio.src = audio_src;
+            document.body.addEventListener('touchstart', addAudio, true);
+            var fail_sound_playing = false;
+            var jump_sound = function () {
+                try {
+                    audio.currentTime = 0;
+                } catch (e) {
+                }
+                audio.play();
+                setTimeout(function () {
+                    fail_sound_playing || audio.pause();
+                }, 1000);
+            };
+            var fail_sound = function () {
+                fail_sound_playing = true;
+                audio.pause();
+                try {
+                    audio.currentTime = 2;
+                } catch (e) {
+                }
+                audio.play();
+                setTimeout(function () {
+                    fail_sound_playing = false;
+                    audio.pause();
+                }, 1000);
+            };
+            audio.load();
+            halo.on(audio, 'canplay', function () {
+            });
+        } else {
+            //android
+            var audio1 = new Audio(), audio2 = new Audio();
+            audio1.src = 'sound_1.mp3?v=201410151555', audio2.src = 'sound_2.mp3';
+            audio1.load();
+            audio2.load();
+            var fail_sound_playing = false;
+            var jump_sound = function () {
+                audio2.pause();
+                try {
+                    audio1.currentTime = 0, audio1.play()
+                } catch (e) {
+                    audio1.play()
+                }
+                ;
+            }, fail_sound = function () {
+                audio1.pause();
+                try {
+                    audio2.currentTime = 0, audio2.play()
+                } catch (e) {
+                    audio2.play()
+                }
+                ;
+            }
+        }
+        var _GAME = function () {
+            //游戏主程序
+            var action = {},
+                    enterFrame = function () {
+                        // context.clearRect(0,0,cw,ch);
+                        var last = []
+                        for (var i in action) {
+                            action[i].last ? last.push(i) : action[i]();
+                        }
+                        for (var i = 0; i < last.length; ++i) {
+                            action[last[i]]();
+                        }
+                    },
+                    _duration = halo.browser('ios') ? 100 : 60,
+                    duration = _duration,
+                    pause = false,
+                    score = 0,
+                    baseScore = 1,//分数基
+                    level = 0,//游戏等级，目前只有三级
+                    play = function () {
+                        setTimeout(function () {
+                            if (!pause) {
+                                enterFrame();
+                            }
+                            play();
+                        }, duration);
+                    },
+                    addAction = function (name, cb, last) {
+                        typeof(name) == 'string' && typeof(cb) == 'function' && (action[name] = cb, cb.last = !!last);
+                    },
+                    swapAction = function (name, _name) {
+                        //交换动画
+                        if (action[name] && action[_name]) {
+                            var _action = action[name];
+                            var _pos = _action.pos;
+
+                            action[name] = action[_name];
+                            action[_name] = _action;
+
+                            action[_name].pos = action[name].pos;
+                            action[name].pos = _pos;
+                        }
+                    },
+                    delAction = function (name) {
+                        if (action[name])delete action[name];
+                    }, num = function (n) {
+                        n = parseInt(n) || 10;
+                        return (n - 1) * 30
+                    },
+                    __game = {};
+            addAction('drawBG', function () {
+                var y = bgh - ch * 2 - bgoffset;
+                y < 0 && (y = 0);
+                context.drawImage(bg, 0, y, bgw, ch * 2, 0, 0, cw, ch);
+            });
+            addAction('drawScore', function () {
+                context.drawImage(bar, 0, 1456, 116, 62, 20, 20, 58, 31);
+                var _score = '00';
+                var oleft = score < 100 ? 35 : 26;
+                if (score > 0) {
+                    _score = score + '';//强制转成字符串
+                    if (score < 10)_score = '0' + (score + '');
+                }
+                for (var i = 0, len = _score.length; i < len; ++i) {
+                    context.drawImage(bar, num(_score.charAt(i)), 1410, 30, 32, oleft + i * 15, 27, 15, 16);
+                }
+            }, 'last');
+            //收集的宝箱
+            addAction('collet', function () {
+                var curGift = giftInfo[0], gw = curGift[0], gh = curGift[1], gl = curGift[2], gt = curGift[3], gleft = cw - gw * .4;
+                //显示礼物/帽子
+                for (var i = 0; i < collectCount; ++i) {
+                    context.drawImage(bar, gl, gt, gw, gh, gleft - i * 25, 10, gw * .3, gh * .3);
+                }
+            }, 'last');
+            //画bar
+            var baseTop = 50, _baseTop = baseTop, distance = 140, needMove = true;
+            //作弊
+            var gesture;
+            halo.on(document.body, 'gesture_left', function () {
+                gesture = 'left';
+            }, true);
+            halo.on(document.body, 'gesture_right', function () {
+                'left' == gesture ? (gesture = 'right') : (gesture = '');
+            }, true);
+            halo.on(document.body, 'gesture_up', function () {
+                'right' == gesture ? (gesture = 'up') : (gesture = '');
+            }, true);
+            halo.on(document.body, 'gesture_down', function () {
+                'up' == gesture ? (gesture = 'down') : (gesture = '');
+                //m.msgbox.show('快说I LOVE JD.COM',{text:'LOVE过',cb:function(){needMove=false}},{text:'不LOVE',cb:function(){needMove=true;}});
+            }, true);
+            var giftIndex = 0, giftCount = 0, giftIndexArr = [], indexArr = [], hatIndex = parseInt(2 * maxbar / 3), _hatIndex = hatIndex, collectCount = 0;
+            //获取key列表
+            if (halo.request('key')) {
+                couponKeys = halo.request('key').split('_');
+                for (var i = 0; i < couponKeys.length; ++i) {
+                    //过滤掉已经兑换过的key
+                    if (hisKey.indexOf(couponKeys[i]) >= 0) {
+                        couponKeys.splice(i, 1);
+                        --i;//索引回退
+                    }
+                }
+                giftCount = couponKeys.length;
+                if (giftCount) {
+                    if (maxbar < 30) {//小于30层的，礼物随机出现
+                        for (var i = 1; i < maxbar - 1; ++i)i != hatIndex && indexArr.push(i);//帽子与礼品不在同一层
+                        giftIndexArr = halo.randomsort(indexArr, giftCount - 1);//按礼物数生成随机出现的楼层索引
+                        if (giftCount > 1) {
+                            giftIndexArr.push(maxbar);//最后一张券固定放在最后一层
+                        }
+                    } else {//大于30层的
+                        giftIndexArr.push(Math.round(Math.random() * 5 + 10));//第一个要出现在10~15层
+                        if (giftCount > 2) {
+                            for (var i = 16; i < maxbar - 1; ++i)i != hatIndex && indexArr.push(i);//帽子与礼品不在同一层
+                            var _giftIndexArr = halo.randomsort(indexArr, giftCount - 2);//按礼物数生成随机出现的楼层索引
+                            giftIndexArr = giftIndexArr.concat(_giftIndexArr);//合并成一个新的数组
+                        }
+                        giftIndexArr.push(maxbar);//最后一张券固定放在最后一层
+                    }
+                    giftIndexArr.sort(function (a, b) {
+                        return b - a;
+                    });
+                }
+            }
+            ;
+            //giftIndexArr=[5,4];//券提前
+            console.log(giftIndexArr);
+            giftIndex = giftIndexArr.pop();//取得第一个礼物的位置
+            var drawBar = function (index, pos, number) {//index是bar的索引,pos是位置的索引
+                var cur = 0,
+                        _cur = 0,
+                        info = barInfo[index],
+                        direction = parseInt((1 / Math.random()) % 2) == 1 ? 1 : -1,
+                        step = 10,
+                        curBar = info[cur],
+                        bw = curBar[0],
+                        bh = curBar[1],
+                        left = (cw - bw * .5) * .5,
+                        _left = left,
+                        _top = index < 4 ? 0 : (index < 8 ? 10 : 21),
+                        gcur = 0,
+                        _gcur = 0;
+                //_direction*=-1;//保证相邻的站台站的初始方向不同
+                var fn = function () {
+                    var curBar = info[cur], bw = curBar[0], bh = curBar[1], bl = curBar[2], bt = curBar[3], pos = fn.pos, hv;
+                    if (index > 1 && index < 10 && needMove) {
+                        hv = direction * step;
+                        left += hv;
+                        if (left < 0)left = 0, direction *= -1;
+                        else if (left > cw - bw * .5)left = cw - bw * .5, direction *= -1;
+                    }
+                    fn.left = left, fn._left = left - _left, fn.hv = hv || 0;
+                    context.drawImage(bar, bl, bt, bw, bh, left, ch - bh * .5 - baseTop - distance * pos + _top, bw * .5, bh * .5);
+                    //礼品显示
+                    var gift_hat_info, gift_top = 0;
+                    if (number == giftIndex) {
+                        gift_hat_info = giftInfo;
+                        index >= 8 && (gift_top = -21);//飞碟上的礼物
+                    } else if (number == hatIndex) {
+                        gift_hat_info = hatInfo;
+                        gift_top = -15;//太空帽位置微调
+                    }
+                    if (gift_hat_info) {
+                        var curGift = gift_hat_info[gcur], gw = curGift[0], gh = curGift[1], gl = curGift[2], gt = curGift[3], gleft = left + (bw - gw) * .25;
+                        //显示礼物/帽子
+                        context.drawImage(bar, gl, gt, gw, gh, gleft, ch - gh * .5 - baseTop - distance * pos + _top + gift_top, gw * .5, gh * .5);
+                        ++_gcur;
+                        gcur = Math.floor(_gcur / 4);//4*duration光线闪一下
+                        if (gcur >= giftInfo.length) {
+                            gcur = 0;
+                            _gcur = 0;
+                        }
+                    }
+                    ++_cur;
+                    cur = Math.floor(_cur / 3);//3*duration毛虫就动一下
+                    if (cur >= info.length) {
+                        cur = 0;
+                        _cur = 0;
+                    }
+                };
+                fn.pos = pos, fn.index = index;
+                return fn;
+            };
+            var randomBarIndex = function () {
+                //按level随机生成bar
+                if (++barCount == maxbar)return 10;
+                level = parseInt(barCount * 3 / maxbar);//等级
+                //var arr=0==level?[0,1,2,3]:(1==level?[4,5,6,7]:[8,9]);
+                //level 0降低难度
+                var arr = 0 == level ? (barCount % 2 == 1 ? [0, 1] : [2, 3]) : (1 == level ? [4, 5, 6, 7] : [8, 9]);
+                arr = halo.randomsort(arr, 1);
+                return arr[0];
+            }, barCount = 0, curPos = 0;
+            var barIndex = [], drawBarFn = [];
+            var initBar = function () {
+                for (var i = 0; i < 5; ++i) {
+                    barIndex[i] = 0 == i ? 0 : randomBarIndex();
+                    drawBarFn[i] = drawBar(barIndex[i], i, barCount);
+                    addAction('drawBar' + i, drawBarFn[i]);
+                }
+            };
+            initBar();
+            //画鸟
+            var BIRD = function () {
+                var birdInfo = [
+                            [0, 0],
+                            [0, 230],
+                            [0, 460],
+                            [0, 690]
+                        ],
+                        hat = [32, 950],
+                        bw = 228,
+                        bh = 230,
+                        left = (cw - bw * .5) * .5,
+                        _left = left,
+                        _left_ = left,
+                        stayOffset = 10,
+                        _stayOffset = stayOffset,
+                        jump_index = 0,
+                        jump_lock,
+                        jump_hv = 0,
+                        _t = 6,
+                        a = 8,
+                        v = 52,
+                        s = v * _t - .5 * a * _t * _t,
+                        t = 0,
+                        t2 = 2,
+                        _t2 = t2;
+                //stayOffset=10;//初位差为268-248的一半再乘以2
+                //stayOffset - 离鸟的站台左端的位差
+                var stay = function () {
+                            //console.log(stayOffset);
+                            left = action['drawBar0'].left + stayOffset;
+                            var top = ch - bh * .5 - baseTop;
+                            context.drawImage(bird, 0, 0, bw, bh, left, top, bw * .5, bh * .5);
+                            wearHat(ch - bh * .5 - baseTop, bw * .5);
+                        },
+                        stay2 = function () {
+                            left = action['drawBar1'].left + stayOffset;
+                            var top = ch - bh * .5 - baseTop - distance;
+                            context.drawImage(bird, 0, 0, bw, bh, left, top, bw * .5, bh * .5);
+                            wearHat(top);
+                        },
+                        jump = function () {
+                            jump_lock = true;
+                            var _s, top, nextStay = false, fail = false;
+                            if (++t < _t) {
+                                _s = v * t - .5 * a * t * t;
+                                top = ch - bh * .5 - baseTop - _s;
+                            } else {
+                                ++t2;
+                                _s = s - .5 * a * t2 * t2;
+                                if (_s < distance) {
+                                    var diff = left - action['drawBar1'].left, index = action['drawBar1'].index;
+                                    if (diff >= barInfo[index][0][4] * .5 && diff <= barInfo[index][0][5] * .5) {
+                                        _s = distance;
+                                        score += baseScore;
+                                    } else {
+                                        fail = true;
+                                    }
+                                    nextStay = true;
+                                    //console.log(diff,barInfo[index][0][4],barInfo[index][0][5]);
+                                }
+                                top = ch - bh * .5 - baseTop - _s;
+                            }
+                            left += jump_hv;
+                            context.drawImage(bird, birdInfo[jump_index + 2][0], birdInfo[jump_index + 2][1], bw, bh, left, top, bw * .5, bh * .5);
+                            console.log(bird, birdInfo[jump_index + 2][0], birdInfo[jump_index + 2][1], bw, bh, left, top, bw * .5, bh * .5);
+                            wearHat(top);
+                            if (nextStay) {
+                                //判断是落地还是进入下一阶
+                                fail ? _fall() : (stayOffset = diff, _stay2(), next());
+                            }
+                            if (++jump_index > 1)jump_index = 0;
+                            //nextStay&&(_stay2(),next());//站立
+                        },
+                        fall = function () {
+                            ++t2;
+                            var _s = s - .5 * a * t2 * t2, top = ch - bh * .5 - baseTop - _s;
+                            context.drawImage(bird, birdInfo[1][0], birdInfo[1][1], bw, bh, left, top, bw * .5, bh * .5);
+                            wearHat(top);
+                            if (t2 == _t * 2) {
+                                //o.pause();
+                                gameover();
+                            }
+                            //context.drawImage(bird,0,230,bw,bh,left,ch-bh*.5-baseTop,bw*.5,bh*.5);
+                        },
+                        _stay = function () {
+                            jump_lock = false;
+                            addAction('bird', stay);
+                        },
+                        _stay2 = function () {
+                            addAction('bird', stay2);
+                            //o.pause();setTimeout(function(){o.start();},3000);console.log(stayOffset);
+                        },
+                        _jump = function () {
+                            if (jump_lock)return;
+                            jump_sound();
+                            jump_index = 0;
+                            //console.log(action['drawBar0'].hv);
+                            jump_hv = action['drawBar0'].hv;//离地后的水平速度
+                            addAction('bird', jump);
+                        },
+                        _fall = function () {
+                            fail_sound();
+                            addAction('bird', fall);
+                        },
+                        next = function () {
+                            ++curPos;
+                            if (curPos == giftIndex) {
+                                giftIndexArr.length ? (giftIndex = giftIndexArr.pop()) : giftIndex = -1;
+                                ++collectCount;
+                            } else if (curPos == hatIndex) {
+                                hatIndex = -1;
+                            }
+                            if (curPos == maxbar) {
+                                champion();
+                                return;//最后一步不用背景移动
+                            }
+                            setTimeout(function () {
+                                duration = 30;//背景移动加速
+                                addAction('next', function () {
+                                    baseTop -= 30;
+                                    bgoffset += _perbgh;
+                                    if (-1 * baseTop > distance - _baseTop) {
+                                        baseTop = -1 * (distance - _baseTop);
+                                        duration = _duration;//背景移动结束后恢复原速
+                                        delAction('next');
+                                        for (var i = 0; i < 4; ++i) {
+                                            swapAction('drawBar' + i, 'drawBar' + (i + 1));
+                                        }
+                                        if (barCount < maxbar) {
+                                            drawBarFn[4] = drawBar(randomBarIndex(), 4, barCount);
+                                            addAction('drawBar4', drawBarFn[4]);
+                                        } else {
+                                            addAction('drawBar4', function () {
+                                            });//不画东西
+                                        }
+                                        baseTop = _baseTop;
+                                        _stay();//恢复正常站立
+                                        //参数重置
+                                        t = 0, t2 = _t2, jump_lock = false;//用户可以继续跳了
+                                    }
+                                });
+                            }, 200);
+                        },
+                        wearHat = function (top) {
+                            //带帽子
+                            -1 == hatIndex && context.drawImage(bird, 0, 920, bw, bh, left + 3, top - 20, bw * .5, bh * .5);
+                        },
+                        gameover = function () {
+                            var desc = '';
+                            if (curPos <= 99)desc = '小鸡跳了' + curPos + '层，跳跃技术还不成熟，请继续鞭挞小鸡';
+                            else desc = '跳了100层，我是up之神，无人超越，you can you up！惊喜不断！不服来战！';
+                            desc && (SHARE.desc = desc)//分享文案
+                            //res(curPos);//显示结果信息
+                            //直接领券
+                            openBoxes();
+                        },
+                        tmp = '',
+                        openBoxes = function (msgbox, couponIndex, coupons) {
+                            couponIndex = couponIndex || 0, coupons = coupons || [];
+                            if (couponKeys.length == 0 || collectCount == 0) {
+                                //无券可领
+                                halo.msgbox.loading.hide();
+                                msgbox && (msgbox.style.cssText = 'opacity:0; display:none;');
+                                var str = '', _coupons = [], total = 0;
+                                for (var i = 0; i < coupons.length; ++i) {
+                                    //str+='宝箱'+(i+1)+':优惠券金额'+coupons[i]*.01+'元<br />';
+                                    coupons[i] > 0 ? _coupons.push(coupons[i] * .01) : (total += coupons[i]);
+                                }
+                                couponInfo(_coupons, coupons.length > 0 ? total == -1 * coupons.length : false);
+                                console.log(tmp);//总状态码
+                                //alert(tmp);
+                                //console.log(coupons);
+                            } else {
+                                halo.msgbox.loading.show('打开宝箱' + (++couponIndex));
+                                var key = couponKeys.shift();
+                                fetch_coupon(key, function (retCode, facevalue) {
+                                    --collectCount;
+                                    facevalue = parseInt(facevalue) || 0;
+                                    tmp += ';' + retCode;
+                                    if ('0' == retCode) {
+                                        //将领取成功的券记录到cookie中，避免多次领取
+                                        addHisKey(key);
+                                    } else if ('999' == retCode) {
+                                        halo.msgbox.loading.hide();//loading隐藏
+                                        halo.paipailogin(function (_skey, _uin) {
+                                            skey = _skey, uin = _uin;
+                                            uin = uin.replace(/^[^0-9]*0*/g, '');//取纯数字的QQ帐号
+                                            g_tk = makeToken(skey);//更新g_tk的值
+                                            ++collectCount, couponKeys.push(key);//拿到的宝箱数回退,以及券回退
+                                            openBoxes(msgbox, couponIndex, coupons);//重新执行领券
+                                        });
+                                        return;
+                                    } else if ('1000003' == retCode) {
+                                        //已经领取过的券也记录到cookie中
+                                        addHisKey(key);
+                                        facevalue = -1;//已经领过券的，金额重置为0
+                                    } else {
+                                        //其它错误
+                                    }
+                                    coupons.push(facevalue);
+                                    openBoxes(msgbox, couponIndex, coupons);
+                                });
+                            }
+                        },
+                        restart = function () {//重新开始
+                            t2 = _t2, t = 0, score = 0, barCount = 0, curPos = 0, hatIndex = _hatIndex, stayOffset = 0, bgoffset = 0, stayOffset = _stayOffset, initBar(), BIRD.stay(), __game.start();
+                        },
+                        champion = function () {
+                            openBoxes();//直接领券
+                        },
+                        couponInfo = function () {
+                            var couponBox = document.getElementById("couponBox"),
+                                    couponTitle = document.getElementById('coupon_title'),
+                                    coupon_btn_1 = document.getElementById("coupon_btn_1"),
+                                    coupon_btn_2 = document.getElementById('coupon_btn_2'),
+                                    _coupons = [];
+                            halo.on(coupon_btn_1, 'flick', function () {
+                                couponBox.style.opacity = 0;
+                                restart();
+                                setTimeout(function () {
+                                    couponBox.style.display = 'none';
+                                }, 600);
+                            });
+                            halo.on(coupon_btn_2, 'flick', function () {
+                                halo.sharetips();
+                            });
+                            return function (coupons, hasFetched) {
+                                _coupons = coupons = coupons || [];
+                                var str = '', curlevel = parseInt(curPos * 3 / maxbar), desc, title, friendsDesc;
+                                if (_coupons.length > 0 || hasFetched) {
+                                    for (var i = 0, len = _coupons.length, total = 0; i < len; ++i) {
+                                        total += _coupons[i];
+                                    }
+                                    ;
+                                    str += couponTips(total);
+                                    window.shareSuccess = function () {
+                                        //if(_coupons.length>0){
+                                        window.location.href = 'http://www.paipai.com/m2/my/quan_list.shtml?couponType=2&_wv=1';
+                                        //}
+                                        window.shareSuccess = null;
+                                    };
+                                    couponShareText(total);//分享文案更改
+                                } else {//已经领过券当领到券处理,只有未领券会进入这里
+                                    str += noCouponTips();
+                                    noCouponShareText();//分享文案更改
+                                }
+                                //给文本添加自动换行
+                                couponTitle.innerHTML = str;
+                                coupon_btn_2.style.display = 'inline-block';
+                                couponBox.style.display = 'block';
+                                setTimeout(function () {
+                                    couponBox.style.opacity = 1;
+                                }, 100);
+                            }
+                        }(),
+                        noCouponShareText = function () {
+                            //没领到券的分享文案
+                            var title = '小鸡跳了' + curPos + '层，战胜了' + createPer(curPos) + '%的鸡！',
+                                    shareTexts = [
+                                        '现在想想，还是幼儿园好混啊！o(?□?)o',
+                                        '不给力啊，叫我怎么面对全村的鸡鸭鹅狗猫！orz',
+                                        '你再不努力，我都忍不住要出柜了！！！~~',
+                                        '你这么弱，很容易没朋友哒！',
+                                        '姿势无限好，只是挂得早~~',
+                                        '不是说好了做彼此的天使吗！怎么到这里就不行了？惊喜不断！不服来战！'
+                                    ],
+                                    desc = halo.randomsort(shareTexts, 1)[0],
+                                    friendsDesc = title + desc;
+                            //更改分享文案
+                            desc && (SHARE.desc = desc);//分享文案
+                            title && (SHARE.title = title);//分享标题
+                            friendsDesc && (SHARE.friendsDesc = friendsDesc);//朋友圈文案
+                            console.log(SHARE);
+                        },
+                        couponShareText = function (money) {
+                            //领到券或领过券的分享文案
+                            var title = '我跳了' + curPos + '层，' + (money ? '领了' + money + '元钱，' : '领到了优惠券，') + '战胜了' + createPer(curPos) + '%的鸡，',
+                                    shareTexts = [
+                                        [
+                                            '虐啊虐的逐渐找到了快感有木有！惊喜不断！不服来战！',
+                                            '不是说好了做彼此的天使吗！怎么到这里就不行了？惊喜不断！不服来战！',
+                                            '跳得很带感嘛，整只鸡都斯巴达了~~惊喜不断！不服来战！',
+                                            '听说攒够7张券，就能召唤神鸡，哔哔哔！惊喜不断！不服来战！',
+                                            '马上就可以升职加薪迎娶白富美，走上“鸡”生巅峰啦！惊喜不断！不服来战！'
+                                        ],
+                                        [
+                                            '我的跳跃技术是在Blue Fly学的！惊喜不断！不服来战！',
+                                            '马上就可以升职加薪迎娶白富美，走上“鸡”生巅峰啦！惊喜不断！不服来战！',
+                                            '你这么牛掰，连小鸡都无节操地醉了~~惊喜不断！不服来战！',
+                                            '药不能停，一口气跳' + curPos + '层不费劲儿~~惊喜不断！不服来战！'
+                                        ],
+                                        [
+                                            '这是真的吗？！！！我读书少，你不要骗我……',
+                                            '我太佩服我自己了，有时候照镜子的时候都给自己磕头！！惊喜不断！不服来战！'
+                                        ],
+                                        [
+                                            '我是up之神，脑细胞激活率100%，谁与争锋！惊喜不断！不服来战！'
+                                        ]
+                                    ];
+                            curlevel = parseInt(curPos * 3 / maxbar),
+                                    shareText = shareTexts[curlevel],
+                                    desc = halo.randomsort(shareText, 1)[0],
+                                    friendsDesc = title + desc;
+                            //更改分享文案
+                            desc && (SHARE.desc = desc);//分享文案
+                            title && (SHARE.title = title);//分享标题
+                            friendsDesc && (SHARE.friendsDesc = friendsDesc);//朋友圈文案
+                            console.log(SHARE);
+                        },
+                        noCouponTips = function () {
+                            //没领到券的浮层文案
+                            var percent = createPer(curPos),
+                                    tips = [
+                                        '你在逗小鸡么？快拿出真本事来啊！动力不足么？与好基友一起玩！有基友有动力！<br /><br /><br />',
+                                        '小鸡跳了' + curPos + '层！战胜了' + percent + '%的鸡！现在想想，还是幼儿园好混啊！o(?□?)o<br /><br /><br />',
+                                        '小鸡跳了' + curPos + '层！战胜了' + percent + '%的鸡！不给力啊，叫我怎么面对全村的鸡鸭鹅狗猫！orz<br /><br /><br />',
+                                        '小鸡跳了' + curPos + '层！战胜了' + percent + '%的鸡！你再不努力，我都忍不住要出柜了！！！~~<br /><br /><br />',
+                                        '小鸡跳了' + curPos + '层！战胜了' + percent + '%的鸡！你这么弱，很容易没朋友哒！<br /><br /><br />',
+                                        '小鸡跳了' + curPos + '层！战胜了' + percent + '%的鸡！姿势无限好，只是挂得早~~<br /><br /><br />'
+                                    ],
+                                    tip = halo.randomsort(tips, 1);
+                            return tip;
+                        },
+                        couponTips = function (money) {
+                            var ontouchend = 'ontouchstart' in window ? 'ontouchend' : 'onmouseup';
+                            var percent = createPer(curPos), text = '我跳了' + curPos + '层，战胜了' + percent + '%的鸡！' + (money ? '领了' + money + '元钱，<em style="color:#fff; text-decoration:underline;" ' + ontouchend + '="window.mycenter();">点击查看~</em>！' : '已领过优惠券，<em style="color:#fff; text-decoration:underline;" ' + ontouchend + '="window.mycenter();">点击查看~</em>'),
+                                    tips = [
+                                        [
+                                            '虐啊虐的逐渐找到了快感有木有！<br /><i>ps：关注拍拍网服务号点击个人中心也可查看优惠券，点击优惠券可以进入店铺哦~</i>',
+                                            '听说继续跳会有更多惊喜，想想还有些小鸡冻呢~<br /><i>ps：关注拍拍网服务号点击个人中心即可查看优惠券，点击优惠券可以进入店铺哦~</i>',
+                                            '不是说好了做彼此的天使吗！怎么到这里就不行了？<br /><i>ps：关注拍拍网服务号点击个人中心即可查看优惠券，点击优惠券可以进入店铺哦~</i>',
+                                            '跳得很带感嘛，整只鸡都斯巴达了~<br /><i>ps：关注拍拍网服务号点击个人中心即可查看优惠券，点击优惠券可以进入店铺哦~</i>',
+                                            '听说攒够7张券，就能召唤神鸡，哔哔哔！<br /><i>ps：关注拍拍网服务号点击个人中心即可查看优惠券，点击优惠券可以进入店铺哦~</i>'
+                                        ],
+                                        [
+                                            '我的跳跃技术是在Blue Fly学的！<br /><i>ps：关注拍拍网服务号点击个人中心即可查看优惠券，点击优惠券可以进入店铺哦~</i>',
+                                            '马上就可以升职加薪迎娶白富美，走上“鸡”生巅峰啦！<br /><i>ps：关注拍拍网服务号点击个人中心即可查看优惠券，点击优惠券可以进入店铺哦~</i>',
+                                            '你这么牛掰，连小鸡都无节操地醉了~ <br /><i>ps：关注拍拍网服务号点击个人中心即可查看优惠券，点击优惠券可以进入店铺哦~</i>',
+                                            '药不能停，一口气跳' + curPos + '层不费劲儿~~ <br /><i>ps：关注拍拍网服务号点击个人中心即可查看优惠券，点击优惠券可以进入店铺哦~</i>'
+                                        ],
+                                        [
+                                            '这是真的吗？！！我读书少，你不要骗我……<br /><i>ps：关注拍拍网服务号点击个人中心即可查看优惠券，点击优惠券可以进入店铺哦~</i>',
+                                            '我太佩服我自己了，有时候照镜子的时候都给自己磕头！！<br /><i>ps：关注拍拍网服务号点击个人中心即可查看优惠券，点击优惠券可以进入店铺哦~</i>'
+                                        ],
+                                        [
+                                            '我是up之神，脑细胞激活率100%，谁与争锋！<br /><i>ps：关注拍拍网服务号点击个人中心即可查看优惠券，点击优惠券可以进入店铺哦~</i>'
+                                        ]
+                                    ],
+                                    curlevel = parseInt(curPos * 3 / maxbar),
+                                    tip = halo.randomsort(tips[curlevel], 1);
+                            return text + tip;
+                        },
+                        createPer = function (pos) {//根据层数生成百分比
+                            var curlevel = parseInt(pos * 3 / maxbar), per = '0';
+                            if (pos >= maxbar)return '100';
+                            else if (0 == curlevel) {
+                                //绿色背景
+                                per = 50 * (pos * 3 / maxbar);
+                            } else if (1 == curlevel) {
+                                //天空背景
+                                per = 50 + ((pos - maxbar / 3) * 3 / maxbar) * 45
+                            } else {
+                                //太空背景
+                                per = 95 + ((pos - maxbar * 2 / 3) * 3 / maxbar) * 5.15;
+                            }
+                            per = parseInt(per * 100) / 100;
+                            return per;
+                        }
+                        , _o = {stay: _stay, jump: _jump, fall: _fall};
+                return _o;
+            }();
+            BIRD.stay();
+            play();//一直处于播放状态
+            halo.on(canvas, 'touchend', function () {
+                BIRD.jump();
+            });
+            //pc上用空格
+            halo.on(document.body, 'keypress', function (e) {
+                32 == e.charCode && BIRD.jump();
+            });
+            __game.start = function () {
+                pause = false;
+            }, __game.pause = function () {
+                pause = true
+            };
+            return __game;
+        };
+        //手指点击mask后，游戏开始
+        var mask = document.getElementById('mask');
+        halo.on(mask, 'flick', function () {
+            this.style.opacity = 0;
+        });
+        halo.on(mask, transitionend, function () {
+            this.style.display = 'none';
+            GAME.start();
+        });
+        //分享
+        var share_img = 'http://pics1.paipaiimg.com/update/20141017/index_100x100.png', share_url = '', share_title = 'you can you up！', share_disc = '发现一只野生小鸡，拍拍它会得到惊喜哦~', share_key = halo.request('key') || '';
+        //分享地址需要处理
+        //share_url=window.location.protocol+'//'+window.location.host+window.location.pathname+(share_key?'?key='+share_key:'');
+        share_url = "http://www.paipai.com/event/bird/index.html" + (share_key ? '?key=' + share_key : '');
+        var SHARE = halo.weixinshare(share_url, share_img, share_title, share_disc);
+        SHARE.cb = function (ret) {
+            //alert(typeof(window.shareSuccess));
+            if ('ok' == ret && typeof(window.shareSuccess) == 'function')window.shareSuccess();
+        };
+        SHARE.friendsDesc = '发现一只野生小鸡，鞭挞它会得到惊喜哦~ you can you up！';
+    });
+    function makeToken(str) {
+        str = str || '';
+        for (var i = 0, len = str.length, hash = 5381; i < len; ++i) {
+            hash += (hash << 5) + str.charAt(i).charCodeAt();
+        }
+        ;
+        return hash & 0x7fffffff;
+    }
+    ;
+    /*    window.mycenter=function(){
+     setTimeout(function(){
+     window.location.href='http://www.paipai.com/m2/my/quan_list.shtml?couponType=2&_wv=1';
+     },500);
+     }*/
+    // window.onerror=function(err,url,line){
+    // 	alert(err+';'+url+';'+line);
+    // }
+</script>
+</html><!--[if !IE]>|xGv00|2515461e113967962bbcac19af1d5250<![endif]-->

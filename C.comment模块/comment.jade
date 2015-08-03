@@ -1,0 +1,38 @@
+doctype html
+html
+   head
+      title 评论模块
+      style
+         include inculd/style.css
+body
+   .comment-wrap
+      .comment-title.fn-clear
+         h3.fn-left 评论
+         em.fn-left 共257条评论
+      .comment-join.fn-clear
+         .hd.fn-left
+            img(src="http://dummyimage.com/50x50",width="50",height="50",alt="头像")
+         .bd
+            textarea.textarea(name="commTextarea",id="j_commTextarea",cols="30",rows="10",placeholder="评论")
+            .iptbar.fn-right.dd
+               input.inpuser(type="text",name="commUser",id="j_commUser",placeholder="游客名称")
+               a.submit(href="javascript:;") 评论
+            .u-arr
+               em.arrline ◆
+               span.arrclr ◆
+      ul.comment-lst
+         - for (var i=0; i<5; i++)
+            li.comment-item.fn-clear
+               .comment-hd.fn-left
+                  a.comment-avatar(href="javascript:;")
+                     img(src="http://dummyimage.com/50x50",width="50",height="50",alt="头像")
+               .comment-bd
+                  p.comment-content.
+                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, animi
+                       consequuntur doloremque, ea fugiat fugit, in maxime modi nulla officiis omnis perspiciatis porro
+                       praesentium quisquam sunt ullam veritatis? Dolor, voluptates?
+                  .comment-info
+                     .fn-left
+                        .comment-ip 255.255.255.255
+                     .fn-right
+                        span.comment-time 2月2日 12:27

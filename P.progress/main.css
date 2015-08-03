@@ -1,0 +1,12 @@
+* { margin: 0; padding: 0; }
+ul { list-style: none; }
+body { background: #fff; }
+.progress { position: relative; overflow: hidden; margin: 100px; width: 200px; height: 6px; background: #fff; }
+.progress > div { position: absolute; top: 0; left: 0; overflow: hidden; height: 100%; }
+.progress > div.bg { width: 100%; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(33%, #fff), color-stop(33%,
+#eee), color-stop(33%, #eee), color-stop(66%, #eee), color-stop(66%, #fff), color-stop(100%, #fff)); color: #eee; }
+.progress > div.active { background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(33%, #fff), color-stop(33%,
+orange), color-stop(33%, orange), color-stop(66%, orange), color-stop(66%, #fff), color-stop(100%, #fff)); color: orange; }
+.progress > div:before { position: absolute; top: 0; left: 0; width: 6px; height: 6px; border-radius: 9999px; background: currentColor; -webkit-box-shadow: 40px 0 0 currentColor, 80px 0 0 currentColor, 120px 0 0 currentColor, 160px 0 0 currentColor, 194px 0 0 currentColor; content: ""; }
+.progress > div.bg:before { color: #eee; }
+.progress > div.active:before { color: orange; }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>自由落体</title>
+    <style type="text/css">
+        #div1 { width: 100px; height: 100px; background-color: red; position: absolute; }
+    </style>
+</head>
+<body>
+<input type="button" value="点击" id="input1"/>
+<div id="div1"></div>
+<script type="text/javascript">
+    var oInput = document.getElementById('input1');
+    var oDiv = document.getElementById('div1');
+
+    var timer = null;
+    var iSpeed = 0;
+    var bounded = document.documentElement.clientHeight - oDiv.offsetHeight;
+
+    oInput.onclick = function () {
+        startMove();
+    };
+
+    function startMove() {
+        clearInterval(timer);
+
+        timer = setInterval(function () {
+            iSpeed += 3;
+            (oDiv.offsetTop == bounded) && (iSpeed > 0) && clearInterval(timer);
+            var T = oDiv.offsetTop + iSpeed;
+            if (T > bounded) {
+                T = bounded;
+                iSpeed *= -0.75
+            }
+            oDiv.style.top = T + 'px';
+        }, 30);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>demo2</title>
+</head>
+<body>
+<script type="text/javascript">
+    var person1 = {
+        toLocaleString: function () {
+            return 'person1 toLocaleString';
+        },
+        toString: function () {
+            return 'person1 toString';
+        }
+    };
+    var person2 = {
+        toLocaleString: function () {
+            return 'person2 toLocaleString';
+        },
+        toString: function () {
+            return 'person2 toString';
+        }
+    };
+
+    var people = [person1, person2];
+    console.log(people.toString());
+    console.log(people.toLocaleString());
+
+
+    var str="www.baidu.com/?page";
+    str=str.substring(0,str.indexOf("/"));
+    console.log(str);
+</script>
+</body>
+</html>

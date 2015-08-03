@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>6.2.7 稳妥构造函数模式</title>
+</head>
+<body>
+<script type="text/javascript">
+    // 所谓稳妥对象：没有公共属性，而且其他方法也不引用this的对象
+    // 适合在安全的环境中（禁止使用this和new）
+    // 与寄生构造函数类似，但有两点不同：
+    // 1.新创建对象的实例方法不引用this;
+    // 2.不使用new操作符调用构造函数
+
+    // 返回的对象与构造函数或者与构造函数的原型属性之间没有关系，
+    // 也就是说构造函数返回的对象 与在构造函数外部创建的对象没有什么不同
+    // 所以不能依赖instanceof 操作符在确定对象类型
+
+    function Person(name, age, job) {
+        // 创建要返回的对象
+        var o = new Object();
+        o.name = name;
+        // 可以在这里定义私有变量和函数
+        // 添加方法
+        o.sayName = function () {
+            console.log(this.name);
+        };
+
+        // 返回对象
+        return o;
+    }
+
+    // 除了使用sayName方法外，没有其他办法访问name的值
+    var friend = Person('Nicholas', 29, 'software Engineer');
+    friend.sayName();
+
+
+</script>
+</body>
+</html>

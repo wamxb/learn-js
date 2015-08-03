@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>5.4.2RegExp实例方法</title>
+</head>
+<body>
+<script type="text/javascript">
+    // exec专门为捕获组而设计的
+    // 接受一个参数，即要应用模式的字符串
+    // 返回 第一个 匹配项信息的 数组，没有匹配的情况下返回null
+    // 返回的数组虽然是Array的实例，但是包含额外的属性index和input
+    // index：匹配项在字符串中的位置
+    // input：应用正则表达式的字符串
+    // matches[0] == input
+    var text = 'mom and dad and baby';
+    var pattern = /mom( and dad( and baby)?)?/gi;
+
+    var matches = pattern.exec(text);
+    console.log(matches.index);
+    console.log(matches.input);
+    console.log(matches[0]);
+    console.log(matches[1]);
+    console.log(matches[2]);
+
+
+    // exec()即使在模式中设置了全局表示(g)，每次也只会返回一个匹配项
+    // 在不设置全局标志：在同一字符串上多次调用exec()始终返回第一个匹配项的信息。
+    // 在设置全局标志：每次调用exec()都会在字符串中继续查找新匹配项
+    // 【！】IE8- 没设置全局标志，lastIndex也会变化
+    var text1 = 'cat, bat, sat, fat';
+    var pattern1 = /.at/;
+
+    var matches11 = pattern1.exec(text1);
+    console.log(matches11.index);
+    console.log(matches11[0]);
+    console.log(pattern1.lastIndex);
+
+    var matches12 = pattern1.exec(text1);
+    console.log(matches12.index);
+    console.log(matches12[0]);
+    console.log(pattern1.lastIndex);
+
+    var pattern2 = /.at/g;
+
+    var matches21 = pattern2.exec(text1);
+    console.log(matches21.index);
+    console.log(matches21[0]);
+    console.log(pattern2.lastIndex);
+
+    var matches22 = pattern2.exec(text1);
+    console.log(matches22.index);
+    console.log(matches22[0]);
+    console.log(pattern2.lastIndex);
+
+    // RegExp实例继承的toLocaleString()和toString()方法都会返回正则表达式的字面量，与创建方式无关
+    var pattern3 = new RegExp('\\[bc\\]at', 'gi');
+    console.log(pattern3.toString());
+    console.log(pattern3.toLocaleString());
+</script>
+</body>
+</html>

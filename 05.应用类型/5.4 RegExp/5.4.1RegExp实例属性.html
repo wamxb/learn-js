@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>5.4.1RegExp实例属性</title>
+</head>
+<body>
+<script type="text/javascript">
+    // source属性保存的是规范形式的字符串（字面量形式所用的字符串）
+    var pattern1 = /\[bc\]at/i;
+
+    console.log(pattern1.global);
+    console.log(pattern1.ignoreCase);
+    console.log(pattern1.multiline);
+    console.log(pattern1.lastIndex);
+    console.log(pattern1.source);
+
+    var pattern2 = new RegExp('\\[bc\\]at', 'i');
+
+    console.log(pattern2.global);
+    console.log(pattern2.ignoreCase);
+    console.log(pattern2.multiline);
+    console.log(pattern2.lastIndex);
+    console.log(pattern2.source);
+
+</script>
+</body>
+</html>

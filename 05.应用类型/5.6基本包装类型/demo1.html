@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>demo1</title>
+</head>
+<body>
+<script type="text/javascript">
+    // 每当读取(Boolean, Number, String)，后台就会创建一个对应的基本包装类型的对象
+
+    var s1 = 'some text';
+    var s2 = s1.substring(2);
+    // 当第二行访问s1时，访问过程处于一种读取模式（从内存中读取这个字符串的值）而在读取的过程中，后台会做以下操作
+    // 1.创建String类型的一个实例
+    // 2.在实例上调用指定的方法
+    // 3.销毁这个实例
+
+    // 上面可以想像是执行下列的ECMAScript代码
+    var s1 = new String('some text');
+    var s2 = s1.substring(2);
+    s1 = null;
+</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>6.1.2 定义多个属性</title>
+</head>
+<body>
+<script type="text/javascript">
+    // Object.defineProperties(要添加和修改其属性的对象, 与第一个对象中要添加或修改的属性一一对应)
+    var book = {};
+
+    Object.defineProperties(book, {
+        _year: {
+            value: 2004
+        },
+        edition: {
+            value: 1
+        },
+        year: {
+            get: function () {
+                return this._year;
+            },
+            set: function (newValue) {
+                if (newValue > 2004) {
+                    this._year = newValue;
+                    this.edition += newValue - 2004;
+                }
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

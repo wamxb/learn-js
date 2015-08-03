@@ -1,0 +1,114 @@
+/*图标行*/
+.li-01,.li-02,.li-03,.li-04 { top:6px; }
+.li-11,.li-12,.li-13,.li-14 { top:78px; }
+.li-21,.li-22,.li-23,.li-24 { top:150px; }
+.li-31,.li-32,.li-33,.li-34 { top:222px; }
+.li-41,.li-42,.li-43,.li-44 { top:294px; }
+.li-51,.li-52,.li-53,.li-54 { top:366px; }
+/*图标列*/
+.li-01,.li-11,.li-21,.li-31,.li-41,.li-51 { left:12px; }
+.li-02,.li-12,.li-22,.li-32,.li-42,.li-52 { left:84px; }
+.li-03,.li-13,.li-23,.li-33,.li-43,.li-53 { left:156px; }
+.li-04,.li-14,.li-24,.li-34,.li-44,.li-54 { left:228px; }
+
+.Talent-main { width:921px; margin:0 auto; padding:20px 0;position:relative;}
+.Talent-addup{ position:absolute; color:#fff; font-weight:bold; left:388px; bottom:87px;}
+.Talent-addup li{ width:50px; padding-left:20px; height:22px; line-height:22px; float:left;}
+
+.Talent-box { width:100%; background:url(http://rnimg.cn/lol/images/talent/bg-s4-tx.jpg) no-repeat left 50px; float:left;}
+.Talent-box p,.Talent-main h1{ color:#000; font-family:\5FAE\8F6F\96C5\9ED1; font-size:25px; text-align:center;  height:50px; line-height:30px; font-weight:bold;}
+.Talent-main h1{padding:8px 0 20px; font-style:normal;}
+.Talent-box div { width:307px; float:left; height:530px;}
+.Talent-box ul{ position:relative; margin:10px 0 0 8px;}
+.Talent-box li{ width:52px; height:58px; cursor:pointer; position:absolute;}
+.Talent-box li span{ position:absolute; color:#1AFF1A; width:24px; height:11px; bottom:3px; background-color:#090C25; font-size:11px; right:5px; text-align:center; overflow:hidden; -moz-user-select:none; -webkit-user-select:none; user-select:none; line-height:11px;}
+.Talent-box li .s3{ color:#777;}
+.Talent-box li .max{ color:#FF0;}
+.Talent-box li s{ display:block; height:58px; width:52px;}
+
+.Talent-box-a li s{ background-image:url(http://rnimg.cn/lol/images/talent/bg-talent-s4-0.png); background-repeat:no-repeat;}
+
+.li-02 s{ background-position:-106px 0;}.li-03 s{ background-position:0 -60px;}.li-04 s{ background-position:-106px -60px;}
+.li-01 .gray{ background-position:-53px 0;}.li-02 .gray{ background-position:-159px 0;}.li-03 .gray{ background-position:-53px -60px;}.li-04 .gray{ background-position:-159px -60px;}
+
+.li-11 s,.Talent-box-c .li-12 s{ background-position:0 -118px;}.li-12 s,.Talent-box-c .li-13 s{ background-position:-106px -118px;}.li-13 s,.Talent-box-b .li-14 s,.Talent-box-c .li-14 s{ background-position:0 -177px;}.li-14 s,.Talent-box-b .li-21 s,.Talent-box-c .li-21 s{ background-position:-106px -177px;}
+.li-11 .gray,.Talent-box-c .li-12 .gray{  background-position:-53px -118px;}.li-12 .gray,.Talent-box-c .li-13 .gray{  background-position:-159px -118px;}.li-13 .gray,.Talent-box-b .li-14 .gray,.Talent-box-c .li-14 .gray{ background-position:-53px -177px;}.li-14 .gray,.Talent-box-b .li-21 .gray,.Talent-box-c .li-21 .gray{ background-position:-159px -177px;}
+
+.li-21 s,.Talent-box-b .li-22 s,.Talent-box-c .li-22 s{ background-position:0 -236px;}.li-22 s,.Talent-box-b .li-23 s,.Talent-box-c .li-23 s{ background-position:-106px -236px;}.li-23 s,.Talent-box-b .li-24 s,.Talent-box-c .li-24 s{ background-position:0 -295px;}.li-24 s,.Talent-box-b .li-31 s,.Talent-box-c .li-31 s{ background-position:-106px -295px;}
+.li-21 .gray,.Talent-box-b .li-22 .gray,.Talent-box-c .li-22 .gray{ background-position:-53px -236px;}.li-22 .gray,.Talent-box-b .li-23 .gray,.Talent-box-c .li-23 .gray{ background-position:-159px -236px;}.li-23 .gray,.Talent-box-b .li-24 .gray,.Talent-box-c .li-24 .gray{ background-position:-53px -295px;}.li-24 .gray,.Talent-box-b .li-31 .gray,.Talent-box-c .li-31 .gray{ background-position:-159px -295px;}
+
+.li-31 s,.Talent-box-b .li-32 s,.Talent-box-c .li-32 s{ background-position:0 -354px;}.li-32 s,.Talent-box-b .li-33 s,.Talent-box-c .li-33 s{ background-position:-106px -354px;}.li-33 s,.Talent-box-b .li-34 s,.Talent-box-c .li-34 s{ background-position:0 -413px;}.li-34 s,.Talent-box-b .li-41 s,.Talent-box-c .li-42 s{ background-position:-106px -413px;}
+.li-31 .gray,.Talent-box-b .li-32 .gray,.Talent-box-c .li-32 .gray{ background-position:-53px -354px;}.li-32 .gray,.Talent-box-b .li-33 .gray,.Talent-box-c .li-33 .gray{ background-position:-159px -354px;}.li-33 .gray,.Talent-box-b .li-34 .gray,.Talent-box-c .li-34 .gray{ background-position:-53px -413px;}.li-34 .gray,.Talent-box-b .li-41 .gray,.Talent-box-c .li-42 .gray{ background-position:-159px -413px;}
+
+.li-41 s,.Talent-box-b .li-42 s{ background-position:0 -472px;}.li-42 s,.Talent-box-b .li-43 s,.Talent-box-c .li-52 s{ background-position:-106px -472px;}.li-43 s{ background-position:0 -472px;}.li-44 s,.Talent-box-b .li-52 s{ background-position:0 -531px;}
+.li-41 .gray,.Talent-box-b .li-42 .gray{ background-position:-53px -472px;}.li-42 .gray,.Talent-box-b .li-43 .gray,.Talent-box-c .li-52 .gray{ background-position:-159px -472px;}.li-43 .gray{ background-position:-53px -472px;}.li-44 .gray,.Talent-box-b .li-52 .gray{ background-position:-53px -531px;}
+
+.li-52 s{ background-position:-106px -531px;}
+.li-52 .gray{ background-position:-159px -531px;}
+
+.Talent-box-b li s{ background-image:url(http://rnimg.cn/lol/images/talent/bg-talent-s4-1.png); background-repeat:no-repeat;}
+
+
+.Talent-box-c li s{ background-image:url(http://rnimg.cn/lol/images/talent/bg-talent-s4-3.png); background-repeat:no-repeat;}
+
+
+.Talent-footer { float:left; padding-top:10px;}
+.Talent-footer ul { width:238px; height:45px; background:url(http://lol.replays.net/talent/images/num.gif) no-repeat; float:left;}
+.Talent-footer p { float:left; height:45px; line-height:44px; margin-left:150px; display:inline; color:#000; font-size:14px;}
+.Talent-footer li { float:left; font-size:14px; font-weight:bold; color:#f2ff00; line-height:42px; text-align:center;}
+.Talent-footer .tpo{ padding-left:43px; width:40px;}
+.Talent-footer .tpd{ padding-left:30px; width:52px;}
+.Talent-footer .tpu{ padding-left:30px; width:35px;}
+
+.but_cz { padding-top:15px; float:right; margin-left:15px;}
+.buz_copy { padding-top:15px; float:right;}
+
+.Talent-pop-type{border-radius:10px; box-shadow:0 0 10px #000; border:1px solid #555; background:url(http://rnimg.cn/lol/v1/images/bg-box-repeat.png) repeat; padding:8px 10px; position:absolute; text-shadow:0 1px 0 #111; z-index:99999; color:#eee; min-width:200px;}
+.Talent-pop-type dt{ font-size:14px; font-weight:bold; padding-bottom:5px;}
+.Talent-pop-type .dt-0{ color:#B23B00;}.Talent-pop-type .dt-1{ color:#3399CC;}.Talent-pop-type .dt-2{ color:#329832;}
+.Talent-pop-type .text i{ display:block; font-weight:bold;}
+.Talent-pop-type .text p{ padding-bottom:8px;}
+.Talent-pop-type .lv{ padding:3px 0 5px; color:#0F0;}
+.Talent-pop-type .if{ color:#f00;}
+
+/**分享**/
+.op-7{opacity:0.7; filter:alpha(opacity=70);}
+.Share-mask{ background-color:#FFF; width:100%; height:100%; position:absolute; left:0; top:0; z-index:9999998;}
+.Share-pop{ position:fixed; width:537px; padding:5px; left:50%; top:50%; margin:-70px 0 0 -268px; z-index:9999999;}
+.Share-pop .bg-000{ position:absolute; left:0; top:0; width:100%; height:100%; background-color:#000; border-radius:5px;}
+.Share-pop-main{ background-color:#F0E1AA; position:relative; padding:8px 10px;}
+.Share-pop-main dt{ font-size:16px; font-weight:bold; height:28px; color:#111;}
+.Share-pop-main dt span{ float:right; width:13px; height:13px; overflow:hidden; text-indent:-88em; background:url(http://lol.replays.net/rune/images/bg-weibo.png) no-repeat right -61px; cursor:pointer;}
+.Share-pop-main dt span:hover{ background-position:right -75px;}
+.Share-txt{ background-color:#FFF; border:1px solid #9D7A2E; padding:2px 3px; font-size:11px; line-height:16px; text-align:justify; color:#888;}
+.Share-txt:hover{ color:#333;}
+.Share-weibo{ height:30px; padding-top:10px;}
+.Share-weibo li{ float:left; height:30px; width:180px; background:url(http://lol.replays.net/rune/images/bg-weibo.png) no-repeat; overflow:hidden; text-indent:-88em; cursor:pointer;}
+.Share-weibo .Share-sina{ background-position:0 -30px; margin-left:10px;}
+.Share-weibo .Share-copy{ width:137px; background-position:0 -90px; float:right; position:relative; cursor:pointer;}
+.Share-weibo embed{ position:absolute; left:0; top:0; cursor:pointer;}
+
+
+.LOL-s3-news li{ width:467px; float:left; padding-right:10px;}
+.LOL-s3-news .News-list li em{ float:right;}
+
+
+
+/** s3更新相关 **/
+.LOL-s3-box{ border:1px solid #977430; height:118px; overflow:hidden; background-color:#FFF2DB;}
+.LOL-s3-box h2{ float:left; width:22px; padding:2px 5px 0; line-height:16px; text-align:center; overflow:hidden; height:116px; color:#fff; font-weight:normal; background:url(http://rnimg.cn/lol/v1/images/bg-s3-img.png) no-repeat;}
+.S3-nav dt{ float:left; padding:2px 0 0 2px;}
+.S3-nav dt a{ display:block; width:149px; height:114px; background:url(http://rnimg.cn/lol/v1/images/bg-s3-img.png) no-repeat -33px 0; overflow:hidden; text-indent:-88em;}
+.S3-nav dd{ float:left; padding-top:2px; width:240px; overflow:hidden;}
+.S3-nav dd a{ display:block; float:left; width:116px; height:55px; background:url(http://rnimg.cn/lol/v1/images/bg-s3-img.png) no-repeat -183px 0; margin:0 0 4px 4px; overflow:hidden; text-indent:-88em;}
+.S3-nav .a-2{ background-position:-300px 0;}.S3-nav .a-3{ background-position:-183px -56px;}.S3-nav .a-4{ background-position:-300px -56px;}
+.S3-talent{ width:285px; margin:2px 0 0 4px; border:1px solid #C4C3C2;}
+.S3-talent dt{ height:24px; line-height:24px; background:url(http://rnimg.cn/lol/v1/images/bg-x.png) repeat-x 0 -260px; padding:0 5px;}
+.S3-talent dd{ background-color:#FFFAEA; padding:3px 5px 0; line-height:20px; height:85px;}
+.S3-talent a{ margin:0 1px;}
+.S3-news-list{ border:1px solid #C4C3C2; border-left:0; padding-left:8px; margin-top:2px; padding-top:1px; width:253px; height:111px; overflow:hidden; background-color:#FFFAEA;}
+.S3-news-list em{ display:none;}
+.S3-news-list li{ height:22px; line-height:22px; background:url(http://rnimg.cn/common/v1/images/bg-news-point.png) no-repeat 0 -113px; padding-left:10px; overflow:hidden; float:left; width:225px;}
+
+.LOL-s3-talent{ line-height:24px; padding:2px 5px;}
+.LOL-s3-talent a{ margin:0 5px;}

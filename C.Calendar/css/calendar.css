@@ -1,0 +1,11 @@
+#calendar { width: 900px; margin: 40px auto; }
+#calendar .fc-content .fc-grid thead .fc-widget-header { border-width: 0 0 1px 0 }
+#calendar .fc-content .fc-grid tbody .fc-other-month .fc-day-number { opacity: .2; filter: alpha(opacity=20) }
+#calendar .fc-content .fc-day.fc-sun, #calendar .fc-content .fc-day.fc-sat { background: #f9f9f7 }
+#calendar .fc-content .fc-day.fc-state-highlight { background: #fcf8e3 }
+#calendar .fc-content .fc-event { font-size: 14px; background: #9fc6e7; border: 0 }
+#calendar .fc-content .fc-event { font-size: 14px; border: 0 }
+#calendar .fc-content .fc-event.cal_event { padding-left: 5px }
+#calendar .fc-content .fc-event.cal_event .fc-event-time { display: none }
+#calendar .fc-content .fc-event.cal_task .fc-event-time, #calendar .fc-content .fc-event.cal_task_completed .fc-event-time { border-radius: 2px; -webkit-border-radius: 2px; -moz-border-radius: 2px; border: 1px solid #79c455; color: #fff; display: inline-block; font-size: 11px; height: 14px; line-height: 11px; margin: 3px 3px 0; padding: 0 !important; text-align: center; vertical-align: top; width: 14px; background: #79c455 }
+#calendar .fc-content .fc-event.cal_task_uncompleted .fc-event-time { border-radius: 2px; -webkit-border-radius: 2px; -moz-border-radius: 2px; border: 1px solid #e1e1e1; color: transparent; display: inline-block; font-size: 11px; height: 14px; line-height: 11px; margin: 3px 3px 0; padding: 0 !important; text-align: center; vertical-align: top; width: 14px; background: transparent }

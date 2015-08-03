@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>demo</title>
+    <style type="text/css">
+        .position { position: absolute; top: 50px; left: 50px; width: 50px; height: 50px; background: red; }
+    </style>
+</head>
+<body>
+<div id="dome" class="position"></div>
+<script type="text/javascript">
+    // 表格和内嵌得到的值会不太精确
+    function getElementLeft(el) {
+        var actualLeft = el.offsetLeft;
+        var current = el.offsetParent;
+
+        while (current !== null) {
+            actualLeft += current.offsetLeft;
+            current = current.offsetParent;
+        }
+
+        return actualLeft;
+    }
+
+    function getElementTop(el) {
+        var actualTop = el.offsetTop;
+        var current = el.offsetParent;
+
+        while (current !== null) {
+            actualTop += current.offsetTop;
+            current = current.offsetParent;
+        }
+
+        return actualTop;
+    }
+
+    var div = document.getElementById('dome');
+    console.log(getElementLeft(div));
+    console.log(getElementTop(div));
+</script>
+</body>
+</html>

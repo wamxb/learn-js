@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>去重</title>
+</head>
+<body>
+
+<script type="text/javascript">
+    function unique(arr) {
+        var ret = [];
+        var hash = {};
+
+        for (var i = 0, len = arr.length; i < len; i++) {
+            var item = arr[i];
+            var key = typeof(item) + item;
+            if (hash[key] !== 1) {
+                ret.push(item);
+                hash[key] = 1
+            }
+        }
+        return ret;
+    }
+
+    var arr = ['a', 'b', 'c', '1', 0, 'c', 1, '', 1, 0];
+    var result = unique(arr);
+    console.log(result);
+</script>
+
+</body>
+</html>

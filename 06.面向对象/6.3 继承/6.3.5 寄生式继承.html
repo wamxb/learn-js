@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>6.3.5 寄生式继承</title>
+</head>
+<body>
+<script type="text/javascript">
+
+    function objcet(o) {
+        function F() {
+        }
+
+        F.prototype = o;
+        return new F();
+    }
+
+    function createAnother(original) {
+        var clone = objcet(original);
+        clone.sayHi = function () {
+            console.log('hi');
+        };
+        return clone;
+    }
+
+    var person = {
+        name: 'Nicholas',
+        friends: ['Shelby', 'Court', 'Van']
+    };
+
+    var anotherPerson = createAnother(person);
+    console.log(anotherPerson);
+    anotherPerson.sayHi();
+
+</script>
+</body>
+</html>

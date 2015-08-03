@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>5.2.9缩小方法</title>
+</head>
+<body>
+ECMAScript 5 支持的浏览器：IE9+，Firefox3+，Safari4+，Opera10.5+，Chrome
+<script type="text/javascript">
+    var values = [1, 2, 3, 4, 5];
+    // reduce(前一个值, 当前值, 项的索引, 数组对象)
+    var sum = values.reduce(function (prev, cur, index, array) {
+        console.log('prev: ' + prev, '| cur: ' + cur, '| index: ' + index);
+        console.log('return: ' + (prev + cur));
+        return prev + cur;
+    });
+    console.log(sum);
+
+    var sum2 = values.reduceRight(function (prev, cur, index, array) {
+        console.log('prev: ' + prev, '| cur: ' + cur, '| index: ' + index);
+        console.log('return: ' + (prev + cur));
+        return prev + cur;
+    });
+</script>
+</body>
+</html>

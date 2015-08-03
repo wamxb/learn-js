@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>7.3 模仿块级作用域</title>
+</head>
+<body>
+<script type="text/javascript">
+    function outputNumbers(count) {
+        for (var i = 0; i < count; i++) {
+            console.log('for: ', i);
+        }
+        var i = 0; // js不会告诉你是否多次声明了同一个变量；它只会对后继的声明视而不见（会执行后继声明中的变量初始化）
+        console.log(i);
+    }
+
+    outputNumbers(5);
+
+    // js 将function关键字当作一个函数声明的开始，而函数声明后面不能跟圆括号
+    // 函数表达式的后面可以跟圆括号
+
+</script>
+</body>
+</html>

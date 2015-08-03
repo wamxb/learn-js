@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>demo2</title>
+</head>
+<body>
+<div id="show"></div>
+<script type="text/javascript">
+    window.onload = function () {
+        var curTime = new Date();
+        var endTime = new Date('2015, 2, 16');
+        var leftTime = Math.floor((endTime - curTime)/(24*60*60*1000));
+        document.getElementById('show').innerHTML = leftTime;
+    }
+</script>
+</body>
+</html>

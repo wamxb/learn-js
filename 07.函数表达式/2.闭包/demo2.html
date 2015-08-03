@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>7.2 闭包</title>
+</head>
+<body>
+<script type="text/javascript">
+    var bind = function (fn, context) {
+        return function () {
+            return fn.apply(context, arguments);
+        };
+    };
+
+    var foo = function () {
+        console.log(this);
+        console.log(Array.prototype.slice.call(arguments));
+    };
+    var b = bind(foo, window)(1, 2, 3);
+
+    var obj = {a: 1, b: 2};
+
+    var b2 = bind(foo, obj)(3,4);
+</script>
+</body>
+</html>

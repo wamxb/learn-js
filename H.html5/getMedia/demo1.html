@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>demo1</title>
+</head>
+<body>
+https://bouncyballs.org/
+<script type="text/javascript">
+    function getMedia(isEnableCamera, isEnableMicrophone) {
+        /// <summary>获取媒体设备</summary>
+        /// <param name="isEnableCamera" type="Boolean">是否启用摄像头
+        /// <param name="isEnableMicrophone" type="Boolean">是否启用麦克风
+
+        var api = navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+        if (!api) return;
+        var video = null;
+        var audio = null;
+        if (isEnableCamera) video = document.createElement("video");
+        if (isEnableMicrophone) audio = document.createElement("audio");
+        api({video: !!video, audio: !!audio}, goStream, noStream);
+        function goStream(stream) {
+            // 这里去做操作,具体函数及属性请看控制台
+            console.dir(stream);
+        }
+
+        function noStream() {
+            alert("无法启用设备");
+        }
+    }
+    //    getMedia(false, true);
+    //    alert(navigator.getUserMedia);
+    //    alert(navigator.mediaDevices + '/n' + navigator.webkitGetUserMedia);
+    var api = navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    alert(api);
+</script>
+</body>
+</html>

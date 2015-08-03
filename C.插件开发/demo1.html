@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>demo1</title>
+</head>
+<body>
+<div id="bb" style="width:220px;border:1px solid #ccc;">
+    <span></span>
+
+    <div style="margin-top:10px; margin-bottom:30px;">8</div>
+</div>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+    /*
+     $(function () {
+     $('#bb').plugins();
+     });
+     */
+
+
+    // $.extend(target, [object], [objectN]) 该方法主要用于合并两个或更多对象的内容（属性）到第一个对象，并返回合并后的第一对象
+    // 如果该方法只有一个参数target，则该参数将扩展jQuery的命名空间，作为静态方法挂在jQuery全局对象下
+    // $.extend({ hello: function(){}, world: function(){} });
+
+    // jQuery.extend(object);  为扩展jQuery类本身.为类添加新的方法。
+    // jQuery.fn.extend(object);  给jQuery对象添加方法。
+
+    // a) 避免全局依赖；
+    // b) 避免第三方破坏；
+    // c) 兼容jQuery操作符'$'和'jQuery'
+    !(function ($) {
+        $.fn.plugins = function (opts) {
+            opts = $.extend({}, $.fn.plugins.defaults, opts);
+            return this.each(function () {
+                var elem = $(this);
+                elem.find('span').text(opts['title']);
+                $.get([opts['url']], function (data) {
+                    elem.find('div').text(data['text']);
+                });
+            });
+        };
+
+        $.fn.plugins.defaults = {
+            title: '标题',
+            url: 'data.json'
+        }
+    })(window.jQuery);
+
+
+    function Plugins(elem, opts) {
+        this.elem = elem;
+        this.opts = opts;
+        this.overlay = new Overlay();
+        this.init();
+    }
+    var pProto = Plugins.prototype;
+    pProto.getElem = function () {
+        return this.elem;
+    };
+    pProto.getOpts = function () {
+        return this.opts;
+    };
+    pProto._setTitle = function (text) {
+        this.getElem().find('span').text(text);
+    };
+    pProto.init = function () {
+        var that = this;
+        var loadingText = '数据加载中';
+
+        that._setTitle(that.getOpts()['title']);
+
+        that.overlay.show();
+        that.getElem().find('div').text(loadingText);
+
+        $.get(that.getOpts()['url'], function (result) {
+            that.overlay.hide();
+            that.getElem().find('div').text(result['text']);
+        });
+    };
+
+
+    function Overlay() {
+    }
+    var olProto = Overlay.prototype;
+    olProto.show = function () {
+        console.log('overlay show');
+    };
+    olProto.hide = function () {
+        console.log('overlay hide');
+    };
+
+    var p = new Plugins($('#bb'), {
+        title: '标题',
+        url: 'data.json'
+    });
+    console.log(p);
+
+</script>
+</body>
+</html>

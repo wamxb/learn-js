@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>5.5.5 函数属性和方法</title>
+</head>
+<body>
+<script type="text/javascript">
+//    'use strict';
+    // length属性表示函数希望接收的 命名参数 的个数
+    function sayName(name) {
+        console.log(name);
+    }
+
+    function sum(num1, num2) {
+        return num1 + num2;
+    }
+
+    function sayHi() {
+        console.log('hi');
+    }
+
+    console.log(sayName.length);
+    console.log(sum.length);
+    console.log(sayHi.length);
+
+    // ECMAScript5 中，prototype 是不可枚举的，因此使用for-in无法发现
+    // toString()、valueOf()都是保存在prototype
+    // 非继承而来的方法：apply()和call()
+    function sum2(num1, num2) {
+        return num1 + num2;
+    }
+
+    function applySum1(num1, num2) {
+        console.log(this); // 【！】在严格模式下，未指定环境对象而调用函数，则this值不会转型为window，除非添加到对象或调用apply()或apply()，否则值会是undefined
+        return sum2.apply(this, arguments);
+    }
+
+    function applySum2(num1, num2) {
+        return sum2.apply(this, [num1, num2]);
+    }
+
+    console.log(applySum1(10, 10));
+    console.log(applySum2(10, 10));
+
+    window.color = 'red';
+    var obj = {color: 'blue'};
+    function sayColor() {
+        console.log(this.color);
+    }
+    // 'use strict'
+    sayColor();
+
+
+    console.log('=====================');
+    //ECMAScript5 定义了bind()方法
+    // 创建一个函数的实例，this会被绑定到传给bind()函数的值
+    var objSayColor = sayColor.bind(obj);
+    objSayColor();
+
+
+</script>
+</body>
+</html>

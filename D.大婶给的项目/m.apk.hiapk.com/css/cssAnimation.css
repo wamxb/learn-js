@@ -1,0 +1,30 @@
+@CHARSET "UTF-8";
+@-webkit-keyframes appListAnimation {
+	from { background-color: #e3e3e3 }
+	to { background-color: #efefef }
+	}
+
+@-webkit-keyframes topIconAnimation {
+	from { background-color: #e6e6e6 }
+	to { background-color: #efefef }
+	}
+
+@-webkit-keyframes requireAnimation {
+	from { -webkit-transform: scale(0) }
+	to { -webkit-transform: scale(1) }
+	}
+
+@-webkit-keyframes requireoutAnimation {
+	from { -webkit-transform: scale(1) }
+	to { -webkit-transform: scale(0) }
+	}
+
+@-webkit-keyframes moreAnimation {
+	from { background-color: #e3e3e3 }
+	to { background-color: #ccc }
+	}
+
+@-webkit-keyframes navAnimation {
+	from { background-color: #f6f6f6; color: #474747; }
+	to { background-color: rgba(171, 171, 171, 0.1); color: #709800; }
+	}

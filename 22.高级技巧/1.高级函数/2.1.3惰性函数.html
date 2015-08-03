@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>2.1.3惰性函数</title>
+</head>
+<body>
+<script type="text/javascript">
+    // 惰性函数就是经过判断用 “正确”的方法替代原来的方法
+    // handle1： 第一次调用会耗点性能
+    var obj = {type: 1};
+    function handle1(param) {
+        if (obj.type == 1) {
+            console.log(1.1);
+            handle1 = function (param) {
+                console.log('handle1 == 1', param);
+            };
+        } else if (obj.type == 2) {
+            console.log(1.2);
+            handle1 = function (param) {
+                console.log('handle1 == 2', param);
+            }
+        }
+        return handle1(param);
+    }
+    handle1('one'); // 1.1, handle1 == 1 one
+    handle1('two'); // handle1 == 1 two
+    handle1('three'); // handle1 == 1 three
+
+    // handle2：脚本运行是会耗点性能。“判断条件为可以行，因为是自运行”
+    var boo = (function (param) {
+        if (obj.type == 1) {
+            console.log(2.1);
+            return function (param) {
+                console.log('handle2 == 1', param);
+            }
+        } else if (obj.type == 2) {
+            console.log(2.2);
+            return function (param) {
+                console.log('handle2 == 2', param);
+            }
+        }
+    }());
+
+    boo('one'); // 2.1, handle2 == 1 one
+    boo('two'); // handle2 == 1 two
+    boo('three'); // handle2 == 1 three
+
+    obj.fool = function (param) {
+        var self = this;
+        if (obj.type == 1) {
+            console.log(3.1);
+            self.fool = function (param) {
+                console.log('handle3 == 1', param);
+            };
+        } else if (obj.type == 2) {
+            console.log(3.2);
+            self.fool = function (param) {
+                console.log('handle3 == 2', param);
+            }
+        }
+        return self.fool(param);
+    };
+
+    obj.fool('one'); // 3.1, handle3 == 1 one
+    obj.fool('two'); // handle3 == 1 two
+    obj.fool('three'); // handle3 == 1 three
+
+    obj.bool = (function (param) {
+        if (obj.type == 1) {
+            console.log(3.1);
+            return function (param) {
+                console.log('handle3 == 1', param);
+            };
+        } else if (obj.type == 2) {
+            console.log(3.2);
+            return function (param) {
+                console.log('handle3 == 2', param);
+            }
+        }
+    }());
+    obj.bool('one'); // 3.1, handle3 == 1 one
+    obj.bool('two'); // handle3 == 1 two
+    obj.bool('three'); // handle3 == 1 three
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>makeQuery</title>
+</head>
+<body>
+
+
+<script type="text/javascript">
+
+    function makeQuery(obj, delimiter) {
+        var strArray = [];
+
+        for (var key in obj) {
+            strArray.push(key + '=' + obj[key]);
+        }
+
+        return strArray.join(delimiter);
+    }
+
+    function capitalize(strArrays) {
+        var newArray = [];
+
+        strArrays.forEach(function (str) {
+            str = str.charAt(0).toUpperCase() + str.slice(1);
+            newArray.push(str);
+        });
+
+        return newArray;
+    }
+
+    function arrayUtil(arr, func) {
+        var newArr = [];
+
+        forLoop(arr, func(item));
+
+        return newArr;
+    }
+
+    // 使用reduce简化规约
+
+    function calcRate(salaries) {
+        var rate = 0.15;
+        var minimunCost = 0;
+
+        salaries.forEach(function (salary) {
+            minimunCost += salary * rate;
+        });
+
+        return minimunCost;
+    }
+
+    function count(words) {
+        var result = {};
+
+        words.forEach(function (word) {
+            result[word] = (result[word] || 0) + 1;
+        });
+
+        return result;
+    }
+
+
+    function text2words(text) {
+        return _.map(text.math(/\w+/g), function (word) {
+            return word.toLowerCase();
+        });
+    }
+
+</script>
+
+</body>
+</html>

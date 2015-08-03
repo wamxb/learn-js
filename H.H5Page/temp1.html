@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <script type="text/javascript">
+        (function () {
+            var version, phoneScale;
+            /Android (\d+\.\d+)/.test(navigator.userAgent) ? (version = parseFloat(RegExp.$1), version > 2.3 ? (phoneScale = parseInt(window.screen.width) / 640, document.write('<meta name="viewport" content="width=640, minimum-scale = ' + phoneScale + ", maximum-scale = " + phoneScale + ', target-densitydpi=device-dpi">')) : document.write('<meta name="viewport" content="width=640, target-densitydpi=device-dpi">')) : document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
+        })();
+    </script>
+    <title>这只是个测试</title>
+    <link rel="stylesheet" href="css/animate.min.css"/>
+    <link rel="stylesheet" href="css/temp1.css"/>
+</head>
+<body>
+<img style="position:absolute;z-index: -1; height: 0;width: 0;overflow:hidden;" width="200" height="200"
+     src="images/share_screenshot.png" alt=""/>
+<!-- 加载提示 -->
+<div id="j_loader" ontouchmove="return !1" class="loader">
+    <div class="loader-graph"></div>
+    <div id="j_progress" class="loader-progress">3%</div>
+    <div class="loader-text">LOADING...</div>
+</div>
+<!-- 竖屏提示 -->
+<div class="no-support-tip">
+    <div class="no-support-tip-main">
+        <i></i><br>为了更好的体验，请使用竖屏浏览
+    </div>
+</div>
+<script id="tmpl" type="text/template">
+    <!--<div class="page7">
+            <div id="j_person" class="person"></div>
+            <div id="j_lolBtn" class="btn"></div>
+        </div>-->
+    <div class="page8">
+        <div class="cloud"></div>
+        <div class="main"></div>
+        <div class="person"></div>
+        <div id="j_btnBar" class="btn-bar">
+            <a href="http://m.miyabaobei.com/register?url=http://m.miyabaobei.com/home" class="btn btn-get">领红包去</a>
+            <a href="javascript:;" class="btn btn-share">分享朋友圈</a>
+            <a href="https://itunes.apple.com/cn/app/mi-ya-bao-bei-mu-ying-te-mai/id954697996?mt=8"
+               class="btn btn-down">点击下载</a>
+        </div>
+        <div id="j_wxTip" class="page-wxtip"></div>
+    </div>
+    <!--音乐-->
+    <div id="j_musicBar" class="music se">
+        <svg fill="#fff" xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 64 64">
+            <path d="M32.01 15.02c-9.39 0-17 7.61-17 17 0 9.388 7.61 17 17 17s17-7.612 17-17c0-9.39-7.612-17-17-17zm0 32c-8.285 0-15-6.716-15-15 0-8.284 6.715-15 15-15 8.283 0 15 6.716 15 15 0 8.284-6.717 15-15 15zm7.144-24.97c-.052-.007-.1-.03-.154-.03-.147 0-.284.035-.41.092l-9.677 1.88c-.082.016-.152.058-.227.092-.046.015-.09.032-.132.053-.017.01-.032.02-.048.033-.226.132-.388.344-.456.604-.004.012-.004.024-.007.036-.016.07-.043.135-.043.21v9.142c-1.057-.296-2.376-.125-3.584.58-2.02 1.182-2.95 3.384-2.074 4.917.875 1.534 3.223 1.82 5.242.64 1.646-.963 2.548-2.598 2.36-4.002.026-.09.056-.18.056-.28V25.815l8-1.554v7.902c-1.057-.296-2.376-.125-3.584.58-2.02 1.182-2.95 3.384-2.074 4.917.875 1.534 3.223 1.82 5.242.64 1.646-.963 2.548-2.598 2.36-4.002.026-.09.056-.18.056-.28v-11c0-.018-.01-.035-.01-.054 0-.037.014-.073.01-.11-.04-.467-.4-.78-.846-.803zM26.528 38.448c-1.01.59-2.065.654-2.357.143-.29-.512.292-1.405 1.303-1.996 1.01-.59 2.065-.654 2.356-.143.29.514-.292 1.406-1.302 1.997zm10-2c-1.01.59-2.065.654-2.357.143-.29-.512.292-1.405 1.303-1.996 1.01-.59 2.065-.654 2.356-.143.29.514-.292 1.406-1.302 1.997z"/>
+        </svg>
+        <span style="background-color:#fff"></span>
+        <audio id="j_music" loop preload="auto" autoplay="true" class="hide" src="images/music.mp3"></audio>
+    </div>
+</script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    !function (undefined) {
+        var PreLoad = function (source, opt) {
+            var cfg = opt || {};
+            this.source = source;
+            this.count = 0;
+            this.total = source.length;
+            // 加载事件
+            this.onload = cfg.onload;
+            this.prefix = cfg.prefix || "";
+            this.init();
+        };
+        PreLoad.prototype.init = function () {
+            var self = this;
+            self.source.forEach(function (item) {
+                var type = item.substr(item.lastIndexOf(".") + 1).toLowerCase(),
+                        src = self.prefix + item;
+                switch (type) {
+                    case"js":
+                        self.script.call(self, src);
+                        break;
+                    case"css":
+                        self.stylesheet.call(self, src);
+                        break;
+                    case"svg":
+                    case"jpg":
+                    case"gif":
+                    case"png":
+                    case"jpeg":
+                        self.image.call(self, src);
+                }
+            })
+        };
+        PreLoad.prototype.getProgress = function () {
+            return Math.round(this.count / this.total * 100)
+        };
+        PreLoad.prototype.image = function (src) {
+            var el = document.createElement("img");
+            this.load(el, src);
+            el.src = src;
+        };
+        PreLoad.prototype.stylesheet = function (src) {
+            var el = document.createElement("link");
+            this.load(el, src);
+            el.rel = "stylesheet";
+            el.type = "text/css";
+            el.href = src;
+            document.head.appendChild(el);
+        };
+        PreLoad.prototype.script = function (src) {
+            var el = document.createElement("script");
+            this.load(el, src);
+            el.type = "text/javascript";
+            el.src = src;
+            document.head.appendChild(el);
+        };
+        PreLoad.prototype.load = function (el, src) {
+            var self = this;
+            el.onload = el.onerror = el.onabort = function (event) {
+                self.onload && self.onload({count: ++self.count, total: self.total, item: src, type: event.type});
+            }
+        };
+
+        // todo tasks
+        var tasks = ['share_screenshot.png', 'page7_bg.jpg', 'page7_person_sprite.png', 'page8_bg0.png', 'page8_bg1.png', 'page8_btn.png', 'page8_cloud.png', 'page8_person_sprite.png'];
+        var $progress = document.getElementById('j_progress');
+
+        function loading(load) {
+            var count = load.count;
+            var total = load.total;
+            $progress && ($progress.innerHTML = Math.round(100 * count / total) + '%');
+            if (count === total) return complete();
+        }
+
+        function next(el, fn) {
+            el.className += ' scaleOut';
+            setTimeout(function () {
+                el.parentNode.removeChild(el);
+                fn && fn();
+            }, 800)
+        }
+
+        function complete() {
+            var $loader = document.getElementById('j_loader');
+            var url = '';
+
+            renderHtml();
+
+            next($loader, function () {
+                if (!url) return;
+                var script = document.createElement('script');
+                script.src = url;
+                document.body.appendChild(script);
+            });
+        }
+
+        // todo prefix
+        new PreLoad(tasks, {onload: loading, prefix: 'images/'});
+    }();
+
+    function renderHtml() {
+
+        if (!isWX()) {
+            if (!isTest()) {
+                window.location.href = 'https://itunes.apple.com/cn/app/mi-ya-bao-bei-mu-ying-te-mai/id954697996?mt=8';
+                document.body.innerHTML = '<div class="no-support-tip" style="visibility: visible;"><div class="no-support-tip-main">&#35831;&#22312;&#24494;&#20449;&#37324;&#38754;&#27983;&#35272;</div></div>';
+                return;
+            }
+            var oDiv = document.createElement('div');
+            oDiv.className = 'test-toolbar';
+            oDiv.innerText = '测试标题栏';
+            document.body.appendChild(oDiv);
+        }
+        createEl();
+        orientationHandler();
+
+
+        var eventType = 'ontouchend' in document ? 'touchstart' : 'click';
+
+        // 音乐
+        musicUtil(document.getElementById('j_musicBar'), document.getElementById("j_music"), 'playing');
+
+        // page7 打怪
+        var $lolBtn = $('#j_lolBtn');
+        var $person = $('#j_person');
+        var flag = 0;
+        $lolBtn.one(eventType, function () {
+            if (flag == 0) {
+                var that = $(this);
+                that.addClass('begin');
+                $person.addClass('begin').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                    that.addClass('end').one(eventType, function () {
+                        // todo
+                        alert(1);
+                    });
+                });
+            }
+        });
+
+        // 分享
+        var $ShareBtn = $('#j_btnBar');
+        var $wxTip = $('#j_wxTip');
+        $ShareBtn.on('touchstart', 'a', function () {
+            showWxTip($(this).index());
+        });
+        function showWxTip(index) {
+            if (index == 0) return;
+            $wxTip.removeClass().addClass('page-wxtip page-wxtip' + (index - 1) + ' vsb').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                $(this).removeClass('vsb');
+            });
+        }
+
+
+        function createEl() {
+            var oTmpl = document.getElementById("tmpl").innerHTML,
+                    oDiv = document.createElement("div");
+            oDiv.className = "wrap";
+            oDiv.innerHTML = oTmpl;
+            document.body.appendChild(oDiv);
+        }
+
+
+        function isTest() {
+            return window.location.hostname == '192.168.7.129'
+        }
+
+        // 是否在微信中
+        function isWX() {
+            return navigator.userAgent.toLowerCase().match(/MicroMessenger/i) == 'micromessenger';
+        }
+
+        /**
+         *
+         * @param fn {function} callback
+         */
+        function orientationHandler(fn) {
+            var win = window;
+            var supportsOrientation = (typeof win.orientation == 'number' && typeof win.onorientationchange == 'object');
+            var orientationEvent = supportsOrientation ? 'orientationchange' : 'resize';
+            var body = document.body;
+            var HTMLNode = body.parentNode;
+            if (body.clientWidth > body.clientHeight) {
+                HTMLNode.setAttribute('class', 'landscape');
+            }
+
+            var updateOrientation = function () {
+                if (supportsOrientation) {
+                    updateOrientation = function () {
+                        var orientation = win.orientation;
+                        switch (orientation) {
+                            case 90:
+                            case -90:
+                                orientation = 'landscape';
+                                break;
+                            default:
+                                orientation = 'portrait';
+                        }
+                        HTMLNode.setAttribute('class', orientation);
+                    }
+                } else {
+                    updateOrientation = function () {
+                        var orientation = (win.innerWidth > win.innerHeight) ? 'landscape' : 'portrait';
+                        HTMLNode.setAttribute('class', orientation);
+                    }
+                }
+                typeof fn === 'function' && fn();
+                updateOrientation();
+            };
+            win.addEventListener(orientationEvent, updateOrientation, false);
+        }
+
+        /**
+         * 音乐
+         * @param oMusic
+         * @param audio
+         * @param playClass
+         */
+        function musicUtil(oMusic, audio, playClass) {
+            var isPlay = false;
+            audioAttach();
+
+            oMusic.addEventListener('touchstart', function () {
+                isPlay ? pause() : play();
+            }, false);
+
+            function audioAttach() {
+                var palyFirst = function () {
+                    audio.play();
+                    oMusic.classList.add(playClass);
+                    isPlay = true;
+                    document.body.removeEventListener('touchstart', palyFirst, false);
+                };
+
+                audio.oncanplay = playmusic();
+                audio.autoplay = true;
+                audio.isLoadedmetadata = false;
+                audio.audio = true;
+
+                function playmusic() {
+                    document.body.addEventListener('touchstart', palyFirst, false);
+                }
+            }
+
+            function pause() {
+                audio.pause();
+                isPlay = false;
+                oMusic.classList.remove(playClass);
+            }
+
+            function play() {
+                audio.play();
+                isPlay = true;
+                oMusic.classList.add(playClass);
+            }
+        }
+    }
+</script>
+</body>
+</html>

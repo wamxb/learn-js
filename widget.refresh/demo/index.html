@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>widget.refresh</title>
+</head>
+<body>
+<div style="height: 800px; background: #eee;"></div>
+<ul id="lst"></ul>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="../refresh-0.1.js"></script>
+<script type="text/javascript">
+    var $lst = $('#lst');
+    var refresh = new Refresh({
+        ajax: {
+            url: 'demo.json',
+            data: {
+                page: 0  //第一次请求索引
+            },
+            done: function (data) { // 数据请求成功事件,如填充数据
+                var html = '';
+                Array.prototype.forEach.call(data['Data']['PostList'], function (item) {
+                    html += '<li>' + item['Title'] + '</li>';
+                });
+                $lst.append(html);
+            },
+            end: null
+        },
+        render: {
+            oList: $lst // 渲染的位置
+        }
+    });
+    refresh.init();
+    refresh.loadData();
+</script>
+</body>
+</html>

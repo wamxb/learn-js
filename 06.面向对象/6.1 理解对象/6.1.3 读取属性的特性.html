@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>6.1.3 读取属性的特性</title>
+</head>
+<body>
+<script type="text/javascript">
+    //    'use strict';
+    // Object.getOwnPropertyDescriptor(属性所在的对象, 要读取其描述符的属性名称)：可以取得给定属性的描述符
+    // 返回值是一个对象
+    var book = {};
+
+    Object.defineProperties(book, {
+        _year: {
+            value: 2004
+        },
+        edition: {
+            value: 1
+        },
+        year: {
+            get: function () {
+                return this._year;
+            },
+            set: function (newValue) {
+                if (newValue > 2004) {
+                    this._year = newValue;
+                    this.edition += newValue - 2004;
+                }
+            }
+        }
+    });
+
+    var descriptor = Object.getOwnPropertyDescriptor(book, '_year');
+    console.log(descriptor.value, descriptor.configurable, typeof descriptor.get); // 2004 false "undefined"
+
+    var descriptor2 = Object.getOwnPropertyDescriptor(book, 'year');
+    console.log(descriptor2.value, descriptor2.enumerable, typeof descriptor2.get); // undefined false "function"
+
+    // 在严格模式下会报错。不可以修改
+    book._year = 1;
+    console.log(book._year);
+
+</script>
+</body>
+</html>

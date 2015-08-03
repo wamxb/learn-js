@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>拖拽改变大小</title>
+    <style type="text/css">
+        #div1 { width: 200px; height: 200px; background-color: red; position: absolute; border: 1px solid #333; }
+        #div2:hover { cursor: se-resize; }
+        #div2 { width: 30px; height: 30px; background-color: yellow; position: absolute; bottom: 0; right: 0; }
+    </style>
+</head>
+<body>
+<div id="div1">
+    <div id="div2"></div>
+</div>
+<script type="text/javascript">
+    var oDiv1 = document.getElementById('div1');
+    var oDiv2 = document.getElementById('div2');
+
+    var disX = 0;
+    var disY = 0;
+    var disW = 0;
+    var disH = 0;
+
+    oDiv2.onmousedown = function (event) {
+        var e = event || window.event;
+        disX = e.clientX;
+        disY = e.clientY;
+        disW = oDiv1.offsetWidth;
+        disH = oDiv1.offsetHeight;
+
+        document.onmousemove = function (event) {
+            var e = event || window.event;
+            var W = e.clientX - disX + disW;
+            var H = e.clientY - disY + disH;
+            (W < 100) && (W = 100);
+            (H < 100) && (H = 100);
+            oDiv1.style.width = W + 'px';
+            oDiv1.style.height = H + 'px';
+        };
+
+        document.onmouseup = function (event) {
+            document.onmousemove = null;
+            document.onmouseup = null;
+        }
+    }
+</script>
+</body>
+</html>

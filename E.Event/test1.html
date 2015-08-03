@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>Event - dome</title>
+</head>
+<body>
+<button id="btn">点击</button>
+<button id="btn2">changeHandleEvent</button>
+<button id="btn3">revertHandleEvent</button>
+<div id="content"></div>
+<img id="img" style="margin-top: 5000px" src="http://filelx.gao7.com/g1/M00/4A/E3/CikzRVS1zACAc5SHAAONXFnbU0s961.jpg" width="500" height="100"
+     alt=""/>
+<script type="text/javascript">
+    function isInViewport(el) {
+        var rect = el.getBoundingClientRect();
+        var doc = document.documentElement;
+        return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || doc.clientHeight) &&
+        rect.right <= (window.innerWidth || doc.clientWidth));
+    }
+
+    window.addEventListener('scroll', function(){
+        console.log(isInViewport(document.getElementById('img')));
+    }, false);
+</script>
+</body>
+</html>

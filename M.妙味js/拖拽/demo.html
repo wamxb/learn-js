@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>拖拽</title>
+    <style type="text/css">
+        body { margin: 0; }
+        * { -webkit-box-sizing: border-box; }
+        .wrap { position: relative; float: left; color: #000; margin: 50px; width: 202px; height: 202px; overflow: hidden; background-color: #eee; border: 1px solid #000; }
+        .j_drag { background-color: papayawhip; line-height: 50px; text-align: center; font-size: 40px; width: 50px; height: 50px; position: absolute; cursor: move; opacity: .5; border: 1px solid #333; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="j_drag">1</div>
+</div>
+<div class="wrap">
+    <div class="j_drag">2</div>
+</div>
+<script type="text/javascript">
+    (function () {
+        var oDrags = document.querySelectorAll('.j_drag');
+        Array.prototype.forEach.call(oDrags, function (el) {
+            el.style.position = 'absolute';
+
+            parent = el.parentNode;
+            var bounded = {
+                top: 0,
+                bottom: parent.clientHeight - el.offsetHeight,
+                left: 0,
+                right: parent.clientWidth - el.offsetWidth
+            };
+            parent.style.position = 'relative';
+
+            var disX = 0;
+            var disY = 0;
+            var position;
+
+            el.onmousedown = function (event) {
+                var e = event || window.event;
+                disX = e.clientX - el.offsetLeft;
+                disY = e.clientY - el.offsetTop;
+                document.onmousemove = function (event) {
+                    var e = event || window.event;
+                    position = setPosition(e.clientX - disX, e.clientY - disY);
+                    el.style.left = position.left + 'px';
+                    el.style.top = position.top + 'px';
+                };
+
+                document.onmouseup = function () {
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                    el.setAttribute('data-left', position.left);
+                    el.setAttribute('data-top', position.top);
+                };
+
+                return false;
+            };
+
+            function setPosition(curLeft, curTop) {
+                var p = {};
+                p.left = curLeft < bounded.left ? bounded.left : (curLeft > bounded.right ? bounded.right : curLeft);
+                p.top = curTop < bounded.top ? bounded.top : (curTop > bounded.bottom ? bounded.bottom : curTop);
+                return p;
+            }
+
+        });
+    })();
+</script>
+</body>
+</html>

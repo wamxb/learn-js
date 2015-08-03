@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>5.6.3 String类型</title>
+</head>
+<body>
+<script type="text/javascript">
+    // 1.字符方法
+    // charAt() 方法以单字符字符串的形式返回给定锋位置的那个字符
+    // charCodeAt() 返回的是字符编码
+
+    // 2.字符串操作方法
+    // concat() 拼接字符串 ‘+’
+
+    // 基于字符串创建新字符串的方法 slice(), substr(), substring()
+    // 返回被操作字符串的一个子字符串，接受一个或两个参数
+    // slice() 和 substring() 的第二个参数指定的是子字符串最后一个字符后面的位置（就是不包括第二个参数）
+    // substr() 第二个参数表示的是  返回的字符串个数
+    // 都不会修改字符串本身
+    // 如果没有第二个参数， 则将字符串的长度作为结束位置
+    var stringValue = 'hello world';
+    console.log(stringValue.slice(3));
+    console.log(stringValue.substr(3));
+    console.log(stringValue.substring(3));
+
+    console.log(stringValue.slice(3, 7));
+    console.log(stringValue.substr(3, 7));
+    console.log(stringValue.substring(3, 7));
+    // 传递负值的参数
+    // slice() 会将传递的负值与字符串的长度相加
+    // substr() 将负的第一个参数加上字符串长度，将第二个负参数转换为0
+    // substring() 将所有负值参数都转换为0
+    console.log(stringValue.slice(-3));
+    console.log(stringValue.substr(-3));
+    console.log(stringValue.substring(-3));
+
+    console.log(stringValue.slice(3, -4));
+    console.log(stringValue.slice(3, 7));
+
+    console.log(stringValue.substr(3, -4)); // ''； 第二个参数转换为0，第二个参数是表示返回的字符串个数
+
+    console.log(stringValue.substring(3, -4)); // 这个方法会把小的参数放在前面
+
+    // 3.字符串位置方法
+    // indexOf, lastIndexOf   第二个参数表示从哪个位置开始搜索
+
+    // 4.trim 方法（ECMAScript5）
+    // 支持的浏览器 IE9+, Firefox3.5+, Safari5+, Opera10.5+, Chrome
+
+    // 6.字符串的模式匹配方法
+    // 6.1 match 与调用RegExp的exec()方法相同
+    var text = 'cat, bat, sat, fat';
+    var pattern = /.at/;
+
+    var matches = text.match(pattern);
+    console.log(matches); // ["cat", index: 0, input: "cat, bat, sat, fat"]
+    console.log(matches.index);
+    console.log(matches[0]); // 数组的第一项是与整个模式匹配的字符串
+    console.log(pattern.lastIndex);
+
+    // 6.2 search 返回字符串中第一个匹配项的索引
+    var pos = text.search(/at/);
+    console.log(pos);
+
+    // 6.3 replace(RegExp对象 || 字符串(PS:不会被转换成正则表达式), 字符串 || 函数)
+    var result = text.replace('at', 'ond'); // 字符串只会替换第一个子字符串
+    console.log(result);
+
+    result = text.replace(/at/g, 'ond');
+    console.log(result);
+
+    result = text.replace(/(.at)/g, 'world 【$1】');
+    console.log(result);
+
+    function htmlEscape(text) {
+        return text.replace(/[<>"&]/g, function (match, pos, originalText) {
+            switch (match) {
+                case "<":
+                    return "&lt;";
+                case ">":
+                    return "&gt;";
+                case "&":
+                    return "&amp;";
+                case "\"":
+                    return "&quot;";
+            }
+        });
+    }
+    console.log(htmlEscape("<p class=\"greeting\">Hello world!</p>"));
+
+    // split 第二个参数用于指定数组的大小
+    var colorText = 'red,blue,green,yellow';
+    var colors1 = colorText.split(',');
+    var colors2 = colorText.split(',', 2);
+    var colors3 = colorText.split(/[^\,]+/); // ["", ",", ",", ",", ""]
+    console.log(colors1, colors2, colors3);
+
+    // 7.localeCompare()
+    var stringValue2 = 'yellow';
+    console.log(stringValue2.localeCompare('brick'));
+    console.log(stringValue2.localeCompare('yellow'));
+    console.log(stringValue2.localeCompare('zoo'));
+
+    // str1 - st2 > 0 ?
+    // 区分大小写
+    function determineOrder(str1, str2) {
+        var result = str1.localeCompare(str2);
+        var order = (result < 0) ? 'before' : ((result > 0) ? 'after' : 'equal');
+        console.log('The string "' + str1 + '" comes ' + order + ' the string "' + str2 + '".');
+    }
+    determineOrder('yellow', 'brick');
+    determineOrder('yellow', 'yellow');
+    determineOrder('yellow', 'zoo');
+
+    // 8.fromCharCode()方法, 与charCodeAt()执行的是相反的操作
+    console.log(String.fromCharCode(104, 101, 108, 108, 111)); // 'hello'
+
+</script>
+</body>
+</html>

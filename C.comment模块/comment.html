@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>评论模块</title>
+    <style>body { background: #000; font: 12px/1 "Microsoft Yahei", Arial, Helvetica, sans-serif; }
+* { margin: 0; padding: 0; }
+ul { list-style: none; }
+a { text-decoration: none; }
+em { font-style: normal; }
+h1, h2, h3, h4, h5, h6 { font-weight: normal; font-size: 100%; }
+.fn-clear:after { display: block; visibility: hidden; clear: both; height: 0; content: " "; font-size: 0 }
+.fn-clear { zoom: 1 }
+.fn-left, .fn-right { display: inline }
+.fn-left { float: left }
+.fn-right { float: right }
+.dd { *word-spacing: -1px; /* 所有浏览器 */ letter-spacing: -0.307em; *letter-spacing: normal; font-size: 0; /* IE6、7 */ }
+.dd > * { display: inline-block; *display: inline; overflow: hidden; vertical-align: top; word-spacing: normal; letter-spacing: normal; *zoom: 1; }
+.comment-wrap { margin: 20px auto; padding: 20px; width: 640px; background: #fff; }
+/*comment-title*/
+.comment-title { margin-bottom: 20px; border-bottom: 2px solid #c20c0c; }
+.comment-title h3 { font-size: 20px; line-height: 28px; }
+.comment-title em { display: block; margin: 9px 0 0 20px; color: #666; font-size: 12px; }
+/* 评论框 */
+.comment-join { margin-bottom: 20px; }
+.comment-join .hd { width: 50px; height: 50px; }
+.comment-join .bd { position: relative; margin-left: 70px; }
+.comment-join .textarea { overflow: auto; margin-bottom: 10px; padding: 5px 6px 6px; width: 98%; height: 50px; outline: none; border: 1px solid #cdcdcd; border-radius: 2px; line-height: 19px; resize: none; }
+/* arrow */
+.u-arr .arrline, .u-arr .arrclr, .u-arr .arriner { display: block; height: 10px; font-weight: normal; font-style: normal; font-size: 15px; font-family: "SimSun"; line-height: normal; }
+.u-arr { overflow: hidden; width: 13px; height: 14px; }
+.u-arr .arrline { color: #cdcdcd; }
+.u-arr .arrclr { margin: -10px 0 0 1px; color: #fff; _margin-top: -17px; }
+.comment-join .u-arr { position: absolute; top: 11px; left: -7px; }
+.comment-join .inpuser { padding: 4px 5px; width: 100px; outline: none; border: 1px solid #cdcdcd; font-size: 12px; line-height: 1; }
+.comment-join .submit { margin-left: 5px; padding: 0 5px; background: #3bb4f2; color: #fff; font-size: 12px; line-height: 24px; }
+.comment-item { padding: 10px 0; border-top: 1px dotted #ccc; }
+.comment-avatar { margin: 0 auto; width: 50px; height: 50px; }
+.comment-bd { margin-left: 70px; }
+.comment-content { line-height: 1.5; margin-bottom: 10px; }
+.comment-info { color: #999; }
+    </style>
+  </head>
+</html>
+<body>
+  <div class="comment-wrap">
+    <div class="comment-title fn-clear">
+      <h3 class="fn-left">评论</h3><em class="fn-left">共257条评论</em>
+    </div>
+    <div class="comment-join fn-clear">
+      <div class="hd fn-left"><img src="http://dummyimage.com/50x50" width="50" height="50" alt="头像"></div>
+      <div class="bd">
+        <textarea name="commTextarea" id="j_commTextarea" cols="30" rows="10" placeholder="评论" class="textarea"></textarea>
+        <div class="iptbar fn-right dd">
+          <input type="text" name="commUser" id="j_commUser" placeholder="游客名称" class="inpuser"><a href="javascript:;" class="submit">评论</a>
+        </div>
+        <div class="u-arr"><em class="arrline">◆</em><span class="arrclr">◆</span></div>
+      </div>
+    </div>
+    <ul class="comment-lst">
+      <li class="comment-item fn-clear">
+        <div class="comment-hd fn-left"><a href="javascript:;" class="comment-avatar"><img src="http://dummyimage.com/50x50" width="50" height="50" alt="头像"></a></div>
+        <div class="comment-bd">
+          <p class="comment-content">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, animi
+              consequuntur doloremque, ea fugiat fugit, in maxime modi nulla officiis omnis perspiciatis porro
+              praesentium quisquam sunt ullam veritatis? Dolor, voluptates?
+          </p>
+          <div class="comment-info">
+            <div class="fn-left">
+              <div class="comment-ip">255.255.255.255</div>
+            </div>
+            <div class="fn-right"><span class="comment-time">2月2日 12:27</span></div>
+          </div>
+        </div>
+      </li>
+      <li class="comment-item fn-clear">
+        <div class="comment-hd fn-left"><a href="javascript:;" class="comment-avatar"><img src="http://dummyimage.com/50x50" width="50" height="50" alt="头像"></a></div>
+        <div class="comment-bd">
+          <p class="comment-content">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, animi
+              consequuntur doloremque, ea fugiat fugit, in maxime modi nulla officiis omnis perspiciatis porro
+              praesentium quisquam sunt ullam veritatis? Dolor, voluptates?
+          </p>
+          <div class="comment-info">
+            <div class="fn-left">
+              <div class="comment-ip">255.255.255.255</div>
+            </div>
+            <div class="fn-right"><span class="comment-time">2月2日 12:27</span></div>
+          </div>
+        </div>
+      </li>
+      <li class="comment-item fn-clear">
+        <div class="comment-hd fn-left"><a href="javascript:;" class="comment-avatar"><img src="http://dummyimage.com/50x50" width="50" height="50" alt="头像"></a></div>
+        <div class="comment-bd">
+          <p class="comment-content">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, animi
+              consequuntur doloremque, ea fugiat fugit, in maxime modi nulla officiis omnis perspiciatis porro
+              praesentium quisquam sunt ullam veritatis? Dolor, voluptates?
+          </p>
+          <div class="comment-info">
+            <div class="fn-left">
+              <div class="comment-ip">255.255.255.255</div>
+            </div>
+            <div class="fn-right"><span class="comment-time">2月2日 12:27</span></div>
+          </div>
+        </div>
+      </li>
+      <li class="comment-item fn-clear">
+        <div class="comment-hd fn-left"><a href="javascript:;" class="comment-avatar"><img src="http://dummyimage.com/50x50" width="50" height="50" alt="头像"></a></div>
+        <div class="comment-bd">
+          <p class="comment-content">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, animi
+              consequuntur doloremque, ea fugiat fugit, in maxime modi nulla officiis omnis perspiciatis porro
+              praesentium quisquam sunt ullam veritatis? Dolor, voluptates?
+          </p>
+          <div class="comment-info">
+            <div class="fn-left">
+              <div class="comment-ip">255.255.255.255</div>
+            </div>
+            <div class="fn-right"><span class="comment-time">2月2日 12:27</span></div>
+          </div>
+        </div>
+      </li>
+      <li class="comment-item fn-clear">
+        <div class="comment-hd fn-left"><a href="javascript:;" class="comment-avatar"><img src="http://dummyimage.com/50x50" width="50" height="50" alt="头像"></a></div>
+        <div class="comment-bd">
+          <p class="comment-content">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, animi
+              consequuntur doloremque, ea fugiat fugit, in maxime modi nulla officiis omnis perspiciatis porro
+              praesentium quisquam sunt ullam veritatis? Dolor, voluptates?
+          </p>
+          <div class="comment-info">
+            <div class="fn-left">
+              <div class="comment-ip">255.255.255.255</div>
+            </div>
+            <div class="fn-right"><span class="comment-time">2月2日 12:27</span></div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</body>

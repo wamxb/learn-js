@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>5.2.6操作方法</title>
+</head>
+<body>
+<script type="text/javascript">
+    // concat()方法可以基于当前数组中的所有项创建一个新数组
+    // 先创建当前数组一个副本，然后将接收到的参数添加的这个副本的末尾
+    // 【！】concat()没传参，相当于clone
+
+    var colors = ['red', 'green', 'blue'];
+    var colors2 = colors.concat('yellow', ['black', 'brown']);
+
+    console.log(colors);
+    console.log(colors2);
+    console.log('=======================');
+
+    // slice()方法可以接受一或两个参数，
+    // 返回项的起始和结束位置，不包括结束位置的项
+    // 【！】不影响原始数组
+    // 结束位置<起始位置，返回空数组
+    // 负数用 length+(-num)，比如包含5项的数组，slice(-2, -1) = slice(3, 4)
+    var sliceArr = [1, 2, 3, 4, 5];
+                //  0, 1, 2, 3, 4
+    var sliceArr2 = sliceArr.slice(2, 4);
+    var sliceArr3 = sliceArr.slice(-2, -1);
+    var sliceArr4 = sliceArr.slice(3, 4);
+    var sliceArr5 = sliceArr.slice(2, -1);
+    var sliceArr6 = sliceArr.slice(4, -3);
+    console.log(sliceArr, sliceArr2, sliceArr3, sliceArr4, sliceArr5, sliceArr6);
+    // [1, 2, 3, 4, 5] [3, 4] [4] [4] [3, 4] []
+    console.log('=======================');
+
+    // splice()
+    // 删除: splice(要删除的第一项位置, 要删除的项数)
+    // 插入: splice(起始位置, 0(要删除的项数), 要插入的项)
+    // 替换：splice(起始位置, 要删除的项数, 要插入任意数量的项)
+    var spliceArr = [1, 2, 3];
+    var removed = spliceArr.splice(0, 1);
+    console.log(spliceArr);
+    console.log(removed);
+
+    removed = spliceArr.splice(1, 0, 4, 5);
+    console.log(spliceArr);
+    console.log(removed);
+
+    removed = spliceArr.splice(1, 1, 6, 7);
+    console.log(spliceArr);
+    console.log(removed);
+    console.log('=======================');
+
+
+    var numbers = [1, 2, 3, 4, 5, 4, 3, 2, 1];
+    console.log(numbers.indexOf(4));
+    console.log(numbers.lastIndexOf(4));
+    console.log(numbers.indexOf(2, 4)); // (查找的项，起始位置)
+    console.log(numbers.lastIndexOf(3, 4));
+</script>
+</body>
+</html>

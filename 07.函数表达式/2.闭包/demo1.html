@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>7.2 闭包</title>
+</head>
+<body>
+<script type="text/javascript">
+    function createComparisonFunction(propertyName) {
+        return function (object1, object2) {
+            var value1 = object1[propertyName];
+            var value2 = object2[propertyName];
+            return value1 < value2 ? -1 : (value1 > value2 ? 1 : 0);
+        }
+    }
+
+    // 创建函数
+    var compareName = createComparisonFunction('name');
+
+    // 调用函数
+    var result = compareName({name: 'Nicholas'}, {name: 'Greg'});
+    console.log(result);
+
+    // 解除对匿名函数的引用（以便释放内存）
+    compareName = null;
+
+    /*
+
+     function createFunction() {
+     var result = [];
+     for (var i = 0; i < 10; i++) {
+     result[i] = function () {
+     return i;
+     };
+     }
+     return result;
+     }
+     var funArrs = createFunction();
+
+     console.log(funArrs[0]());
+     */
+
+
+    function createFunction() {
+        var result = [];
+        for (var i = 0; i < 10; i++) {
+            result[i] = function (num) {
+                return function () {
+                    return num;
+                }
+            }(i);
+        }
+        return result;
+    }
+    var funArrs = createFunction();
+
+    console.log(funArrs[0]());
+
+</script>
+</body>
+</html>

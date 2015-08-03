@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>综合</title>
+    <style type="text/css">
+        #div1 { width: 100px; height: 100px; background-color: red; position: absolute; }
+    </style>
+</head>
+<body>
+<div id="div1"></div>
+<script type="text/javascript">
+
+    +(function (exports) {
+        var Drag = exports.Drag = function () {
+
+        };
+
+        var disX = 0;
+        var disY = 0;
+
+        /*oDiv.onmousedown = function (event) {
+         var e = event || window.event;
+         disX = e.clientX - oDiv.offsetLeft;
+         disY = e.clientY - oDiv.offsetTop;
+
+         // IE8之前的版本，选中有bug
+         // setCapture：全局捕获（就是生成了一个透明的层）
+         oDiv.setCapture && oDiv.setCapture();
+
+         document.onmousemove = function (event) {
+         var e = event || window.event;
+         oDiv.style.left = e.clientX - disX + 'px';
+         oDiv.style.top = e.clientY - disY + 'px';
+         };
+
+         document.onmouseup = function () {
+         document.onmousemove = null;
+         document.onmouseup = null;
+         oDiv.releaseCapture && oDiv.releaseCapture();
+         startMove();
+         };
+
+         return false;
+         };
+
+         var timer = null;
+         var iSpeed = 0;
+         var bounded = document.documentElement.clientHeight - oDiv.offsetHeight;
+
+         function startMove() {
+         clearInterval(timer);
+
+         timer = setInterval(function () {
+         iSpeed += 3;
+         (oDiv.offsetTop == bounded) && (iSpeed > 0) && clearInterval(timer);
+         var T = oDiv.offsetTop + iSpeed;
+         if (T > bounded) {
+         T = bounded;
+         iSpeed *= -0.75
+         }
+         oDiv.style.top = T + 'px';
+         }, 30);
+         }*/
+
+    })(window.NS = window.NS || {});
+
+
+    var oDiv = document.getElementById('div1');
+</script>
+</body>
+</html>

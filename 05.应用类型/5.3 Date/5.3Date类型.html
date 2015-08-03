@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>5.3Date类型</title>
+</head>
+<body>
+<script type="text/javascript">
+    // 如果不调用Date.parse()，也会在后台调用Date.parse()
+    var someDate = new Date(Date.parse('May 25, 2004'));
+    console.log(someDate);
+
+    var y2k = new Date(2000, 0);
+    console.log(y2k);
+
+    // ECMAScript5 添加了Data.now()方法 IE9+,Firefox3+,Safari3+,Opera10.5,Chrome
+    var start = Date.now();
+    // 调用函数
+    //... doSomething();
+    var stop = Date.now(),
+            result = stop - start;
+    console.log('result: ' + result);
+
+    // 不支持的浏览器中
+    var star1 = +new Date();
+    // 调用函数
+    //... doSomething();
+    var stop1 = +new Date();
+    console.log(stop1 - star1);
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>widget.scrollTop</title>
+	<style>
+		#goTopBtn { position: fixed; top: 50%; right: 0; background: #000; color: #fff; display: block; width: 25px; padding: 5px 0; text-align: center; }
+	</style>
+</head>
+<body>
+<div style="height: 2000px; background: #eee;"></div>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+function gotoTop() {
+	var $goTopBtn = $('<a id="goTopBtn">返回顶部</a>');
+	$('body').append($goTopBtn);
+	$goTopBtn.click(function () {
+	    $('html,body').animate({scrollTop: 0}, 500)
+	});
+	$(window).on('scroll.YM', function () {
+	    throttle(scrollHandler, this);
+	});
+	function scrollHandler() {
+	    var sTop = $(window).scrollTop();
+	    sTop > 50 ? $goTopBtn.fadeIn('slow') : $goTopBtn.hide();
+	}
+	function throttle(method, context) {
+	    clearTimeout(context.tId);
+	    context.tId = setTimeout(function () {
+	        method.call(context);
+	    }, 200);
+	}
+}
+gotoTop();
+</script>
+</body>
+</html>

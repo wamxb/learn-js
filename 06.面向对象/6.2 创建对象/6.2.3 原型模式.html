@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>6.2.3 原型模式</title>
+</head>
+<body>
+<script type="text/javascript">
+    // 我们创建的每个函数都有一个prototype（原型）属性，这个属性是一个指针，指向一个对象
+    // 这个对象的用途是包含可以由特定类型的【所有实例共享】的属性和方法
+    function Person() {
+        this._name = 'testName';
+    }
+    Person.prototype.name = 'Nicholas';
+    Person.prototype.age = 29;
+    Person.prototype.job = 'Software Engineer';
+    Person.prototype.sayName = function () {
+        console.log(this.name);
+    };
+
+    var person1 = new Person();
+    person1.sayName();
+    var person2 = new Person();
+    person2.sayName();
+    console.log(person1.sayName == person2.sayName);
+
+    // 虽然在所有实例中都无法访问到[[Prototype]]，但可以通过isPrototypeOf()方法来确定对象之间是否存在这种关系
+    console.log(Person.prototype.isPrototypeOf(person1));
+    console.log(Person.prototype.isPrototypeOf(person2));
+
+    // ECMAScript5增加了Object.getPrototypeOf()这个方法返回[[Prototype]]
+    console.log(Object.getPrototypeOf(person1) == Person.prototype);
+    console.log(Object.getPrototypeOf(person1).name);
+
+    person1.age = 30;
+    console.log(person1.age);
+    console.log(person2.age);
+
+    delete person1.age;
+    console.log(person1.age);
+
+    // hasOwnProperty()方法可以检测一个属性是存在于实例中，还是存在原型中。
+    // 存在于对象实例中，才返回true
+    console.log(person1.hasOwnProperty('age'));
+
+    // 2.原型与in操作符
+    // in操作符会在通过对象能够访问给定属性时返回true
+    console.log('name' in person1);
+
+    /**
+     * 确定是否在原型上
+     * @param object
+     * @param name
+     * @returns {boolean}
+     */
+    // for-in ,返回的所有能够通过对象访问的，可枚举属性
+    function hasPrototypeProperty(object, name) {
+        return !object.hasOwnProperty(name) && (name in object);
+    }
+    console.log(hasPrototypeProperty(person1, 'name'));
+
+
+    var o = {
+        toString: function () {
+            return 'My object';
+        }
+    };
+
+    for (var prop in o) {
+        if (prop == 'toString') {
+            console.log('Found toString'); // IE早期版本中不会显示（IE6未测试，可能是IE6）
+        }
+    }
+
+    // ECMAScript5 Object.keys(对象)，返回一个包含所有可枚举属性的字符串数组
+    console.log(Object.keys(Person.prototype)); // ["name", "age", "job", "sayName"]
+    console.log(Object.keys(Person));   // []
+
+
+    // 【！】每创建一个函数，就会同时创建它的prototype对象。
+    function Person2() {
+    }
+    Person2.prototype = {
+        constructor: Person2, // 这样写导致它的[[Enumerable]]特性被设置为true
+        name: 'Nicholas',
+        age: 29,
+        job: 'Software Engineer',
+        sayName: function () {
+            console.log(this.name);
+        }
+    };
+
+    function Person3() {
+    }
+
+    Person3.prototype = {
+        name: 'Nicholas',
+        age: 29,
+        job: 'Software Engineer',
+        sayName: function () {
+            console.log(this.name);
+        }
+    };
+
+    // 重设构造函数，只适用于ECMAScript5兼容的浏览器
+    Object.defineProperty(Person3.prototype, "constructor", {
+        enumerable: false,
+        value: Person3
+    });
+
+    // 4.原型的动态性
+    // 对原型对象所做的任何修改都能立即从实例上反映出来（实例与原型之间的松散连接关系，实例与原型之间的连接只不过是一个指针，而非一个副本）
+    // 【！】实例中的指针仅指向原型，而不指向构造函数
+    var friend = new Person3();
+    Person3.prototype.sayHi = function () {
+        console.log('hi');
+    };
+    friend.sayHi();
+
+</script>
+</body>
+</html>

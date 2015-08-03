@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>test</title>
+</head>
+<body>
+<a id="myLink" href="http://www.baidu.com/">http://www.baidu.com/</a>
+<button id="myBtn"></button>
+<script src="../E.Event/EventUtil.js"></script>
+<script type="text/javascript">
+    var link = document.getElementById("myBtn");
+    link.onclick = function (event) {
+        alert('myBtn clicked');
+        event = EventUtil.getEvent(event);
+        //EventUtil.stopPropagation(event);
+    };
+    document.body.onclick = function (event) {
+        alert('body clicked');
+    };
+</script>
+</body>
+</html>

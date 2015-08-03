@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>demo1</title>
+</head>
+<body>
+<h1><code>setTimeout</code></h1>
+
+<h2>1、未使用 <code>setTimeout</code></h2>
+<button id="makeinput">生成 input</button>
+<p id="inpwrapper"></p>
+
+
+<h2>2、使用 <code>setTimeout</code></h2>
+<button id="makeinput2">生成 input</button>
+<p id="inpwrapper2"></p>
+
+
+<h2>3、另一个例子</h2>
+
+<p>
+    <input type="text" id="input" value=""/><span id="preview"></span>
+</p>
+
+<script type="text/javascript">
+    window.onload = function () {
+        var makeBtn = get('makeinput');
+        //观察onmouseXXX系完成整个单击的顺序
+        makeBtn.onmousedown = function (e) {
+            console.log(e.type);
+            var input = document.createElement('input');
+            input.setAttribute('type', 'text');
+            input.setAttribute('value', 'test1');
+            get('inpwrapper').appendChild(input);
+            input.onfocus = function () {
+                console.info('input focus');
+            };
+            /*input.focus();
+             input.select();*/
+            //我们加上setTimeout，看看会发生什么
+            setTimeout(function () {
+                input.focus();
+                input.select();
+            });
+        };
+        makeBtn.onclick = function (e) {
+            console.log(e.type);
+        };
+        makeBtn.onmouseup = function (e) {
+            console.log(e.type);
+        };
+        makeBtn.onfocus = function () {//观察我们生成按钮什么时候获取焦点的
+            console.log('makeBtn focus');
+        }
+    };
+
+    // mousedown => input focus => makeBtn focus => mouseup => click
+    // setTimeout  mousedown => makeBtn focus => input focus => mouseup => click
+
+    function get(id) {
+        return document.getElementById(id);
+    }
+</script>
+</body>
+</html>

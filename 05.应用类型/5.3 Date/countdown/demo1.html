@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>demo1</title>
+</head>
+<body>
+<div id="show"></div>
+<script type="text/javascript">
+    window.onload = function () {
+        showTime();
+    };
+
+    function showTime() {
+        var date = new Date();
+        var Y = date.getFullYear();
+        var M = date.getMonth() + 1;
+        var D = date.getDate();
+        var d = date.getDay();
+        var h = date.getHours();
+        var m = date.getMinutes();
+        var s = date.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+
+        var weekday = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+        document.getElementById('show').innerHTML = Y + '年' + M + '月' + D + '日' + weekday[d] + h + ':' + m + ':' + s;
+        setTimeout(showTime, 500);
+    }
+
+    function checkTime(i) {
+        if (i < 10) {
+            i = '0' + i;
+        }
+        return i;
+    }
+</script>
+</body>
+</html>

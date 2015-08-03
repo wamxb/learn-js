@@ -1,0 +1,91 @@
+
+<meta charset="utf-8" />
+<link href="{baseUrl}template/himarketwap/MainPage.css?{ lang timestamp }" type="text/css"
+	rel="Stylesheet">
+<div class="main">
+	<div id="mainHeader"></div>
+	<div id="mainNav" class="nav_menu"></div>
+	<div id="mainAppList"></div>
+	<footer class="footer">		
+	</footer>
+</div>
+
+<!-- 头部模板 -->
+<script id="mainHeaderTpl" type="text/template">
+	<section class="logo_sec">
+		<div></div>	
+	</section>
+	<div class="searchbox">
+		<input type="text" class="s_text" id="search_txt" maxlength="25" />
+		<div id="btn_search" class="btn_search">
+			<div></div>
+		</div>
+		<div class="z"></div>
+	</div>
+	<section style="text-align: center;">
+		<div class="main_mid_logo"></div>	
+		<br />
+		<a class="down_c" id="hiMarketApp">
+			<div class="font_box">
+				<div  class="down_client">{ lang downClient }</div>
+				<div class="t_version" id="hiMarketVersion"></div>
+			</div> 
+		</a>
+	</section>
+
+</script>
+
+
+<!-- 菜单栏模板 -->
+<script id="mainNavTpl" type="text/template">
+	<nav>
+	<ul>
+		<li>					
+			<a url="#ranking">
+				<div class="mainIcon mainIcon_ramking"></div>	
+				<div class="list_title">
+					{ lang nav_ranking }
+				</div> 
+			</a>
+		</li>		
+		<li>
+		<a url="#category">
+				<div class="mainIcon mainIcon_category"></div>
+				<div class="list_title">
+					{ lang nav_category }
+				</div> </a>
+		</li>
+		<li>
+			<a url="#topic"> 
+				<div class="mainIcon mainIcon_topic"></div>
+				<div class="list_title">
+					{ lang nav_topic }
+				</div> </a>
+		</li>
+		<li>
+			<a url="#weekly"> 
+				<div class="mainIcon mainIcon_weekly"></div>
+				<div class="list_title">
+					{ lang nav_weekly }
+				</div> </a>
+		</li>
+	</ul>
+	<div class="z"></div>
+	</nav>
+
+</script>
+
+<!-- 应用框架模板 -->
+<script id="mainAppTpl" type="text/template">
+	<section>
+	<div class="header_box">
+		<header class="list_header">
+		{ lang title_boutique }
+		</header>
+	</div>
+	<div class="main_itemlist">
+		
+	</div>
+
+	</section>
+</script>

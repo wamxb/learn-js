@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>5.5.4 函数内部属性</title>
+</head>
+<body>
+<script type="text/javascript">
+    // arguments
+    function factorial(num) {
+        if (num <= 1) {
+            return 1;
+        } else {
+//            return num * factorial(num - 1);
+            // 解除函数体内的代码与函数名的耦合状态
+            return num * arguments.callee(num - 1);
+        }
+    }
+
+    var trueFactorial = factorial;
+
+    factorial = function () {
+        return 0;
+    };
+
+    console.log(trueFactorial(5));
+
+
+    // caller(arguments。callee.caller)保存着调用当前函数的函数引用
+    // 如果是在全局作用域中调用当前函数，它的值为null
+
+    function outer() {
+        inner();
+    }
+    function inner() {
+//        console.log(inner.caller);
+        console.log(arguments.callee.caller);
+    }
+    outer();
+
+    // 【！】严格模式下，访问arguments.callee报错，
+    // arguments.caller报错，非严格模式下始终是undefined
+    // 不能为函数的caller属性赋值，否则报错
+</script>
+</body>
+</html>

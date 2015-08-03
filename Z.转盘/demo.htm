@@ -1,0 +1,417 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=0.5, minimum-scale=0.5,  maximum-scale=0.5, user-scalable=0" />
+	<!--<meta name="viewport" content="width=device-width; initial-scale=0.5; minimum-scale=0.5; maximum-scale=0.5; user-scalable=0" />-->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-touch-fullscreen" content="yes"/>
+	<meta name="format-detection" content="telephone=no, email=no">
+	<meta name="author" content="f2e:z || add:2013.11.30 || modify:" />
+	<title>欢乐大抽奖</title>
+	<style>
+/*reset
+*********************************************************/
+	html, body, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ul, ol, li, form, fieldset, button, input, textarea { margin: 0; padding: 0; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-text-size-adjust: none; }
+	input[type="text"], input[type="password"], input[type="tel"], textarea { -webkit-user-select: text; }
+	body, button, input, select, textarea { font: 24px "Helvetica Neue",Helvetica,Arial,Sans-serif; -webkit-font-smoothing: antialiased; }
+	h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: normal; }
+	ul, ol, li { list-style: none; }
+	a { text-decoration: none; }
+	img { border: 0; }
+	button, input[type="button"], input[type="text"], input[type="password"], input[type="tel"], input[type="submit"], select, textarea { font-size: 100%; -webkit-appearance: none; }
+	button, input, select, textarea, label, a { -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+
+
+/*wrap
+*********************************************************/
+	em { font-style: normal; }
+	body { background: #f8f8f8; }
+		.wrap {
+			position: relative;
+			-webkit-box-sizing: border-box;
+			width: 640px;
+			margin: 0 auto;
+			padding: 92px 20px 20px;
+			}
+
+
+/*转盘
+*********************************************************/
+	.turnplate {
+		position: relative;
+		overflow: hidden;
+		-webkit-box-sizing: border-box;
+		width: 600px;
+		height: 600px;
+		margin: 0 auto 20px;
+		padding: 4px;
+		border: 14px solid #ffc202;
+		background: #fff;
+		box-shadow: 0 3px 3px 1px rgba(0, 0, 0, .15);
+		}
+		.turnplate ul { position: relative; }
+			.award li {
+				position: absolute;
+				width: 140px;
+				height: 140px;
+				}
+			/*===== 转盘的奖品有背景色 =====*/
+			.turnplate li { background-color: #fff0aa; }
+			/*li定位*/
+			.i0 { top: 0; left: 0; }
+			.i1 { top: 0; left: 141px; }
+			.i2 { top: 0; left: 282px; }
+			.i3 { top: 0; left: 423px; }
+			.i4 { top: 141px; left: 423px; }
+			.i5 { top: 282px; left: 423px; }
+			.i6 { top: 423px; left: 423px; }
+			.i7 { top: 423px; left: 282px; }
+			.i8 { top: 423px; left: 141px; }
+			.i9 { top: 423px; left: 0; }
+			.i10 { top: 282px; left: 0; }
+			.i11 { top: 141px; left: 0; }
+
+			/*奖品 图案说明& 方便修改*/
+			.i0 { background-image: url(images/award_01.png); }
+			.i1 { background-image: url(images/award_02.png); }
+			.i2 { background-image: url(images/award_03.png); }
+			.i3 { background-image: url(images/award_04.png); }
+			.i4 { background-image: url(images/award_05.png); }
+			.i5 { background-image: url(images/award_06.png); }
+			.i6 { background-image: url(images/award_07.png); }
+			.i7 { background-image: url(images/award_08.png); }
+			.i8 { background-image: url(images/award_09.png); }
+			.i9 { background-image: url(images/award_10.png); }
+			.i10 { background-image: url(images/award_11.png); }
+			.i11 { background-image: url(images/award_12.png); }
+			
+				/*===== 转盘运行过程，以及停止时i的样式 =====*/
+				.run,
+				.ret {
+					position: absolute;
+					top: 0;
+					right: 0;
+					bottom: 0;
+					left: 0;
+					background: rgba(0, 0, 0, .2);
+					}
+
+
+/*抽奖按钮 #bfbfbf
+*********************************************************/
+	/*黄色背景*/
+	.turnplate ul:before {
+		content: "";
+		position: absolute;
+		top: 141px;
+		left: 141px;
+		width: 281px;
+		height: 281px;
+		background: #fdf9d9;
+		}
+	/*绿色 按钮*/
+	.btn {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin: -115px 0 0 -115px;
+		width: 230px;
+		height: 230px;
+		border-radius: 10px;
+		-webkit-box-shadow: inset 0 -5px 0 rgba(0, 0, 0, .1);
+		background: #1ebc7e;
+		text-align: center;
+		color: #fff;
+		line-height: 1;
+		text-shadow: 0 -1px 0 rgba(0, 0, 0, .3);
+		cursor: pointer;
+		}
+		.disabled { background: #969696; cursor: default; }
+
+		.btncon b {
+			margin: 64px 0 20px;
+			display: block;
+			font-size: 48px;
+			}
+		.btntxt1 em { margin: 0 10px; }
+
+		.btntxt2 {
+			margin-top: 10px;
+			font-size: 20px;
+			font-style: normal;
+			display: none;
+			}
+
+
+/*人数
+*********************************************************/
+	.sum {
+		margin-bottom: 20px;
+		text-align: right;
+		font-size: 22px;
+		color: #6f757a;
+		}
+		.sum em { margin: 0 8px; color: #ff6400; }
+
+
+/*规则等
+*********************************************************/
+	.box {
+		-webkit-box-sizing: border-box;
+		margin-bottom: 20px;
+		padding: 0 20px 20px;
+		border: 1px solid #d2d2d2;
+		background: #fff;
+		}
+		.box h2 {
+			margin-bottom: 20px;
+			border-bottom: 1px solid #bfbfbf;
+			line-height: 62px;
+			font-size: 28px;
+			color: #103749;
+			}
+		/*好运大奖名单*/
+		.gewinnen {
+			position: relative;
+			height: 252px;
+			overflow: hidden;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+			}
+			.item1 ul {
+					position: absolute;
+					left: 0;
+					}
+				.item1 li { line-height: 42px; color: #6f757a; }
+					.item1 li b {
+						margin: 0 6px;
+						font-weight: normal;
+						color: #323232;
+						}
+					.item1 li em { margin: 0 10px; color: #0082c8; }
+
+		/*活动规则*/
+		.item2 li { line-height: 42px; color: #313131; }
+		/*抽奖小贴士*/
+		.item3 p { line-height: 42px; }
+			.item3 em { letter-spacing: -1px; color: #0082c8; }
+
+
+/*声明
+*********************************************************/
+	.footer {
+		margin-bottom: 30px;
+		text-align: center;
+		font-size: 22px;
+		color: #6f757a;
+		line-height: 1.5;
+		}
+
+
+/*dialog
+*********************************************************/
+.gDialog { position: fixed; }
+	.gDialog-wrap {
+		position: relative;
+		-webkit-box-sizing: border-box;
+		background-clip: padding-box;
+		border: 14px solid #ffaf08;
+		background: #fff;
+		box-shadow: 0 0 3px rgba(0, 0, 0, .3);
+		text-align: center;
+		}
+	.gDialog-header {
+		margin: 20px 0 16px;
+		line-height: 1;
+		font-size: 30px;
+		color: #323232;
+		}
+	.gDialog-content {
+		position: relative;
+		margin: 0 auto 25px;
+		overflow: hidden;
+		}
+	.gDialog-footer {
+		margin: 0 0 20px;
+		font-size: 0;
+		}
+		.gDialog-footer a {
+			vertical-align: top;
+			display: inline-block;
+			width: 180px;
+			height: 60px;
+			line-height: 60px;
+			font-size: 26px;
+			color: #fff;
+			}
+	.gDialog-cancel { background: #ff6500; margin-right: 36px; }
+	.gDialog-ok { background: #31adde; }
+	.gDialog-disable { background: #969696; cursor: default; }
+.gDialog-mask {
+	position: fixed;
+	_position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, .5);
+	}
+
+	/*显示奖品*/
+	.gDialog-content div {
+		margin: 0 auto;
+		width: 140px;
+		height: 140px;
+		}
+	/*镐头不足*/
+	.gDialog-tip2 { background: url(images/sorry.png) no-repeat 50% 50%; }
+
+
+/*用户信息
+*********************************************************/
+.userbar {
+	display: -webkit-box;
+	-webkit-box-align: center;
+	-webkit-box-pack: justify;
+	-webkit-box-sizing: border-box;
+	position: fixed;
+	_position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	height: 72px;
+	line-height: 72px;
+	padding: 0 20px;
+	background: #fff;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+	}
+	.userbar * { display: block; }
+	.userbar img {
+		width: 50px;
+		height: 50px;
+		margin-right: 10px;
+		border-radius: 6px;
+		}
+	.userbar b,
+    .login-btn {
+		margin-right: 20px;
+		font-weight: normal;
+		font-size: 28px;
+		color: #3c3c3c;
+		}
+    .login-btn {
+        color: #06c;
+    }
+	.userbar em {
+		-webkit-box-flex: 1;
+		padding-left: 40px;
+		background: url(images/gt_icon.png) no-repeat 0 50%;
+		font-size: 30px;
+		}
+    .rule {
+		width: 120px;
+		height: 60px;
+		line-height: 60px;
+        padding-left: 30px;
+        background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAZCAYAAAArK+5dAAACUUlEQVRIia3WDaSXZxjH8c/9dCq96U2iUk0bR7FleqW3k0qCxqATW9HNVkhg0quIEDqC0B0J1VaJMnZoq80YmbUcTKY3HB0tOzo6Nf+zukN/cpzn33Pi/ADu3/37Xs/Fc19XyDlrqBgWYRNWoBljAF3oQDvOSvlRo4hQCohhCdqwuDEdQB9OYb+Un7wbEEOBQ9iLAHiAK7iFxxiJmViODRgF+AetUv6xHBDDMJzBZsB97MYFqUEfY5iAPdhZB/fhSymfLwMcwy7ABWyV8vPS4IGg+biKGXXIGin/8hYQwwZ8DziJrwZU/eYLN+OOlG+WQKbjV8xGJ+ZJ+WkhhiYcB/yGHQ1ashFncK0O66+UO/EZapiOfVBgE+Yg1yv/v0Ej7uEF/pLyy1JHyrfRBtguhokFtgAuS7mjQTgp/4lJWNrQAxxFDWPweYGVgHMVF0n5Pym/qvA8QTtgfYHhgBuVgBiSGH6q9PEz4NMC0FP2F5ZoG1rEMLbC9zdgVgHoHkQ4ADRVnPcAigIw6T0BVRoPeFUAxolh6hACPgI8LFADrB5CwCrAHwWuA1qHJPpNJ9YBfihwGtAihrlDgPgGw9GLSwUu4i7GYlrF5X9Rw7PS0xgWYCfghJS7i/rbswLrpHytArAEq0vfqxhm4jKa0InDlI3MGLagGUek3GMwimEhrmKq0nnQ39yL0ejEbnwn5ZoyxTAFB/A1mtCHL6T8LUAZYD8OYhigC+34HY8R8AGWYS1GACpmcn/Ix2hDS2nl/fUeW8VA0CdoxSp8iMmALgxqL3oNrdvYwEzJRhEAAAAASUVORK5CYII=") no-repeat left center;
+        color: #3c3c3c;
+		}
+
+
+</style>
+</head>
+<body>
+<div class="wrap">
+	<div class="turnplate" id="turnplate">
+		<ul class="award" id="awardBar">
+			<li class="i0"><i></i></li>
+			<li class="i1"><i></i></li>
+			<li class="i2"><i></i></li>
+			<li class="i3"><i></i></li>
+			<li class="i4"><i></i></li>
+			<li class="i5"><i></i></li>
+			<li class="i6"><i></i></li>
+			<li class="i7"><i></i></li>
+			<li class="i8"><i></i></li>
+			<li class="i9"><i></i></li>
+			<li class="i10"><i></i></li>
+			<li class="i11"><i></i></li>
+		</ul>
+		<div class="btn" id="btn">
+			<div class="btncon" id="btnCon">
+				<b>我要中奖</b>
+				<div class="btntxt2" id="btnTxt1">抽奖机会:<em>2000</em>次</div>
+				<div class="btntxt1" id="btnTxt2">每次需要10镐头</div>
+			</div>
+		</div>
+	</div>
+	<div class="sum" id="sum">· 目前共<em data-add="1">237676</em>人参加</div>
+	<div class="item1 box">
+		<h2>好运大奖名单</h2>
+		<div id="gewinnen" class="gewinnen">
+			<ul>
+				<li>恭喜<b>曹文强</b>抽中<em>10元手机充值话费</em></li>
+				<li>恭喜<b>小鱼仔仔</b>抽中<em>100元京东卡</em></li>
+				<li>恭喜<b>五阿哥与小燕子</b>抽中<em>10枚钻石</em></li>
+				<li>恭喜<b>曹文大大强</b>抽中<em>200枚钻石</em></li>
+				<li>恭喜<b>小虾米啊大虾米</b>抽中<em>200枚钻石</em></li>
+				<li>恭喜<b>奶茶mm</b>抽中<em>10枚钻石</em></li>
+			</ul>
+		</div>
+	</div>
+	<div class="footer">
+		本活动最终解释权归搞趣网所有<br>与苹果公司无关
+	</div>
+    <!-- 已登录 -->
+<!--	<div class="userbar">
+		<img src="" alt="" width="50" height="50">
+		<b>name</b>
+		<em>111</em>
+        <a class="rule" href="javascript:;">抽奖规则</a>
+	</div>-->
+    <!-- 未登录 -->
+	<div class="userbar">
+		<img src="" alt="" width="50" height="50">
+        <a class="login-btn" href="javascript:;">点击登录</a>
+		<em>111</em>
+        <a class="rule" href="javascript:;">抽奖规则</a>
+	</div>
+</div>
+
+<script>window.jQuery || document.write('<script src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"><\/script>')</script>
+<script type="text/javascript" src="Dialog.js"></script>
+<script type="text/javascript" src="Turn.js"></script>
+<script type="text/javascript">
+
+	;(function ($){
+		//========================================================
+		// @fun:    中奖名单 滚动事件
+		// @desc:   liHeight{Number} 【根据实际情况修改】
+		// @add:    2013.11.28
+        // @modify: 2013.12.04
+		//========================================================
+		var gewinnenCon = $('#gewinnen'),
+				scrtime;
+        function winSlide() {
+            scrtime = setInterval(function(){
+                var $ul = gewinnenCon.find('ul');
+                var liHeight = 42;
+                $ul.animate(
+                        {marginTop : liHeight+10 +"px"},
+                        1000,
+                        function(){
+                            $ul.find("li:last").prependTo($ul);
+                            $ul.find("li:first").hide();
+                            $ul.css({marginTop:0});
+                            $ul.find("li:first").fadeIn(1000);
+                        });
+            }, 5000);
+        }
+        winSlide();
+
+	})(jQuery || Zepto);
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>module.nav</title>
+	<style>
+* { margin: 0; padding: 0; }
+ul { list-style: none; }
+a, a:hover { text-decoration: none; }
+.f-cb:after, .f-cbli li:after { display: block; visibility: hidden; clear: both; overflow: hidden; height: 0; content: "."; }
+.f-cb, .f-cbli li { zoom: 1; }
+.container { margin: 0 auto; padding: 0 6px; width: 1000px; }
+.row { margin: 0 -6px; *zoom: 1; }
+.row:before,
+.row:after { display: table; content: ""; }
+.row:after { clear: both; }
+
+#nav { background: #005197; position: relative; overflow: visible; z-index: 1000; }
+#nav:after { content: ""; top: 35px; width: 100%; left: 0; height: 45px; background: rgba(255,255,255,.01); position: absolute; }
+#nav ul { position: relative; overflow: visible; }
+#nav li { display: inline; float: left; width: 130px; }
+#nav li > a { display: block; height: 35px; color: #fff; text-align: center; font-size: 13px; line-height: 35px; }
+#nav li:hover,
+#nav li.active { background: #096cc1; }
+#nav li.active .subnav { display: block; }
+#nav .subnav { position: absolute; top: 35px; z-index: 11; display: none; overflow: hidden; font-size: 0; }
+#nav .subnav a { display: inline-block; padding:10px; color: #515151; font-size: 12px; }
+#nav .subnav a:hover,
+#nav .subnav a:active { color: #096cc1; text-decoration: underline; }
+	</style>
+</head>
+<body>
+	<div id="nav">
+        <div class="container">
+            <ul class="row f-cb">
+                <li><a href="#" title="首页">首页</a></li>
+                <li class="active">
+                    <a href="#" title="菜单1">菜单1</a>
+                    <div class="subnav">
+                        <a href="" title="二级菜单1">二级菜单1</a>
+                        <a href="" title="二级菜单1">二级菜单1</a>
+                        <a href="" title="二级菜单1">二级菜单1</a>
+                        <a href="" title="二级菜单1">二级菜单1</a>
+                        <a href="" title="二级菜单1">二级菜单1</a>
+                        <a href="" title="二级菜单1">二级菜单1</a>
+                        <a href="" title="二级菜单1">二级菜单1</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" title="菜单2">菜单2</a>
+
+                    <div class="subnav">
+                        <a href="" title="二级菜单2">二级菜单2</a>
+                        <a href="" title="二级菜单2">二级菜单2</a>
+                        <a href="" title="二级菜单2">二级菜单2</a>
+                    </div>
+                </li>
+                <li><a href="#" title="菜单3">菜单3</a></li>
+                <li><a href="#" title="菜单4">菜单4</a></li>
+                <li>
+                    <a href="#" title="菜单5">菜单5</a>
+                    <div class="subnav">
+                        <a href="" title="二级菜单5">二级菜单5</a>
+                        <a href="" title="二级菜单5">二级菜单5</a>
+                        <a href="" title="二级菜单5">二级菜单5</a>
+                        <a href="" title="二级菜单5">二级菜单5</a>
+                        <a href="" title="二级菜单5">二级菜单5</a>
+                        <a href="" title="二级菜单5">二级菜单5</a>
+                        <a href="" title="二级菜单5">二级菜单5</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" title="菜单6">菜单6</a>
+                    <div class="subnav">
+                        <a href="" title="二级菜单6">二级菜单6</a>
+                        <a href="" title="二级菜单6">二级菜单6</a>
+                        <a href="" title="二级菜单6">二级菜单6</a>
+                        <a href="" title="二级菜单6">二级菜单6</a>
+                        <a href="" title="二级菜单6">二级菜单6</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="banner" style="position: relative; overflow:hidden; zoom: 1;">
+    <!-- <textarea name="" id="" cols="30" rows="10" style="width: 100%; height: 338px; position: absolute; top: 0; left: 0; margin-top:1px;z-index: -1;"></textarea> -->
+        <!-- <img src="http://dummyimage.com/1442x338" width="1442" height="338" alt="" style="vertical-align: top; display: block;" /> -->
+        <img src="http://dummyimage.com/1442x338" width="1442" height="338" alt="" />
+        <!--<img src="http://dummyimage.com/300x300" width="300" height="300" style="margin-left: 700px;" alt=""/>-->
+        <div style="height: 500px; background: #000;"></div>
+        <!-- <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div> -->
+    </div>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script>
+    (function ($, win, undefined) {
+    var activeCls = 'active';
+    var $nav = $('#nav');
+    var $cur = $nav.find('li.' + activeCls);
+    var ulW = $nav.find('ul:eq(0)').width();
+
+    hoverHandler($cur);
+    $nav.find('li').hover(function () {
+        hoverHandler($(this));
+    }, function () {
+        hoverHandler($cur);
+    });
+
+    function hoverHandler(obj) {
+        obj.addClass(activeCls)
+            .siblings().removeClass(activeCls);
+        var $sub = obj.find('.subnav');
+        if (!$sub.length) return;
+
+        var p = obj.position();
+        var w = obj.width();
+        var l = p.left;
+        var r = ulW - l - w;
+        var dist = 0;
+        var direct;
+
+        if (l < r) {
+            direct = 'left';
+            dist = l;
+        } else {
+            direct = 'right';
+            dist = r;
+        }
+
+        dist = dist + w / 2 - $sub.width() / 2;
+        $sub.css(direct, dist > 0 ? dist : 0);
+    }
+})(window.jQuery, window);
+  </script>
+</body>
+</html>

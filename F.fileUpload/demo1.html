@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="email=no"/>
+    <title>fileUpload</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <style type="text/css">
+        .fileUpload { position: relative; overflow: hidden; margin: 10px; }
+        .fileUpload input.upload { position: absolute; top: 0; right: 0; margin: 0; padding: 0; font-size: 20px; cursor: pointer; opacity: 0; filter: alpha(opacity=0); }
+    </style>
+</head>
+<body>
+<input id="uploadFile" placeholder="Choose File" disabled="disabled"/>
+
+<div class="fileUpload btn btn-primary">
+    <span>Upload</span>
+    <input id="uploadBtn" type="file" class="upload"/>
+</div>
+<script type="text/javascript">
+    document.getElementById('uploadBtn').onchange = function () {
+        document.getElementById('uploadFile').value = this.value;
+    };
+</script>
+</body>
+</html>

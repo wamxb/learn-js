@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>事件冒泡</title>
+    <style type="text/css">
+        .active { background-color: #0f0; }
+    </style>
+</head>
+<body>
+<ul class="toolbar">
+    <li>
+        <button class="btn">Pencil</button>
+    </li>
+    <li>
+        <button class="btn">Pen</button>
+    </li>
+    <li>
+        <button class="btn">Eraser</button>
+    </li>
+</ul>
+
+<script type="text/javascript">
+    var toolbar = document.querySelector(".toolbar");
+    toolbar.addEventListener("click", function (e) {
+        e.target.classList.toggle("active");
+    });
+</script>
+</body>
+</html>
