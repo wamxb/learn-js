@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <title>head.appendChild</title>
+    <script type="text/javascript">
+        var head = document.getElementsByTagName('head')[0],
+                script = document.createElement('script');
+        script.src = 'main.js';
+        console.log('load before');
+        head.appendChild(script);
+        console.log('load after');
+    </script>
+</head>
+<body>
+
+load before ==> load after ==> body ==> main.js
+不会阻塞页面的渲染
+
+<script type="text/javascript">
+    console.log('body');
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no, minimal-ui"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <title>document.write</title>
+    <script type="text/javascript">
+        console.log('load before');
+        document.write('<script src="main.js"><\/script>');
+        console.log('load after');
+
+        // load before ==> load after ==> main.js
+    </script>
+</head>
+<body>
+
+load before ==> load after ==> main.js ==> body
+可以从其他域名加载脚本
+通过 document.write() 加载脚本会阻塞页面的渲染
+<script type="text/javascript">
+    console.log('body');
+</script>
+</body>
+</html>
