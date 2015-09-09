@@ -13,6 +13,6 @@ require.config({
 //        });
 //    }
 //});
-require(['jquery', 'event', 'selector'], function($, E, S) {
-    alert($);
+require(['event', 'selector'], function(E, S) {
+    alert(E, S);
 });
