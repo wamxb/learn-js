@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>sort</title>
+</head>
+<body>
+<script type="text/javascript">
+	// http://www.cnblogs.com/snandy/archive/2011/03/02/1968580.html
+	var eidtionTypeList = [
+	    {key:104212,val:"影刻本"},
+	    {key:104211,val:"翻刻本"},
+	    {key:104210,val:"重刻本"},
+	    {key:110,val:"局本"},
+	    {key:109,val:"殿本"},
+	    {key:108,val:"藍印本"},
+	    {key:107,val:"朱印本"},
+	    {key:106,val:"套印本"},
+	    {key:105,val:"活字印本"},
+	    {key:104,val:"刻本"},
+	    {key:103,val:"抄本"},
+	    {key:102,val:"寫本"},
+	    {key:101,val:"稿本"},
+	    {key:100,val:""}
+	];
+
+	// 随机排列
+	function randomSort(arr) {
+		return arr.sort(function(a, b){
+			return (Math.round(Math.random()) - 0.5);
+		});
+	}
+	console.log('=====randomSort=====');
+	console.table(randomSort(eidtionTypeList));
+
+	// 按key大小排序
+	function numberSort(arr) {
+		return arr.sort(function (a, b){
+			return a.key > b.key ? 1 : (a.key < b.key ? -1: 0);
+		});
+	}
+
+	console.log('=====numberSort=====');
+	console.table(numberSort(eidtionTypeList));
+
+	function reverseSort(arr) {
+		return arr.sort(function (a, b){
+			return -(a.key > b.key ? 1 : (a.key < b.key ? -1: 0));
+		});
+	}
+	console.log('=====reverseSort=====');
+	console.table(reverseSort(eidtionTypeList));
+
+	// 按字符的ASCII码比较
+	function ASCIISort(arr) {
+		return arr.sort(function (a, b){
+			return a.key + '' > b.key + '' ? 1 : (a.key + '' < b.key + '' ? -1: 0);
+		});
+	}
+	console.log('=====ASCIISort=====');
+	console.table(ASCIISort(eidtionTypeList));
+
+</script>
+</body>
+</html>
