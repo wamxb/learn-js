@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>语言精粹</title>
+</head>
+<body>
+<script type="text/javascript">
+	/**************************************
+	 * 
+	 **************************************/
+	(function() {
+		
+		console.log(NaN == NaN); // false
+
+		// 为 false
+		// false, null, undefined, ' ', 0, NaN
+
+		// object.hasOwnProperty(variable) 来判断这个属性名是该对象的成员(true)，还是来自于原型
+
+		// typeof 运算符产生的值有'number', 'string', 'boolean', 'undefined', 'function', 'object'
+
+		// 对象通过引用来传递
+		// a, b, c 每个都引用一个不同的空对象
+		var a = {}, b = {}, c = {};
+		// a, b, c 都引用同一个空对象											
+		a = b = c = {};
+
+		// 原型
+		if (typeof Object.create !== 'function') {
+			Object.create = function(o) {
+				var F = function() {};
+				F.prototype = o;
+				return new F();
+			};
+		}
+		var stooge = {p: 1};
+		var another_stooge = Object.create(stooge);
+		console.log(another_stooge); // .nickName
+
+		// 原型关系是一种动态的关系
+		// 在这里添加的"nickName"，上面的 console 能输出
+		stooge.nickName = 'Moe';
+		console.log(another_stooge);
+
+		another_stooge.firstName = 'Harry';
+		console.log(stooge);
+		console.log(another_stooge.hasOwnProperty('nickName')); // false
+		console.log(another_stooge.hasOwnProperty('firstName'));	// true
+
+		// delete
+		console.log(another_stooge.firstName);
+		delete another_stooge.firstName;
+		console.log(another_stooge.firstName); // undefined
+
+	})();
+
+</script>
+</body>
+</html>

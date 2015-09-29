@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>note</title>
+</head>
+<body>
+<script type="text/javascript">
+// 基本类型的值在内存中占固定大小的空间，因此保存在栈内存中。
+// 引用类型的值是对象，保存在堆内存中。
+// 确定基本类型用 typeof,引用类型用 instanceof
+	
+(function () {
+
+	var color = 'blue';
+
+	function changeColor(){
+		if (color === 'blue') {
+			color = 'red';
+		} else {
+			color = 'blue';
+		}
+	}
+	changeColor();
+	console.log('color is now ' + color);
+
+}());
+
+(function(){
+
+	var color = 'blue';
+
+	function changeColor(){
+		var anotherColor = 'red';
+
+		function swapColors(){
+			var tempColor = anotherColor;
+			anotherColor = color;
+			color = tempColor;
+		}
+		swapColors();
+	}
+	changeColor();
+
+	console.log(color);
+
+}());
+
+// 延长作用域链
+(function(){
+	function buildUrl(){
+		var qs = '?debug=true';
+
+		// with 语句接受得是 location 对象，因此其变量对象包含了 location 对象的所有属性和方法，而这个变量对象被添加到了作用域链的前端。
+		with(location){
+			var url = href + qs;
+		}
+		return url;
+	}
+	console.log(buildUrl());
+}());
+
+// 没有块级作用域
+(function(){
+
+	if (true) {
+		var color = 'blue';
+	}
+	console.log(color);
+
+}());
+
+// 内存管理
+(function(){
+
+	function createPerson(name) {
+		var localPerson = new Object();
+		localPerson.name = name;
+		return localPerson;
+	}
+	var globalPerson = createPerson('zplus');
+	console.log(globalPerson);
+
+	globalPerson = null;
+	console.log(globalPerson);
+
+}());
+
+</script>
+</body>
+</html>

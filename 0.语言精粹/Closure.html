@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Closure</title>
+</head>
+<body>
+<script type="text/javascript">
+	
+	(function() {
+
+		// 闭包 Closure
+		// 1.可以访问定义它们的外部函数的参数和变量（除了 this 和 arguments)
+		// 2.内部函数拥有比它的外部函数更长的生命周期
+		var myObject = (function(){
+			var value = 0;
+
+			return {
+				increment: function(inc){
+					value += typeof inc === 'number' ? inc : 1;
+				},
+				getValue: function(){
+					return value;
+				}
+			};
+		}());
+
+
+		var quo = function(status) {
+			return {
+				get_status: function(){
+					return status;
+				}
+			};
+		};
+
+		var myQuo = quo('amazed');
+
+		var fade = function(node) {
+			var level = 1;
+			var tid = null;
+			var step = function(){
+				if (level == 15) {
+					clearTimeout(tid);
+					return;
+				}
+				var hex = level.toString(16);
+				node.style.backgroundColor = '#FFFF'+hex+hex;
+				level += 1;
+				tid = setTimeout(step, 100);
+			};
+			setTimeout(step, 100);
+		};
+		fade(document.body);
+
+	})();
+
+</script>
+</body>
+</html>
