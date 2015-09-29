@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>表格</title>
+</head>
+<body>
+<table class="table table-bordered table-striped table-sort" id="j_myTable">
+    <thead>
+    <tr>
+        <th>图标</th>
+        <th>设备名称</th>
+        <th>线路名</th>
+        <th>运行状态</th>
+        <th>监控仪表</th>
+        <th>排序</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            <img src="http://dummyimage.com/50x50" width="50" height="50" alt=""/>
+        </td>
+        <td>1#变压器</td>
+        <td>B1-1</td>
+        <td>运行</td>
+        <td>无</td>
+        <td>上/下</td>
+        <td>
+            <button type="button" class="btn btn-secondary btn-sm">编辑铭牌与接线图</button>
+            <button type="button" class="btn btn-danger btn-sm">删除
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="http://dummyimage.com/50x50" width="50" height="50" alt=""/>
+        </td>
+        <td>AA1馈线柜</td>
+        <td>10KV进线柜</td>
+        <td>热备用</td>
+        <td>无</td>
+        <td>上/下</td>
+        <td>
+            <button type="button" class="btn btn-secondary btn-sm">编辑铭牌与接线图</button>
+            <button type="button" class="btn btn-danger btn-sm">删除
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    // var $table = $('table.table-sort');
+    // var tr = $table.find("tr:gt(0)");
+    // var len = tr.length;
+
+    // function setBtnState(table) {
+    // 	var tr = table.find('> tbody > tr');
+    // 	var len = tr.length;
+    // }
+
+    function table_sort(select) {
+        var table_data = [];
+        $(select + " tr:gt(0)").each(function () {
+            var i = table_data.length;
+            table_data[i] = [];
+            $(this).find("td").each(function () {
+                var $that = $(this);
+                var j = table_data[i].length;
+                table_data[i][j] = {};
+                table_data[i][j].value = $that.html();
+                table_data[i][j].className = $that.attr("class");
+
+                if (table_data[i][j].className == undefined)
+                    table_data[i][j].className = "";
+                if (table_data[i][j].value == undefined)
+                    table_data[i][j].value = "";
+            })
+        });
+        var sort_asc = 1;
+        $(select + " tr:eq(0) td," + select + " tr:eq(0) th").click(function () {
+            sort_asc *= -1;
+            var idx = $(this).index();
+            var sort_type = (table_data[0][idx].value[0].charCodeAt(0) > 47 && table_data[0][idx].value[0].charCodeAt(0) < 58) ? "num" : "text";
+            table_data.sort(function (a, b) {
+                if (a[idx].value == "")
+                    return (-1) * sort_asc;
+                if (sort_type == "num") {
+                    return (a[idx].value - b[idx].value) * sort_asc
+                } else {
+                    var compare_length = a[idx].value.length > b[idx].value.length ? a[idx].value.length : b[idx].value.length;
+
+                    for (var i = 0; i < compare_length; i++) {
+
+                        var a_code = a[idx].value.charCodeAt(i);
+                        var b_code = b[idx].value.charCodeAt(i);
+
+                        if (a_code == b_code && i == (compare_length - 1)) {
+                            return (a[idx].value.length > b[idx].value.length ? -1 : 1) * sort_asc;
+                        } else if (a_code != b_code) {
+                            return (a_code - b_code) * sort_asc
+                        }
+                    }
+                }
+            });
+            var i = 0;
+            var j = 0;
+            $(select + " tr:gt(0)").each(function () {
+                $(this).find("td").each(function () {
+                    $(this)
+                            .html(table_data[i][j].value)
+                            .attr("class", table_data[i][j].className);
+                    j++;
+                });
+                i++;
+                j = 0;
+            })
+        });
+    }
+
+    table_sort('#j_myTable');
+
+
+</script>
+</body>
+</html>
