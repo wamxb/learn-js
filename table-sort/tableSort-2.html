@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>表格</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 <body>
 <table class="table table-bordered table-striped table-sort">
@@ -97,14 +98,13 @@
     </tbody>
 </table>
 
-
 <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript">
 
     var table_data = [];
     !(function ($) {
         // todo 不遍历td
-        // todo animate
+        // todo https://github.com/matanhershberg/animated_table_sorter/blob/master/tsort.js
         $.fn.table_sort = function (opt) {
             var cfg = $.extend({
                 cb_sort: null,
@@ -225,7 +225,18 @@
         });
 
 
+        $('btn').on('click', function () {
+            modal();
+        });
+        
+        function modal() {
+            //...
+        }
+
     });
+
+
+
 
 </script>
 </body>
