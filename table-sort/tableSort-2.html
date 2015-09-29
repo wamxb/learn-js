@@ -104,6 +104,7 @@
     var table_data = [];
     !(function ($) {
         // todo 不遍历td
+        // todo animate
         $.fn.table_sort = function (opt) {
             var cfg = $.extend({
                 cb_sort: null,
@@ -175,19 +176,29 @@
 
                 $table.on('click.table-sort', 'button[data-sort]', function () {
                     var $that = $(this);
-                    var type = $that.data('sort');
                     var $tr = $that.closest('tr');
                     var idx = $tr.index();
                     var id = $tr.prop('id');
+                    var type = $that.data('sort');
+
                     if (type === 'up') {
                         swap(_data, idx, idx - 1);
-                        (cfg['cb_sort'] instanceof Function) && cfg['cb_sort'](id, 1);
+                        (cfg['cb_sort'] instanceof Function) && cfg['cb_sort']({
+                            id: id,
+                            type: 1
+                        });
                     } else if (type === 'down') {
                         swap(_data, idx, idx + 1);
-                        (cfg['cb_sort'] instanceof Function) && cfg['cb_sort'](id, -1);
+                        (cfg['cb_sort'] instanceof Function) && cfg['cb_sort']({
+                            id: id,
+                            type: -1
+                        });
                     } else if (type === 'delete') {
                         _data.splice(idx, 1);
                         $tr.remove();
+                        (cfg['cb_delete'] instanceof Function) && cfg['cb_delete']({
+                            id: id
+                        });
                     }
                     renderTable(type);
                 });
@@ -205,8 +216,11 @@
 
     $(function () {
         $('table.table-sort').table_sort({
-            cb_sort: function () {
-                console.log('cb_sort');
+            cb_sort: function (opt) {
+                console.log(opt);
+            },
+            cb_delete: function (opt) {
+                console.log(opt);
             }
         });
 
