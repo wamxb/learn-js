@@ -6,43 +6,49 @@
 </head>
 <body>
 <script type="text/javascript">
-    // 栈LIFO （Last-In-First-Out） 后进先出
-    // 堆碟子
-    // 发生在栈的顶部
-    // 推入，弹出
-    // push(), pop()
+    // 删除 的方法返回 删除项
+    // 添加 的方法返回 修改后组数的长度
+    (function(){
+        // 栈LIFO （Last-In-First-Out:后进先出) push,pop
+        // 堆碟子
+        // 发生在栈的顶部
+        // 推入，弹出
+        // push(), pop()
 
-    var colors = new Array();
-    var count = colors.push('red', 'green');
-    console.log(colors);
-    console.log(count);
+        var colors = new Array();
+        var count = colors.push('red', 'green'); // 返回修改后数组的长度
+        console.log(colors);    // ["red", "green"]
+        console.log(count); // 2 
 
-    count = colors.push('black'); // 添加后面
-    console.log(colors);
-    console.log(count);
+        count = colors.push('black'); // 添加后面
+        console.log(colors); // ["red", "green", "black"]
+        console.log(count); // 3
 
-    var item = colors.pop();    // 删除后面
-    console.log(colors);
-    console.log(item);
-    console.log(colors.length);
+        var item = colors.pop();    // 删除后面 返回数组的最后一项
+        console.log(colors); // ["red", "green"]
+        console.log(item); // 'black'
+        console.log(colors.length); // 2
+    }());
 
     console.log('=====================');
-    //    console.clear();
 
-    // 队列方法FIFO（先进先出）
-    // 管道
-    var colors2 = new Array();
-    var count2 = colors2.unshift('red', 'green');
-    console.log(colors2);
-    console.log(count2);
+    (function(){
+        // 队列方法FIFO（First-In-First-Out:先进先出） push,shift
+        // 管道
+        var colors = new Array();
+        var count = colors.push('red', 'green');
+        console.log(colors); // ["red", "green"]
+        console.log(count); // 2
 
-    count2 = colors2.unshift('black'); // 添加前面
-    console.log(colors2);
-    console.log(count2);
+        count = colors.push('black');
+        console.log(colors);    // ["red", "green", "black"]
+        console.log(count); // 3
 
-    var item2 = colors2.shift(); // 删除前面
-    console.log(colors2);
-    console.log(item2);
+        var item = colors.shift(); // 删除第一项,并返回该项
+        console.log(colors);    // [green", "black"]
+        console.log(item); // 'red'
+    }());
+    
 </script>
 </body>
 </html>

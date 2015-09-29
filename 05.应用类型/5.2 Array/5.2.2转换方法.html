@@ -6,27 +6,50 @@
 </head>
 <body>
 <script type="text/javascript">
-    var person1 = {
-        toLocaleString: function () {
-            return 'person1 toLocaleString';
-        },
-        toString: function () {
-            return 'person1 toString';
-        }
-    };
-    var person2 = {
-        toLocaleString: function () {
-            return 'person2 toLocaleString';
-        },
-        toString: function () {
-            return 'person2 toString';
-        }
-    };
+    (function(){
+        var colors = ['red', 'blue', 'green'];
+        console.log(colors.toLocaleString()); // red,blue,green
+        console.log(colors.toString()); // red,blue,green
+        console.log(colors.valueOf());  // ['red', 'blue', 'green']
 
-    var people = [person1, person2];
-    console.log(people.toString());
-    console.log(people.toLocaleString());
+        console.log(console.toLocaleString()); // [object Console]
+        console.log(console.toString());  // [object Console] 
+        console.log(console.valueOf()); // todo
 
+        var person1 = {
+            toLocaleString: function () {
+                return 'person1 toLocaleString';
+            },
+            toString: function () {
+                return 'person1 toString';
+            }
+        };
+        var person2 = {
+            toLocaleString: function () {
+                return 'person2 toLocaleString';
+            },
+            toString: function () {
+                return 'person2 toString';
+            }
+        };
+
+        var people = [person1, person2];
+        console.log(people.toString()); // person1 toString,person2 toString
+        console.log(people.toLocaleString()); // person1 toLocaleString,person2 toLocaleString
+    }());
+
+    (function(){
+        
+        var colors = ['red', 'blue', 'green'];
+        console.log(colors.join()); // red,bule,green
+        console.log(colors.join(',')); // red,blue,green
+        console.log(colors.join('||')); // red||blue||green
+        console.log(colors.join(undefined)); // red,blue,green (PS: IE7会用 undefined)
+
+        var colors = ['red', 'blue', 'green', null, undefined];
+        console.log(colors.join()); // red,blue,green,,
+
+    }());
 
     var str="www.baidu.com/?page";
     str=str.substring(0,str.indexOf("/"));

@@ -10,21 +10,24 @@
 
     var values = [1, 2, 3, 4, 5];
     values.reverse();
-    console.log(values);
+    console.log(values); // [5, 4, 3, 2, 1]
 
     // 【！】进行字符串的比较
     var values2 = [0, 1, 5, 10, 15];
     values2.sort();
-    console.log(values2);
-
+    console.log(values2); // [0, 1, 10, 15, 5]
 
     function compare(val1, val2) {
-        return (val1 < val2) ? -1 : ((val1 > val2) ? 1 : 0);
+        return val1 > val2 ? 1 : (val1 < val2 ? -1 : 0);
     }
 
     var values3 = [0, 1, 5, 10, 15];
     values3.sort(compare);
-    console.log(values3);
+    console.log(values3); // [0, 1, 5, 10, 15]
+
+
+
+
 </script>
 </body>
 </html>
