@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>表格</title>
+</head>
+<body>
+<table class="table table-bordered table-striped table-sort">
+    <thead>
+    <tr>
+        <th>图标</th>
+        <th>设备名称</th>
+        <th>线路名</th>
+        <th>运行状态</th>
+        <th>监控仪表</th>
+        <th>排序</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr id="tr1">
+        <td>
+            <img src="http://dummyimage.com/50x50" width="50" height="50" alt=""/>
+        </td>
+        <td>1#变压器</td>
+        <td>B1-1</td>
+        <td>运行</td>
+        <td>无</td>
+        <td>
+            <button type="button" class="btn btn-gray btn-single btn-xs" data-sort="up">上<i class="fa-arrow-up"></i>
+            </button>
+            <button type="button" class="btn btn-gray btn-single btn-xs" data-sort="down">下<i class="fa-arrow-down"></i>
+            </button>
+        </td>
+        <td>
+            <button type="button" class="btn btn-secondary btn-sm">编辑铭牌与接线图</button>
+            <button type="button" class="btn btn-danger btn-sm" data-sort="delete">删除</button>
+        </td>
+    </tr>
+    <tr id="tr2">
+        <td>
+            <img src="http://dummyimage.com/50x50" width="50" height="50" alt=""/>
+        </td>
+        <td>AA1馈线柜</td>
+        <td>10KV进线柜</td>
+        <td>热备用</td>
+        <td>无</td>
+        <td>
+            <button type="button" class="btn btn-gray btn-single btn-xs" data-sort="up">上<i class="fa-arrow-up"></i>
+            </button>
+            <button type="button" class="btn btn-gray btn-single btn-xs" data-sort="down">下<i class="fa-arrow-down"></i>
+            </button>
+        </td>
+        <td>
+            <button type="button" class="btn btn-secondary btn-sm">编辑铭牌与接线图</button>
+            <button type="button" class="btn btn-danger btn-sm" data-sort="delete">删除</button>
+        </td>
+    </tr>
+    <tr id="tr3">
+        <td>
+            <img src="http://dummyimage.com/50x50" width="50" height="50" alt=""/>
+        </td>
+        <td>AA2馈线柜</td>
+        <td>10KV进线柜</td>
+        <td>热备用</td>
+        <td>无</td>
+        <td>
+            <button type="button" class="btn btn-gray btn-single btn-xs" data-sort="up">上<i class="fa-arrow-up"></i>
+            </button>
+            <button type="button" class="btn btn-gray btn-single btn-xs" data-sort="down">下<i class="fa-arrow-down"></i>
+            </button>
+        </td>
+        <td>
+            <button type="button" class="btn btn-secondary btn-sm">编辑铭牌与接线图</button>
+            <button type="button" class="btn btn-danger btn-sm" data-sort="delete">删除
+            </button>
+        </td>
+    </tr>
+    <tr id="tr4">
+        <td>
+            <img src="http://dummyimage.com/50x50" width="50" height="50" alt=""/>
+        </td>
+        <td>AA3馈线柜</td>
+        <td>10KV进线柜</td>
+        <td>热备用</td>
+        <td>无</td>
+        <td>
+            <button type="button" class="btn btn-gray btn-single btn-xs" data-sort="up">上<i class="fa-arrow-up"></i>
+            </button>
+            <button type="button" class="btn btn-gray btn-single btn-xs" data-sort="down">下<i class="fa-arrow-down"></i>
+            </button>
+        </td>
+        <td>
+            <button type="button" class="btn btn-secondary btn-sm">编辑铭牌与接线图</button>
+            <button type="button" class="btn btn-danger btn-sm" data-sort="delete">删除</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    var table_data = [];
+    !(function ($) {
+        // todo 不遍历td
+        $.fn.table_sort = function (opt) {
+            var cfg = $.extend({
+                cb_sort: null,
+                cb_delete: null
+            }, opt);
+            return this.each(function () {
+                var $table = $(this);
+                $table.data('table_data', []);
+                var _data = $table.data('table_data');
+                $table.find('tbody > tr').each(function () {
+                    var i = _data.length;
+                    _data[i] = [];
+                    $(this).find('td').each(function () {
+                        var $that = $(this);
+                        var j = _data[i].length;
+                        _data[i][j] = {
+                            value: $that.html(),
+                            className: $that.attr('class')
+                        };
+
+                        _data[i][j].className == undefined && (_data[i][j].className = '');
+                        _data[i][j].value == undefined && (_data[i][j].value = '');
+                    });
+                });
+
+                renderTable();
+                function renderTable() {
+                    var i = 0;
+                    var j = 0;
+                    var tr = $table.find('tbody > tr');
+                    var tr_len = tr.length;
+                    tr.each(function (tr_i) {
+                        $(this).find('td').each(function () {
+                            var $that = $(this);
+                            $that
+                                    .html(_data[i][j].value)
+                                    .attr('class', _data[i][j].className);
+
+                            if (tr_len > 1) {
+                                if (tr_i === 0) {
+                                    $that
+                                            .find('button[data-sort="up"]').prop('disabled', true)
+                                            .end()
+                                            .find('button[data-sort="down"]').prop('disabled', false);
+                                } else if (tr_i === tr_len - 1) {
+                                    $that
+                                            .find('button[data-sort="up"]').prop('disabled', false)
+                                            .end()
+                                            .find('button[data-sort="down"]').prop('disabled', true);
+                                } else {
+                                    $that
+                                            .find('button[data-sort="up"]').prop('disabled', false)
+                                            .end()
+                                            .find('button[data-sort="down"]').prop('disabled', false);
+                                }
+                            } else if (tr_len == 1) {
+                                $that
+                                        .find('button[data-sort="up"]').prop('disabled', true)
+                                        .end()
+                                        .find('button[data-sort="down"]').prop('disabled', true);
+                            }
+
+                            j++;
+                        });
+                        i++;
+                        j = 0;
+                    });
+                }
+
+                $table.on('click.table-sort', 'button[data-sort]', function () {
+                    var $that = $(this);
+                    var type = $that.data('sort');
+                    var $tr = $that.closest('tr');
+                    var idx = $tr.index();
+                    var id = $tr.prop('id');
+                    if (type === 'up') {
+                        swap(_data, idx, idx - 1);
+                        (cfg['cb_sort'] instanceof Function) && cfg['cb_sort'](id, 1);
+                    } else if (type === 'down') {
+                        swap(_data, idx, idx + 1);
+                        (cfg['cb_sort'] instanceof Function) && cfg['cb_sort'](id, -1);
+                    } else if (type === 'delete') {
+                        _data.splice(idx, 1);
+                        $tr.remove();
+                    }
+                    renderTable(type);
+                });
+
+
+                function swap(arr, p1, p2) {
+                    var temp = arr[p1];
+                    arr[p1] = arr[p2];
+                    arr[p2] = temp;
+                }
+            });
+        };
+    }(jQuery));
+
+
+    $(function () {
+        $('table.table-sort').table_sort({
+            cb_sort: function () {
+                console.log('cb_sort');
+            }
+        });
+
+
+    });
+
+</script>
+</body>
+</html>
