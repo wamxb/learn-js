@@ -1,24 +1,40 @@
 <h2 id="array-">Array的方法属性</h2>
 <p>length
-Array.isArray(value) //ECMAScript5
-// 转换方法
-toLocalString
-toString
-valueOf
-// 栈，队列方法
-push
-pop
-unshift
-shift
-// 排序
-reverse
-sort
-// 操作方法
-concat
-slice
-splice // 会改变原始的数组
-// 位置方法 IE9+, Firefox2+, Safari3+, Opera9.5+, Chrome
-indexOf 【！！！】查找的项必须严格相等 &#39;===&#39; 一样。
-lastIndexOf</p>
+Array.isArray(value) //ECMAScript5</p>
+<h3 id="-">转换方法</h3>
+<p>toLocalString()
+toString()
+valueOf()</p>
+<h3 id="-">栈，队列方法</h3>
+<p>push()
+pop()
+unshift()
+shift()</p>
+<h3 id="-">排序</h3>
+<p>reverse()
+sort()</p>
+<h3 id="-">操作方法</h3>
+<p>concat()
+slice()
+splice() // 会改变原始的数组</p>
+<h3 id="-">位置方法</h3>
+<p>indexOf() 【！！！】查找的项必须严格相等 &#39;===&#39; 一样。
+lastIndexOf()
+<em>支持的浏览器：IE9+, Firefox2+, Safari3+, Opera9.5+, Chrome</em></p>
+<h3 id="-">迭代方法</h3>
+<p>every(): 对数组中的每一项运行给定函数，如果该函数对每一项都返回 true，则返回 true
+filter(): 对数组中的每一项运行给定函数，返回该函数会返回 true 的项组成的数组
+some(): 对数组中的每一项运行给定函数，如果该函数对任一项返回 true，则返回 true
+forEach(): 对数组中得每一项运行给定函数。这个方法没有返回值
+map(): 对数组中的每一项运行给定函数，返回每次函数调用的结果组成的数组
+<em>支持的浏览器：IE9+，Firefox2+，Safari3+，Opera9.5+，Chrome</em></p>
+<h3 id="-">并归方法</h3>
+<p>迭代数组的所有项，然后构建一个最终返回的值</p>
+<pre><code class="lang-javascript">reduce(fn(prev, cur, index, array){
+    // body...
+}[, 基础初始值]);
+</code></pre>
+<p>reduceRight()
+<em>支持的浏览器：IE9+，Firefox3+，Safari4+，Opera10.5+，Chrome</em></p>
 <p><strong>todo:</strong>
 <em>兼容</em></p>

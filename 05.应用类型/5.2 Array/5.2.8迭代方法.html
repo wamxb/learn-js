@@ -5,34 +5,36 @@
     <title>5.2.8迭代方法</title>
 </head>
 <body>
-ECMAScript 5  支持的浏览器：IE9+，Firefox2+，Safari3+，Opera9.5+，Chrome
 <script type="text/javascript">
-    var numbers = [1, 2, 3, 4, 5, 4, 3, 2, 1];
+    (function(){
 
-    //every：对数组中的每一项运行给定函数，如果该函数对每一项都返回true，则返回true
-    // 【！】每一项都为ture才行
-    var everyResult = numbers.every(function (item, index, array) {
-        return (item > 2);
-    });
-    console.log(everyResult);
+        var numbers = [1, 2, 3, 4, 5, 4, 3, 2, 1];
 
-    // some：对数组中的每一项运行给定函数，如果函数返回任一项返回true，则返回true
-    var someResult = numbers.some(function (item, index, array) {
-        return (item > 2);
-    });
-    console.log(someResult);
+        var everyResult = numbers.every(function(item, index, array){
+            return item > 2;
+        });
+        console.log(everyResult); // false
 
-    // filter: 对数组中的每一项运行给定函数，返回该函数会返回true的项组成的数组
-    var filterResult = numbers.filter(function (item, index, array) {
-        return (item > 2);
-    });
-    console.log(filterResult);
+        var someResult = numbers.some(function(item, index, array){
+            return item > 2;
+        });
+        console.log(someResult);    // true
 
-    // 对数组中的每一项运行给定函数，返回每次函数调用的结果组成的数组
-    var mapResult = numbers.map(function (item, index, array) {
-        return item * 2;
-    });
-    console.log(mapResult);
+        var filterResult = numbers.filter(function(item, index, array){
+            return item > 2;
+        });
+        console.log(filterResult);  // [3,4,5,4,3]
+
+        var mapResult = numbers.map(function(item, index, array){
+            return item * 2;
+        });
+        console.log(mapResult); // [2, 4, 6, 8, 10, 8, 6, 4, 2]
+
+        numbers.forEach(function(item, index, array){
+            // body...
+        });
+        console.log(numbers);
+    }());
 </script>
 </body>
 </html>

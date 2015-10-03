@@ -6,22 +6,66 @@
 </head>
 <body>
 <script type="text/javascript">
-    // ECMAScript3中正则表达式字面量始终会共享同一个RegExp
-    // 而使用构造函数创建的每一个新RegExp实例都是一个新实例
+(function(){
 
-    // ECMAScript5规定，使用正则表达式字面量必选像直接调用RegExp构造函数一样，每次都创建新的RegExp实例 IE9+,Firefox4+,Chrome都据此做出了修改。
-    var re = null, i;
+    // var expression = /pattern/flags;
 
-    for (i = 0; i < 10; i++) {
+    // 匹配字符串中所有'at'的实例
+    var pattern1 = /at/g;
+
+    // 匹配第一个'bat'或'cat'，不区分大小写
+    var pattern2 = /[bc]at/i;
+
+    // 匹配所有以'at'结尾的3个字符的组合，不区分大小写
+    var pattern3 = /.at/gi;
+
+    // 元字符必须转义
+    // ( ) [ ] { } \ ^ $ | ? * + .
+
+}());
+
+(function(){
+
+    // 匹配第一个'bat'或'cat'，不区分大小写
+    var pattern1 = /[bc]at/i;
+
+    // 匹配第一个'[bc]at'，不区分大小写
+    var pattern2 = /\[bc\]at/i;
+
+    // 匹配所有以'at'结尾的3个字符的组合，不区分大小写
+    var pattern3 = /.at/gi;
+
+    // 匹配所有以'.at'结尾的3个字符的组合，不区分大小写
+    var pattern4 = /\.at/gi;
+}());
+
+
+(function(){
+    // 字面量形式
+    // 匹配第一个'bat'或'cat'，不区分大小写
+    var pattern1 = /[bc]at/i;
+
+    // 使用 RegExp(要匹配的字符串模式, 可选的标志字符串) 构造函数
+    var pattern2 = new RegExp('[bc]at', 'i');
+
+    // 正则表达式字面量始终会共享同一个 RegExp 实例
+    // 而使用构造函数创建的每一个新 RegExp 实例都是一个新实例
+
+    var re = null, i, result;
+
+    for (i=0; i<10; i++) {
         re = /cat/g;
-        console.log(re.test('catastrophe'));
+        result = re.test('catastrophe');
+        console.log(result); // 10 个 true
     }
 
-    for (i = 0; i < 10; i++) {
+    for (i=0; i<10; i++) {
         re = new RegExp('cat', 'g');
-        var boolean = re.test('catastrophe');
-        console.log(boolean);
+        result = re.test('catastrophe');
+        console.log(result); // 10 个 true
     }
+
+}());
 </script>
 </body>
 </html>

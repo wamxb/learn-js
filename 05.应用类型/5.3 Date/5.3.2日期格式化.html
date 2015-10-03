@@ -6,11 +6,25 @@
 </head>
 <body>
 <script type="text/javascript">
-    // toDateString() - 以特定于实现的格式显示星期几，月，日和年；
-    // toTimeString() - 以特定于实现的格式显示时，分，秒和时区
-    // toLocaleDateString() - 以特定与地区的格式显示星期几，月，日和年
+    (function () {
 
+    	var d = new Date();
 
+    	// 以特定于实现的格式显示星期几、月、日和年
+    	console.log(d.toDateString()); // Fri Oct 02 2015
+
+    	// 以特定于实现的格式显示时、分、秒和时区
+    	console.log(d.toTimeString()); // 08:27:38 GMT+0800 (CST)
+
+    	// 以特定于地区的格式显示星期几、月、日和年
+    	console.log(d.toLocaleDateString()); // 2015/10/2
+
+    	// 以特定于实现的格式显示时、分、秒
+    	console.log(d.toLocaleTimeString()); // 上午8:30:58
+
+    	// 以特定于实现的格式完整的 UTC 日期
+    	console.log(d.toUTCString());	// Fri, 02 Oct 2015 00:32:50 GMT
+    }());
 </script>
 </body>
 </html>

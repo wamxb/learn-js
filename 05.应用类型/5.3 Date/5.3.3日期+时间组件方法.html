@@ -6,7 +6,47 @@
 </head>
 <body>
 <script type="text/javascript">
+(function(){
 
+	var d = new Date();
+
+	// 返回表示日期的毫秒数；与 valueOf() 方法返回的值相同
+	console.log('getTime', d.getTime()); // 1443780204294
+	console.log('valueOf', d.valueOf()); // 1443780204294
+
+	// 取得4位数的年份
+	console.log('getFullYear', d.getFullYear()); // 2015
+
+	// 返回日期中的月份，其中0表示一月，11表示十二月
+	console.log('getMonth', d.getMonth()); // 9
+
+	// 返回日期月份中的天数（1到31）
+	console.log('getDate', d.getDate()); // 2
+
+	// 返回日期中星期的星期几(0为星期日，6表示星期六)
+	console.log('getDay', d.getDay()); // 5
+
+	// 返回日期中的小时数(0到23)
+	console.log('getHours', d.getHours()); // 18
+
+	// 返回日期中的分钟(0到59)
+	console.log('getMinutes', d.getMinutes()); // 3
+
+	// 返回日期中的秒数(0到59)
+	console.log('getSeconds', d.getSeconds()); // 24
+
+	// 获得日期中的毫秒数，与 getTime 最后2，3位一样
+	console.log('getMilliseconds', d.getMilliseconds()); // 294
+
+	console.log(d.getTimezoneOffset()); // -480
+
+	// console.log('setFullYear', d.setFullYear(2015)); // 1475370595497
+	// console.log('setUTCFullYear', d.setUTCFullYear(2015)); // 1475370595497
+
+	// 以毫秒数设置日期，会改变整个日期
+	// console.log('setTime', d.setTime(1));
+
+}());
 </script>
 </body>
 </html>
