@@ -10,3 +10,13 @@ ECMAScript 5
 IE9+,Firefox 4+和 Chrome 都据此做出了修改
 
 
+### RegExp 实例方法
+exec() - 不匹配返回 null，否者返回 Array 的实例，但包含两个额外的属性：index 和 input
+test() - 返回 Boolean
+
+### RegExp 构造函数属性
+*Opear 不支持 input, lastMatch, lastPattern 和 multiline 属性*
+*IE 不支持 multiline*
+  
+
+

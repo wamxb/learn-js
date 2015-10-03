@@ -38,6 +38,41 @@
     }
 
     // 在调用exec()或test方法时，RegExp.$1 ... RegExp.$9 会自动填充
+
+    console.clear();
+
+ (function(){
+
+
+    var text = 'this has been a short summer';
+    var pattern = /(.)hort/g;
+
+    if (pattern.test(text)) {
+        var matchs = pattern.exec(text);
+        console.log(matchs); // null
+
+        console.log(RegExp.input); // this has been a short summer
+        console.log(RegExp.$_); // this has been a short summer
+
+        console.log(RegExp.leftContext); // 'this has been a '
+        console.log(RegExp['$`']); // 'this has been a '
+
+        console.log(RegExp.rightContext); // ' summer'
+        console.log(RegExp["$'"]); // ' summer'
+
+        console.log(RegExp.lastMatch); // 'short'
+        console.log(RegExp['$&']); // 'short'
+
+        console.log(RegExp.lastParen); // s
+        console.log(RegExp['$+']); // s
+
+        console.log(RegExp.multiline); // false
+        console.log(RegExp['$*']); // false
+    }
+
+    
+
+ }());   
 </script>
 </body>
 </html>
