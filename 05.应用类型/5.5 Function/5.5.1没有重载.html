@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>5.5.1没有重载</title>
+</head>
+<body>
+<script type="text/javascript">
+
+(function(){
+
+	function addSomeNumber(num) {
+		return num + 10;
+	}
+
+	function addSomeNumber(num) {
+		return num + 20;
+	}
+
+	var result = addSomeNumber(10); // 30;
+
+});
+
+</script>
+</body>
+</html>
