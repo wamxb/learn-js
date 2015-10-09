@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>5.6.0基本包装类型</title>
+</head>
+<body>
+<script type="text/javascript">
+	
+(function(){
+
+	// (1)创建 String 类型的一个实例
+	// (2)在实例上调用制定的方法
+	// (3)销毁这个实例
+	var s1 = new String('some text');
+	var s2 = s1.substring(2);
+	s1 = null;
+
+	var s1 = 'some text';
+	s1.color = 'red';
+	console.log(s1.color); // undefined
+
+	
+}());
+
+</script>
+</body>
+</html>
