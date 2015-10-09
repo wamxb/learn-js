@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>表单的基础知识</title>
+</head>
+<body>
+
+<form id="form1"></form>
+<script type="text/javascript">
+	
+(function(){
+
+	// 取得<form>元素的方式
+	// 通过 id
+	var form = document.getElementById('form1');
+
+	// 通过 document.forms 可以取得页面中所有的表单
+	var firstForm = document.forms[0];	// 取得页面中第一个表单
+	var myForm = document.forms['form2']; // 取得页面中名称为『form2』的表单 
+}());
+
+</script>
+</body>
+</html>
