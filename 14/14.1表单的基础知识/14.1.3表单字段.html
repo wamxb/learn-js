@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>14.1.3表单字段</title>
+</head>
+<body>
+<form id="form1">
+	<input type="text" value="1">
+	<input type="text" id="textbox1" value="2">
+	<input type="text" name="textbox1" value="3">
+</form>
+<form id="myForm">
+	<ul>
+		<li>
+			<input type="radio" name="color" value="red">Red</li>
+		</li>
+		<li>
+			<input type="radio" name="color" value="green">Green</li>
+		</li>
+		<li>
+			<input type="radio" name="color" value="blue">Blue</li>
+		</li>
+	</ul>
+</form>
+<select id="select1">
+	<option value="1">1</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+</select>
+<style type="text/css">
+	.disn { display: none; }
+	.vish { visibility: hidden; }
+</style>
+<form id="focusForm">
+	<input type="hidden" value="hidden">
+	<input type="text" class="disn" value="disn">
+	<input type="text" class="vish" value="vish">
+</form>
+<script type="text/javascript">
+	
+(function(){
+	var form = document.getElementById('form1');
+
+	// 取得表单中的第一个字段
+	var field1 = form.elements[0];
+
+	// 取得名为『textbox1』的字段
+	// id,name 都可以
+	var field2 = form.elements['textbox1']; 
+
+	// 取得表单中包含的字段数量
+	var fieldCount = form.elements.length;
+
+	console.log(field1.value); // 1
+	console.log(field2); // nodelist
+	console.log(fieldCount); // 3
+}());
+
+(function(){
+
+	// 通过表单属性elements 访问元素能与旧浏览器向后兼容而保留过渡方式
+	var form  = document.getElementById('myForm'); // 3
+
+	var colorFields = form.elements['color'];
+	console.log(colorFields.length);
+
+	var firstColorField = colorFields[0];
+	var firstFormField = form.elements[0];
+	console.log(firstColorField === firstFormField); // true
+
+}());
+
+(function(){
+
+	var form = document.getElementById('myForm');
+	var field = form.elements[0];
+
+	field.value = '修改之后的值';
+
+	// 检查 form 属性的值
+	console.log(field.form === form); // true
+
+	field.focus();
+
+	field.disabled = true;
+}());
+
+
+(function(){
+
+	var select = document.getElementById('select1');
+	console.log(select.type); // select-one
+
+}());
+
+(function(){
+
+	var form = document.getElementById('focusForm');
+
+	var field1 = form.elements[0];
+	console.log(field1.value);
+	field1.focus(); // chrome 不会报错
+
+	var field2 = form.elements[1];
+	field2.focus(); // chrome 不会报错
+
+	var field3 = form.elements[2];
+	field3.focus(); // chrome 不会报错
+
+
+}());
+
+
+
+
+
+</script>
+</body>
+</html>
