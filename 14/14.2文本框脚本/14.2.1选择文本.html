@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>14.2.1选择文本</title>
+</head>
+<body>
+<form>
+	<input type="text" name="textbox1">
+
+</form>
+<script type="text/javascript">
+	(function(){
+		var textbox = document.forms[0].elements['textbox1'];
+
+		textbox.value = 'some new value';
+
+		textbox.select();
+
+		function getSelectedText(textbox) {
+			// IE9+,Firefox,Safari,Chrome,Opera
+			if (typeof textbox.selectionStart == 'number') {
+				return textbox.value.substring(textbox.selectionStart, textbox.selectionEnd);
+			} else if (document.selection) { // lt IE8
+				return document.selection.createRange().text;
+			}
+		}
+		var result = getSelectedText(textbox);
+		console.log('result: '+result);
+	}());
+
+
+</script>
+</body>
+</html>
