@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>textarea高度自适应</title>
+</head>
+<body>
+http://www.barretlee.com/blog/2014/12/04/textarea-auto-height/
+<textarea style="width: 400px">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
+<script type="text/javascript">
+	var tt = document.getElementsByTagName('textarea').item(0),
+		len = tt.value.length,
+		width = tt.clientWidth,
+		style = (window.getComputedStyle || function(a){return a.currentStyle})(tt, null),
+		fs = parseInt(style['font-size']) || 12,
+		lh = parseInt(style['line-height']) || fs * 1.2;
+		console.log(len, width, style, fs, lh);
+	tt.style.height = Math.ceil(len/(width/fs)) * lh + 'px';
+
+	// 法二
+	tt.onpropertychange = tt.oninput = function(){
+	    this.style.height = this.scrollHeight;
+	};
+</script>
+</body>
+</html>

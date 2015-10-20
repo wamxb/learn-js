@@ -18,6 +18,15 @@
         console.log('=======================');
     }());
 
+    // *test* clone()
+    (function(){
+        var colors = ['red', 'green', 'blue'];
+        var arr = colors.concat();
+        var result = arr.splice(1, 1);
+        console.log(colors, arr, result);
+        console.log('test end ========================');
+        // ["red", "green", "blue"] ["red", "blue"] ["green"]
+    }());
     
     (function() {
         // slice()方法可以接受一或两个参数，
@@ -55,7 +64,6 @@
         console.log(colors); // g,r,p,o,b
         console.log(removed); // y
     }());
- 
 </script>
 </body>
 </html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>date</title>
+</head>
+<body>
+http://segmentfault.com/a/1190000003710954#articleHeader0
+<script type="text/javascript">
+	var d = new Date();
+	//Fri Oct 16 2015 08:52:58 GMT+0800 (中国标准时间)
+	console.log(d.toString());
+	var d = new Date(1293879600000);
+	console.log(d);
+	d = new Date('2015-10-16T09:00:00');
+	console.log(d);
+	d = new Date('2015/10/16 9:00:00');
+	console.log(d);
+	d = new Date(2015,9,16,9,0,0);
+	console.log(d);
+	d = new Date('jan 01 2011,11 11:00:00');
+	console.log(d);
+	d = new Date('Sat Jan 01 2011 11:00:00');
+	console.log(d);
+	//Sat Jan 01 2011 11:00:00 GMT+0800 (中国标准时间)
+
+	d = new Date('sss');
+	console.log(d);
+	d = new Date('2011/01/01T11:00:00');
+	console.log(d);
+	d = new Date('2011-01-01-11:00:00')
+	console.log(d);
+	d = new Date('1293879600000');
+	console.log(d);
+	//Invalid Date
+
+	d = new Date('2011-01-01T11:00:00')-new Date('1992/02/11 12:00:12');
+	console.log(d);
+//596069988000
+
+</script>
+</body>
+</html>
