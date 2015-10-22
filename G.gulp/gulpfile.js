@@ -1,8 +1,7 @@
 var gulp = require('gulp'),
-    gulpLoadPlugins = require('gulp-load-plugins'),
-    plugins = gulpLoadPlugins(),
-    browserSync = require('browser-sync'),
-    sass = require('gulp-sass');
+    plugins = require('gulp-load-plugins')();
+plugins.browserSync = require('browser-sync');
+plugins.sass = require('gulp-sass');
 
 var basePath = 'src/';
 var buildPath = 'dist/';
@@ -11,7 +10,7 @@ var paths = {
     sass: [basePath + 'scss/**/*.scss'],
     css: [basePath + 'css/**/*.css'],
     img: [basePath + 'images/**/*'],
-    html: [basePath + 'include/**/*.html'],
+    html: [basePath + '*.html'],
     lib: {
         js: [],
         css: [],
@@ -20,10 +19,10 @@ var paths = {
 };
 
 gulp.task('fileinclude', function () {
-    gulp.src(paths)
+    gulp.src(paths.html)
         .pipe(plugins.fileInclude({
             prefix: '@@'
-            , basepath: 'src/include' // 鍏蜂綋鐨勫湴鍧�@file
+            , basepath: 'src/include' // 具体的地址 || @file
             , context: {
                 name: 'test'
             }
@@ -33,19 +32,22 @@ gulp.task('fileinclude', function () {
 
 gulp.task('sass', function () {
     gulp.src(paths.sass)
-        .pipe(sass().on('error', sass.logError))
+        .pipe(plugins.sass({
+            outputStyle: 'compressed'
+        }).on('error', plugins.sass.logError))
         .pipe(gulp.dest(buildPath + basePath + 'css/'));
 });
 
 gulp.task('browser-sync', function () {
     var files = [
         paths.js[0],
+        paths.sass[0],
         paths.css[0],
         paths.img[0],
         paths.html[0]
     ];
 
-    browserSync.init(files, {
+    plugins.browserSync.init(files, {
         server: {
             baseDir: './dist'
         }
@@ -57,9 +59,9 @@ gulp.task('browser-sync', function () {
 gulp.task('watch', function () {
     gulp.watch(paths.js, ['js']);
     gulp.watch(paths.img, ['img']);
+    gulp.watch(paths.sass, ['sass']);
     gulp.watch(paths.css, ['css']);
-    gulp.watch(paths.html, ['fileinclude', 'html']);
+    gulp.watch(paths.html, ['fileinclude']);
 });
 
-gulp.task('default', ['browser-sync', 'watch', 'sass']);
-//gulp.task('default', ['browser-sync', 'watch', 'fileinclude', 'sass']);
+gulp.task('default', ['browser-sync', 'watch', 'fileinclude', 'sass']);
