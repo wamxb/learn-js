@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>plugins.jstree</title>
+    <style type="text/css">
+        * { margin: 0; padding: 0; }
+        body { font-size: 16px; }
+        ul { list-style: none; }
+        .zplus-tree a { line-height: 1.5; color: #2fa0ec; text-decoration: none; outline: none; }
+        .zplus-tree li { padding-left: 25px; }
+    </style>
+</head>
+<body>
+<div id="side_menu" class="zplus-tree"></div>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+    !(function (win, $, undefined) {
+        var Tree = function ($el, opt) {
+            this.$el = $el;
+            this.cfg = $.extend(true, {}, opt);
+            this.init();
+        };
+
+        Tree.prototype = {
+            construct: Tree,
+            init: function () {
+                var that = this;
+                that.createMenu(that.$el[0], that.cfg.data, true);
+                that.bindEvent();
+            },
+            createMenu: function (el, arr, isShow) {
+                var that = this;
+                var i = 0, len = arr.length;
+                var docfrag = document.createDocumentFragment();
+                for (; i < len; i++) {
+                    var li = document.createElement('li');
+                    var a = document.createElement('a');
+                    if (arr[i].submenu) {
+                        a.setAttribute('href', arr[i].url || '#');
+                        a.innerHTML = '[+]' + arr[i].title;
+                    } else {
+                        a.setAttribute('href', 'javascript:;');
+                        a.innerHTML = '[-]' + arr[i].title;
+                    }
+                    li.appendChild(a);
+                    if (arr[i].submenu) {
+                        li.className = 'submenu';
+                        that.createMenu(li, arr[i].submenu, false);
+                    }
+                    docfrag.appendChild(li);
+                }
+                var ul = document.createElement('ul');
+                ul.appendChild(docfrag);
+                ul.style.display = isShow ? 'block' : 'none';
+                el.appendChild(ul);
+            },
+            bindEvent: function () {
+                var that = this;
+                that.$el.on('click', 'li.submenu', function () {
+                    var $li = $(this);
+                    var $a = $li.children('a');
+                    $a.text($a.text().replace('-', '+'));
+                    $li.children('ul').toggle();
+                });
+            }
+        };
+
+
+        $.fn.treeNav = function (opt) {
+            return this.each(function () {
+                new Tree($(this), opt);
+            });
+        };
+    })(window, window.jQuery);
+
+    $('#side_menu').treeNav({
+        data: [
+            {
+                "title": "一级菜单",
+                "submenu": [
+                    {
+                        "title": "二级菜单",
+                        "url": "#"
+                    },
+                    {
+                        "title": "二级菜单",
+                        "submenu": [
+                            {
+                                "title": "三级菜单",
+                                "submenu": [
+                                    {
+                                        "title": "四级菜单",
+                                        "url": "#"
+                                    },
+                                    {
+                                        "title": "四级菜单",
+                                        "submenu": [
+                                            {
+                                                "title": "五级菜单",
+                                                "url": "#"
+                                            },
+                                            {
+                                                "title": "五级菜单",
+                                                "url": "#"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "title": "三级菜单",
+                                "url": "#"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "二级菜单",
+                        "url": "#"
+                    }
+                ]
+            },
+            {
+                "title": "一级菜单",
+                "submenu": [
+                    {
+                        "title": "二级菜单",
+                        "url": "#"
+                    },
+                    {
+                        "title": "二级菜单",
+                        "submenu": [
+                            {
+                                "title": "三级菜单",
+                                "submenu": [
+                                    {
+                                        "title": "四级菜单",
+                                        "url": "#"
+                                    },
+                                    {
+                                        "title": "四级菜单",
+                                        "submenu": [
+                                            {
+                                                "title": "五级菜单",
+                                                "url": "#"
+                                            },
+                                            {
+                                                "title": "五级菜单",
+                                                "url": "#"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "title": "三级菜单",
+                                "url": "#"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "二级菜单",
+                        "url": "#"
+                    },
+                    {
+                        "title": "二级菜单",
+                        "submenu": [
+                            {
+                                "title": "三级菜单",
+                                "submenu": [
+                                    {
+                                        "title": "四级菜单",
+                                        "url": "#"
+                                    },
+                                    {
+                                        "title": "四级菜单",
+                                        "submenu": [
+                                            {
+                                                "title": "五级菜单",
+                                                "url": "#"
+                                            },
+                                            {
+                                                "title": "五级菜单",
+                                                "url": "#"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "title": "三级菜单",
+                                "url": "#"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "二级菜单",
+                        "url": "#"
+                    }
+                ]
+            },
+            {
+                "title": "一级菜单",
+                "submenu": [
+                    {
+                        "title": "二级菜单",
+                        "url": "#"
+                    },
+                    {
+                        "title": "二级菜单",
+                        "url": "#"
+                    },
+                    {
+                        "title": "二级菜单",
+                        "url": "#"
+                    }
+                ]
+            }
+        ]
+    });
+
+</script>
+</body>
+</html>

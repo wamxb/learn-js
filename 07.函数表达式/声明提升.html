@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>声明提升</title>
+</head>
+<body>
+<script>
+	(function(){
+		// 变量声明和函数声明都会得到变量提升，但函数声明会最先得到提升，然后是变量声明。
+
+		foo();
+		var foo;
+		function foo(){
+			console.log(1);
+		}
+		foo = function(){
+			console.log(2);
+		}
+
+		// ==> 由于函数声明提升，处理方式如下
+		/*		
+			function foo(){
+			    console.log(1);
+			} 
+			foo();
+			foo = function(){
+			    console.log(2);
+			}
+		*/
+
+	}());
+</script>
+</body>
+</html>
