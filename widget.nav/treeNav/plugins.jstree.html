@@ -7,8 +7,14 @@
         * { margin: 0; padding: 0; }
         body { font-size: 16px; }
         ul { list-style: none; }
-        .zplus-tree a { line-height: 1.5; color: #2fa0ec; text-decoration: none; outline: none; }
-        .zplus-tree li { padding-left: 25px; }
+        .zplus-tree a { line-height: 1.5; color: #333; text-decoration: none; outline: none; }
+        .zplus-tree a.active { color: #2fa0ec; }
+        .zplus-tree li { padding-left: 24px; }
+        .zplus-tree li a { display: block; line-height: 24px; height: 24px; }
+        .zplus-tree li > a i { width: 24px; height: 24px; display: inline-block; *display: inline; *zoom: 1; background: url("https://static.jstree.com/3.2.1/assets/dist/themes/default/32px.png") no-repeat -9999px -9999px; vertical-align: middle; }
+        .zplus-tree li.submenu > a i { background-position: -36px -4px; }
+        .zplus-tree li.submenu > a.fold i { background-position: -4px -7px; }
+        .zplus-tree li.submenu ul { display: none; }
     </style>
 </head>
 <body>
@@ -36,17 +42,22 @@
                 for (; i < len; i++) {
                     var li = document.createElement('li');
                     var a = document.createElement('a');
-                    if (arr[i].submenu) {
-                        a.setAttribute('href', arr[i].url || '#');
-                        a.innerHTML = '[+]' + arr[i].title;
+                    var data = arr[i];
+                    a.setAttribute('data-level', data.level);
+                    var flag = that.cfg.activeId.indexOf(data.level) > -1;
+                    if (data.submenu) {
+                        a.setAttribute('href', data.url || '#');
+                        a.innerHTML = '<i></i>' + data.title;
+                        a.className = flag ? ( that.cfg.activeId === data.level ? 'active' : '') : 'fold';
                     } else {
                         a.setAttribute('href', 'javascript:;');
-                        a.innerHTML = '[-]' + arr[i].title;
+                        a.innerHTML = '<i></i>' + data.title;
+                        a.className = flag ? 'active' : '';
                     }
                     li.appendChild(a);
-                    if (arr[i].submenu) {
+                    if (data.submenu) {
                         li.className = 'submenu';
-                        that.createMenu(li, arr[i].submenu, false);
+                        that.createMenu(li, data.submenu, flag);
                     }
                     docfrag.appendChild(li);
                 }
@@ -57,11 +68,20 @@
             },
             bindEvent: function () {
                 var that = this;
-                that.$el.on('click', 'li.submenu', function () {
-                    var $li = $(this);
-                    var $a = $li.children('a');
-                    $a.text($a.text().replace('-', '+'));
-                    $li.children('ul').toggle();
+                that.$el.on('click', 'li.submenu > a i', function (event) {
+                    var $that = $(this);
+                    var $a = $that.closest('a');
+                    var $li = $that.closest('li');
+                    $li.siblings('li').find('a').addClass('fold')
+                            .next('ul').hide();
+                    $a.toggleClass('fold');
+                    $a.next('ul').slideToggle(300);
+//                    $li.children('ul').toggle();
+                });
+                that.$el.on('click', 'a', function () {
+                    var $that = $(this);
+                    that.$el.find('a').removeClass('active');
+                    $that.addClass('active');
                 });
             }
         };
@@ -74,151 +94,184 @@
         };
     })(window, window.jQuery);
 
+    var treeNavData = [
+        {
+            "title": "一级菜单",
+            "level": "level_1",
+            "submenu": [
+                {
+                    "title": "二级菜单",
+                    "level": "level_1_1",
+                    "url": "#"
+                },
+                {
+                    "title": "二级菜单",
+                    "level": "level_1_2",
+                    "submenu": [
+                        {
+                            "title": "三级菜单",
+                            "level": "level_1_2_1",
+                            "submenu": [
+                                {
+                                    "title": "四级菜单",
+                                    "level": "level_1_2_1_1",
+                                    "url": "#"
+                                },
+                                {
+                                    "title": "四级菜单",
+                                    "level": "level_1_2_1_2",
+                                    "submenu": [
+                                        {
+                                            "title": "五级菜单",
+                                            "level": "level_1_2_1_2_1",
+                                            "url": "#"
+                                        },
+                                        {
+                                            "title": "五级菜单",
+                                            "level": "level_1_2_1_2_2",
+                                            "url": "#"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "title": "三级菜单",
+                            "level": "level_1_2_2",
+                            "url": "#"
+                        }
+                    ]
+                },
+                {
+                    "title": "二级菜单",
+                    "level": "level_1_3",
+                    "url": "#"
+                }
+            ]
+        },
+        {
+            "title": "一级菜单",
+            "level": "level_2",
+            "submenu": [
+                {
+                    "title": "二级菜单",
+                    "level": "level_2_1",
+                    "url": "#"
+                },
+                {
+                    "title": "二级菜单",
+                    "level": "level_2_2",
+                    "submenu": [
+                        {
+                            "title": "三级菜单",
+                            "level": "level_2_2_1",
+                            "submenu": [
+                                {
+                                    "title": "四级菜单",
+                                    "level": "level_2_2_1_1",
+                                    "url": "#"
+                                },
+                                {
+                                    "title": "四级菜单",
+                                    "level": "level_2_2_1_2",
+                                    "submenu": [
+                                        {
+                                            "title": "五级菜单",
+                                            "level": "level_2_2_1_2_1",
+                                            "url": "#"
+                                        },
+                                        {
+                                            "title": "五级菜单",
+                                            "level": "level_2_2_1_2_1",
+                                            "url": "#"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "title": "三级菜单",
+                            "level": "level_2_2_2",
+                            "url": "#"
+                        }
+                    ]
+                },
+                {
+                    "title": "二级菜单",
+                    "level": "level_2_3",
+                    "url": "#"
+                },
+                {
+                    "title": "二级菜单",
+                    "level": "level_2_4",
+                    "submenu": [
+                        {
+                            "title": "三级菜单",
+                            "level": "level_2_4_1",
+                            "submenu": [
+                                {
+                                    "title": "四级菜单",
+                                    "level": "level_2_4_1_1",
+                                    "url": "#"
+                                },
+                                {
+                                    "title": "四级菜单",
+                                    "level": "level_2_4_1_2",
+                                    "submenu": [
+                                        {
+                                            "title": "五级菜单",
+                                            "level": "level_2_4_1_2_1",
+                                            "url": "#"
+                                        },
+                                        {
+                                            "title": "五级菜单",
+                                            "level": "level_2_4_1_2_1",
+                                            "url": "#"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "title": "三级菜单",
+                            "level": "level_2_4_2",
+                            "url": "#"
+                        }
+                    ]
+                },
+                {
+                    "title": "二级菜单",
+                    "level": "level_2_5",
+                    "url": "#"
+                }
+            ]
+        },
+        {
+            "title": "一级菜单",
+            "level": "level_3",
+            "submenu": [
+                {
+                    "title": "二级菜单",
+                    "level": "level_3_1",
+                    "url": "#"
+                },
+                {
+                    "title": "二级菜单",
+                    "level": "level_3_2",
+                    "url": "#"
+                },
+                {
+                    "title": "二级菜单",
+                    "level": "level_3_3",
+                    "url": "#"
+                }
+            ]
+        }
+    ];
     $('#side_menu').treeNav({
-        data: [
-            {
-                "title": "一级菜单",
-                "submenu": [
-                    {
-                        "title": "二级菜单",
-                        "url": "#"
-                    },
-                    {
-                        "title": "二级菜单",
-                        "submenu": [
-                            {
-                                "title": "三级菜单",
-                                "submenu": [
-                                    {
-                                        "title": "四级菜单",
-                                        "url": "#"
-                                    },
-                                    {
-                                        "title": "四级菜单",
-                                        "submenu": [
-                                            {
-                                                "title": "五级菜单",
-                                                "url": "#"
-                                            },
-                                            {
-                                                "title": "五级菜单",
-                                                "url": "#"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "title": "三级菜单",
-                                "url": "#"
-                            }
-                        ]
-                    },
-                    {
-                        "title": "二级菜单",
-                        "url": "#"
-                    }
-                ]
-            },
-            {
-                "title": "一级菜单",
-                "submenu": [
-                    {
-                        "title": "二级菜单",
-                        "url": "#"
-                    },
-                    {
-                        "title": "二级菜单",
-                        "submenu": [
-                            {
-                                "title": "三级菜单",
-                                "submenu": [
-                                    {
-                                        "title": "四级菜单",
-                                        "url": "#"
-                                    },
-                                    {
-                                        "title": "四级菜单",
-                                        "submenu": [
-                                            {
-                                                "title": "五级菜单",
-                                                "url": "#"
-                                            },
-                                            {
-                                                "title": "五级菜单",
-                                                "url": "#"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "title": "三级菜单",
-                                "url": "#"
-                            }
-                        ]
-                    },
-                    {
-                        "title": "二级菜单",
-                        "url": "#"
-                    },
-                    {
-                        "title": "二级菜单",
-                        "submenu": [
-                            {
-                                "title": "三级菜单",
-                                "submenu": [
-                                    {
-                                        "title": "四级菜单",
-                                        "url": "#"
-                                    },
-                                    {
-                                        "title": "四级菜单",
-                                        "submenu": [
-                                            {
-                                                "title": "五级菜单",
-                                                "url": "#"
-                                            },
-                                            {
-                                                "title": "五级菜单",
-                                                "url": "#"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "title": "三级菜单",
-                                "url": "#"
-                            }
-                        ]
-                    },
-                    {
-                        "title": "二级菜单",
-                        "url": "#"
-                    }
-                ]
-            },
-            {
-                "title": "一级菜单",
-                "submenu": [
-                    {
-                        "title": "二级菜单",
-                        "url": "#"
-                    },
-                    {
-                        "title": "二级菜单",
-                        "url": "#"
-                    },
-                    {
-                        "title": "二级菜单",
-                        "url": "#"
-                    }
-                ]
-            }
-        ]
+        data: treeNavData,
+        activeId: 'level_1_2_1'
     });
-
 </script>
 </body>
 </html>
