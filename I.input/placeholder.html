@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>placeholder</title>
+</head>
+<body>
+	<p>
+    <label for="test1">测试1：</label>
+    <input type="text" id="test1" placeholder="这是value模拟" size="26" />
+</p>
+<p>
+    <label for="test2">测试2：</label>
+    <input type="text" id="test2" placeholder="这是label普通模拟" size="26" />
+</p>
+<p>
+    测试3：
+    <input type="text" class="test3" placeholder="这是label透明度交互模拟" size="26" />
+</p>
+<p>
+    <label for="test4">测试4：</label>
+    <input type="text" id="test4" placeholder="这是跨浏览器透明度交互模拟" size="26" />
+</p>
+<p>
+    <label for="test5">测试5：</label>
+    <input id="test5" type="text" placeholder="label元素藏于文本框之下" size="26" />
+</p>
+<script src="http://apps.bdimg.com/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://www.zhangxinxu.com/study/js/jquery.placeholder.js"></script>
+<script>
+	$('body').find('input').placeholder();
+</script>
+</body>
+</html>

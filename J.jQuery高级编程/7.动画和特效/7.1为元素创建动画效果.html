@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>为元素创建动画效果</title>
+	<style>
+	div {
+		position: absolute;
+		left: 10px;
+		top: 10px;
+		width: 20px;
+		height: 20px;
+		background-color: green;
+		}
+	</style>
+</head>
+<body>
+<p>Where is the box? <span id="watcher"></span></p><div id="box"></div>
+<script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+$(function(){
+	$('#box').click(function() {
+		var pos = $(this).offset();
+		$('#watcher').text(pos.top + ':' + pos.left);
+	});
+});
+</script>
+</body>
+</html>
