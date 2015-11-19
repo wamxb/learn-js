@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>面向对象</title>
+</head>
+<body>
+<script type="text/javascript">
+
+    console.info('数据属性');
+    (function () {
+//        "use strict";
+        var person = {
+            name: 'zplus',
+            job: 'f2e',
+            year: 4
+        };
+
+        // 默认都为false
+        Object.defineProperty(person, 'name', {
+            configurable: true,
+            writable: false
+        });
+
+        person.name = '蒙奇D路飞'; // Uncaught TypeError: Cannot assign to read only property 'name' of #<Object> 严格模式下报错
+        console.log(person.name);
+    })();
+
+    console.info('访问属性');
+    (function () {
+        "use strict";
+        var person = {
+            name: 'zplus',
+            job: 'f2e',
+            year: 4
+        };
+
+        Object.defineProperty(person, 'fullName', {
+            get: function () {
+                return this.job + this.name;
+            },
+            set: function (job) {
+                this.job = job || this.job;
+            }
+        });
+
+        person.fullName = '服务端';
+        console.log(person.fullName);
+    })();
+
+
+    console.info('定义多个属性');
+    (function () {
+        "use strict";
+        var person = {};
+
+        Object.defineProperties(person, {
+            name: {
+                value: 'zplus'
+            },
+            job: {
+                value: 'f2e',
+                writable: true // 应设置为true
+            },
+            fullName: {
+                get: function () {
+                    return this.job + this.name;
+                },
+                set: function (job) {
+                    this.job = job || this.job;
+                }
+            }
+        });
+
+        person.fullName = '服务端';
+        console.log(person.fullName);
+    })();
+
+
+    (function () {
+        var book = {};
+
+        Object.defineProperties(book, {
+            _year: {
+                value: 2004
+            },
+            edition: {
+                value: 1
+            },
+            year: {
+                get: function () {
+                    return this._year;
+                },
+                set: function (newValue) {
+                    if (newValue > 2004) {
+                        this._year = newValue;
+                        this.edition += newValue - 2004;
+                    }
+                }
+            }
+        });
+        book.year = 2015;
+        console.log(book);
+    })();
+
+</script>
+</body>
+</html>
