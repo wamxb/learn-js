@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery插件开发</title>
+</head>
+<body>
+<div class="className">xxxxx1</div>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="mode1.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.className').pluginName('init', 'argument1', 'argument2');
+        return;
+
+        // 为每个类名为 ".className" 的元素执行init方法
+        $('.className').pluginName();
+        $('.className').pluginName('init');
+        $('.className').pluginName('init', {});
+        // 向init方法传入“{}”对象作为函数参数
+        $('.className').pluginName({});
+        // 向init方法传入“{}”对象作为函数参数
+
+        // 为每个类名为 “.className” 的元素执行destroy方法
+        $('.className').pluginName('destroy');
+        $('.className').pluginName('destroy', {});
+        // 向destroy方法传入“{}”对象作为函数参数
+
+        // 所有代码都可以正常运行
+        $('.className').pluginName('init', 'argument1', 'argument2');
+        // 把 "argument 1" 和 "argument 2" 传入 "init"
+
+        // 不正确的使用
+        $('.className').pluginName('nonexistantMethod');
+        $('.className').pluginName('nonexistantMethod', {});
+        $('.className').pluginName('argument 1');
+        // 会尝试调用 "argument 1" 方法
+        $('.className').pluginName('argument 1', 'argument 2');
+        // 会尝试调用 "argument 1" ，“argument 2”方法
+        $('.className').pluginName('privateFunction');
+    })
+    ;
+</script>
+</body>
+</html>

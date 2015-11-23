@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery插件开发</title>
+</head>
+<body>
+<!--<div class="className" data-plugin='{"fontSize": "20px"}'>xxxxx1</div>-->
+<!--<a href="#">link1</a><a href="#">link2</a><a href="#">link3</a>-->
+
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam commodi delectus dignissimos dolor excepturi id, incidunt itaque, magni maiores maxime minus nesciunt nihil numquam quaerat soluta temporibus vero voluptatum?</p>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="demo.js"></script>
+<script type="text/javascript">
+    $(function () {
+/*        $('a').plugin({
+            color: 'green'
+        });*/
+        $('p').plugin({
+            fontSize: 30,
+            'lineHeight': 1,
+            backgroundColor: 'black'
+        })
+    });
+</script>
+</body>
+</html>

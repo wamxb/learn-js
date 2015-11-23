@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>toastr-demo</title>
+    <style type="text/css">
+        /* --------------------------------------------------
+toastr
+-------------------------------------------------- */
+        .toastr {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            padding: 0.39063rem 0.46875rem;
+            text-align: center;
+            width: auto;
+            -webkit-border-radius: 0.125rem;
+            -moz-border-radius: 0.125rem;
+            border-radius: 0.125rem;
+            color: #fff;
+            opacity: 0;
+            visibility: hidden;
+            -webkit-transform: translate3d(-50%, -50%, 0);
+            -moz-transform: translate3d(-50%, -50%, 0);
+            -ms-transform: translate3d(-50%, -50%, 0);
+            -o-transform: translate3d(-50%, -50%, 0);
+            transform: translate3d(-50%, -50%, 0);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            -webkit-animation: all 1.3s ease-in-out both;
+            -o-animation: all 1.3s ease-in-out both;
+            animation: all 1.3s ease-in-out both;
+            background: #adadad; }
+        .toastr {
+            font-size: 16px; }
+        [data-dpr="2"] .toastr {
+            font-size: 32px; }
+        [data-dpr="3"] .toastr {
+            font-size: 48px; }
+        .toastr.normal {
+            background: #adadad; }
+        .toastr.info {
+            background: #18a8df; }
+        .toastr.success {
+            background: #72a230; }
+        .toastr.danger {
+            background: #ab2d32; }
+        .toastr.warning {
+            background: #cc9500; }
+        .toastr.active {
+            -webkit-animation-name: showmsg;
+            -moz-animation-name: showmsg;
+            -o-animation-name: showmsg;
+            animation-name: showmsg; }
+        @keyframes showmsg {
+            0% {
+                opacity: 0;
+                visibility: visible; }
+            20%, 80% {
+                opacity: 1;
+                visibility: visible; }
+            90% {
+                opacity: 0;
+                visibility: hidden; }
+            }
+    </style>
+</head>
+<body>
+<a href="#" class="btn" data-toastr='{"msg": "Hello jQuery1"}'>click me!</a>
+<a href="#" class="btn" data-toastr='{"msg": "Hello jQuery2"}'>click 2!</a>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="jquery.toastr.js"></script>
+</body>
+</html>
