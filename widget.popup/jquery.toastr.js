@@ -1,37 +1,38 @@
 +(function ($, window, document, undefined) {
 
+    var bindEvent = function (that) {
+        that.$el.on('click', function () {
+            that.show();
+        });
+        that.$toastr.on('animationend webkitAnimationEnd oAnimationEnd', function () {
+            that.$toastr.prop('class', 'toastr');
+        });
+    };
+
     var Toastr = (function () {
         function Toastr(element, options) {
             var that = this;
             that.$el = $(element);
-            that.cfg = $.extend({}, $.fn.toastr.defaults, options || that.$el.data('toastr'));
-            console.log(that.cfg);
+            that.$el.each(function () {
+                var $that = $(this);
+                $that.cfg = $.extend({}, $.fn.toastr.defaults, options || $that.$el.data('toastr'));
+            });
             var $toastr = $('.toastr');
             if ($toastr.length == 0) {
                 $toastr = $('<div class="toastr">').appendTo($('body'));
             }
             that.$toastr = $toastr;
-            that.bindEvent();
+            bindEvent(that);
         }
 
         Toastr.prototype.show = function (msg, type) {
             var that = this;
             console.log('show');
-            console.log(that);
+            console.log(that.$el);
             that.$toastr.prop('class', 'toastr')
                 .html(msg || that.cfg.msg)
                 .addClass(type || that.cfg.type)
                 .addClass('active');
-        };
-
-        Toastr.prototype.bindEvent = function () {
-            var that = this;
-            $(document).on('click', that.$el, function () {
-                that.show();
-            });
-            that.$toastr.on('animationend webkitAnimationEnd oAnimationEnd', function () {
-                that.$toastr.prop('class', 'toastr');
-            });
         };
 
         return Toastr;

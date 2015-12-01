@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.min.js"></script>
+</head>
+<body>
+<div id="demo">
+    <button @keyup.enter="greet">Greet</button>
+</div>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#demo',
+        data: {
+            name: 'Vue.js'
+        },
+        methods: {
+            greet: function (event) {
+                console.log('Hello ' + this.name + '!');
+                console.log(event.target.tagName);
+            }
+        }
+    });
+</script>
+</body>
+</html>

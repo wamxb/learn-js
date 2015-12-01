@@ -5,41 +5,35 @@
     <title>jQuery插件开发</title>
 </head>
 <body>
-<div class="className">xxxxx1</div>
+<!--<div class="className" data-plugin='{"fontSize": "20px"}'>xxxxx1</div>-->
+<!--<a href="#">link1</a><a href="#">link2</a><a href="#">link3</a>-->
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam commodi delectus dignissimos dolor excepturi id, incidunt itaque, magni maiores maxime minus nesciunt nihil numquam quaerat soluta temporibus vero voluptatum?</p>
+
+<div id="special">special</div>
+<div id="first">first</div>
+<div id="second">second</div>
+<div id="third">third</div>
 <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="mode1.js"></script>
+<script src="demo.js"></script>
 <script type="text/javascript">
     $(function () {
-        $('.className').pluginName('init', 'argument1', 'argument2');
-        return;
+        /*        $('a').plugin({
+         color: 'green'
+         });*/
+/*        $('p').plugin({
+            fontSize: 30,
+            'lineHeight': 1,
+            backgroundColor: 'black'
+        });*/
 
-        // 为每个类名为 ".className" 的元素执行init方法
-        $('.className').pluginName();
-        $('.className').pluginName('init');
-        $('.className').pluginName('init', {});
-        // 向init方法传入“{}”对象作为函数参数
-        $('.className').pluginName({});
-        // 向init方法传入“{}”对象作为函数参数
 
-        // 为每个类名为 “.className” 的元素执行destroy方法
-        $('.className').pluginName('destroy');
-        $('.className').pluginName('destroy', {});
-        // 向destroy方法传入“{}”对象作为函数参数
-
-        // 所有代码都可以正常运行
-        $('.className').pluginName('init', 'argument1', 'argument2');
-        // 把 "argument 1" 和 "argument 2" 传入 "init"
-
-        // 不正确的使用
-        $('.className').pluginName('nonexistantMethod');
-        $('.className').pluginName('nonexistantMethod', {});
-        $('.className').pluginName('argument 1');
-        // 会尝试调用 "argument 1" 方法
-        $('.className').pluginName('argument 1', 'argument 2');
-        // 会尝试调用 "argument 1" ，“argument 2”方法
-        $('.className').pluginName('privateFunction');
-    })
-    ;
+        $.fn.canvasizr.options.fillColor = '#fe57a1';
+        $('#special').canvasizr({
+            textColor: '#fff',
+            font: "30px Consolas, 'Lucida Console', monospace",
+            border: true
+        });
+    });
 </script>
 </body>
 </html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        div { color: red; }
+    </style>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+<div>First</div>
+<div>Second</div>
+<div>Third</div>
+
+<div>Fourth</div>
+<!-- ----------------------- demo2 /S ------------------------------------------------ -->
+<style type="text/css">
+    #animation {
+        width: 200px;
+        height: 200px;
+        background: #ccf;
+        }
+</style>
+<div id="animation" style="display: none"></div>
+<!-- ----------------------- demo2 /E ------------------------------------------------ -->
+<!-- ----------------------- demo3 /S ------------------------------------------------ -->
+<div id="greenzombie">greenzombie</div>
+<div id="zombie man">zombie_man</div>
+<div id="mad_scientist">mad_scientist</div>
+<!-- ----------------------- demo3 /E ------------------------------------------------ -->
+<!-- ----------------------- demo4 /S ------------------------------------------------ -->
+<form method="post" name="">
+    <input type="text"/>
+    <input type="text"/>
+    <input type="text"/>
+    <input type="text"/>
+</form>
+<!-- ----------------------- demo4 /E ------------------------------------------------ -->
+<!-- ----------------------- demo5 /S ------------------------------------------------ -->
+<form method="post" id="demo5">
+    <input type="text" style="display: none;" value="1"/>
+    <input type="text" name="text2" style="width: 0; height: 0;" value="2"/>
+    <input type="text" name="text3" style="display: block;" value="3">
+</form>
+<!-- ----------------------- demo5 /E ------------------------------------------------ -->
+<script>
+    (function ($) {
+        var elems = document.getElementsByTagName("div"); // returns a nodeList
+        var arr = jQuery.makeArray(elems);
+        console.log(arr);
+        arr.reverse(); // use an Array method on list of dom elements
+        $(arr).appendTo(document.body);
+    })(jQuery);
+
+    (function ($) {
+        console.info('merge');
+        var spooks = ['wraiths', 'vampires', 'lichs'];
+        var nums = [1, 2, 3];
+        var mergedArrays = $.merge(spooks, nums);
+        console.log(mergedArrays);
+    })(jQuery);
+
+
+    // demo2
+    +(function () {
+
+        $('#animation').show('slow');
+        $('#animation').queue(function () {
+            $(this).animate({width: '+=400'}, 1000);
+            $(this).dequeue();
+        });
+    })();
+
+    // demo3
+    +(function () {
+        var userInfo = $('[id~="zombie"]').length;
+        console.log(userInfo);
+    })();
+
+    // demo4
+    +(function () {
+        var n1 = $('input').length;
+        var n2 = $(':input').length;
+        var n3 = $('form > *').length;
+        var n4 = $(':text').length;
+        var n5 = $('input[type="text"]').length;
+        console.log(n1, n2, n3, n4, n5);
+    })();
+
+    // demo5
+    +(function () {
+        console.info('demo5');
+        var $demo = $('#demo5');
+        var numInv = $demo.find(':text:hidden').length;
+        var numVis = $demo.find(':text:visible').length;
+        console.log($demo.find(':text:hidden'), $demo.find(':text:visible'));
+
+    })();
+
+</script>
+</body>
+</html>

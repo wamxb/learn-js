@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jquery源码之整体架构分析</title>
+</head>
+<body>
+http://segmentfault.com/a/1190000004037966
+<script type="text/javascript">
+    +(function () {
+        // 得到jquery实例
+        var jQuery = function () {
+            return jQuery.prototype.init();
+        };
+
+        jQuery.prototype = {
+            init: function () {
+                return this;
+            },
+            age: 18
+        };
+
+        var jq1 = new jQuery();
+        var jq2 = new jQuery();
+        jq1.age = 20;
+        console.log(jq1.age);   // 20
+        console.log(jq2.age);   // 20
+    })();
+
+    +(function () {
+        var jQuery = function () {
+            return new jQuery.prototype.init();
+        };
+
+        jQuery.prototype = {
+            init: function () {
+                return this;
+            },
+            age: 18
+        };
+        jQuery.prototype.init.prototype = jQuery.prototype;
+
+        var jq1 = new jQuery();
+        var jq2 = new jQuery();
+        jq1.age = 20;
+        console.log(jq1.age);
+        console.log(jq2.age);
+    })();
+
+
+    +(function(){
+
+
+
+    })();
+</script>
+</body>
+</html>
