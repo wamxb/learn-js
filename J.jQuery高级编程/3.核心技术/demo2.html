@@ -68,6 +68,15 @@
     </ul>
 </div>
 <!-- ----------------------- demo8 /E ------------------------------------------------ -->
+<!-- ----------------------- demo9 /S ------------------------------------------------ -->
+<ul id="demo9">
+    <li>list item 1</li>
+    <li>list item 2</li>
+    <li class="third-item">list item 3</li>
+    <li>list item 4</li>
+    <li>list item 5</li>
+</ul>
+<!-- ----------------------- demo9 /E ------------------------------------------------ -->
 <script>
 
     +(function () {
@@ -98,6 +107,27 @@
         var fourthEl = list.get(3);
         console.log(firstEl.innerHTML);
         console.log(threeEl.innerHTML + ' and ' + fourthEl.innerHTML);
+    })();
+
+    +(function () {
+
+        var listElements = $('li');
+        listElements
+                .filter(':gt(3)').css('color', 'green')
+                .end()
+                .filter(':lt(3)').css('color', 'red')
+                .end();
+        console.log(listElements.length);
+
+    })();
+
+    +(function () {
+
+        var $demo9 = $('#demo9');
+        $demo9.find('li.third-item')
+                .nextAll()
+                .addBack()
+                .css('background-color', 'red');
     })();
 
 </script>
