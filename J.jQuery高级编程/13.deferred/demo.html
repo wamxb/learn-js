@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="main">
+    <h1></h1>
+    <ul id="numbers"></ul>
+</div>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    function fib() {
+        return $.Deferred(function () {
+            var int1 = 0,
+                    int2 = 1,
+                    int3,
+                    sequence = '<li>0</li><li>1</li>';
+            for (var i = 3; i < 100; i++) {
+                int3 = int1 + int2;
+                int1 = int2;
+                int2 = int3;
+                sequence += '<li>' + int3 + '</li>';
+            }
+            $('#numbers')
+                    .append(sequence)
+                    .show(1000, this.resolve)
+        }).promise();
+    }
+    function success() {
+        $('h1').text('Fibonacci!');
+    }
+    function failure() {
+        $('h1').text('No numbers?');
+    }
+    $(function () {
+        /**
+         * 如果将一个函数传递给$.when，并且该函数不是一个Deferred对象，
+         * 那么$.when方法将把该函数视为一个resolved的Deferred对象
+         * 那么fail方法永远都不会触发
+         */
+        $.when(fib())
+                .done(success)
+                .fail(failure);
+    });
+
+</script>
+</body>
+</html>
