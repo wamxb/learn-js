@@ -1,29 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>为元素创建动画效果</title>
-	<style>
-	div {
-		position: absolute;
-		left: 10px;
-		top: 10px;
-		width: 20px;
-		height: 20px;
-		background-color: green;
-		}
-	</style>
+    <meta charset="UTF-8">
+    <title>为元素创建动画效果</title>
+    <style>
+        #box {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            width: 20px;
+            height: 20px;
+            background-color: green;
+            }
+        #demo2 {
+            position: relative;
+            left: 0;
+            background: blue;
+            width: 50px;
+            height: 50px;
+            }
+    </style>
 </head>
 <body>
-<p>Where is the box? <span id="watcher"></span></p><div id="box"></div>
+<p>Where is the box? <span id="watcher"></span></p>
+
+<div id="box"></div>
+<!-- ----------------------- demo2 /S ------------------------------------------------ -->
+<div id="demo2"></div>
+<!-- ----------------------- demo2 /E ------------------------------------------------ -->
 <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
-$(function(){
-	$('#box').click(function() {
-		var pos = $(this).offset();
-		$('#watcher').text(pos.top + ':' + pos.left);
-	});
-});
+    $('#box').click(function () {
+        var pos = $(this).offset();
+        $('#watcher').text(pos.top + ':' + pos.left);
+    });
+
+    +(function () {
+        var duration = 1000;
+        $(document).on('click', '#demo2', function (event) {
+            $(this).animate({
+                width: 10,
+                height: 10,
+                left: '+=500px'
+            }, duration);
+        })
+    })();
 </script>
 </body>
 </html>

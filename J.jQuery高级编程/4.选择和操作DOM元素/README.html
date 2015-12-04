@@ -1,3 +1,4 @@
+<h3 id="firefox-event-">Firefox浏览器和Event对象的兼容性</h3>
 <table>
 <thead>
 <tr>
@@ -12,5 +13,77 @@
 <td>方法</td>
 <td>cancelBubble()</td>
 </tr>
+<tr>
+<td>layerX, layerY</td>
+<td>属性</td>
+<td>offsetX, offset</td>
+</tr>
+<tr>
+<td>Target</td>
+<td>属性</td>
+<td>srcElement</td>
+</tr>
+<tr>
+<td>Type</td>
+<td>属性</td>
+<td>Type</td>
+</tr>
+<tr>
+<td>preventDefault</td>
+<td>方法</td>
+<td>return Value()</td>
+</tr>
+<tr>
+<td>altKey, ctrlKey, shiftKey</td>
+<td>属性</td>
+<td>altKey, ctrlKey, shiftKey</td>
+</tr>
+<tr>
+<td>Button</td>
+<td>属性</td>
+<td>Button</td>
+</tr>
+<tr>
+<td>charCode</td>
+<td>属性</td>
+<td>keyCode</td>
+</tr>
+<tr>
+<td>relatedTarget</td>
+<td>属性</td>
+<td>fromElement, toElement</td>
+</tr>
+<tr>
+<td>Bubbles</td>
+<td>属性</td>
+<td>N/A</td>
+</tr>
 </tbody>
 </table>
+<h3 id="jquery-">jQuery 事件</h3>
+<ul>
+<li>blur()</li>
+<li>focus()</li>
+<li>select()</li>
+<li>submit()</li>
+<li>click()</li>
+<li>dblclick()</li>
+<li>focusin()</li>
+<li>focusout()</li>
+<li>hover()</li>
+<li>mousedown()</li>
+<li>mouseenter()</li>
+<li>mousemove()</li>
+<li>mouseout()</li>
+<li>mouseover()</li>
+<li>mouseup()</li>
+<li>toggle()</li>
+<li>error()</li>
+<li>risize()</li>
+<li><p>scroll()</p>
+</li>
+<li><p>.trigger() &amp; .triggerHandler()
+.triggerHandler() 只执行第一个匹配对象的时间处理程序，不会向上冒泡
+.trigger()</p>
+</li>
+</ul>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+</head>
+<body>
+<div id="msg"></div>
+<form name="userRegistration">
+    <label for="userName">User</label>
+    <input type="text" name="userName" id="userName"><br>
+    <label for="email">Email</label>
+    <input type="text" name="email" id="email"><br>
+    <label for="password">Password</label>
+    <input type="text" name="password" id="password"><br>
+    <label for="chkPassword">Re-enter Password</label>
+    <input type="text" name="chkPassword" id="chkPassword"><br>
+    <input type="button" name="validate" id="" value="Validate Inputs"><br>
+</form>
+<input type="button" name="addLocation" id="" value="Add Location">
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        $('input[name="validate"]').click(function () {
+            var $msg = $('#msg');
+
+            // 清楚msg中的消息
+            $msg.html('');
+
+            // 获取各个输入框的值
+            var userName = $('input[name="userName"]').val();
+            var email = $('input[name="email"]').val();
+
+            var pass1 = $('input[name="password"]').val();
+            var pass2 = $('input[name="chkPassword"]').val();
+
+            var hasValue = userName && email && pass1 && pass2;
+            if (!hasValue) {
+                $msg
+                        .append('All Fields are required.')
+                        .css('color', 'red');
+                return false;
+            }
+
+            // 检查两次输入的密码是否完全相同
+            var passwordMath = (pass1 === pass2);
+
+            if (!passwordMath) {
+                $msg
+                        .append('<p>Passwords don"t match.</p>')
+                        .css('color', 'red');
+                return false;
+            }
+        });
+
+        $('input[name="addLocation"]').click(function () {
+            $(this).attr('disabled', true);
+
+            $('body').append(['<select name="stateCombo">'
+                , '<option>Select State</option>'
+                , '</select>'
+            ].join(''));
+
+            var states = ['福建省', '安微省', '江苏省'];
+            $.each(states, function (index, value) {
+                $('[name="stateCombo"]')
+                        .append('<option value="' + index + '">' + value + '</option>');
+            });
+
+            $('body').append('<select name="cityCombo"><option>Select City</option></select>');
+        });
+
+        $('[name="stateCombo"]').live('change', function (event) {
+
+            // 获取选中州名称，并定义城市名称数组
+            var selectedState = $(this).val();
+
+            var FJ_Cities = ['莆田', '厦门', '泉州'];
+            var AH_Cities = ['合肥', '黄山', '六安'];
+            var JS_Cities = ['南京', '无锡', '苏州'];
+            var cities = [];
+
+            if (selectedState == 0) {
+                cities = $.extend([], FJ_Cities);
+            } else if (selectedState == 1) {
+                cities = $.extend([], AH_Cities);
+            } else if (selectedState == 2) {
+                cities = $.extend([], JS_Cities);
+            } else {
+                cities = $.extend([], ['Select City']);
+            }
+
+            $('[name="cityCombo"]').empty();
+            $.each(cities, function (index, value) {
+                $('[name="cityCombo"]')
+                        .append('<option value="' + index + '">' + value + '</option>');
+            });
+
+        });
+
+    });
+</script>
+</body>
+</html>

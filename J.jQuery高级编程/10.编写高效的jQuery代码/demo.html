@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jquery</title>
+</head>
+<body>
+<script type="text/javascript">
+
+    var myApp = {};
+    var UTIL = {
+        fire: function (fn, fnName, args) {
+            var namespace = myApp;
+
+            var fnName = (fnName === undefined) ? 'init' : fnName;
+            if (fn !== '' && namespace[fn] && typeof namespace[fn][fnName] == 'function') {
+                namespace[fn][fnName](args);
+            }
+        },
+        loadEvents: function () {
+            var bodyId = document.body.id;
+            // 首先调用common
+            UTIL.fire('common');
+
+            // 对所有其他类执行调用
+            $.each(document.body.className.split(/\s+/), function (i, className) {
+                UTIL.fire(className);
+                UTIL.fire(className, bodyId);
+            });
+
+            UTIL.fire('common', 'finalize');
+        }
+    };
+    $(UTIL.loadEvents);
+
+</script>
+</body>
+</html>

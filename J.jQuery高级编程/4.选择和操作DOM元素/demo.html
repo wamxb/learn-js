@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        .div1 {
+            width: 300px;
+            height: 300px;
+            background: blue;
+            }
+        .div2 {
+            width: 200px;
+            height: 200px;
+            background: green;
+            }
+        .div3 {
+            width: 100px;
+            height: 100px;
+            background: red;
+            }
+    </style>
+</head>
+<body>
+<!-- ----------------------- demo1 /S ------------------------------------------------ -->
+<div id="div1" class="div1">
+    <div id="div2" class="div2">
+        <div id="div3" class="div3"></div>
+    </div>
+</div>
+<!-- ----------------------- demo1 /E ------------------------------------------------ -->
+<!-- ----------------------- demo2 /S ------------------------------------------------ -->
+<div id="demo2">
+    <a href="http://www.g.cn" class="btn">http://www.g.cn</a>
+    <br>
+    <a href="http://www.baidu.com" class="btn">http://www.baidu.com</a>
+    <br>
+    <button type="button">click me</button>
+</div>
+<!-- ----------------------- demo2 /E ------------------------------------------------ -->
+<!-- ----------------------- placeholder /S ------------------------------------------------ -->
+<input type="text" name="username" id="placeholder" placeholder="Enter you name">
+<!-- ----------------------- placeholder /E ------------------------------------------------ -->
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+<script type="text/javascript">
+    +(function () {
+
+        function f(id) {
+            document.body.innerHTML += '<p>executing handler for idv' + id + '</p>';
+        }
+
+        document.getElementById('div1').onclick = function () {
+            f(1);
+        };
+        document.getElementById('div2').onclick = function () {
+            f(2);
+        };
+        document.getElementById('div3').onclick = function () {
+            f(3);
+        };
+
+    })();
+
+    +(function () {
+        console.info('trigger & triggerHandler');
+        var $demo2 = $('#demo2');
+
+        /*        $demo2.find('.btn').on('click', function () {
+         document.body.innerHTML += '<p>' + $(this).attr('href') + '</p>';
+         });*/
+
+//        $demo2.find('.btn').trigger('click');
+//        $demo2.find('.btn').triggerHandler('click');
+//        $('#div3').trigger('click');
+//        $('#div3').triggerHandler('click');
+    })();
+
+
+    +(function () {
+
+        console.info('placeholder');
+
+        $('#placeholder').focus(function () {
+            var $that = $(this);
+            if ($that.val() === $that.attr('placeholder')) {
+                $that.val();
+            }
+        });
+
+        $('#placeholder').blur(function () {
+            var $that = $(this);
+            if ($that.val() === '') {
+                $that.val($that.attr('placeholder'));
+            }
+        })
+
+    })();
+
+</script>
+</body>
+</html>
