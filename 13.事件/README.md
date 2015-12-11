@@ -63,3 +63,29 @@ function stopEventPropagation(event) {
 	}
 }
 ```
+
+
+
+## jQuery事件
+* focus和blur事件不支持冒泡，但focusin和focusout事件支持
+* mouseover和mouseout事件支持冒泡，但这经常不方便，因为很难知道鼠标是从自己感兴趣的元素中移开了，还只是从该元素的子孙元素中移开了。
+mouseenter和mouseleave是非冒泡事件，可以解决刚才的问题。
+这几个事件类型最初是由IE引入的，jQuery确保它们可在所有浏览器下正确工作。
+* resize和unload事件类型只在Window对象中触发
+* scroll()方法经常也用于$(window)对象上
+* hover方法用来给mouseenter和mouseleave事件注册处理程序。
+* 调用hover(f,g)就和调用mouseenter(f)，然后调用mouseleave(g)一样。
+
+* target, currentTarget, relatedTarget
+target属性表示在其上发生事件的文档元素。
+currentTarget是当前正在执行的事件处理程序所注册的元素，与this应该始终一样。
+
+如果currentTarget和target不一样，那么正在处理的事件是从触发它的元素冒泡上来，此时使用is()方法来检测target元素可能会很有用。
+
+对于mouseover事件，relatedTarget属性指鼠标指针移开的元素，target则是鼠标指针悬浮的元素。
+
+* jQuery的事件触发机制是同步的，不涉及事件队列。
+
+* 如果想调用事件处理程序，但不执行默认操作，可以使用triggerHandler()代替trigger()。该方法和trigger类似，除了首先会调用Event对象的preventDefault()和cancelBubble()方法。这意味着通过triggerHandler()手动触发的事件不会冒泡，也不会执行相关的默认操作
+
+
