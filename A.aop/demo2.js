@@ -52,30 +52,30 @@ Function.prototype.after = function (fn) {
 /**
  * 无侵入的统计代码.
  */
-/*var append_doms = function () {
- var oFrag = document.createDocumentFragment();
- for (var i = 0; i < 1000; i++) {
- var div = document.createElement('div');
- var text = document.createTextNode(i);
- div.appendChild(text);
- oFrag.appendChild(div);
- }
- document.body.appendChild(oFrag);
- };
+var append_doms = function () {
+    var oFrag = document.createDocumentFragment();
+    for (var i = 0; i < 1000; i++) {
+        var div = document.createElement('div');
+        var text = document.createTextNode(i);
+        div.appendChild(text);
+        oFrag.appendChild(div);
+    }
+    document.body.appendChild(oFrag);
+};
 
- var log_time = function (fn, fn_name) {
- return fn = (function () {
- var d;
- return fn.before(function () {
- d = +new Date();
- console.log(d);
- }).after(function () {
- console.log(fn_name, +new Date() - d);
- });
- })();
- };
- append_doms = log_time(append_doms, 'append_doms');
- append_doms();*/
+var log_time = function (fn, fn_name) {
+    return fn = (function () {
+        var d;
+        return fn.before(function () {
+            d = +new Date();
+            console.log(d);
+        }).after(function () {
+            console.log(fn_name, +new Date() - d);
+        });
+    })();
+};
+append_doms = log_time(append_doms, 'append_doms');
+append_doms();
 
 /**
  * 分离表单请求和校验
@@ -146,8 +146,8 @@ function Person() {
 var p = new Person();
 
 var say = p.say.after(function () {
-    console.log('end...');
+    console.log(arguments[0] + ' end...');
 }).before(function () {
-    console.log('before');
+    console.log(arguments[0] + ' before');
 });
 say('zplus');
