@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>判断对象类型</title>
+</head>
+<body>
+<script type="text/javascript">
+    (function () {
+        console.info('判断对象类型');
+        // typeof 判断基础类型
+
+        // instanceof运算符 能够判断对象属于哪种类型,与直接使用对象的 constructor 属性效果类似
+        // 如果 重新定义了constructor属性,则instanceof可以判断正确,而 constructor 会判断错误
+        console.info('instanceof');
+        var str = new String('test');
+        console.log(str.constructor === String); // true
+        console.log(str instanceof String); // true
+
+        str.constructor = Function;
+        console.log(str.constructor === String); // false
+        console.log(str instanceof String); // true
+        // 在多窗口环境(frames, iframes)下,不同的窗口的变量类型无法识别,因为处于不同的作用域(window),是不同的类型.
+
+        console.info('Object.prototype.toString');
+        var type = Object.prototype.toString;
+        console.log(type.call(new Date())); // '[object Date]'
+        console.log(type.call([])); // '[object Array]'
+
+    })();
+
+    (function () {
+        console.info('jQuery的实现方法');
+        var toString = Object.prototype.toString;
+        var hasOwn = Object.prototype.hasOwnProperty;
+        var class2type = {};
+
+        'Boolean Number String Function Array Date RegExp Object'.split(' ').forEach(function (name, i) {
+            class2type['[object ' + name + ']'] = name.toLowerCase();
+        });
+        console.log(class2type);
+
+        function type(obj) {
+            return obj == null ? String(null) : class2type[toString.call(obj)] || 'object';
+        }
+
+        function isFunction(obj) {
+            return type(obj) === 'function';
+        }
+
+        console.log(isFunction(function () {
+        })); // true
+
+        var isArray = Array.isArray || function (obj) {
+                    return type(obj) === 'array';
+                };
+        console.log(isArray(['1', '2', '3'])); // true
+    })();
+    // 参考网址 http://kodango.com/javascript-oop-type-system
+    // http://my.oschina.net/hmj/blog/186189
+
+    // 创建一个函数,就会通过一系列的规则为该函数添加一个 prototype 属性,这个属性指向函数的原型对象,默认情况下,所有原型对象都会自动获取一个 constructor(构造函数)属性,这个属性包含一个指向prototype 所在函数的指针.
+    // 当调用构造函数创建一个新实例后,该函数的内部将包含一个指针([[prototype]]),指向构造函数原型对象.
+    // 虽然无法访问[[prototype]],但(Firefox,Safari,Chrome)在每个对象上都支持一个属性__prototype__;而在其他实现中,这个属性对脚本则是完全不可见的.
+
+    // Object.hasOwnProperty() 判断一个属性是否存在于实例中,是,返回 true
+    // 属性是在原型中
+    function hasPrototypeProperty(object, name) {
+        return object.hasOwnProperty(name) && (name in object);
+    }
+</script>
+</body>
+</html>
