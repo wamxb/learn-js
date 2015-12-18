@@ -153,6 +153,80 @@
         console.log(q.r);
         console.log(q.theta);
     })();
+
+    /**
+     * 复制属性的特性
+     * p137
+     */
+    Object.defineProperty(Object.prototype, 'extend', {
+        write: true,
+        enumerable: false, // 定义为不可枚举
+        configurable: true,
+        value: function (o) {
+            var names = Object.getOwnPropertyNames(o);
+            for (var i = 0, len = names.length; i < len; i++) {
+                if (names[i] in this) continue;
+                var desc = Object.getOwnPropertyDescriptor(o, names[i]);
+                Object.defineProperty(this, names[i], desc);
+            }
+        }
+    });
+
+    +(function () {
+
+        var o = {y: 2};
+        Object.defineProperty(o, 'x', {
+            write: false,
+            enumerable: false,
+            configurable: true,
+            value: 1
+        });
+        var p = {};
+        p.extend(o);
+        p.x = 2;
+        console.log(p.x); // 不可改写,所以还是等于1
+        var keys = Object.keys(p);
+        console.log(keys); // ['y']
+
+        var p2 = {};
+        extend(p2, o);
+        console.log(p2); // {y: 2}
+
+    })();
+
+
+    +(function () {
+        console.info('原型属性');
+
+        var p = {x: 1};
+        var o = Object.create(p);
+        console.log(p.isPrototypeOf(o)); // true
+        console.log(Object.prototype.isPrototypeOf(o)); // p 继承自 Object.prototype
+    })();
+
+    +(function () {
+        console.info('类属性,用以表示对象的类型信息');
+
+        function classof(o) {
+            if (o === null) return 'Null';
+            if (o === undefined) return 'Undefined';
+            return Object.prototype.toString.call(o).slice(8, -1);
+        }
+
+        console.log(classof(null));
+        console.log(classof(1));
+        console.log(classof('')); // String
+        console.log(classof(false)); // Boolean
+        console.log(classof({}));
+        console.log(classof([]));
+        console.log(classof(/./)); // RegExp
+        console.log(classof(new Date())); // Date
+        console.log(classof(window)); // global
+        function f() {
+        }
+
+        console.log(classof(new f())); // Object
+    })();
 </script>
 </body>
 </html>
