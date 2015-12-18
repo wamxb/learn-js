@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>this</title>
+</head>
+<body>
+<script type="text/javascript">
+    +(function () {
+
+        function Thing() {
+        }
+
+        Thing.prototype.foo = 'bar';
+        Thing.prototype.logFoo = function () {
+            console.log(this.foo);
+        };
+        Thing.prototype.setFoo = function (newFoo) {
+            this.foo = newFoo;
+        };
+
+        var thing1 = new Thing();
+        var thing2 = new Thing();
+
+        thing1.logFoo();
+        thing2.logFoo();
+
+        thing1.setFoo('foo');
+        thing1.logFoo();
+        thing2.logFoo();
+
+        thing2.foo = 'foobar';
+        thing1.logFoo();
+        thing2.logFoo();
+
+    })();
+</script>
+</body>
+</html>

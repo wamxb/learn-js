@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo</title>
+    <style type="text/css">
+        div { color: blue; }
+        p { color: green; margin: 0; }
+        span { color: red; }
+    </style>
+</head>
+<body>
+<div id="demo1">
+    <div></div>
+    <p></p>
+    <span></span>
+</div>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+    +(function () {
+        var $demo1 = $('#demo1');
+        var arr = [1, 9, 3, 8, 6, 1, 5, 9, 4, 7, 3, 8, 6, 9, 1];
+        $demo1.find('div').text(arr.join(', '));
+
+        arr = jQuery.grep(arr, function (n, i) {
+            return (n != 5 && n > 4);
+        });
+        $demo1.find('p').text(arr.join(', '));
+
+        arr = jQuery.grep(arr, function (a) {
+            return a != 9;
+        });
+        $demo1.find('span').text(arr.join(', '));
+
+        var sel = $demo1.find('div');
+        sel.pushStack($demo1.find('p')).css('font-size', '20px').end().css({
+            backgroundColor: 'gray'
+        });
+
+
+    })();
+
+</script>
+</body>
+</html>

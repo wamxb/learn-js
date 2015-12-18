@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qunit/1.18.0/qunit.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qunit/1.18.0/qunit.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        test('Hello World', function () {
+            expect(1); // 设置预期的断言数量，如果结果没有达到期望的断言数量，也会测试失败
+            var message = 'hello world';
+            // equal(实际要测的变量, 断言所期望的值, 断言要显示的消息)
+            equal(message, 'hello world', 'We expect the message to match');
+        });
+
+        test('Truthiness is golden', function () {
+            var val = function () {
+                var arr = [1, 2, 3, 4, 5];
+                return arr;
+            };
+            // 使用ok测试真伪 ok(要进行测试的布尔陈述, 当测试失败时要显示的消息)
+            ok($.isArray(val()), 'We"re expecting an array as a return value');
+        });
+    });
+
+</script>
+
+<h1 id="qunit-header">Qunit example</h1>
+
+<h2 id="qunit-banner"></h2>
+
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<div id="qunit-fixture">Test Markup</div>
+</body>
+</html>

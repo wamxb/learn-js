@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>async</title>
+</head>
+<body>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qunit/1.18.0/qunit.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qunit/1.18.0/qunit.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        test('stops & starts', function () {
+            expect(2);
+
+            stop();
+
+            $.ajax('/demo.html', {name: 'Testing'}, function (data) {
+                ok(data, 'data is returned from the server');
+                equal(data.name, 'Testing', 'We"re Testing');
+                start();
+            });
+        });
+    });
+</script>
+<h1 id="qunit-header">Qunit example</h1>
+
+<h2 id="qunit-banner"></h2>
+
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<div id="qunit-fixture">
+    <div id="dom-test" style="display: none;"></div>
+</div>
+</body>
+</html>

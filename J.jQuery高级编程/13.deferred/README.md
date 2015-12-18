@@ -1,0 +1,3 @@
+Deferred.done接收一个函数或一个函数的数组作为参数，当promise对象成功resolved时将触发该函数的执行。
+
+Deferred.fail接收一个函数或一个函数的数组作为参数，当promise对象呗rejected时将触发该函数的执行。

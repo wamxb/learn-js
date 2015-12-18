@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "book_name": "CSS权威指南1",
+      "author": "author",
+      "edition": "4"
+    },
+    {
+      "book_name": "javascript高级程序设计1",
+      "author": "author",
+      "edition": "1"
+    },
+    {
+      "book_name": "CSS秘密花园1",
+      "author": "author",
+      "edition": "3"
+    },
+    {
+      "book_name": "javascript权威指南1",
+      "author": "author",
+      "edition": "1"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javas权威指南</title>
+</head>
+<body>
+<div id="debug"></div>
+<img src="http://dummyimage.com/100x100" width="100" height="100" alt="" draggable="true"/>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    +(function ($, window, document, undefined) {
+
+        $.fn.println = function () {
+            // 将所有参数合并成空格分隔的字符串
+            var msg = Array.prototype.join.call(arguments, ' ');
+            return this.each(function () {
+                $(this).append(document.createTextNode(msg)).append('<br/>');
+            });
+        };
+
+    })(jQuery, window, document);
+    $('#debug').println('x = ', '; y = ');
+
+
+    // 可以通过给jQuery.expr[':']对象添加属性来添加伪类过滤器(比如:first和:input)
+     jQuery.expr[':'].draggable = function(e) {
+         return e.draggable === true
+     };
+    // $('img[draggable=true]')
+    var $img = $('img:draggable');
+    console.log($img);
+</script>
+</body>
+</html>

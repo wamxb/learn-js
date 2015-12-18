@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选择器</title>
+</head>
+<body>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+    var quickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
+    var str = '<div id="top"></div>';
+    var match = quickExpr.exec(str);
+    console.log(match); // ["<div id="top"></div>", "<div id="top"></div>", undefined, index: 0, input: "<div id="top"></div>"]
+
+    var str = '#test';
+    var match = quickExpr.exec(str);
+    console.log(match); // ["#test", undefined, "test", index: 0, input: "#test"]
+
+    function parseHTML(data, context, keepScripts) {
+        if (!data || typeof data !== 'string') return null;
+        if (typeof context === 'boolean') {
+            keepScripts = context;
+            context = false;
+        }
+        context = context || document;
+    }
+
+    var jqHTML = $('<div>', {'class': 'css-class', 'data-name': 'data-val'});
+    console.log(jqHTML.attr('class'));
+    console.log(jqHTML.attr('data-name'));
+</script>
+</body>
+</html>

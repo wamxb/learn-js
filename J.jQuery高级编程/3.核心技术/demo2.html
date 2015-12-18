@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+<!-- ----------------------- demo6 /S ------------------------------------------------ -->
+<style type="text/css">
+    #demo6 span {
+        margin-bottom: 5px;
+        display: block;
+        width: 100px;
+        background: #ddd;
+        line-height: 50px;
+        color: #000;
+        text-align: center;
+        }
+    #demo6 div {
+        border: 1px solid #000;
+        margin-bottom: 20px;
+        }
+</style>
+<div id="demo6">
+    <div>
+        <span id="turkey">turkey</span>
+        <span id="chicken">chicken</span>
+        <span id="parrot">parrot</span>
+        <span id="pigeon">pigeon</span>
+        <span id="hawk">hawk</span>
+    </div>
+    <div>
+        <span id="bear">bear</span>
+        <span id="rabbit">rabbit</span>
+        <span id="fox">fox</span>
+        <span id="monkey">monkey</span>
+        <span id="horse">horse</span>
+    </div>
+    <div>
+        <span id="martian">martian</span>
+    </div>
+</div>
+<!-- ----------------------- demo6 /E ------------------------------------------------ -->
+<!-- ----------------------- demo7 /S ------------------------------------------------ -->
+<style type="text/css">
+    #demo7 div {
+        width: 10px;
+        height: 10px;
+        }
+    #demo7 .box1 { background-color: green; }
+    #demo7 .box2 { background-color: black; }
+    #demo7 .box3 { background-color: blue; }
+</style>
+<div id="demo7">
+    <div class="box1" style="background-color: #0f0;"></div>
+    <div class="box2" style="background-color: black;"></div>
+    <div class="box3" style="background-color: blue;"></div>
+</div>
+<!-- ----------------------- demo7 /E ------------------------------------------------ -->
+<!-- ----------------------- demo8 /S ------------------------------------------------ -->
+<div id="demo8">
+    <ul>
+        <li>eggs</li>
+        <li>bacon</li>
+        <li>ham</li>
+        <li>cheese</li>
+        <li>juice</li>
+        <li>sausage</li>
+    </ul>
+</div>
+<!-- ----------------------- demo8 /E ------------------------------------------------ -->
+<!-- ----------------------- demo9 /S ------------------------------------------------ -->
+<ul id="demo9">
+    <li>list item 1</li>
+    <li>list item 2</li>
+    <li class="third-item">list item 3</li>
+    <li>list item 4</li>
+    <li>list item 5</li>
+</ul>
+<!-- ----------------------- demo9 /E ------------------------------------------------ -->
+<script>
+
+    +(function () {
+        console.info('demo6');
+        var $demo6 = $('#demo6');
+        console.log($demo6.find('div span:first-child'));
+        console.log($demo6.find('div span:last-child'));
+        console.log($demo6.find('div span:only-child')); // mar
+        console.log($demo6.find('div span:nth-child(2)')); // chi rab
+        console.log($demo6.find('div span:nth-child(2n+1)')); // t p h b f h m
+        console.log($demo6.find('div span:nth-child(even)'));
+    })();
+
+    +(function () {
+
+        $.expr[":"].greenbg = function (element) {
+            console.log($(element).css('background-color'));
+            return $(element).css('background-color') === 'rgb(0, 128, 0)';
+        };
+        var n = $("div:greenbg").length;
+        console.log('There are ' + n + ' green divs');
+    })();
+
+    +(function () {
+        var list = $('li');
+        var firstEl = list.get(0);
+        var threeEl = list.get(2);
+        var fourthEl = list.get(3);
+        console.log(firstEl.innerHTML);
+        console.log(threeEl.innerHTML + ' and ' + fourthEl.innerHTML);
+    })();
+
+    +(function () {
+
+        var listElements = $('li');
+        listElements
+                .filter(':gt(3)').css('color', 'green')
+                .end()
+                .filter(':lt(3)').css('color', 'red')
+                .end();
+        console.log(listElements.length);
+
+    })();
+
+    +(function () {
+
+        var $demo9 = $('#demo9');
+        $demo9.find('li.third-item')
+                .nextAll()
+                .addBack()
+                .css('background-color', 'red');
+    })();
+
+</script>
+</body>
+</html>

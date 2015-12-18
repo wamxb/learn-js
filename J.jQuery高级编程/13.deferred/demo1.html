@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header>header</header>
+<div id="main">
+    <div id="statusbar" style="display: none"></div>
+</div>
+<footer>footer</footer>
+<div id="notifier"></div>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    function updateStatus() {
+        return $.Deferred(function () {
+            var $update = $('<ul />'),
+                    $statusbar = $('#statusbar'),
+                    html = [];
+            for (var i = 0, test = 20; i < test; i++) {
+                html.push('<li>status update</li>');
+            }
+            html = html.join('\n');
+            $update.append(html);
+            $statusbar.append($update);
+            $statusbar.slideDown(1000, this.resolve);
+        }).promise();
+    }
+
+    $(function () {
+        console.info('demo1');
+        $.when(updateStatus())
+                .done(function () {
+                    console.log('animation is done! On to the next operation');
+                })
+                .fail(function () {
+                    console.log('error');
+                });
+
+        console.info('demo2');
+        $.when(
+                $.get('demo.html', function () {
+                    console.log(1);
+                }),
+                $.get('demo.html', function () {
+                    console.log(2);
+                }),
+                $.get('demo.html', function () {
+                    console.log(3);
+                })
+        ).then([
+            function () {
+                console.log(4);
+            },
+            function () {
+                console.log(5);
+            },
+            function () {
+                console.log(6);
+            }
+        ]).then([
+            function () {
+                console.log(7);
+            },
+            function () {
+                console.log(8);
+            },
+            function () {
+                console.log(9);
+            }
+        ]).then([
+            function () {
+                console.log(10);
+            },
+            function () {
+                console.log(11);
+            },
+            function () {
+                console.log(12);
+            }
+        ]).done(function () {
+            console.log('Electric Company!');
+        });
+
+        console.info('demo3');
+        function buildpage() {
+            return $.Deferred(function (dfd) {
+                dfd.pipe(function () {
+                            return $('header').fadeIn();
+                        })
+                        .pipe(function () {
+                            return $('#main').fadeIn();
+                        })
+                        .pipe(function () {
+                            return $('footer').fadeIn();
+                        })
+            }).resolve();
+        }
+
+        $.when(buildpage())
+                .done(function () {
+                    console.log('done');
+                });
+
+
+        /*        console.info('demo4');
+         $.when(
+         $.ajax('/get/mail/')
+         ).pipe(
+         function (data) {
+         if (data.messages.length > 0) {
+         return data;
+         } else {
+         return $.Deferred().reject();
+         }
+         }
+         ).done(
+         newMessages,
+         updateMessageList,
+         updateUnreadIndicator
+         ).fail(
+         noMessages
+         ).always(
+         function () {
+         var date = new Date();
+         $('#lastUpdated').html('<strong>Folder Updated</strong>: '
+         + date.toDateString()
+         + ' at '
+         + date.toTimeString()
+         );
+         }
+         );
+
+         console.info('demo5');
+         function newMessages(obj) {
+         $('#message').text('you updated at '
+         + obj.date
+         + ' and have '
+         + obj.number
+         + ' new messages'
+         );
+         }
+
+         function noMessages(obj) {
+         $('#message').text('you update at '
+         + obj.date
+         + 'and have no new messages'
+         )
+         }
+
+         $.when(
+         $.ajax('/get/mail/')
+         ).pipe(
+         function (data) {
+         var date = new Date();
+         date = date.toDateString() + ' at ' + data.toTimeString();
+         if (data.message.length > 0) {
+         return $.Deferred().resolve({
+         date: date,
+         number: data.message.length
+         });
+         } else {
+         return $.Deferred().reject({
+         date: date
+         });
+         }
+         }
+         ).done(
+         newMessages
+         ).fail(
+         noMessages
+         );*/
+
+        console.info('demo6');
+        var longRunning = function () {
+            return $.Deferred(function (dfd) {
+                dfd.notify('operation started');
+                console.log('start');
+                console.log(dfd.state());
+
+                var callback = function () {
+                    dfd.notify('operation finished');
+                    dfd.resolve();
+                };
+
+                setTimeout(callback, 5000);
+            }).promise();
+        };
+
+        longRunning().progress(
+                function (notification) {
+                    console.log('progress');
+                    console.log(this.state());
+                    $('#notifier').text(notification).fadeIn(500);
+                }).done(
+                function () {
+                    console.log('done');
+                    console.log(this.state());
+                    $('#notifier').css({
+                        'color': 'green',
+                        'font-weight': 'bold'
+                    });
+                });
+
+
+    });
+</script>
+</body>
+</html>

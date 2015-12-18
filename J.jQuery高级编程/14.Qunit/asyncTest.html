@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>asyncTest</title>
+</head>
+<body>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qunit/1.18.0/qunit.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qunit/1.18.0/qunit.js"></script>
+<!-- 模拟Ajax请求 -->
+<script src="//cdn.bootcss.com/jquery-mockjax/1.6.2/jquery.mockjax.js"></script>
+<script type="text/javascript">
+
+    // 建议采用asyncTest方法执行异步测试，可以直观知道这是一个异步测试
+    $(function () {
+        asyncTest('async', function () {
+            /*
+             expect(2);
+             $.ajax('/demo.html', {name: 'Testing'}, function (data) {
+             ok(data, 'data is returned from the server');
+             equal(data.name, 'Testing', 'We"re Testing');
+             start();
+             });
+             */
+
+            /*            $.mockjax({
+             url: '/data/json/',
+             responseTime: 100,
+             reponseText: {
+             status: 'success',
+             name: 'Testing'
+             }
+             });*/
+            $.mockjax({
+                url: '/data/json',
+                proxy: '/mock/data.json' // 使用Mockjax数据代理，请求数据源的静态文件
+                , headers: {
+                    secretSauce: 'shhh' // 添加额外的HTTP头
+                }
+            });
+            $.getJSON('/data/json', function (data) {
+                ok(data, 'data is returned from the server');
+                equal(data.name, 'Testing', 'We"re Testing');
+                start();
+            })
+        });
+    });
+</script>
+<h1 id="qunit-header">Qunit example</h1>
+
+<h2 id="qunit-banner"></h2>
+
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<div id="qunit-fixture">
+    <div id="dom-test" style="display: none;"></div>
+</div>
+</body>
+</html>

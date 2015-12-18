@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+    // 可以通过给jQuery.ajaxSetup()传入一个选项对象来设置任意选项的默认值
+    jQuery.ajaxSetup({
+        timeout: 2000, // 在两秒后取消所有ajax请求
+        cache: false    // 通过给URL添加时间戳来警用浏览器缓存
+    });
+
+    $('#loading_animation').bind({
+        ajaxStart: function () {
+            $(this).show();
+        },
+        ajaxStop: function () {
+            $(this).hide();
+        }
+    });
+
+
+</script>
+</body>
+</html>
