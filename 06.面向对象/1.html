@@ -11,6 +11,7 @@
         if (Object.create) return Object.create(p);
         var t = typeof p;
         if (t !== 'object' || t !== 'function') throw TypeError();
+
         function f() {
         }
 
@@ -43,7 +44,8 @@
 
     })();
 
-    // 8-3例子
+    // 8-3例子 p182
+    // 修复IE下,如果o的属性有一个不可枚举的同名属性,则 for/in循环不会枚举对象o的可枚举属性
     var extend = (function () {
 
         for (var p in {toString: null}) {
@@ -226,6 +228,76 @@
         }
 
         console.log(classof(new f())); // Object
+    })();
+
+    +(function () {
+        console.info('9.1类和原型');
+        function range(from, to) {
+            var r = inherit(range.methods);
+            r.from = from;
+            r.to = to;
+            return r;
+        }
+
+        range.methods = {
+            includes: function (x) {
+                return this.from <= x && x <= this.to;
+            },
+            // 对于一个范围内的整数都调用一次f
+            foreach: function (f) {
+                for (var i = Math.ceil(this.from); i <= this.to; i++) {
+                    f(i);
+                }
+            },
+            toString: function () {
+                return '(' + this.from + '...' + this.to + ')';
+            }
+        };
+
+        var r = range(1, 3);
+        console.log(r.includes(2)); // to
+        var f = function (x) {
+            return console.log(x);
+        };
+        r.foreach(f);
+        console.log(r);
+        console.log(r.toString());
+
+    })();
+
+    +(function () {
+        console.info('类的扩充,推荐使用 Object.definedProperty(),如果环境支持的,可以定义属性不可枚举,不可以删除');
+
+        Number.prototype.time = function (f, context) {
+            var n = Number(this);
+            for (var i = 0; i < n; i++) {
+                f.call(context, i);
+            }
+        };
+
+        var n = 3;
+        n.time(function (n) {
+            console.log(n + ' hello');
+        });
+
+        String.prototype.trim = function () {
+            if (!this) return this; // 空字符串不做处理
+            return this.replace(/^\s+|\s+$/, '');
+        };
+
+        Function.prototype.getName = function () {
+            return this.name || this.toString().match(/function\s*([^(]*)\(/)[1];
+        };
+
+        function bar() {
+
+        }
+
+        var foo = function () {
+
+        };
+        console.log(foo.getName()); // ''
+        console.log(bar.getName()); // bar
     })();
 </script>
 </body>
