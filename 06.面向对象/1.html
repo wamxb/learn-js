@@ -299,6 +299,30 @@
         console.log(foo.getName()); // ''
         console.log(bar.getName()); // bar
     })();
+
+    +(function () {
+
+        function quacks(o) {
+            for (var i = 1; i < arguments.length; i++) { // 遍历o之后的所有参数
+                var arg = arguments[i];
+                switch (typeof arg) {
+                    case 'string':
+                        if (typeof o[arg] !== 'function') return false;
+                        continue;
+                    case 'function':
+                        // 如果实参是函数，则使用它的原型
+                        arg = arg.prototype;
+                    case 'object':
+                        for (var m in arg) {
+                            if (typeof arg[m] !== 'function') continue;
+                            if (typeof o[m] !== 'function') return false;
+                        }
+                }
+            }
+            return true;
+        }
+
+    })();
 </script>
 </body>
 </html>

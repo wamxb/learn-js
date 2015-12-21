@@ -1,58 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>枚举属性</title>
+    <meta charset="UTF-8">
+    <title>枚举属性</title>
 </head>
 <body>
 <script type="text/javascript">
-	
-	// 如果o与p存在同名的属性，则覆盖o的属性
-	function extend(o, p) {
-		for (var porp in p) p[prop] = o[prop];
-		return o;
-	}
 
-	// 如果o与p存在同名的属性，则o不受影响
-	function merge(o, p) {
-		for (var prop in p) {
-			if (o.hasOwnProperty[prop]) continue;
-			o[prop] = p[prop];
-		}
-		return o;
-	}
+    // 如果o与p存在同名的属性，则覆盖o的属性
+    function extend(o, p) {
+        for (var porp in p) p[prop] = o[prop];
+        return o;
+    }
 
-	// 删除o中与p同名属性
-	function restrict(o, p) {
-		for (var prop in p) {
-			detele o[prop];	// 删除一个不存在的属性不会报错
-		}
-		return o;
-	}
+    // 如果o与p存在同名的属性，则o不受影响
+    function merge(o, p) {
+        for (var prop in p) {
+            if (o.hasOwnProperty[prop]) continue;
+            o[prop] = p[prop];
+        }
+        return o;
+    }
 
-	// 返回一个新对象，这个对象同时拥有o和p的属性
-	// 如果o和p中有重名属性，使用p中的属性值
-	function union(o, p) {
-		return extend(extend({}, o), p);
-	}
+    // 删除o中与p同名属性
+    function restrict(o, p) {
+        for (var prop in p) {
+            delete o[prop];	// 删除一个不存在的属性不会报错
+        }
+        return o;
+    }
 
-	// 类似求交集，但是p中的属性被忽略
-	funciton intersection(o, p) {
-		return restrict(extend({}, o), p);
-	}
+    // 返回一个新对象，这个对象同时拥有o和p的属性
+    // 如果o和p中有重名属性，使用p中的属性值
+    function union(o, p) {
+        return extend(extend({}, o), p);
+    }
 
-	// 返回一个数组，这个数组包含对象o自有可枚举的属性的名字
-	funciton keys(o) {
-		if (typeof o !== 'object') throw TypeError(); // 参数必须是对象
-		var result = [];
-		for (var prop in o) {
-			if (o.hasOwnProperty(prop)) {
-				result.push(prop);
-			}
-		}
-		return result;
-	}
+    // 类似求交集，但是p中的属性被忽略
+    function intersection(o, p) {
+        return restrict(extend({}, o), p);
+    }
 
+    // 返回一个数组，这个数组包含对象o自有可枚举的属性的名字
+    function keys(o) {
+        if (typeof o !== 'object') throw TypeError(); // 参数必须是对象
+        var result = [];
+        for (var prop in o) {
+            if (o.hasOwnProperty(prop)) {
+                result.push(prop);
+            }
+        }
+        return result;
+    }
+
+    +(function () {
+        console.info('集合类');
+
+        function Set() {
+            this.values = {}; // 这是一个构造函数
+            this.n = 0; // 集合中值的个数
+            this.add.apply(this, arguments); // 把所有参数都添加进这个集合
+        }
+
+        // 将每个参数都添加到集合中
+        Set.prototype.add = function () {
+            for (var i = 0; i < arguments.length; i++) {
+                var val = arguments[i];
+                var str = Set._v2s(val); // 把它转换为字符串
+                if (!this.values.hasOwnProperty(str)) { // 如果不在集合中
+                    this.values[str] = val; // 将字符串和值对应起来
+                    this.n++;   // 集合中值得计数加一
+                }
+            }
+            return this; // 支持链式方法调用
+        };
+
+        // 从集合删除元素，这些元素由参数指定
+        Set.prototype.remove = function () {
+            for (var i = 0; i < arguments.length; i++) {
+                var str = Set._v2s(arguments[i]);
+                if (this.values.hasOwnProperty(str)) {
+                    delete this.values[str];
+                    this.n--;
+                }
+            }
+            return this;
+        };
+
+        // 如果集合包含这个值，则返回true
+        Set.prototype.contains = function (value) {
+            return this.values.hasOwnProperty(Set._v2s(value));
+        };
+
+        // 返回集合的大小
+        Set.prototype.size = function () {
+            return this.n;
+        };
+
+        // 遍历集合中的所有元素，在指定的上下文中调用f
+        Set.prototype.foreach = function (f, context) {
+            for (var s in this.values) {                // 遍历集合中的所有字符串
+                if (this.values.hasOwnProperty(s)) {    // 忽略继承的属性
+                    f.call(context, this.values[s]);    // 调用f，传入value
+                }
+            }
+        };
+
+        /**
+         * 将任意JavaScript值和唯一的字符串对应起来
+         * @private
+         */
+        Set._v2s = function (val) {
+            switch (val) {
+                case undefined:
+                    return 'u';
+                case null:
+                    return 'n';
+                case true:
+                    return 't';
+                case false:
+                    return 'f';
+                default:
+                    switch (typeof val) {
+                        case 'number':
+                            return '#' + val;
+                        case 'string':
+                            return '"' + val;
+                        default:
+                            return '@' + objectId(val);
+                    }
+            }
+
+            // 对任意对象来说，都会返回一个字符串
+            function objectId(o) {
+                var prop = '|**objectid**|';
+                if (!o.hasOwnProperty(prop)) {
+                    o[prop] = Set._v2s.next++;
+                }
+                return o[prop];
+            }
+        };
+        Set._v2s.next = 100; // 设置初始id的值
+
+        var set1 = new Set(1, 2, 3, 4);
+        console.log(set1.add(1));
+        console.log(set1.add(null));
+        console.log(set1.add(undefined));
+        console.log(set1.add(true));
+        console.log(set1.add(false));
+        console.log(set1.add('true'));
+        console.log(set1.add({x: 1}));
+        console.log(set1.add(function foo() {
+            console.log(1);
+        }));
+        console.log(set1.remove(1));
+        console.log(set1.contains(1));
+        console.log(set1.contains(2));
+        console.log(set1.foreach(function () {
+            console.log(arguments[0])
+        }, null));
+    })();
+
+    +(function () {
+
+        console.info('枚举类型');
+        function inherit(p) {
+            if (p == null) throw TypeError();
+            if (Object.create) return Object.create(p);
+            var t = typeof p;
+            if (t !== 'object' || t !== 'function') throw TypeError();
+
+            function f() {
+            }
+
+            f.prototype = p;
+            return new f();
+        }
+
+        function enumeration(namesToValues) {
+            var enumeration = function () {
+                throw "Can't Instantiate Enumerations";
+            };
+
+            var proto = enumeration.prototype = {
+                constructor: enumeration,
+                toString: function () {
+                    return this.name;
+                },
+                valueOf: function () {
+                    return this.value;
+                },
+                toJSON: function () {
+                    return this.name;
+                }
+            };
+            enumeration.values = []; // 用以存放枚举对象的数组
+
+            // 创建新类的实例进行迭代
+            for (var name in namesToValues) {
+                var e = inherit(proto);         // 创建一个代表它的对象
+                e.name = name;                  // 给它一个名字
+                e.value = namesToValues[name];  // 给它一个值
+                enumeration[name] = e;          // 将它设置为构造函数的属性
+                enumeration.values.push(e);     // 将它存储到值数组中
+            }
+
+            enumeration.foreach = function (f, c) {
+                for (var i = 0; i < this.values.length; i++) {
+                    f.call(c, this.values[i]);
+                }
+            };
+
+            return enumeration;
+        }
+
+        function Card(suit, rank) {
+            this.suit = suit;   // 花色
+            this.rank = rank;   // 点数
+        }
+
+        Card.Suit = enumeration({
+            '♣': 1,
+            '♦': 2,
+            '♥': 3,
+            '♠': 4
+        });
+        Card.Rank = enumeration({
+            Two: 2,
+            Three: 3,
+            Four: 4,
+            Five: 5,
+            Six: 6,
+            Seven: 7,
+            Eight: 8,
+            Nine: 9,
+            Ten: 10,
+            Jack: 11,
+            Queen: 12,
+            King: 13,
+            Ace: 14
+        });
+
+        // 定义用以描述牌面的文本
+        Card.prototype.toString = function () {
+            return this.rank.toString() + ' of ' + this.suit.toString();
+        };
+
+        Card.prototype.compareTo = function (that) {
+            return this.rank < that.rank ? -1 : this.rank > that.rank ? 1 : 0;
+        };
+
+        // 排序
+        Card.orderByRank = function (a, b) {
+            return a.compareTo(b);
+        };
+
+        Card.orderBySuit = function (a, b) {
+            if (a.suit < b.suit) return -1;
+            if (a.suit > b.suit) return 1;
+            if (a.rank < b.rank) return -1;
+            if (a.rank > b.rank) return 1;
+        };
+
+        function Deck() {
+            var cards = this.cards = [];
+            Card.Suit.foreach(function (s) {
+                Card.Rank.foreach(function (r) {
+                    cards.push(new Card(s, r));
+                });
+            })
+        }
+
+        // 洗牌
+        Deck.prototype.shuffle = function () {
+            // 随机找出牌面最小的的元素，并与之(当前遍历的元素)交换
+            var deck = this.cards, len = deck.length;
+            for (var i = len - 1; i > 0; i--) {
+                var r = Math.floor(Math.random() * (i + 1)), temp; // 随机数
+                temp = deck[i], deck[i] = deck[r], deck[r] = temp; // 交换
+            }
+            return this;
+        };
+
+        // 发牌,返回牌的数组
+        Deck.prototype.deal = function (n) {
+            if (this.cards.length < n) throw 'Out of cards';
+            return this.cards.splice(this.cards.length - n, n);
+        };
+
+        var deck = (new Deck()).shuffle();
+        var hand = deck.deal(13).sort(Card.orderBySuit);
+        console.table(hand);
+
+
+    })();
 </script>
 </body>
 </html>
