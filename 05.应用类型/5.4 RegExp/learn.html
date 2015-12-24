@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>learn</title>
+</head>
+<body>
+<p id="demo">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aliquid, ben@forta.com cupiditate dolore et, fugiat harum ipsa molestias nam nisi odit porro quam, quas qui ut velit. Doloremque necessitatibus quam tenetur.</p>
+<script type="text/javascript">
+    window.onload = function () {
+        var p = document.getElementById('demo');
+        var str = p.innerHTML;
+        var reg = /(\w+[\w.]*@[\w.]+\.\w+)/igm;
+
+        p.innerHTML = str.replace(reg, function ($1) {
+            return '<a href="mailto:' + $1 + '">' + $1 + '</a>';
+        });
+    };
+</script>
+</body>
+</html>

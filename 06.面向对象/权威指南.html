@@ -9,7 +9,7 @@
 
     // 如果o与p存在同名的属性，则覆盖o的属性
     function extend(o, p) {
-        for (var porp in p) p[prop] = o[prop];
+        for (var prop in p) p[prop] = o[prop];
         return o;
     }
 
@@ -159,6 +159,57 @@
         console.log(set1.foreach(function () {
             console.log(arguments[0])
         }, null));
+
+
+        // 将这些方法添加至Set类的原型对象中
+        extend(Set.prototype, {
+            // 将集合转换为字符串
+            toString: function () {
+                var s = '{', i = 0;
+                this.foreach(function (v) {
+                    s += ((i++ > 0) ? ', ' : '') + v;
+                });
+                return s + '}';
+            },
+            // 类似toString，但是对于所有的值都将调用toLocalString()
+            toLocalString: function () {
+                var s = '{', i = 0;
+                this.foreach(function (v) {
+                    if (i++ > 0) s += ', ';
+                    if (v == null) s += v; // null 或 undefined
+                    else s += v.toLocaleString();
+                });
+            },
+            toArray: function () {
+                var a = [];
+                this.foreach(function (v) {
+                    a.push(v);
+                });
+                return a;
+            }
+        });
+
+        // 对于要从JSON转换为字符串的集合都被当做数组来对待
+        Set.prototype.toJSON = Set.prototype.toArray;
+
+
+        Set.prototype.equals = function (that) {
+            if (this === that) return true;
+
+            if (!(that instanceof Set)) return false;
+            if (this.size() != that.size()) return false;
+
+            try {
+                this.foreach(function (v) {
+                    if (!that.contains(v)) throw false;
+                });
+                return true;    // 所有的元素都匹配：两个集合相等
+            } catch (x) {
+                if (x === false) return false;
+                throw x;
+            }
+        }
+
     })();
 
     +(function () {
@@ -179,7 +230,7 @@
 
         function enumeration(namesToValues) {
             var enumeration = function () {
-                throw "Can't Instantiate Enumerations";
+                throw "Can't Instantiate Enumerations"; // 不能实例化枚举
             };
 
             var proto = enumeration.prototype = {
@@ -235,26 +286,28 @@
             Eight: 8,
             Nine: 9,
             Ten: 10,
-            Jack: 11,
-            Queen: 12,
-            King: 13,
-            Ace: 14
+            Jack: 'J',
+            Queen: 'Q',
+            King: 'K',
+            Ace: 'A'
         });
 
         // 定义用以描述牌面的文本
         Card.prototype.toString = function () {
-            return this.rank.toString() + ' of ' + this.suit.toString();
+            return this.suit.toString() + this.rank.valueOf();
         };
 
+        // 比较扑克牌中两张牌的大小
         Card.prototype.compareTo = function (that) {
             return this.rank < that.rank ? -1 : this.rank > that.rank ? 1 : 0;
         };
 
-        // 排序
+        // 以扑克牌玩法规则对牌进行排序的函数
         Card.orderByRank = function (a, b) {
             return a.compareTo(b);
         };
 
+        // 以桥牌的玩法规则对牌进行排序的函数
         Card.orderBySuit = function (a, b) {
             if (a.suit < b.suit) return -1;
             if (a.suit > b.suit) return 1;
@@ -262,6 +315,7 @@
             if (a.rank > b.rank) return 1;
         };
 
+        // 定义一副标准扑克牌的类
         function Deck() {
             var cards = this.cards = [];
             Card.Suit.foreach(function (s) {
@@ -271,7 +325,7 @@
             })
         }
 
-        // 洗牌
+        // 洗牌，重新洗牌并返回洗好的牌
         Deck.prototype.shuffle = function () {
             // 随机找出牌面最小的的元素，并与之(当前遍历的元素)交换
             var deck = this.cards, len = deck.length;
@@ -282,18 +336,78 @@
             return this;
         };
 
-        // 发牌,返回牌的数组
+        // 发牌的方法：返回牌的数组
         Deck.prototype.deal = function (n) {
             if (this.cards.length < n) throw 'Out of cards';
             return this.cards.splice(this.cards.length - n, n);
         };
 
+        // 创建一副新扑克牌，洗牌并发牌
         var deck = (new Deck()).shuffle();
-        var hand = deck.deal(13).sort(Card.orderBySuit);
+        var hand = deck.deal(5).sort(Card.orderByRank);
+        var hand2 = deck.deal(5).sort(Card.orderByRank);
+        for (var i = 0; i < hand.length; i++) {
+            console.log(hand[i].toString());
+        }
+        for (var i = 0; i < hand2.length; i++) {
+            console.log(hand2[i].toString());
+        }
         console.table(hand);
+
+        // valueOf() 用来将对象转换为原始值
+        // 当数学运算符(除了"+"运算符)和关系运算符作用于数字文本表示的对象时，会自动调用valueOf()方法
+        // 大多数对象都有没合适的原始值表示他们，也没有定义这个方法
+
+
+        console.info('toJSON');
+        // Date对象会返回一个表示日期的字符串
+        var d = new Date();
+        console.log(d.toJSON()); // 2015-12-22T02:14:28.307Z
 
 
     })();
+
+
+    +(function () {
+        function Range(from, to) {
+            // 存储“范围对象”的起始位置和结束位置
+            // 这两个属性是不可继承的，每个对象都拥有唯一的属性
+            this.from = from;
+            this.to = to;
+        }
+
+        Range.prototype = {
+            constructor: Range,
+            includes: function (x) {
+                return this.from <= x && x <= this.to;
+            },
+            foreach: function (f) {
+                for (var x = Math.ceil(this.from); x <= this.to; x++) {
+                    f(x);
+                }
+            },
+            toString: function () {
+                return '(' + this.from + '...' + this.to + ')';
+            }
+        };
+
+        // 当且仅当两个范围的端点相等，它们才相等
+        Range.prototype.equals = function (that) {
+            if (that == null) return false; // undefined == null => true;
+            if (that.constructor !== Range) return false;
+            return this.from == that.from && this.to == that.to;
+        };
+
+        Range.prototype.compareTo = function (that) {
+            if (!(that instanceof Range)) throw new Error("Can't compare a Range with " + that);
+            var diff = this.from - that.from;
+            if (diff == 0) diff = this.to - that.to;
+            return diff;
+        };
+
+    })();
+
+
 </script>
 </body>
 </html>
