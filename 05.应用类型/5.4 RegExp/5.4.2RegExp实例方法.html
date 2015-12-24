@@ -124,11 +124,12 @@
 }());
 
 (function(){
-
+    console.info('toString');
     // RegExp 实例继承的 toLocalString() 和 toString()方法都返回正则表达式的字面量，与创建正则表达式的方式无关。
     var pattern = new RegExp('\\[bc\\]at', 'gi');
     console.log(pattern.toString()); // /\[bc\]at/gi
     console.log(pattern.toLocaleString()); // /\[bc\]at/gi
+    console.log(pattern.valueOf()); // /\[bc\]at/gi 返回表达式本身!!!
 
 }());
     

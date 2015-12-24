@@ -6,66 +6,66 @@
 </head>
 <body>
 <script type="text/javascript">
-(function(){
+    (function () {
 
-    // var expression = /pattern/flags;
+        // var expression = /pattern/flags;
 
-    // 匹配字符串中所有'at'的实例
-    var pattern1 = /at/g;
+        // 匹配字符串中所有'at'的实例
+        var pattern1 = /at/g;
 
-    // 匹配第一个'bat'或'cat'，不区分大小写
-    var pattern2 = /[bc]at/i;
+        // 匹配第一个'bat'或'cat'，不区分大小写
+        var pattern2 = /[bc]at/i;
 
-    // 匹配所有以'at'结尾的3个字符的组合，不区分大小写
-    var pattern3 = /.at/gi;
+        // 匹配所有以'at'结尾的3个字符的组合，不区分大小写
+        var pattern3 = /.at/gi;
 
-    // 元字符必须转义
-    // ( ) [ ] { } \ ^ $ | ? * + .
+        // 元字符必须转义
+        // ( ) [ ] { } \ ^ $ | ? * + .
 
-}());
+    }());
 
-(function(){
+    (function () {
 
-    // 匹配第一个'bat'或'cat'，不区分大小写
-    var pattern1 = /[bc]at/i;
+        // 匹配第一个'bat'或'cat'，不区分大小写
+        var pattern1 = /[bc]at/i;
 
-    // 匹配第一个'[bc]at'，不区分大小写
-    var pattern2 = /\[bc\]at/i;
+        // 匹配第一个'[bc]at'，不区分大小写
+        var pattern2 = /\[bc\]at/i;
 
-    // 匹配所有以'at'结尾的3个字符的组合，不区分大小写
-    var pattern3 = /.at/gi;
+        // 匹配所有以'at'结尾的3个字符的组合，不区分大小写
+        var pattern3 = /.at/gi;
 
-    // 匹配所有以'.at'结尾的3个字符的组合，不区分大小写
-    var pattern4 = /\.at/gi;
-}());
+        // 匹配所有以'.at'结尾的3个字符的组合，不区分大小写
+        var pattern4 = /\.at/gi;
+    }());
 
 
-(function(){
-    // 字面量形式
-    // 匹配第一个'bat'或'cat'，不区分大小写
-    var pattern1 = /[bc]at/i;
+    (function () {
+        // 字面量形式
+        // 匹配第一个'bat'或'cat'，不区分大小写
+        var pattern1 = /[bc]at/i;
 
-    // 使用 RegExp(要匹配的字符串模式, 可选的标志字符串) 构造函数
-    var pattern2 = new RegExp('[bc]at', 'i');
+        // 使用 RegExp(要匹配的字符串模式, 可选的标志字符串) 构造函数
+        var pattern2 = new RegExp('[bc]at', 'i');
 
-    // 正则表达式字面量始终会共享同一个 RegExp 实例
-    // 而使用构造函数创建的每一个新 RegExp 实例都是一个新实例
+        // 正则表达式字面量始终会共享同一个 RegExp 实例 ECMAScript5修正了每次都创建新的 RegExp
+        // 而使用构造函数创建的每一个新 RegExp 实例都是一个新实例
 
-    var re = null, i, result;
+        var re = null, i, result;
 
-    for (i=0; i<10; i++) {
-        re = /cat/g;
-        result = re.test('catastrophe');
-        console.log(result); // 10 个 true
-    }
+        for (i = 0; i < 10; i++) {
+            re = /cat/g;
+            result = re.test('catastrophe');
+            console.log(result); // 10 个 true
+        }
 
-    for (i=0; i<10; i++) {
-        re = new RegExp('cat', 'g');
-        result = re.test('catastrophe');
-        console.log(result); // 10 个 true
-    }
+        for (i = 0; i < 10; i++) {
+            re = new RegExp('cat', 'g');
+            result = re.test('catastrophe');
+            console.log(result); // 10 个 true
+        }
 
-}());
+    }());
 </script>
 </body>
 </html>
