@@ -7,6 +7,19 @@
 <body>
 <script type="text/javascript">
 
+    function inherit(p) {
+        if (p == null) throw TypeError();
+        if (Object.create) return Object.create(p);
+        var t = typeof p;
+        if (t !== 'object' || t !== 'function') throw TypeError();
+
+        function f() {
+        }
+
+        f.prototype = p;
+        return new f();
+    }
+
     // 如果o与p存在同名的属性，则覆盖o的属性
     function extend(o, p) {
         for (var prop in p) p[prop] = o[prop];
@@ -142,27 +155,10 @@
         };
         Set._v2s.next = 100; // 设置初始id的值
 
-        var set1 = new Set(1, 2, 3, 4);
-        console.log(set1.add(1));
-        console.log(set1.add(null));
-        console.log(set1.add(undefined));
-        console.log(set1.add(true));
-        console.log(set1.add(false));
-        console.log(set1.add('true'));
-        console.log(set1.add({x: 1}));
-        console.log(set1.add(function foo() {
-            console.log(1);
-        }));
-        console.log(set1.remove(1));
-        console.log(set1.contains(1));
-        console.log(set1.contains(2));
-        console.log(set1.foreach(function () {
-            console.log(arguments[0])
-        }, null));
-
-
         // 将这些方法添加至Set类的原型对象中
-        extend(Set.prototype, {
+        var proto = Set.prototype;
+        proto.constructor = Set;
+        extend(proto, {
             // 将集合转换为字符串
             toString: function () {
                 var s = '{', i = 0;
@@ -189,6 +185,37 @@
             }
         });
 
+        Set.prototype.toString = function () {
+            var s = '{', i = 0;
+            this.foreach(function (v) {
+                s += ((i++ > 0) ? ', ' : '') + v;
+            });
+            return s + '}';
+        };
+
+        var set1 = new Set(1, 2, 3, 4);
+        console.log(set1.add(1));
+        console.log(set1.add(null));
+        console.log(set1.add(undefined));
+        console.log(set1.add(true));
+        console.log(set1.add(false));
+        console.log(set1.add('true'));
+        console.log(set1.add({x: 1}));
+        console.log(set1.add(function foo() {
+            console.log(1);
+        }));
+        console.log(set1.remove(1));
+        console.log(set1.contains(1));
+        console.log(set1.contains(2));
+        console.log(set1.foreach(function () {
+            console.log('foreach: ' + arguments[0])
+        }, null));
+        console.log('set1.toString():');
+        console.log(set1);
+        console.log(Set.prototype);
+        var s = set1.toString();
+        console.log(s);
+
         // 对于要从JSON转换为字符串的集合都被当做数组来对待
         Set.prototype.toJSON = Set.prototype.toArray;
 
@@ -208,25 +235,56 @@
                 if (x === false) return false;
                 throw x;
             }
+        };
+
+
+        /**
+         * 定义子类
+         * @param superclass  父类的构造函数
+         * @param constructor 新的子类的构造函数
+         * @param methods     实例方法：复制至原型中
+         * @param statics     类属性：复制至构造函数中
+         */
+        function defineSubclass(superclass, constructor, methods, statics) {
+            constructor.prototype = inherit(superclass.prototype);  // 子类派生自父类
+            constructor.prototype.constructor = constructor;    // 重载继承来的constructor属性
+
+            if (methods) extend(constructor.prototype, methods);
+            if (statics) extend(constructor, statics);
+
+            return constructor;
         }
+
+        Function.prototype.extend = function (constructor, methods, statics) {
+            return defineSubclass(this, constructor, methods, statics);
+        };
+
+        var NonNullSet = (function () {
+            var superclass = Set;
+            return superclass.extend(
+                    function () {
+                        superclass.apply(this, arguments);
+                    },
+                    {
+                        add: function () {
+                            for (var i = 0; i < arguments.length; i++) {
+                                if (arguments[i] == null) {
+                                    throw new Error("Can't add null or undefined");
+                                }
+                            }
+                            return superclass.prototype.add.apply(this, arguments);
+                        }
+                    });
+        }());
+
+        var nonullset = new NonNullSet();
+        console.log(nonullset);
 
     })();
 
     +(function () {
 
         console.info('枚举类型');
-        function inherit(p) {
-            if (p == null) throw TypeError();
-            if (Object.create) return Object.create(p);
-            var t = typeof p;
-            if (t !== 'object' || t !== 'function') throw TypeError();
-
-            function f() {
-            }
-
-            f.prototype = p;
-            return new f();
-        }
 
         function enumeration(namesToValues) {
             var enumeration = function () {
@@ -405,9 +463,26 @@
             return diff;
         };
 
+
+        var generic = {
+            toString: function () {
+                var s = '[';
+                // 如果这个对象包含构造函数，且构造函数包含名字
+                if (this.constructor && this.constructor.name) s += this.constructor.name + ': ';
+
+                // 枚举所有非继承且非函数的属性
+                var n = 0;
+                for (var name in this) {
+                    if (!this.hasOwnProperty(name)) continue;
+                    var value = this[name];
+                    if (typeof value === 'function') continue;
+                    s += ((n++ > 0) ? ', ' : '') + name + '=' + value;
+                }
+                return s + ']';
+            }
+        }
+
     })();
-
-
 </script>
 </body>
 </html>
