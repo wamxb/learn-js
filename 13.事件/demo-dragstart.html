@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo-dragstart</title>
+    <style type="text/css">
+        #clock {
+            font: bold 24pt sans;
+            background: #ddd;
+            padding: 10px;
+            border: solid #000 2px;
+            border-radius: 10px;
+            }
+    </style>
+    <script src="js/whenReady.js"></script>
+    <script type="text/javascript">
+        whenReady(function () {
+            var clock = document.getElementById('clock');
+            var icon = new Image();
+            icon.src = 'http://deerchao.net/images/regex_tester.png';
+
+            function displayTime() {
+                var now = new Date();
+                var hrs = now.getHours(), mins = now.getMinutes();
+                if (mins < 10) mins = '0' + mins;
+                clock.innerHTML = hrs + ' : ' + mins;
+                setTimeout(displayTime, 6e4);
+            }
+
+            displayTime();
+
+            // 也可以设置HTML的属性来实现<span draggable="true"></span>
+            clock.draggable = true;
+
+            clock.ondragstart = function (event) {
+                var event = event || window.event;
+
+                // dataTransfer属性是拖放API的关键
+                var dt = event.dataTransfer;
+
+                // 告诉浏览器正在拖动的是什么
+                // 把Date()构造函数用做一个返回时间戳字符串的函数
+                dt.setData('Text', Date() + '\n');
+
+                if (dt.setDragImage) dt.setDragImage(icon, 0, 0);
+            }
+        });
+    </script>
+</head>
+<body>
+<span id="clock"></span>
+<textarea name="" id="" cols="60" rows="20"></textarea>
+</body>
+</html>

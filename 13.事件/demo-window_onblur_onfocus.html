@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .msg { display: none; }
+    </style>
+</head>
+<body>
+<div class="msg" id="jWindowBlur">window blur</div>
+<div class="msg" id="jWindowFocus">window focus</div>
+<script type="text/javascript">
+    +(function () {
+        window.onblur = function () {
+            document.getElementById('jWindowBlur').style.display = 'block';
+            document.getElementById('jWindowFocus').style.display = 'none';
+        };
+        window.onfocus = function () {
+            document.getElementById('jWindowBlur').style.display = 'none';
+            document.getElementById('jWindowFocus').style.display = 'block';
+        };
+    })();
+
+    // addEventListener(要注册处理程序的事件类型, 指定类型发生时应该调用的函数,一般为false);
+    console.info('事件取消');
+
+    function cancelHandler(event) {
+        var event = event || window.event;
+
+        if (event.preventDefault) event.preventDefault(); // 标准技术
+        if (event.returnValue) event.returnValue = false;   // IE
+        return false;   // 用于处理使用对象属性注册 (window.onload 这类)
+    }
+
+    // 调用stopPropagation()之后任何其他对象的事件处理程序将不会被调用
+
+    // click, contextmenu, dbclick
+    // mousedown 按下
+    // mouseup 释放
+    // mousemove 移动
+    // mouseover 进入
+    // mouseout 离开
+
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo-enclose</title>
+    <style type="text/css">
+        * { margin: 0; padding: 0; }
+        div.enclosure { border: solid 10px #000; margin: 300px 0 0 200px; }
+    </style>
+    <script src="js/whenReady.js"></script>
+    <script src="js/enclose.js"></script>
+</head>
+<body>
+<img src="http://dummyimage.com/500x600" alt="" id="content">
+<script type="text/javascript">
+    whenReady(function () {
+        enclose(document.getElementById('content'), 400, 200, -200, -300);
+    });
+</script>
+</body>
+</html>
