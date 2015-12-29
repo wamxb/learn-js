@@ -5,8 +5,8 @@
 var obj = {
     init: function () {
         var btn = document.getElementById('myBtn');
-        btn.addEventListener('click', this, fasle);
-        btn.addEventListener('touchstart', this, fasle);
+        btn.addEventListener('click', this, false);
+        btn.addEventListener('touchstart', this, false);
     },
     handleEvent: function (e) {
         switch (e.type) {
@@ -32,22 +32,22 @@ function registerObjectEventHandler(element, eventType, listener, captures) {
     }, captures);
 }
 
-// ²Î¿¼£ºhttp://mangguo.org/addeventlistener-and-handleevent/
+// ï¿½Î¿ï¿½ï¿½ï¿½http://mangguo.org/addeventlistener-and-handleevent/
 // http://www.thecssninja.com/javascript/handleevent
 function on(el, ev, fn, bubble) {
     if (el.addEventListener) {
         try {
             el.addEventListener(ev, fn, bubble);
-        } catch (e) { // ºÚÝ®µÈÏµÍ³²»Ö§³Ö handleEvent ·½·¨
+        } catch (e) { // ï¿½ï¿½Ý®ï¿½ï¿½ÏµÍ³ï¿½ï¿½Ö§ï¿½ï¿½ handleEvent ï¿½ï¿½ï¿½ï¿½
             if (typeof fn == 'object' && fn.handleEvent) {
                 el.addEventListener(ev, function (e) {
-                    // ÒÔµÚÒ»²ÎÊýÎªÊÂ¼þ¶ÔÏó
+                    // ï¿½Ôµï¿½Ò»ï¿½ï¿½ï¿½ï¿½Îªï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½
                     fn.handleEvent.call(fn, e);
                 })
             }
         }
     } else if (el.attachEvent) {
-        // ¼ì²â²ÎÊýÊÇ·ñÓµÓÐ handleEvent ·½·¨
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Óµï¿½ï¿½ handleEvent ï¿½ï¿½ï¿½ï¿½
         if (typeof fn == 'object' && fn.handleEvent) {
             el.attachEvent('on' + ev, function (e) {
                 fn.handleEvent.call(fn, e);
