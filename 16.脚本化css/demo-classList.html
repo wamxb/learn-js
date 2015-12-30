@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo-classList</title>
+</head>
+<body>
+<div id="demo" class="cls1">demo</div>
+<script type="text/javascript">
+    function classList(el) {
+        return new ClassList(el);
+        return el.classList ? el.classList : new ClassList(el);
+    }
+
+    function ClassList(el) {
+        this.el = el;
+    }
+
+    ClassList.prototype.contains = function (c) {
+        if (c.length === 0 || c.indexOf(' ') != -1) {
+            throw new Error('Invalid class name: ' + c);
+        }
+        var cls = this.el.className;
+        if (!cls) return false; // 不含类名
+        if (cls === c) return true; // 完全匹配的类名
+
+        return cls.search('\\b' + c + '\\b') != -1;
+    };
+
+    ClassList.prototype.add = function (c) {
+        if (this.contains(c)) return;
+        var cls = this.el.className;
+        if (cls && cls[cls.length - 1] != ' ') {
+            c = ' ' + c;
+        }
+        this.el.className += c;
+    };
+
+    ClassList.prototype.remove = function (c) {
+        if (c.length === 0 || c.indexOf(' ') != -1) {
+            throw new Error('Invalid class name: ' + c);
+        }
+        var pattern = new RegExp('\\b' + c + '\\b\\s*', 'g');
+        this.el.className = this.el.className.replace(pattern, '');
+    };
+
+    ClassList.prototype.toggle = function (c) {
+        if (this.contains(c)) {
+            this.remove(c);
+            return false;
+        } else {
+            this.add(c);
+            return true;
+        }
+    };
+
+    // 返回 el.className 本身
+    ClassList.prototype.toString = function () {
+        return this.el.className;
+    };
+
+    // 返回 el.className 中的类名
+    ClassList.prototype.toArray = function () {
+        return this.el.className.match(/\b\w+\b/g) || [];
+    };
+
+
+    /**
+     * test
+     */
+    var demo = document.getElementById('demo');
+    var classlist = classList(demo);
+    classlist.add('cls2');
+    console.log(classlist.contains('cls1'));
+//    classlist.remove('cls1');
+    classlist.toggle('cls3');
+//    classlist.toggle('cls2');
+    console.log(classlist.toString()); // cls1 cls2 cls3
+    console.log(classlist.toArray()); // ["cls1", "cls2", "cls3"]
+</script>
+</body>
+</html>
