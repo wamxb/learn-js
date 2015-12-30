@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo-propertychange</title>
+</head>
+<body>
+<input type="text" id="demo"/>
+<script type="text/javascript">
+    function forceToUpperCase(el) {
+        if (typeof el === 'string') {
+            el = document.getElementById(el);
+        }
+
+        el.oninput = upcase;
+        el.onpropertychange = upcaseOnPropertyChange;
+
+        function upcase(event) {
+            this.value = this.value.toUpperCase();
+        }
+
+        function upcaseOnPropertyChange(event) {
+            var e = event || window.event;
+
+            if (e.propertyName === 'value') {
+                // 移除onpropertychange处理程序，避免循环调用
+                this.onpropertychange = null;
+
+                this.value = this.value.toUpperCase();
+                // 然后恢复原来的propertychange处理程序
+                this.onpropertychange = upcaseOnPropertyChange;
+            }
+        }
+    }
+
+    forceToUpperCase('demo');
+</script>
+</body>
+</html>

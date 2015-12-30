@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>getComputedStyle</title>
+    <style type="text/css">
+        #demo {
+            width: 100px;
+            height: 100px;
+            border: 5px solid #000;
+            background-color: #f0ad4e;
+            }
+    </style>
+</head>
+<body>
+<div id="demo"></div>
+<script type="text/javascript">
+    // 缩放元素文本尺寸
+    function scale(el, factor) {
+        var size = parseInt(window.getComputedStyle(el, '').fontSize);
+        el.style.fontSize = factor * size + 'px';
+    }
+
+    function scaleColor(el, factor) {
+        var color = window.getComputedStyle(el, '').backgroundColor;
+        var components = color.match(/[\d\.]+/g);
+        for (var i = 0; i < 3; i++) {
+            var x = parseInt(components[i]) * factor;
+            x = Math.round(Math.min(Math.max(x, 0), 255)); // 设置边界值，并取整
+            components[i] = String(x);
+        }
+
+        el.style.backgroundColor = (components.length == 3 ? 'rgb(' : 'rgba(') + components.join() + ')';
+    }
+
+    var demo = document.getElementById('demo');
+    scaleColor(demo, 2);
+
+    var box = demo.getBoundingClientRect(); // 定义的窗口或视口的坐标，转为文档坐标要加上滚动偏移量
+    console.log(box);
+</script>
+</body>
+</html>
