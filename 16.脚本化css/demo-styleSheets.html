@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo-styleSheets</title>
+    <style type="text/css">
+        h1 { font-size: 15px; color: #f0ad4e; }
+        a { text-decoration: none; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+<h1>Lorem ipsum dolor sit</h1>
+<h2>Lorem ipsum dolor sit</h2>
+<a href="#">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>
+<script type="text/javascript">
+    var ss = document.styleSheets[0];
+    var rules = ss.cssRules ? ss.cssRules : ss.rules;   // 得到样式表规则
+
+    for (var i = 0, len = rules.length; i < len; i++) {
+        var rule = rules[i];
+        if (!rule.selectorText) continue;
+        var selector = rule.selectorText;   // 选择器
+        var ruleText = rule.style.cssText;  // 样式文本
+
+        // 仅当选择器在字面上为'h1'时这才起作用
+        if (selector == 'h1') {
+            if (ss.insertRule) {
+                ss.insertRule('h2 {' + ruleText + '}', rules.length);
+            } else if (ss.addRule) {
+                ss.addRule('h2', ruleText, rules.length);
+            }
+        }
+
+        // 将删除整个样式规则
+        if (rule.style.textDecoration) {
+            if (ss.deleteRule) {
+                ss.deleteRule(i);
+            } else if (ss.removeRule) {
+                ss.removeRule(i);
+            }
+            i--;    // 调整循环索引，因为以上的规则i+1现在即为规则i
+        }
+    }
+</script>
+</body>
+</html>

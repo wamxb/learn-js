@@ -38,6 +38,11 @@
 
     var box = demo.getBoundingClientRect(); // 定义的窗口或视口的坐标，转为文档坐标要加上滚动偏移量
     console.log(box);
+
+    console.log('w', box.right - box.left);
+    console.log('h', box.bottom - box.top);
+    console.log('width', box.width);
+    console.log('height', box.height);
 </script>
 </body>
 </html>

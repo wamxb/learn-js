@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo-createStyleSheet</title>
+</head>
+<body>
+<script type="text/javascript">
+    function addStyles(styles) {
+        var styleEt, styleSheet;
+
+        if (document.createStyleSheet) {    // 如果定义了IE的API
+            styleSheet = document.createStyleSheet();
+        } else {
+            var head = document.getElementsByTagName('head')[0];
+            styleEt = document.createElement('style');
+            styleEt.type = 'text/css';
+            head.appendChild(styleEt);
+            // 现在，新的样式表应该是最后一个
+            styleSheet = document.styleSheets[document.styleSheets.length - 1];
+        }
+
+        if (typeof styles === 'string') {
+            if (styleEt) {
+                styleEt.innerHTML = styles;
+            } else {
+                styleSheet.cssText = styles; // IE api
+            }
+        } else {
+            // 参数是待插入的单独的规则的对象
+            var i = 0;
+            for (var selector in styles) {
+                if (styleSheet.insertRule) {
+                    var rule = selector + ' {' + styles[selector] + '}';
+                    styleSheet.insertRule(rule, i++);
+                } else {
+                    styleSheet.addRule(selector, styles[selector], i++); // ie
+                }
+            }
+        }
+    }
+
+    var styleStr = 'h1 { font-size: 15px; color: #f0ad4e; }\na { text-decoration: none; border: 1px solid #ddd; }';
+    //    addStyles(styleStr);
+
+    addStyles({
+        h1: 'font-size: 15px; color: #f0ad4e;'
+    });
+</script>
+</body>
+</html>
