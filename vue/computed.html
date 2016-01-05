@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>computed</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.js"></script>
+</head>
+<body>
+<div id="example1">
+    a={{a}},
+    b={{b}}
+</div>
+<script type="text/javascript">
+    var vm1 = new Vue({
+        el: '#example1',
+        data: {
+            a: 1
+        },
+        computed: {
+            b: function () {
+                return this.a + 1;
+            }
+        }
+    });
+
+
+    var vm2 = new Vue({
+        data: {
+            firstName: 'Foo',
+            lastName: 'Bar'
+        },
+        computed: {
+            fullName: {
+                // getter
+                get: function () {
+                    return this.firstName + ' ' + this.lastName;
+                },
+                // setter
+                set: function (newValues) {
+                    var names = newValues.split(' ');
+                    this.firstName = names[0];
+                    this.lastName = names[names.length - 1];
+                }
+            }
+        }
+    });
+
+    vm2.fullName = 'John Doe';
+    console.log(vm2.firstName);
+    console.log(vm2.lastName);
+
+</script>
+</body>
+</html>

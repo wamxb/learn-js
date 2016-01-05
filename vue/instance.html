@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>instance</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.js"></script>
+</head>
+<body>
+<div id="example1">{{a}}-{{Math.random()}}</div>
+<div id="example2"></div>
+<script type="text/javascript">
+    var data1 = {a: 1};
+    var vm1 = new Vue({
+        el: '#example1',
+        data: data1
+    });
+
+    console.log(vm1.$data === data1);
+    console.log(vm1.$el === document.getElementById('example1'));
+
+    vm1.$watch('a', function (newVal, oldVal) {
+        console.log(newVal, oldVal);
+    });
+
+    // example2
+
+    var vm2 = new Vue({
+        data: {
+            a: 1
+        },
+        created: function () {
+            // this指向vm2实例
+            console.log('a is: ' + this.a);
+        }
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>class-and-style</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.js"></script>
+</head>
+<body>
+<div id="example1" class="static" :class="{'class-a': isA, 'class-b': isB}"></div>
+
+<div id="example2" class="static" :class="classObject"></div>
+
+<div id="example3" :style="styleObject"></div>
+<script type="text/javascript">
+    var vm1 = new Vue({
+        el: '#example1',
+        data: {
+            isA: true,
+            isB: true
+        }
+    });
+
+    // example2
+    var vm2 = new Vue({
+        el: '#example2',
+        data: {
+            classObject: {
+                'class-a': true,
+                'class-b': false
+            }
+        }
+    });
+
+    // example3
+    var vm3 = new Vue({
+        el: '#example3',
+        data: {
+            styleObject: {
+                width: '100px',
+                height: '100px',
+                border: '1px solid #000',
+                transform: 'translate3d(0, 50%, 0)'
+            }
+        }
+    });
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>overview</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.js"></script>
+</head>
+<body>
+<!-- ----------------------- example1 /S ------------------------------------------------ -->
+<div id="example1">
+    Hello {{name}}!
+</div>
+<!-- ----------------------- example1 /E ------------------------------------------------ -->
+<!-- ----------------------- example2 /S ------------------------------------------------ -->
+<div id="example2">
+    <p v-if="greeting">Hello!</p>
+</div>
+<!-- ----------------------- example2 /E ------------------------------------------------ -->
+<div id="app">
+    <g-nav></g-nav>
+    <g-view>
+        <g-sidebar></g-sidebar>
+        <g-main></g-main>
+    </g-view>
+    <g-footer></g-footer>
+</div>
+<script type="text/javascript">
+    // example1
+    var example1Data = {
+        name: 'vue.js'
+    };
+
+    var VM = new Vue({
+        el: '#example1',
+        data: example1Data
+    });
+
+    // example2
+    var VM2 = new Vue({
+        el: '#example2',
+        data: {
+            greeting: true
+        }
+    });
+</script>
+</body>
+</html>
