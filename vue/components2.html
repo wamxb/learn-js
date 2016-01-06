@@ -120,7 +120,7 @@
 </script>
 <div id="events-example">
     <p>Messages: {{messages | json}}</p>
-    <child></child>
+    <child @notify="child-msg" v-ref:profile></child>
 </div>
 <script type="text/javascript">
     Vue.component('child', {
@@ -138,7 +138,7 @@
         }
     });
 
-    var parent = new Vue({
+    var vm4 = new Vue({
         el: '#events-example',
         data: {
             messages: []

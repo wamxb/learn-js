@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>components-slot</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.js"></script>
+</head>
+<body>
+<script type="x/template" id="child">
+    <div>
+        <h1>This is child component!</h1>
+        <slot name="one">
+            one This will only be displayed if there is no content to be distributed.
+        </slot>
+        <slot></slot>
+        <slot name="two">
+            two This will only be displayed if there is no content to be distributed.
+        </slot>
+    </div>
+</script>
+<div id="parent">
+    <child>
+        <p slot="one">This is some original content</p>
+        <p slot="two">This is some more original content</p>
+        <p>Default A</p>
+    </child>
+</div>
+<script type="text/javascript">
+    Vue.component('child', {
+        template: '#child'
+    });
+
+    var parent = new Vue({
+        el: '#parent'
+    });
+</script>
+</body>
+</html>
