@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>transitions</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.js"></script>
+</head>
+<body>
+<!-- ----------------------- div1 /S ------------------------------------------------ -->
+<div id="div1">
+    <component :is="currentView" keep-alive></component>
+</div>
+<script type="text/javascript">
+    /**
+     * div1
+     */
+    var div1 = new Vue({
+        el: '#div1',
+        data: {
+            currentView: 'home'
+        },
+        components: {
+            home: {
+                template: '<span>home</span>'
+            },
+            list: {
+                template: '<span>list</span>'
+            },
+            user: {
+                template: '<span>user</span>'
+            }
+        }
+    });
+
+    Vue.component('active-div', {
+        active: function (done) {
+            var self = this;
+            /*loadDataAsync(function(data){
+             self.someData = data;
+             done();
+             });*/
+        }
+    });
+</script>
+<!-- ----------------------- div1 /E ------------------------------------------------ -->
+<hr>
+<!-- ----------------------- div2 /S ------------------------------------------------ -->
+<div id="div2">
+    <label>
+        <input type="radio" name="view" v-model="view" id="a" value="v-a">a
+    </label>
+    <label>
+        <input type="radio" name="view" v-model="view" id="b" value="v-b">b
+    </label>
+    <component :is="view" transition="fade" transition-mode="out-in"></component>
+</div>
+<script type="text/javascript">
+    var div2 = new Vue({
+        el: '#div2',
+        data: {
+            view: 'v-a'
+        },
+        components: {
+            'v-a': {
+                template: '<span>Component A</span>'
+            },
+            'v-b': {
+                template: '<span>Component B</span>'
+            }
+        }
+    });
+</script>
+<style type="text/css">
+    .fade-transition { transition: opacity .3s ease; }
+    .fade-enter, .fade-leave { opacity: 0; }
+</style>
+<!-- ----------------------- div2 /E ------------------------------------------------ -->
+<!-- ----------------------- div3 /S ------------------------------------------------ -->
+<div id="div3">
+    <async-div></async-div>
+</div>
+<script type="text/javascript">
+    Vue.component('async-div', function (resolve, reject) {
+        setTimeout(function () {
+            resolve({
+                template: '<div>I am async!</div>'
+            });
+        }, 1000);
+    });
+    var div3 = new Vue({
+        el: '#div3'
+    })
+</script>
+<!-- ----------------------- div3 /E ------------------------------------------------ -->
+</body>
+</html>
