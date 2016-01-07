@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>transitions</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.js"></script>
+</head>
+<body>
+<div id="div1">
+    <my-component></my-component>
+</div>
+<div id="div2">
+    <parent-component></parent-component>
+</div>
+<div id="div3">
+    <child msg="div3"></child>
+</div>
+<div id="div4">
+    <input v-model="parentMsg"/>
+    <br>
+    <child :child-msg="parentMsg"></child>
+</div>
+<div id="div5">
+    <input type=""/>
+
+</div>
+<script type="text/javascript">
+    +(function () {
+        /**
+         * div4
+         */
+        var Child4 = new Vue({
+            el: '#div4',
+            data: {
+                parentMsg: 'message from parent'
+            },
+            components: {
+                child: {
+                    props: ['childMsg'],
+                    template: '<span>{{childMsg}}</span>'
+                }
+            }
+        });
+        return;
+        /**
+         * div1
+         */
+        // 定义
+        var MyComponent = Vue.extend({
+            template: '<div>A custom component!</div>'
+        });
+        // 注册
+        Vue.component('my-component', MyComponent);
+
+        var vm1 = new Vue({
+            el: '#div1'
+        });
+
+        /**
+         * div2
+         */
+        // 局部注册
+        var Child2 = Vue.extend({
+            template: '<div>Child</div>'
+        });
+        var Parent = Vue.extend({
+            template: '<div>Parent<br><my-component></my-component></div>',
+            components: {
+                // <my-component>只能在父组件模版内
+                'my-component': Child2
+            }
+        });
+        Vue.component('parent-component', Parent);
+        var vm2 = new Vue({
+            el: '#div2'
+        });
+
+
+        /**
+         * div3获得父组件的值
+         */
+        var Child3 = new Vue({
+            el: '#div3',
+            components: {
+                child: {
+                    props: ['msg'],
+                    template: '<span>{{msg}}</span>'
+                }
+            }
+        });
+    })();
+</script>
+</body>
+</html>

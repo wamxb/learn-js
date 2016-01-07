@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>transitions</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.js"></script>
+    <style type="text/css">
+        /* 必需 */
+        .expand-transition {
+            transition: all .3s ease;
+            height: 30px;
+            padding: 10px;
+            background-color: #eee;
+            overflow: hidden;
+            }
+        /* .expand-enter 定义进入的开始状态 */
+        /* .expand-leave 定义离开的结束状态 */
+        .expand-enter, .expand-leave {
+            height: 0;
+            padding: 0 10px;
+            opacity: 0;
+            }
+        .bounce-enter {
+            animation: bounce-in .5s;
+            }
+        .bounce-leave {
+            animation: bounce-out .5s;
+            }
+        @keyframes bounce-in {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.5); }
+            100% { transform: scale(1); }
+            }
+        @keyframes bounce-out {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+            100% { transform: scale(0); }
+            }
+        /* example3
+        ***************************************/
+        ul {
+            padding-left: 0;
+            font-family: Helvetica, Arial, sans-serif;
+            }
+        .staggered-transition {
+            transition: all .5s ease;
+            overflow: hidden;
+            margin: 0;
+            height: 20px;
+            }
+        .staggered-enter, .staggered-leave {
+            opacity: 0;
+            height: 0;
+            }
+    </style>
+</head>
+<body>
+<div id="example1">
+    <div v-if="show" transition="expand">hello</div>
+    <button @click="show = !show">Toggle</button>
+</div>
+<div id="example2">
+    <span v-show="show" transition="bounce">look at me!</span>
+    <span v-show="show" transition="fade">xxxx</span>
+    <button @click="show = !show">Toggle</button>
+</div>
+
+<div id="example3">
+    <input type="text" v-model="query"/>
+    <ul>
+        <li v-for="item in list|filterBy query" transition="staggered" stagger="100">
+            {{item.msg}}
+        </li>
+    </ul>
+</div>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+    var vm1 = new Vue({
+        el: '#example1',
+        data: {
+            show: true
+        }
+    });
+
+    Vue.transition('fade', {
+        css: false,
+        enter: function (el, done) {
+            $(el)
+                    .css('opacity', 0)
+                    .animate({opacity: 1}, 1000, done);
+        },
+        enterCancelled: function (el) {
+            $(el).stop();
+        },
+        leave: function (el, done) {
+            $(el).animate({opacity: 0}, 1000, done);
+        },
+        leaveCancelled: function (el) {
+            $(el).stop();
+        }
+    });
+    var vm2 = new Vue({
+        el: '#example2',
+        data: {
+            show: true
+        }
+    });
+
+    Vue.transition('stagger', {
+        stagger: function (index) {
+            // 每个过渡项目增加50ms延时
+            // 但是最大延时限制为300ms
+            return Math.min(300, index * 50);
+        }
+    });
+    var vm3 = new Vue({
+        el: '#example3',
+        data: {
+            query: '',
+            list: [
+                {msg: 'Bruce Lee'},
+                {msg: 'Jackie Chan'},
+                {msg: 'Chuck Norris'},
+                {msg: 'Jet Li'},
+                {msg: 'Kung Fury'}
+            ]
+        }
+    });
+</script>
+</body>
+</html>
