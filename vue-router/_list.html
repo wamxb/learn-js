@@ -6,29 +6,25 @@
 </head>
 <body>
 <ul id="example-1">
-    <li v-for="item in items">
-        <img v-bind:src="item.appIcon" width="160" height="160" alt=""/>
-        {{item.appName}}
+    <li v-for="item in items | orderBy 'AppStar'">
+        <!--<img :src="item.appIcon" width="160" height="160" alt=""/>-->
+        {{item.FreeId}} - {{item.AppStar}}
     </li>
 </ul>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.js"></script>
-<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://7xlc2a.com1.z0.glb.clouddn.com/15-11-21/13328256-vue-resource.min.js"></script>
 <script type="text/javascript">
-    window.onload = function () {
-
-        var example1 = new Vue({
-            el: '#example-1',
-            data: {
-                items: []
-            }
-        });
-
-
-        $.get('_mock/list.json', function (req) {
-            example1.items.push.apply(example1.items, req.Data.list);
-        });
-
-    };
+    var example1 = new Vue({
+        el: '#example-1',
+        ready: function () {
+            this.$http.get('_mock/list.json', function (req) {
+                this.$set('items', req.Data.list);
+            })
+        },
+        data: {
+            items: []
+        }
+    });
 </script>
 </body>
 </html>

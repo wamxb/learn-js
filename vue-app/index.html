@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>APP</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta name="description" content="APP">
+    <meta name="keywords" content="APP">
+    <meta name="author" content="APP">
+    <meta name="copyright" content="APP">
+    <meta name="apple-mobile-web-app-title" content="APP">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="MobileOptimized" content="320">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="browsermode" content="application">
+    <meta name="x5-page-mode" content="app">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no, email=no">
+    <meta rel="shortcut icon" type="image/ico" href="/favicon.ico">
+    <style type="text/css">
+
+        /* 必需 */
+        .expand-transition {
+            transition: all .3s ease;
+            overflow: hidden;
+            }
+        /* .expand-enter 定义进入的开始状态 */
+        /* .expand-leave 定义离开的结束状态 */
+        .expand-enter, .expand-leave {
+            height: 0;
+            padding: 0 10px;
+            opacity: 0;
+            }
+    </style>
+</head>
+<body>
+<div id="app" class="g-doc">
+    <router-view></router-view>
+    <g-nav></g-nav>
+</div>
+<script src="js/libs/vue.js"></script>
+<script src="js/libs/vue-router.js"></script>
+<script type="x/template" id="gNav">
+    <nav>
+        <a v-link="{path: '/home'}">Home</a>
+        <a v-link="{path: '/list', query: {tab: 'rank'}}">Rank</a>
+    </nav>
+</script>
+<script type="text/javascript">
+
+    /**************************************************
+     * VIEW
+     *************************************************/
+    var Home = Vue.extend({
+        template: '<p>home page</p>'
+    });
+    var List = Vue.extend({
+        template: '<p>list page</p>'
+    });
+
+
+    /**************************************************
+     * COMPONENT
+     *************************************************/
+    var gNav = Vue.extend({
+        template: '#gNav'
+    });
+
+    Vue.component('g-nav', gNav);
+
+    /**************************************************
+     * ROUTER
+     *************************************************/
+    var router = new VueRouter({
+        linkActiveClass: 'active',
+        transitionOnLoad: true
+    });
+    router.map({
+        '/home': {
+            component: Home
+        },
+        '/list': {
+            component: List
+        }
+    });
+    router.beforeEach(function (transition) {
+        window.scrollTo(0, 0);
+        /*if (transition.to.auth) {
+            // 对用户身份进行验证...
+        }*/
+    });
+
+    var App = Vue.extend({});
+    router.start(App, '#app');
+</script>
+</body>
+</html>
