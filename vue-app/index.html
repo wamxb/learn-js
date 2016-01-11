@@ -109,9 +109,23 @@
     </div>
 </script>
 <script type="x/template" id="tplSwiper">
-    <div class="swiper-container u-swiper">
+    <div class="swiper-container newApps">
         <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="img in imgs">
+            <div class="swiper-slide" v-for="img in newApps">
+                <img :data-src="img.src" class="swiper-lazy">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+            </div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination swiper-pagination-white"></div>
+        <!-- Navigation -->
+        <div class="swiper-button-next swiper-button-white"></div>
+        <div class="swiper-button-prev swiper-button-white"></div>
+    </div>
+
+    <div class="swiper-container newGames">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" v-for="img in newGames">
                 <img :data-src="img.src" class="swiper-lazy">
                 <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
             </div>
@@ -130,7 +144,9 @@
      *************************************************/
     var Home = Vue.extend({
         data: function () {
-            return {}
+            return {
+                banners: []
+            }
         },
         route: {
             activate: function (transition) {
@@ -152,16 +168,19 @@
                     spaceBetween: 0,
                     autoplay: 2500,
                     autoplayDisableOnInteraction: false,
-                    loop: true,
-                    onInit: function (swiper) {
-                        console.log(swiper.activeIndex);
-                        //Swiper初始化了
-                        //alert(swiper.activeIndex);提示Swiper的当前索引
-                    }
+                    loop: true
                 });
 
                 // 1
-                var swiper = new Swiper('.u-swiper', {
+                var swiper1 = new Swiper('.newApps', {
+                    pagination: '.swiper-pagination',
+                    slidesPerView: 3,
+                    paginationClickable: false,
+                    preloadImages: false,
+                    lazyLoading: true,
+                    spaceBetween: 30
+                });
+                var swiper2 = new Swiper('.newGames', {
                     pagination: '.swiper-pagination',
                     slidesPerView: 3,
                     paginationClickable: false,
@@ -218,7 +237,34 @@
     Vue.component('swiper', {
         data: function () {
             return {
-                imgs: [
+                newApps: [
+                    {
+                        "title": "标题1",
+                        "url": "#",
+                        "src": "http://www.swiper.com.cn/demo/img/largeNature1.jpg"
+                    },
+                    {
+                        "title": "标题2",
+                        "url": "#",
+                        "src": "http://www.swiper.com.cn/demo/img/largeNature2.jpg"
+                    },
+                    {
+                        "title": "标题3",
+                        "url": "#",
+                        "src": "http://www.swiper.com.cn/demo/img/largeNature3.jpg"
+                    },
+                    {
+                        "title": "标题2",
+                        "url": "#",
+                        "src": "http://www.swiper.com.cn/demo/img/largeNature4.jpg"
+                    },
+                    {
+                        "title": "标题3",
+                        "url": "#",
+                        "src": "http://www.swiper.com.cn/demo/img/largeNature5.jpg"
+                    }
+                ],
+                newGames: [
                     {
                         "title": "标题1",
                         "url": "#",
