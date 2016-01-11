@@ -25,6 +25,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="format-detection" content="telephone=no, email=no">
     <meta rel="shortcut icon" type="image/ico" href="/favicon.ico">
+    <link rel="stylesheet" href="http://www.swiper.com.cn/dist/css/swiper.min.css"/>
     <style type="text/css">
 
         /* 必需 */
@@ -39,6 +40,42 @@
             padding: 0 10px;
             opacity: 0;
             }
+        /*swiper
+        *****************************************************************************/
+
+        html, body {
+            position: relative;
+            height: 100%;
+            }
+        body {
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            }
+        .swiper-container {
+            width: 100%;
+            height: 5px;
+            }
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            }
+        .swiper-slide img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            -ms-transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            }
+
     </style>
 </head>
 <body>
@@ -48,11 +85,43 @@
 </div>
 <script src="js/libs/vue.js"></script>
 <script src="js/libs/vue-router.js"></script>
-<script type="x/template" id="gNav">
+<script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="js/libs/swiper-3.2.7.min.js"></script>
+<script type="x/template" id="tplNav">
     <nav>
         <a v-link="{path: '/home'}">Home</a>
         <a v-link="{path: '/list', query: {tab: 'rank'}}">Rank</a>
     </nav>
+</script>
+<script type="x/template" id="tplBanner">
+    <div class="swiper-container banner">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" v-for="img in imgs">
+                <img :data-src="img.src" class="swiper-lazy">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+            </div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination swiper-pagination-white"></div>
+        <!-- Navigation -->
+        <div class="swiper-button-next swiper-button-white"></div>
+        <div class="swiper-button-prev swiper-button-white"></div>
+    </div>
+</script>
+<script type="x/template" id="tplSwiper">
+    <div class="swiper-container u-swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" v-for="img in imgs">
+                <img :data-src="img.src" class="swiper-lazy">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+            </div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination swiper-pagination-white"></div>
+        <!-- Navigation -->
+        <div class="swiper-button-next swiper-button-white"></div>
+        <div class="swiper-button-prev swiper-button-white"></div>
+    </div>
 </script>
 <script type="text/javascript">
 
@@ -60,7 +129,54 @@
      * VIEW
      *************************************************/
     var Home = Vue.extend({
-        template: '<p>home page</p>'
+        data: function () {
+            return {}
+        },
+        route: {
+            activate: function (transition) {
+                transition.next();
+
+                $.getJSON('_mock/temp.json', function (data) {
+                    console.log(data);
+                });
+                // banner
+                var banner = new Swiper('.banner', {
+//                    nextButton: '.swiper-button-next',
+//                    prevButton: '.swiper-button-prev',
+                    pagination: '.swiper-pagination',
+                    paginationClickable: true,
+                    // Disable preloading of all images
+                    preloadImages: false,
+                    // Enable lazy loading
+                    lazyLoading: true,
+                    spaceBetween: 0,
+                    autoplay: 2500,
+                    autoplayDisableOnInteraction: false,
+                    loop: true,
+                    onInit: function (swiper) {
+                        console.log(swiper.activeIndex);
+                        //Swiper初始化了
+                        //alert(swiper.activeIndex);提示Swiper的当前索引
+                    }
+                });
+
+                // 1
+                var swiper = new Swiper('.u-swiper', {
+                    pagination: '.swiper-pagination',
+                    slidesPerView: 3,
+                    paginationClickable: false,
+                    preloadImages: false,
+                    lazyLoading: true,
+                    spaceBetween: 30
+                });
+
+            },
+            deactivate: function (transition) {
+                transition.next();
+            }
+        },
+        template: '<banner></banner>' +
+        '<swiper></swiper>'
     });
     var List = Vue.extend({
         template: '<p>list page</p>'
@@ -70,11 +186,69 @@
     /**************************************************
      * COMPONENT
      *************************************************/
-    var gNav = Vue.extend({
-        template: '#gNav'
+    Vue.component('g-nav', {
+        template: '#tplNav'
     });
 
-    Vue.component('g-nav', gNav);
+    Vue.component('banner', {
+        data: function () {
+            return {
+                imgs: [
+                    {
+                        "title": "标题1",
+                        "url": "#",
+                        "src": "http://www.swiper.com.cn/demo/img/largeNature1.jpg"
+                    },
+                    {
+                        "title": "标题2",
+                        "url": "#",
+                        "src": "http://www.swiper.com.cn/demo/img/largeNature2.jpg"
+                    },
+                    {
+                        "title": "标题3",
+                        "url": "#",
+                        "src": "http://www.swiper.com.cn/demo/img/largeNature3.jpg"
+                    }
+                ]
+            }
+        },
+        template: '#tplBanner'
+    });
+
+    Vue.component('swiper', {
+        data: function () {
+            return {
+                imgs: [
+                    {
+                        "title": "标题1",
+                        "url": "#",
+                        "src": "http://www.swiper.com.cn/demo/img/largeNature1.jpg"
+                    },
+                    {
+                        "title": "标题2",
+                        "url": "#",
+                        "src": "http://www.swiper.com.cn/demo/img/largeNature2.jpg"
+                    },
+                    {
+                        "title": "标题3",
+                        "url": "#",
+                        "src": "http://www.swiper.com.cn/demo/img/largeNature3.jpg"
+                    },
+                    {
+                        "title": "标题2",
+                        "url": "#",
+                        "src": "http://www.swiper.com.cn/demo/img/largeNature4.jpg"
+                    },
+                    {
+                        "title": "标题3",
+                        "url": "#",
+                        "src": "http://www.swiper.com.cn/demo/img/largeNature5.jpg"
+                    }
+                ]
+            }
+        },
+        template: '#tplSwiper'
+    });
 
     /**************************************************
      * ROUTER
@@ -83,19 +257,29 @@
         linkActiveClass: 'active',
         transitionOnLoad: true
     });
+
+
+    /**************************************************
+     * ROUTER.js
+     *************************************************/
     router.map({
-        '/home': {
+        '/': {
+            name: 'home',
+            component: Home
+        },
+        '*': { // 404路由
+            name: 'home',
             component: Home
         },
         '/list': {
+            'name': 'list',
             component: List
         }
     });
+
     router.beforeEach(function (transition) {
         window.scrollTo(0, 0);
-        /*if (transition.to.auth) {
-            // 对用户身份进行验证...
-        }*/
+        transition.next();
     });
 
     var App = Vue.extend({});
