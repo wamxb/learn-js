@@ -58,7 +58,8 @@
     d:<input type="text" v-model="d"/><br>
     e:<input type="text" v-model="e"/><br>
     f:<input type="text" v-model="f"/><br>
-    <child :prop-a="a" :prop-b="b" :prop-c="c" :prop-d="d" :prop-e.sync="e" :prop-f="f"></child>
+    f:<input type="text" v-model="g"/><br>
+    <child :prop-a="a" :prop-b="b" :prop-c="c" :prop-d="d" :prop-e.sync="e" :prop-f="f" :prop-g="g"></child>
 </div>
 <script type="text/javascript">
     var vm3 = new Vue({
@@ -68,10 +69,11 @@
             b: 'string',
             c: 11,
             d: {
-                msg: 1
+                msg: 'string'
             },
             e: 'twoWay',
-            f: 11
+            f: 11,
+            g: [1, 2, 3, 4]
         },
         components: {
             child: {
@@ -98,6 +100,9 @@
                         validator: function (value) {
                             return value > 10
                         }
+                    },
+                    propG: {
+                        type: Array
                     }
                 },
                 template: '<p>propA:{{propA}}</p>' +
@@ -105,7 +110,8 @@
                 '<p>propC:{{propC}}</p>' +
                 '<p>propD:{{propD.msg | json}}</p>' +
                 '<input type="text" v-model="propE"/>' +
-                '<p>propF:{{propF}}</p>'
+                '<p>propF:{{propF}}</p>' +
+                '<p v-for="i in propG">{{i}}</p>'
             }
         }
     });
