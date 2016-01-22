@@ -22,7 +22,7 @@
 
     // 如果o与p存在同名的属性，则覆盖o的属性
     function extend(o, p) {
-        for (var prop in p) p[prop] = o[prop];
+        for (var prop in p) o[prop] = p[prop];
         return o;
     }
 
@@ -482,6 +482,26 @@
             }
         }
 
+    })();
+
+    +(function () {
+        console.clear();
+        console.info('6.8.2类属性');
+        function classof(o) {
+            if (o === null) return 'Null';
+            if (o === undefined) return 'Undefined';
+            // [object Array]
+            return Object.prototype.toString.call(o).slice(8, -1);
+        }
+
+        console.log(classof(1));
+        console.log(classof(function () {
+        }));
+        console.log(classof([]));
+        console.log(classof('sljfld'));
+        console.log(classof(true));
+        console.log(classof(null));
+        console.log(classof(undefined));
     })();
 </script>
 </body>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stack</title>
+</head>
+<body>
+<script type="text/javascript">
+    +(function () {
+        /**
+         * 栈：后进先出（堆叠的碟子）
+         */
+        function Stack() {
+            var items = [];
+
+            this.push = function (el) {
+                items.push(el);
+                console.log(items);
+            };
+
+            this.pop = function () {
+                return items.pop();
+            };
+
+            /**
+             * 查看栈顶元素
+             * @returns {*}
+             */
+            this.peek = function () {
+                return items[items.length - 1];
+            };
+            /**
+             * 确定栈是否为空
+             * @return {Boolean} 若栈为空则返回true,不为空则返回false
+             */
+            this.isEmpty = function () {
+                return items.length === 0
+            };
+
+            /**
+             * 清空栈中所有内容
+             */
+            this.clear = function () {
+                items = [];
+            };
+
+            /**
+             * 返回栈的长度
+             * @return {Number} 栈的长度
+             */
+            this.size = function () {
+                return items.length;
+            };
+
+            /**
+             * 以字符串显示栈中所有内容
+             */
+            this.print = function () {
+                console.log(items.toString());
+            };
+        }
+
+
+        /**
+         * 将10进制数字转为2进制数字
+         * @param  {Number} decNumber 要转换的10进制数字
+         * @return {Number}           转换后的2进制数字
+         */
+        function divideBy2(decNumber) {
+            var remStack = new Stack(),
+                    rem,
+                    binaryString = '';
+
+            while (decNumber > 0) {
+                rem = Math.floor(decNumber % 2);
+                remStack.push(rem);
+                decNumber = Math.floor(decNumber / 2);
+            }
+
+            while (!remStack.isEmpty()) {
+                binaryString += remStack.pop().toString();
+            }
+
+            return binaryString;
+        }
+
+        console.log(divideBy2(10));
+    })();
+
+
+    +(function () {
+        /**
+         * 队列，先进先出（火车站排队买票)
+         * @constructor
+         */
+        function Queue() {
+            var items = [];
+
+            this.enqueue = function (el) {
+                items.push(el);
+            };
+
+            this.dequeue = function () {
+                return items.shift()
+            };
+            /**
+             * 查看队列的第一个元素
+             * @return {Any} 返回队列中第一个元素
+             */
+            this.front = function () {
+                return items[0];
+            };
+            /**
+             * 确定队列是否为空
+             * @return {Boolean} 若队列为空则返回true,不为空则返回false
+             */
+            this.isAmpty = function () {
+                return items.length === 0
+            };
+
+            /**
+             * 返回队列的长度
+             * @return {Number} 队列的长度
+             */
+            this.size = function () {
+                return items.length;
+            };
+
+            /**
+             * 清空队列中所有内容
+             */
+            this.clear = function () {
+                items = [];
+            };
+
+            /**
+             * 以字符串显示队列中所有内容
+             */
+            this.print = function () {
+                console.log(items.toString());
+            };
+        }
+
+        /**
+         * 击鼓传花的小游戏
+         * @param  {Array} nameList 参与人员列表
+         * @param  {Number} num      在循环中要被弹出的位置
+         * @return {String}          返回赢家(也就是最后活下来的那个)
+         */
+        function hotPotato(nameList, num) {
+            var queue = new Queue();
+
+            for (var i = 0, len = nameList.length; i < len; i++) {
+                queue.enqueue(nameList[i]);
+            }
+
+            var eliminated = '';
+
+            while (queue.size() > 1) {
+                for (var i = 0; i < num; i++) {
+                    queue.enqueue(queue.dequeue());
+                }
+                eliminated = queue.dequeue();
+                console.log(eliminated + ' get out!');
+            }
+
+            return console.log(queue.dequeue() + ' win');
+
+        }
+
+        var nameList = ['小明', '小红', '小王', '小绿'];
+        hotPotato(nameList, 101);
+    })();
+
+</script>
+</body>
+</html>
