@@ -109,7 +109,7 @@
 
 
     console.info('indexOf');
-    function findall(arr, x) {
+    function findAll(arr, x) {
         var results = [],
                 len = arr.length,
                 pos = 0;
@@ -122,7 +122,7 @@
         return results;
     }
 
-    console.log(findall([1, 2, 3, 3, 4, 3, 5], 3));
+    console.log(findAll([1, 2, 3, 3, 4, 3, 5], 3));
 
 
     // 判断是否是数组
@@ -130,7 +130,6 @@
                 return typeof o === 'object' &&
                         Object.prototype.toString.call(o) === '[object Array]';
             }
-
 
 
 </script>

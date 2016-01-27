@@ -1,88 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>sort</title>
+    <title>sort</title>
 </head>
 <body>
 <script type="text/javascript">
-	/*7.1创建数组
-	****************************************************************/
-	!(function() {
-		// 最大长度（2的32幂-2）
-		var arr1 = [,,];
-		console.log(arr1.length);	// 2
+    /*7.1创建数组
+     ****************************************************************/
+    !(function () {
+        // 最大长度（2的32幂-2）
+        var arr1 = [, ,];
+        console.log(arr1.length);	// 2
 
-		// 预先知道所需元素个数时，这种形式的 Array()构造函数可以用来预分配一个数组空间
-		var arr2 = new Array();
+        // 预先知道所需元素个数时，这种形式的 Array()构造函数可以用来预分配一个数组空间
+        var arr2 = new Array();
 
-		// 可以直接设置 length 的值，设置更大的 length 不会给数组分配更多的空间
-	})();
+        // 可以直接设置 length 的值，设置更大的 length 不会给数组分配更多的空间
+    })();
 
-	/*7.2数组元素的读和写
-	****************************************************************/
-	!(function(){
+    /*7.2数组元素的读和写
+     ****************************************************************/
+    !(function () {
 
-		var o = {};
-		o[1] = 'one';
-		console.log(o);
-
-
-		// 访问不存在的属性时，会返回undefined
-		var a = [];
-		a[-1.23] = true;
-		a['1000'] = 0;
-		console.log(a, a[1.000]); //[1000: 0, -1.23: true] undefined
-
-	})();
-
-	/*7.3稀疏数组
-	****************************************************************/
-	!(function(){
-		// 稀疏数组就是包含从0开始的不连续索引的数组
-		// 可以用 delete操作符产生稀疏数组
-		// 比稠密的数组内存用的多，慢
-		var a = new Array(5);
-
-		// 【!!!】与书有出入
-		var a1 = [,,,];
-		var a2 = new Array(3);
-		console.log(a1[0]);	// undefined
-		console.log(a2[0]);	// undefined
-	})();
-
-	/*7.4数组的长度
-	****************************************************************/
-	!(function(){
-
-		// Object.defineProperty()让数组的 length 属性变成只读
-		var a = [1, 2, 3];
-		Object.defineProperty(a, 'length', {writable: false});
-
-		a.length = 0;
-		console.log(a);
-
-	})();
-
-	/*7.5数组元素的添加和删除
-	****************************************************************/
-	!(function(){
-
-		var a = [];
-		a[0] = 'zero';
-		a[1] = 'one';
-
-		var a1 = [];
-		a.push('zero');
-		a.push('one', 'two');
-
-		var a2 = [1, 2, 3];
-		delete a2[1];
-		console.log(1 in a2);	// false
-		console.log(a2.length);	// 3
-
-	})();
+        var o = {};
+        o[1] = 'one';
+        console.log(o);
 
 
+        // 访问不存在的属性时，会返回undefined
+        var a = [];
+        a[-1.23] = true;
+        a['1000'] = 0;
+        console.log(a, a[1.000]); //[1000: 0, -1.23: true] undefined
+
+    })();
+
+    /*7.3稀疏数组
+     ****************************************************************/
+    !(function () {
+        // 稀疏数组就是包含从0开始的不连续索引的数组
+        // 可以用 delete操作符产生稀疏数组
+        // 比稠密的数组内存用的多，慢
+        var a = new Array(5);
+
+        // 【!!!】与书有出入
+        var a1 = [, , ,];
+        var a2 = new Array(3);
+        console.log(a1[0]);	// undefined
+        console.log(a2[0]);	// undefined
+    })();
+
+    /*7.4数组的长度
+     ****************************************************************/
+    !(function () {
+
+        // Object.defineProperty()让数组的 length 属性变成只读
+        var a = [1, 2, 3];
+        Object.defineProperty(a, 'length', {writable: false});
+
+        a.length = 0;
+        console.log(a);
+
+    })();
+
+    /*7.5数组元素的添加和删除
+     ****************************************************************/
+    !(function () {
+
+        var a = [];
+        a[0] = 'zero';
+        a[1] = 'one';
+
+        var a1 = [];
+        a.push('zero');
+        a.push('one', 'two');
+
+        var a2 = [1, 2, 3];
+        delete a2[1];
+        console.log(1 in a2);	// false
+        console.log(a2.length);	// 3
+
+    })();
+
+    /*7.8数组方法
+     ****************************************************************/
+    +(function () {
+        var a = ['ant', 'Bug', 'cat', 'Dog'];
+        // 会改变原本的数组
+        console.log(a.sort()); // ['Bug', 'Dog', 'ant', 'cat']
+        var result = a.sort(function (x, y) {
+            var a = x.toLowerCase();
+            var b = y.toLowerCase();
+            return a < b ? -1 : (a > b ? 1 : 0);
+        });
+        console.log(result); // ['ant', 'Bug', 'cat', 'Dog']
+    })();
 
 
 </script>

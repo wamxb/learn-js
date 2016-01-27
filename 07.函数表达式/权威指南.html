@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>权威指南</title>
+</head>
+<body>
+<script type="text/javascript">
+    +(function () {
+
+        'use strict';
+        /*函数调用
+         *********************************************/
+        // 定义并调用一个函数来确定当前脚本运行时是否为严格模式
+        var strict = (function () {
+            return !this;
+        }());
+
+        console.log(strict);
+
+        /*作为命名空间的函数
+         *********************************************/
+
+        var extend = (function () {
+            for (var p in {toString: null}) {
+                return function extend(o) {
+                    for (var i = 1, len = arguments.length; i < len; i++) {
+                        var source = arguments[i];
+                        for (var prop in source) {
+                            o[prop] = source[prop];
+                        }
+                    }
+                    return o;
+                }
+            }
+
+            return function patched_extend(o) {
+                for (var i = 1, len = arguments.length; i < len; i++) {
+                    var source = arguments[i];
+                    for (var prop in source) {
+                        o[prop] = source[prop];
+                    }
+                    for (var j = 0; j < protoprops.length; j++) {
+                        prop = protoprops[j];
+                        if (source.hasOwnProperty(prop)) {
+                            o[prop] = source[prop];
+                        }
+                    }
+                }
+            };
+            var protoprops = ['toString', 'valueOf', 'constructor', 'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocalString'];
+        }());
+
+    })();
+
+    +(function () {
+        console.info('bind方法');
+        // bind方法
+        function bind(f, o) {
+            if (f.bind) {
+                return f.bind(o);
+            } else {
+                return function () {
+                    return f.apply(o, arguments);
+                };
+            }
+        }
+
+        var sum = function (x, y) {
+            return x + y;
+        };
+
+        var succ = sum.bind(null, 1);
+        console.log(succ(2));
+
+        if (!Function.prototype.bind) {
+            Function.prototype.bind = function (o /*, args*/) {
+                var self = this, boundArgs = arguments;
+                return function () {
+                    var args = [], i;
+                    for (i = 1; i < boundArgs.length; i++) {
+                        args.push(boundArgs[i]);
+                    }
+                    for (i = 0; i < arguments.length; i++) {
+                        args.push(arguments[i]);
+                    }
+                    return self.apply(o, args);
+                }
+            }
+        }
+
+    })();
+
+    +(function () {
+
+        console.info('函数式编程');
+
+        var data = [1, 1, 3, 5, 5];
+        var total = 0;
+        var sum = function (x, y) {
+            return x + y;
+        };
+        var result = data.reduce(sum) / data.length;
+        console.log(result); // 3
+
+        var square = function (x) {
+            return x * x;
+        };
+        var mean = data.reduce(sum) / data.length;
+        var deviations = data.map(function (x) {
+            return x - mean;
+        });
+
+
+        var stddev = Math.sqrt(deviations.map(square).reduce(sum) / (data.length - 1));
+        console.log(stddev); // 2
+
+    })();
+
+    +(function () {
+
+        var map = Array.prototype.map ? function (a, f) {
+            return a.map(f);
+        } : function (a, f) {
+            var results = [];
+            for (var i = 0, len = a.length; i < len; i++) {
+                if (i in a) {
+                    results[i] = f.call(null, a[i], i, a);
+                }
+                return results;
+            }
+        };
+
+        var reduce = Array.prototype.reduce ? function (a, f, initial) {
+            return a.reduce(f, initial || 0);
+        } : function (a, f, initial) {
+            var i = 0, len = a.length, accumulator;
+
+            if (arguments.length > 2) {
+                accumulator = initial;
+            } else {
+                if (len == 0) throw TypeError();
+                while (i < len) {
+                    if (i in a) {
+                        accumulator = a[i++];
+                        break;
+                    } else {
+                        i++;
+                    }
+                }
+                if (i == len) throw TypeError();
+            }
+
+            while (i < len) {
+                if (i in a) {
+                    accumulator = f.call(undefined, accumulator, a[i], i, a);
+                }
+                i++;
+            }
+            return accumulator;
+        }
+
+    })();
+
+    +(function () {
+
+        console.info('高阶函数');
+        // 接收一个或多个函数作为参数，并返回一个新函数
+        function not(f) {
+            return function () {
+                var result = f.apply(this, arguments);
+                return !result;
+            };
+        }
+
+        var even = function (x) {
+            return x % 2 === 0;
+        };
+
+        var odd = not(even);
+        var s = [1, 1, 3, 5, 5].every(odd);
+        console.log(s);
+
+
+        function compose(f, g) {
+            return function () {
+                // 因为f()传入一个参数，所以使用f()的call()方法
+                // g()传入多个参数，所以使用g()的apply()方法
+                return f.call(this, g.apply(this, arguments));
+            };
+        }
+
+        var square = function (x) {
+            return x * x;
+        };
+        var sum = function (x, y) {
+            return x + y;
+        };
+        var squareofsum = compose(square, sum);
+        squareofsum(2, 3);
+
+    })();
+
+
+    +(function () {
+
+        function toArray(a, n) {
+            return Array.prototype.slice.call(a, n || 0);
+        }
+
+        function partialLeft(f/*, */) {
+            var args = arguments;
+            return function () {
+                var a = array(args, 1);
+                a = a.concat(array(arguments));
+                return f.apply(this, a);
+            };
+        }
+
+    })();
+
+
+    +(function () {
+
+        console.info('memorize');
+        function memorize(f) {
+            var cache = {};
+            return function () {
+                var key = arguments.length + Array.prototype.join.call(arguments, ',');
+                if (key in cache) {
+                    return cache[key];
+                } else {
+                    return cache[key] = f.apply(this, arguments);
+                }
+            };
+        }
+
+        function gcd(a, b) {
+            var t;
+            if (a < b) t = b, b = a, a = t;
+            while (b != 0) t = b, b = a % b, a = t;
+            return a;
+        }
+
+        var gcdmemo = memorize(gcd);
+        console.log(gcdmemo(85, 187));
+
+        var factorial = memorize(function (n) {
+            return (n <= 1) ? 1 : n * factorial(n - 1);
+        });
+        console.log(factorial(1));
+        console.log(factorial(2));
+        console.log(factorial(3));
+        console.log(factorial(4));
+        console.log(factorial(5)); // 120
+
+    })();
+
+
+</script>
+</body>
+</html>
