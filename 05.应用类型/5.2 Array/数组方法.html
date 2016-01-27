@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数组方法</title>
+</head>
+<body>
+<script type="text/javascript">
+
+    // jQuery.each(function(index, Element))
+    // ECMAScript5 数组元素，数组的索引，数组本身
+    +(function () {
+        console.info('forEach');
+        // 从头至尾遍历数组
+        var data = [1, 2, 3, 4, 5];
+        var sum = 0;
+        data.forEach(function (value) {
+            sum += value;
+        });
+        console.log(sum);
+
+        data.forEach(function (v, i, a) {
+            a[i] = v + 1;
+        });
+        console.log(data);
+    })();
+
+    +(function () {
+        console.info('map');
+        // map()方法将调用的数组的每个元素传递给指定的函数，并返回一个数组
+        var a = [1, 2, 3];
+        b = a.map(function (x) {
+            return x * x;
+        });
+        console.log(b);
+    })();
+
+    +(function () {
+        console.info('filter');
+        // fliter()方法返回的数组元素是调用的数组的一个子集
+        // 传递的函数式用来逻辑判定的
+
+        var a = [5, 4, 3, 2, 1];
+        var smallValues = a.filter(function (x) {
+            return x < 3;
+        });
+        var evenOther = a.filter(function (x, i) {
+            return i % 2 == 0;
+        });
+        console.log(smallValues);
+        console.log(evenOther);
+    })();
+
+
+    +(function () {
+        console.info('every');
+        // 对数组元素应用指定的函数进行判定，返回true或false
+        // every是所有的
+        var a = [1, 2, 3, 4, 5];
+        var everyResult = a.every(function (x) {
+            return x < 10;
+        });
+        console.log(everyResult);
+        var everyResult2 = a.every(function (x) {
+            return x % 2 === 0;
+        });
+        console.log(everyResult2);
+    })();
+
+    +(function () {
+        console.info('reduce');
+        // 使用指定的函数将数组元素进行组合，生成单个值
+        var a = [1, 2, 3, 4, 5];
+        var sum = a.reduce(function (x, y) {
+            return x + y;
+        }, 0);
+        console.log(sum);
+
+        var product = a.reduce(function (x, y) {
+            return x * y;
+        }, 2);
+        console.log(product);
+
+        var max = a.reduce(function (x, y) {
+            return x > y ? x : y;
+        });
+        console.log(max);
+
+        var obj = [{x: 1, a: 1}, {y: 2, a: 2}, {z: 3, a: 3}];
+        var leftunion = obj.reduce(union);
+        var rightunion = obj.reduceRight(union);
+        console.log(leftunion);
+        console.log(rightunion);
+
+
+    })();
+
+    // 如果o与p存在同名的属性，则覆盖o的属性
+    function extend(o, p) {
+        for (var prop in p) o[prop] = p[prop];
+        return o;
+    }
+
+    // 返回一个新对象，这个对象同时拥有o和p的属性
+    // 如果o和p中有重名属性，使用p中的属性值
+    function union(o, p) {
+        return extend(extend({}, o), p);
+    }
+
+
+    console.info('indexOf');
+    function findAll(arr, x) {
+        var results = [],
+                len = arr.length,
+                pos = 0;
+        while (pos < len) {
+            pos = arr.indexOf(x, pos);
+            if (pos === -1) break;
+            results.push(pos);
+            pos = pos + 1;
+        }
+        return results;
+    }
+
+    console.log(findAll([1, 2, 3, 3, 4, 3, 5], 3));
+
+
+    // 判断是否是数组
+    var isArray = Function.isArray || function (o) {
+                return typeof o === 'object' &&
+                        Object.prototype.toString.call(o) === '[object Array]';
+            }
+
+
+</script>
+</body>
+</html>

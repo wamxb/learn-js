@@ -1,33 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>isArrayLike</title>
+    <title>isArrayLike</title>
 </head>
 <body>
 <script type="text/javascript">
-(function(){
-		function isArrayLike(o) {
-		return o &&
-		typeof o === 'object' &&
-		isFinite(o.length) &&
-		o.length >= 0 &&
-		o.length === Math.floor(o.length) &&
-		o.length < Math.pow(2, 32);
-	}
+    (function () {
+        function isArrayLike(o) {
+            return o &&
+                    typeof o === 'object' &&
+                    isFinite(o.length) &&
+                    o.length >= 0 &&
+                    o.length === Math.floor(o.length) &&
+                    o.length < Math.pow(2, 32);
+        }
 
 
-	var a = {'0': 'a', '1': 'b', '2': 'c', length: 3};
+        var a = {'0': 'a', '1': 'b', '2': 'c', length: 3};
 
-	console.log(isArrayLike(a));
+        console.log(isArrayLike(a));
 
-	console.log(Array.prototype.join.call(a, '+')); // a+b+c
-	console.log(Array.prototype.slice.call(a, 1)); // ['b', 'c']
-	var mapResult = Array.prototype.map.call(a, function(x){
-		return x.toUpperCase();
-	});
+        console.log(Array.prototype.join.call(a, '+')); // a+b+c
+        console.log(Array.prototype.slice.call(a, 1)); // ['b', 'c']
+        var mapResult = Array.prototype.map.call(a, function (x) {
+            return x.toUpperCase();
+        });
 
-	console.log(mapResult); // ['A', 'B', 'C']
-})();
+        console.log(mapResult); // ['A', 'B', 'C']
+    })();
+
+
+    (function () {
+        console.info('作为数组的字符串');
+        var s = 'Javascript';
+        var joinResult = Array.prototype.join.call(s, ' ');
+        console.log(joinResult);
+        var filterResult = Array.prototype.filter.call(s, function (x) {
+            return x.match(/[^aeiou]/);
+        }).join('');
+        console.log(filterResult);
+    })();
+
+
+
 </script>
 </body>
 </html>

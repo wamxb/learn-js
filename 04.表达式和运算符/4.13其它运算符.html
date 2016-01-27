@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>4.13其它运算符</title>
+</head>
+<body>
+<script type="text/javascript">
+    +(function () {
+
+        console.info('delete运算符');
+        var o = {x: 1, y: 2};
+        console.log(delete o.x); // true
+        console.log('x' in o);  // false
+
+        var a = [1, 2, 3];
+        delete a[2];
+        console.log(a[2]);  // undefined
+        console.log(a.length); // 3
+    })();
+
+    +(function () {
+        'use strict';
+        console.info('delete');
+        var o = {x: 1, y: 2};
+        console.log(delete o.x); // true
+        console.log(typeof o.x); // undefined
+        console.log(delete o.x); // 删除不存在的属性，返回true
+        try {
+            console.log(delete o); // 不能删除通过var声明的变量，返回false
+        } catch (e) {
+            console.warn(e);
+        }
+
+        console.log(delete 1); // 参数不是一个左值，返回true
+        this.x = 1; // 给全局对象定义一个属性，这里没有使用var
+        console.log(delete x); // 非严格模式下返回true，在严格模式下会抛出异常，这时使用"delete this.x"来代替
+    })();
+
+    +(function () {
+
+        
+    })();
+
+
+</script>
+</body>
+</html>
