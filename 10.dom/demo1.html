@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo</title>
+</head>
+<body>
+<div id="demo1">
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem consectetur distinctio ea eaque enim eveniet facere fuga fugiat laboriosam nam nemo nihil obcaecati odit quas quidem recusandae, tenetur veniam. Unde!</p>
+</div>
+<h3>demo2</h3>
+<div id="demo2">
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem consectetur distinctio ea eaque enim eveniet facere fuga fugiat laboriosam nam nemo nihil obcaecati odit quas quidem recusandae, tenetur veniam. Unde!</p>
+</div>
+<h3>demo3</h3>
+<ul id="demo3">
+    <li>item 1</li>
+    <li>item 2</li>
+    <li>item 3</li>
+</ul>
+<script type="text/javascript">
+    function convertToArray(nodes) {
+        var array = null;
+        try {
+            array = Array.prototype.slice.call(nodes, 0);
+        } catch (ex) {
+            array = [];
+            for (var i = 0, len = nodes.length; i < len; i++) {
+                array.push(nodes[i]);
+            }
+        }
+        return array;
+    }
+
+    function sibling(node) {
+        if (node.nextSibling === null) {
+            console.log('last node in the parent"s childNodes list.');
+        } else if (node.previousSibling === null) {
+            console.log('First node in the parent"s childNodes list.');
+        }
+    }
+
+    +(function () {
+        var demo1 = document.getElementById('demo1');
+        var p = document.createElement('p');
+        p.textContent = 'appendChild';
+        var returnNode = demo1.appendChild(p);
+        console.log(returnNode == p); // true
+        console.log(returnNode == demo1.lastChild); // true
+
+        // 如果传入appendChild()的节点是文档的一部分了。那么该节点从原来的位置转移到新的位置
+        // 任何DOM节点不能同时出现在文档中的多个位置上。
+
+        /*        var firstNode = demo1.firstChild;
+         while (firstNode !== null && firstNode.nodeType !== 1) {
+         firstNode = firstNode.nextSibling;
+         }*/
+        console.log(demo1.firstChild);
+        var returnedNode = demo1.appendChild(demo1.firstChild);
+        console.log(returnedNode);
+        console.log(returnedNode == demo1.firstChild); // false
+        console.log(returnedNode == demo1.lastChild); // true
+        console.log(returnedNode.ownerDocument); // "document"
+    })();
+
+    +(function () {
+        var el = document.getElementById('demo1');
+        /*
+         var firstNode = el.firstChild;
+         while (firstNode !== null && firstNode.nodeType !== 1) {
+         firstNode = firstNode.nextSibling;
+         }
+         */
+        var p = document.createElement('p');
+        p.textContent = 'insertBefore';
+
+        // 插入后成为最后一个子节点
+        var returnedNode = el.insertBefore(p, null);
+        console.log('p == el.lastChild', p == el.lastChild); // true
+
+        // 插入后成为第一个子节点
+        var returnedNode = el.insertBefore(p, el.firstChild);
+        console.log('returnedNode == p', returnedNode == p); // true;
+        console.log('p == el.firstChild', p == el.firstChild); // true
+
+        // 插入到最后一个子节点前面
+        returnedNode = el.insertBefore(p, el.lastChild);
+        console.log('p == el.childNodes[el.childNodes.length - 2]', p == el.childNodes[el.childNodes.length - 2]); // true
+    })();
+
+
+    +(function () {
+        var el = document.getElementById('demo2');
+        var newNode = document.createElement('p');
+        newNode.textContent = 'replaceChild';
+        // replaceChild
+        var returnedNode = el.replaceChild(newNode, el.firstChild);
+        returnedNode = el.replaceChild(newNode, el.lastChild);
+
+        // removeChild
+        // 移除第一个子节点
+        // var formerFirstChild = el.removeChild(el.firstChild);
+        // 移除最后一个子节点
+        // var formerLastChild = el.removeChild(el.lastChild);
+
+    })();
+
+    +(function () {
+        var myList = document.getElementById('demo3');
+        var deepList = myList.cloneNode(true);
+        console.log(deepList.childNodes.length); //7(其它浏览器) 或 3(IE<9)
+
+        var shallowList = myList.cloneNode(false);
+        console.log(shallowList.childNodes.length); //0
+    })();
+
+
+    // 文档的子节点
+    +(function () {
+
+        var html = document.documentElement;
+        console.log('html', html);
+        console.log(html === document.childNodes[1]); // true
+
+
+        var body = document.body; //取得对<body>的引用
+        console.log('body', body);
+        var doctype = document.doctype;
+        console.log(document.childNodes[0]); //IE9+及Firefox如果存在文档类型声明，则将其作为文档的第一个子节点
+        // 是一个DocumentType节点
+        console.log('doctype', doctype); // ie8及之前版本，当成Comment node,doctype is always null.
+
+
+        // referrer属性中保存着链接到当前页面的那个页面的URL，没有来源页面的情况下。referrer包含空字符串
+        var referrer = document.referrer;
+        var url = document.URL;
+        var domain = document.domain;
+
+        // getElementById
+        // 页面中有多个元素id相同，只返回第一次出现的元素
+        // 在除IE7及更早版本之外，区分大小写
+        // 而且getElementById还会取到name与id相同的元素
+    })();
+</script>
+</body>
+</html>
