@@ -6,13 +6,74 @@
 </head>
 <body>
 <script type="text/javascript">
-/**
- * @function 窗口相对于屏幕左边和上边的位置
- * @desc window.screenLeft: IE,chrome,safari, screenX: firefox,(chrome)
- */
-var leftPos = (typeof window.screenLeft == 'number') ? window.screenLeft : window.screenX;
-var topPos = (typeof window.screenTop == 'number') ? window.screenTop: window.screenY;
-console.log(leftPos, topPos);
+    (function () {
+        /**
+         * @function 窗口相对于屏幕左边和上边的位置
+         * @desc window.screenLeft: IE,chrome,safari, screenX: firefox,(chrome)
+         */
+        var leftPos = (typeof window.screenLeft == 'number') ? window.screenLeft : window.screenX;
+        var topPos = (typeof window.screenTop == 'number') ? window.screenTop : window.screenY;
+        console.log(leftPos, topPos);
+
+        // outerWidth,outerHeight 返回浏览器窗口本身的尺寸
+        // innerWidth,innerHeight 则表示该容器视图区的大小
+        /**
+         * 获取页面视口大小
+         * 在标准模式下： document.documentElement.clientWidth,document.documentElement.clientHeight
+         * 混杂模式下：必须通过document.body.clientWidth,document.body.clientHeight
+         */
+        var pageWidth = window.innerWidth,
+                pageHeight = window.innerHeight;
+        if (typeof pageWidth != 'number') {
+            if (document.compatMode == 'CSS1Compat') {
+                pageWidth = document.documentElement.clientWidth;
+                pageHeight = document.documentElement.clientHeight;
+            } else {
+                pageWidth = document.body.clientWidth;
+                pageHeight = document.body.clientHeight;
+            }
+        }
+    })();
+
+    +(function () {
+        var num = 0;
+        var max = 10;
+        var intervalId = null;
+
+        function incrementNumber() {
+            num++;
+            if (num == max) {
+                clearInterval(intervalId);
+                console.log('Done setInterval');
+                console.timeEnd('incrementNumber setInterval');
+            }
+        }
+
+        console.time('incrementNumber setInterval');
+        intervalId = setInterval(incrementNumber, 500);
+    })();
+
+    +(function () {
+        var num = 0;
+        var max = 10;
+
+        function incrementNumber() {
+            num++;
+
+            if (num < max) {
+                setTimeout(incrementNumber, 500);
+            } else {
+                console.log('Done setTimeout');
+                console.timeEnd('incrementNumber setTimeout');
+            }
+        }
+
+        console.time('incrementNumber setTimeout');
+        setTimeout(incrementNumber, 500);
+    })();
+
+
+
 </script>
 </body>
 </html>
