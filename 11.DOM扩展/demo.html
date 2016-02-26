@@ -31,7 +31,7 @@
         console.log(document.activeElement);
     }
     window.onload = loaded;// document.body元素的引用
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener && document.addEventListener('DOMContentLoaded', function () {
         console.log('DOMContentLoaded');
         loaded();
         console.log('DOMContentLoaded');
@@ -68,11 +68,12 @@
 <h3 id="scrollIntoView">scrollIntoView</h3>
 <script type="text/javascript">
     (function () {
-        window.onload = function () {
+        // IE下类型不匹配
+/*        window.onload = function () {
             // 只在页面第一次打开的时候有效???
             var el = document.getElementById('scrollIntoView');
             el.scrollIntoView({block: "end", behavior: "smooth"});
-        }
+        }*/
     })();
 </script>
 <h3>children 属性</h3>
