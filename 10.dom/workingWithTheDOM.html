@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dom操作</title>
+</head>
+<body>
+<script type="text/javascript">
+    console.log('loading...loadScript before');
+    function loadScript(url) {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = url;
+        document.body.appendChild(script);
+    }
+    // 会等页面js队列执行完毕，再执行
+    loadScript('demo.js');
+    console.log('loading...loadScript after');
+</script>
+<script type="text/javascript">
+    console.log('loading...loadScriptString before');
+    function loadScriptString(code) {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        try {
+            script.appendChild(document.createTextNode(code));
+        } catch (ex) {
+            script.text = code;
+        }
+        document.body.appendChild(script);
+    }
+    loadScriptString("(function sayHi(){console.log('hi');})()");
+    console.log('loading...loadScriptString after');
+</script>
+<script type="text/javascript">
+    function loadStyles(url) {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = url;
+        var head = document.getElementsByTagName('head')[0];
+        head.appendChild(link);
+    }
+</script>
+<script type="text/javascript">
+    function loadStyleString(css) {
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        try {
+            style.appendChild(document.createTextNode(css));
+        } catch (ex) {
+            // IE中把<style>看成一个特殊的，不允许访问子节点
+            style.stylesheet.cssText = css;
+        }
+        var head = document.getElementsByTagName('head')[0];
+        head.appendChild(style);
+    }
+    loadStyleString('body{background: #eee}');
+</script>
+<script type="text/javascript">
+    // 创建table
+    var table = document.createElement('table');
+    table.border = 1;
+    table.width = '100%';
+
+    // 创建tbody
+    var tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+
+    // 创建第一行
+    tbody.insertRow(0);
+    tbody.rows[0].insertCell(0);
+    tbody.rows[0].cells[0].appendChild(document.createTextNode('Cell 1,1'));
+    tbody.rows[0].insertCell(1);
+    tbody.rows[0].cells[1].appendChild(document.createTextNode('Cell 2,1'));
+
+    // 创建第二行
+    tbody.insertRow(1);
+    tbody.rows[1].insertCell(0);
+    tbody.rows[1].cells[0].appendChild(document.createTextNode('Cell 1,2'));
+    tbody.rows[1].insertCell(1);
+    tbody.rows[1].cells[1].appendChild(document.createTextNode('Cell 2,2'));
+
+    // 将表格添加到文档主体中
+    document.body.appendChild(table);
+
+    function loadStyleString1(css) {
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        try {
+            style.appendChild(document.createTextNode(css));
+        } catch (ex) {
+            style.stylesheet.cssText = css;
+        }
+        var head = document.getElementsByTagName('head')[0];
+        head.appendChild(style);
+    }
+
+    loadStyleString1('table { border-collapse: collapse; border-spacing: 0; }');
+
+</script>
+
+<!-- ----------------------- classList Property /S ------------------------------------------------ -->
+<h3>classList Property</h3>
+<div class="bd user disabled" id="classListDemo1"></div>
+<!-- ----------------------- classList Property /E ------------------------------------------------ -->
+<script src="../0.vendor/core.js"></script>
+<script type="text/javascript">
+    var div = document.getElementById('classListDemo1');
+    var classNames = div.className.split(/\s+/);
+    var pos = -1, i, len;
+    for (i = 0, len = classNames.length; i < len; i++) {
+        if (classNames[i] == 'user') {
+            pos = i;
+            break;
+        }
+    }
+    classNames.splice(i, 1);
+    div.className = classNames.join(' ');
+
+    addClass(div, 'm');
+    console.log(hasClass(div, 'm'));
+    removeClass(div, 'bd')
+</script>
+</body>
+</html>

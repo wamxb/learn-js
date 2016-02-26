@@ -1,287 +1,108 @@
-define(['jquery'], function ($) {
-    var win = window;
-
-    function HI() {
-        this.PID = 0;
-        this.Ver = 0;
-        this.CurrentKey = '';
-        this.isDEBUG = (location.hostname == 'localhost');
+function debug() {
+    if (console && console.log) {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift('log: ');
+        console.log.apply(console, args);
     }
+}
+/**
+ * 时间格式
+ * @param jsonDate
+ * @returns {string}
+ */
+function jsonDateFormat(jsonDate) {
+    var date = new Date(parseInt(jsonDate.replace("/Date(", "").replace("+0800)/", ""), 10)),
+        dateDate = date.getDate(),
+        now = new Date(),
+        nowDate = now.getDate(),
+        rtnStr = '';
+    if (date.getYear() == now.getYear() && date.getMonth() == now.getMonth()) {
+        rtnStr = (nowDate == dateDate) ? ("今天 " + date.Format("hh:mm")) : ((nowDate == dateDate + 1) ? ("昨天 " + date.Format("hh:mm")) : (date.Format("MM-dd hh:mm")));
+    } else {
+        rtnStr = date.Format("MM-dd hh:mm");
+    }
+    return rtnStr;
+}
 
-    HI.prototype = {
-        constructor: HI,
-        // ======================= browser ==================
-        // todo test !!!!!!!!!!!!!!
-        _browser: {
-            isMobile: function () {
-                return navigator.appVersion.match(/Mobile/gi);
-            },
+/**
+ * 获取URL的参数
+ * @param name
+ * @param url
+ * @returns {*}
+ */
+function getQueryString(name, url) {
+    var u = arguments[1] || window.location.search
+        , reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)")
+        , r = u.substr(u.indexOf("\?") + 1).match(reg);
+    return r != null ? r[2] : "";
+}
 
-            winWidth: function () {
-                return win.innerWidth;
-            },
-
-            winHeight: function () {
-                return win.innerHeight;
-            },
-
-            dpr: function () {
-                return this.isMobile() ? win.devicePixelRatio : 1;
-            },
-
-            setRootFontSize: function () {
-                var dpr = this.dpr();
-                var docEl = document.documentElement;
-                docEl.setAttribute('data-dpr', this.dpr());
-                var rem = this.winWidth() / 16;
-                docEl.style.fontSize = rem + 'px';
-                document.body.style.fontSize = '12px';
-            },
-
-            setMeta: function () {
-                var dpr = this.dpr();
-                var scale = 1 / dpr;
-                var docEl = document.documentElement;
-                var metaEl = document.querySelector('meta[name="viewport"]');
-                if (!metaEl) {
-                    metaEl = document.createElement('meta');
-                    docEl.firstElementChild.appendChild(metaEl);
-                }
-                metaEl.setAttribute('content', 'width=device-width, initial-scale=' + scale + ', minimum-scale=' + scale + ', maximum-scale=' + scale + ', user-scalable=no');
-            },
-
-            orientationHandler: function (fn) {
-                var supportsOrientation = (typeof win.orientation == 'number' && typeof win.onorientationchange == 'object');
-                var orientationEvent = supportsOrientation ? 'orientationchange' : 'resize';
-                var HTMLNode = document.body.parentNode;
-                var updateOrientation = function () {
-                    if (supportsOrientation) {
-                        updateOrientation = function () {
-                            var orientation = win.orientation;
-                            switch (orientation) {
-                                case 90:
-                                case -90:
-                                    orientation = 'landscape';
-                                    break;
-                                default:
-                                    orientation = 'portrait';
-                            }
-                            HTMLNode.setAttribute('class', orientation);
-                        }
-                    } else {
-                        updateOrientation = function () {
-                            var orientation = (win.innerWidth > win.innerHeight) ? 'landscape' : 'portrait';
-                            HTMLNode.setAttribute('class', orientation);
-                        }
-                    }
-                    typeof fn === 'function' && fn();
-                    updateOrientation();
-                };
-                win.addEventListener(orientationEvent, updateOrientation, false);
-            }
-        },
-        // ======================= storage ===================
-        _storage: {
-            /**
-             * 查找键值
-             * @param name {string} 键
-             * @returns {*|null}
-             */
-            getData: function (name) {
-                var str = localStorage.getItem(name);
-                var data = JSON.parse(str);
-                return data || null;
-            },
-            /**
-             * 保存数据
-             * @param name {string} 键
-             * @param property {string} 属性
-             * @param value {string} 值
-             */
-            setData: function (name, property, value) {
-                var storageData = this.getData(name) || {};
-                storageData[property] = value;
-                var str = JSON.stringify(storageData);
-                localStorage.setItem(name, str);
-            },
-            /**
-             * 清除某一键值
-             * @param name {string} 键
-             */
-            clearData: function (name) {
-                localStorage.removeItem(name);
-            }
-        },
-
-        _utils: {
-            isFunction: function (obj) {
-                if (typeof (/./) !== 'function') {
-                    return typeof obj === 'function';
-                }
-            }
-        },
-
-        throttle: function (method, context) {
-            clearTimeout(context.tId);
-            context.tId = setTimeout(function () {
-                method.call(context);
-            }, 200);
-        },
-
-        ajaxFn: function (url, data, doneFn, failFn) {
-            var self = this;
-            var xhr = $.ajax({
-                type: 'GET',
-                url: url,
-                data: data,
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                timeout: 2000
+/**
+ * 预加载图片
+ * @param imgPath {string} 图片路径
+ * @param imgList {array} 加载图片数组
+ * @param oLoading {object} 进度提示框
+ * @param oLoadTXT {object} 进度提示文字
+ */
+function preLoadImg(imgPath, imgList, oLoading, oLoadTXT) {
+    var i = 0, len = imgList.length;
+    for (; i < len; i++) {
+        imgList[i] = imgPath + imgList[i];
+    }
+    var imgLoader = function (imgs, callback) {
+        var len = imgList.length, i = 0;
+        while (imgList.length) {
+            loadImage(imgList.shift(), function (path) {
+                callback(path, ++i, len);
             });
-            self._utils.isFunction(doneFn) && xhr.done(doneFn);
-            self._utils.isFunction(failFn) && xhr.fail(failFn)
-        },
-
-        debug: function () {
-            if (!this.isDEBUG) return;
-            if (console && console.log) {
-                var args = Array.prototype.slice.call(arguments);
-                args.unshift('log: ');
-                console.log.apply(console, args);
-            }
-        },
-
-        // ===================== UI =======================
-        /**
-         * 获取URL的参数
-         * @param name
-         * @param url
-         * @returns {*}
-         */
-        getQueryString: function (name, url) {
-            var u = arguments[1] || window.location.search
-                , reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)")
-                , r = u.substr(u.indexOf("\?") + 1).match(reg);
-            return r != null ? r[2] : "";
-        },
-
-        /**
-         * 时间格式
-         * @param jsonDate
-         * @returns {string}
-         */
-        jsonDateFormat: function (jsonDate) {
-            var date = new Date(parseInt(jsonDate.replace("/Date(", "").replace("+0800)/", ""), 10)),
-                dateDate = date.getDate(),
-                now = new Date(),
-                nowDate = now.getDate(),
-                rtnStr = '';
-            if (date.getYear() == now.getYear() && date.getMonth() == now.getMonth()) {
-                rtnStr = (nowDate == dateDate) ? ("今天 " + date.Format("hh:mm")) : ((nowDate == dateDate + 1) ? ("昨天 " + date.Format("hh:mm")) : (date.Format("MM-dd hh:mm")));
-            } else {
-                rtnStr = date.Format("MM-dd hh:mm");
-            }
-            return rtnStr;
-        },
-
-        /**
-         * 话题字段高亮
-         * @param str
-         * @param className
-         * @returns {*}
-         */
-        setHighLight: function (str, className) {
-            var r = str.match(/#[\s\S]*?#/ig);
-            if (!r) {
-                return str;
-            } else {
-                for (var i = 0, len = r.length; i < len; i++) {
-                    var innerHtml = className ? ' class="' + className + '"' : ' style="color: #2c87e1;"';
-                    str = str.replace(r[i], '<span' + innerHtml + '>' + r[i] + '</span>');
-                }
-                return str;
-            }
-        },
-        // ================= 活动  =========================
-        /**
-         * 预加载图片
-         * @param imgPath {string} 图片路径
-         * @param imgList {array} 加载图片数组
-         * @param oLoading {object} 进度提示框
-         * @param oLoadTXT {object} 进度提示文字
-         */
-        preLoadImg: function (imgPath, imgList, oLoading, oLoadTXT) {
-            var i = 0, len = imgList.length;
-            for (; i < len; i++) {
-                imgList[i] = imgPath + imgList[i];
-            }
-            var imgLoader = function (imgs, callback) {
-                var len = imgList.length, i = 0;
-                while (imgList.length) {
-                    loadImage(imgList.shift(), function (path) {
-                        callback(path, ++i, len);
-                    });
-                }
-            };
-
-            imgLoader(imgList, function (path, curNum, total) {
-                var percent = Math.floor((curNum / total).toFixed(2) * 100);
-                oLoadTXT.innerHTML = percent + '%';
-                percent == 100 && oLoading && document.body.removeChild(oLoading);
-            });
-
-            function loadImage(path, callback) {
-                var img = new Image();
-                img.onload = function () {
-                    img.onload = null;
-                    callback(path);
-                };
-                img.src = path;
-            }
         }
     };
 
-    document.addEventListener('touchstart', function () {
-    }, false);
+    imgLoader(imgList, function (path, curNum, total) {
+        var percent = Math.floor((curNum / total).toFixed(2) * 100);
+        oLoadTXT.innerHTML = percent + '%';
+        percent == 100 && oLoading && document.body.removeChild(oLoading);
+    });
 
-    Date.prototype.Format = function (fmt) {
-        var o = {
-            "M+": this.getMonth() + 1,               //月份
-            "d+": this.getDate(),                    //日
-            "h+": this.getHours(),                   //小时
-            "m+": this.getMinutes(),                 //分
-            "s+": this.getSeconds(),                 //秒
-            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-            "S": this.getMilliseconds()             //毫秒
+    function loadImage(path, callback) {
+        var img = new Image();
+        img.onload = function () {
+            img.onload = null;
+            callback(path);
         };
-        if (/(y+)/.test(fmt)) {
-            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-        }
-        for (var k in o) {
-            if (new RegExp("(" + k + ")").test(fmt)) {
-                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-            }
-        }
-        return fmt;
-    };
-
-    Date.prototype.addDays = function (days) {
-        this.setDate(this.getDate() + days);
-        return this;
-    };
-    Date.prototype.addHours = function (h) {
-        this.setHours(this.getHours() + h);
-        return this;
-    };
-
-    var instance;
-    if (instance === undefined) {
-        instance = new HI();
+        img.src = path;
     }
-    win.HI = instance;
-    return instance;
-})
-;
+}
+
+Date.prototype.Format = function (fmt) {
+    var o = {
+        "M+": this.getMonth() + 1,               //月份
+        "d+": this.getDate(),                    //日
+        "h+": this.getHours(),                   //小时
+        "m+": this.getMinutes(),                 //分
+        "s+": this.getSeconds(),                 //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds()             //毫秒
+    };
+    if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    }
+    for (var k in o) {
+        if (new RegExp("(" + k + ")").test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        }
+    }
+    return fmt;
+};
+
+Date.prototype.addDays = function (days) {
+    this.setDate(this.getDate() + days);
+    return this;
+};
+Date.prototype.addHours = function (h) {
+    this.setHours(this.getHours() + h);
+    return this;
+};
 
 Array.prototype.each = Array.prototype.forEach || function (fn) {
         for (var i = this.length - 1; i >= 0; --i) {
@@ -333,7 +154,7 @@ function inArr(val, arr) {
 function $addClass(ids, cName) {
     $setClass(ids, cName, "add");
 }
-;
+
 function $addEvent(obj, type, handle) {
     if (!obj || !type || !handle) {
         return;
@@ -488,17 +309,18 @@ function $extend() {
             }
     return target;
 }
+
 function countdownTimer(curTime, endTime) {
     curTime = curTime || 0;
     endTime = endTime || 0;
     var start = new Date();
     var timespan = ((endTime - curTime) > 0) ? (endTime - curTime) : 0;
     var t = {
-            day: Math.floor(timespan / 86400),
-            hour: Math.floor((timespan % 86400) / 3600),
-            minute: Math.floor((timespan % 3600) / 60),
-            second: Math.floor(timespan % 60)
-        }
+        day: Math.floor(timespan / 86400),
+        hour: Math.floor((timespan % 86400) / 3600),
+        minute: Math.floor((timespan % 3600) / 60),
+        second: Math.floor(timespan % 60)
+    }
         , tpl = '剩余' + '<span class="{#class_day#}"><em>{#day#}</em>天</span>' + '<span class="{#class_hour#}"><em>{#hour#}</em>小时</span>' + '<span class="{#class_minute#}"><em>{#minute#}</em>分</span>' + '<span class="{#class_second#}"><em>{#second#}</em>秒</span>' + '结束'
         , html = '';
     html = $strReplace(tpl, {
@@ -511,6 +333,7 @@ function countdownTimer(curTime, endTime) {
     });
     return html;
 }
+
 function $strReplace(str, re, rt) {
     if (rt != undefined) {
         replace(re, rt);
@@ -526,6 +349,7 @@ function $strReplace(str, re, rt) {
 
     return str;
 }
+
 function $getTarget(e, parent, tag) {
     var e = window.event || e,
         tar = e.srcElement || e.target;
@@ -540,20 +364,24 @@ function $getTarget(e, parent, tag) {
     }
     return tar;
 }
+
 function $getWindowHeight() {
     var bodyCath = document.body;
     return (document.compatMode == 'BackCompat' ? bodyCath : document.documentElement).clientHeight;
 }
+
 function $getWindowWidth() {
     var bodyCath = document.body;
     return (document.compatMode == 'BackCompat' ? bodyCath : document.documentElement).clientWidth;
 }
+
 function $getX(e) {
     var t = e.offsetLeft || 0;
     while (e = e.offsetParent)
         t += e.offsetLeft;
     return t;
 }
+
 function $getY(e) {
     var t = e.offsetTop || 0;
     while (e = e.offsetParent) {
@@ -624,6 +452,7 @@ function $getPageScrollWidth() {
     var doeCath = document.compatMode == 'BackCompat' ? bodyCath : document.documentElement;
     return (window.MessageEvent && navigator.userAgent.toLowerCase().indexOf('firefox') == -1) ? bodyCath.scrollLeft : doeCath.scrollLeft;
 }
+
 function $getQuery(name, url) {
     var u = arguments[1] || window.location.search
         , reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)")

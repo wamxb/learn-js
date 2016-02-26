@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo</title>
+    <script type="text/javascript">
+        var tid = null;
+        showState();
+        function showState() {
+            console.log('document.readyState', document.readyState);
+            if (document.readyState == 'loading') {
+                setTimeout(showState, 1);
+                console.log(document.activeElement); //null,文档加载期间为null
+            } else if (document.readyState == 'complete') {
+                clearTimeout(tid);
+                console.log(document.activeElement);
+            }
+        }
+    </script>
+</head>
+<body>
+<h3>焦点管理</h3>
+<input type="text" id="input"/>
+<script type="text/javascript">
+    +(function () {
+        /*        var input = document.getElementById('input');
+         input.focus();
+         console.log(document.activeElement === input);*/
+    })();
+    function loaded() {
+        console.log(document.activeElement);
+    }
+    window.onload = loaded;// document.body元素的引用
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('DOMContentLoaded');
+        loaded();
+        console.log('DOMContentLoaded');
+    }, false);
+
+</script>
+<h3>兼容模式</h3>
+<script type="text/javascript">
+    +(function () {
+        // 兼容模式下 document.compatMode的值等于"CSS1Compat"，而在混杂模式下等于"BackCompat"
+        if (document.compatMode == 'CSS1Compat') {
+            console.log('Standards mode');
+        } else {
+            console.log('Quirks mode');
+        }
+
+        var head = document.head || document.getElementsByTagName('head')[0];
+
+
+        // 在大多数浏览器中，通过innerHTML插入<script>元素不会执行其中的脚本，（除了IE8及更早版本）
+    })();
+</script>
+<h3 id="insertAdjacentHTML">插入标记 insertAdjacentHTML</h3>
+<script type="text/javascript">
+    +(function () {
+        var el = document.getElementById('insertAdjacentHTML');
+        el.insertAdjacentHTML('beforebegin', '<p>beforebegin</p>'); //作为前一个同辈元素插入
+        el.insertAdjacentHTML('afterbegin', '<p>aterbegin</p>'); // 作为第一个子元素
+        el.insertAdjacentHTML('beforeend', '<p>beforeend</p>'); // 作为最后一个子元素
+        el.insertAdjacentHTML('afterend', '<p>aterend</p>'); // 作为后一个同辈元素插入
+    })();
+</script>
+</body>
+</html>

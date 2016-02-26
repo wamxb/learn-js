@@ -18,6 +18,44 @@
     <li>item 2</li>
     <li>item 3</li>
 </ul>
+<h3>demo4</h3>
+<fieldset>
+    <lengend>Which color do you prefer?</lengend>
+    <ul>
+        <li>
+            <input type="radio" value="red" name="color" id="colorRed"/>
+            <label for="colorRed">Red</label>
+        </li>
+        <li>
+            <input type="radio" value="green" name="color" id="colorGreen"/>
+            <label for="colorGreen">green</label>
+        </li>
+        <li>
+            <input type="radio" value="blue" name="color" id="colorBlue"/>
+            <label for="colorBlue">blue</label>
+        </li>
+    </ul>
+</fieldset>
+<h3>Element类型</h3>
+<div id="elementDemo"></div>
+<h3>attribute属性</h3>
+<div id="attributeDemo" align="left" lang="en"></div>
+
+<h3>getElementsByTagNameDemo</h3>
+<ul id="getElementsByTagNameDemo">
+    <li>item 1
+        <ul>
+            <li>itme 11</li>
+            <li>itme 12</li>
+            <li>itme 13</li>
+            <li>itme 14</li>
+            <li>itme 15</li>
+        </ul>
+    </li>
+    <li>item 2</li>
+    <li>item 3</li>
+</ul>
+
 <script type="text/javascript">
     function convertToArray(nodes) {
         var array = null;
@@ -141,6 +179,118 @@
         // 在除IE7及更早版本之外，区分大小写
         // 而且getElementById还会取到name与id相同的元素
     })();
+
+    // demo4 getElementsByName
+    +(function () {
+        var radios = document.getElementsByName('color');
+        console.log(radios);
+    })();
+
+    // dmeo5  document.write
+    // !!!!! 会等所有js队列执行完，再执行
+    document.write('<script src="demo.js"><\/script>');
+
+
+    // elementDemo
+    +(function () {
+        var div = document.getElementById('elementDemo');
+        console.log(div.tagName); // 'DIV'
+        console.log(div.tagName == div.nodeName); // true
+    })();
+
+
+    //    attributeDemo
+    +(function () {
+        var div = document.getElementById('attributeDemo');
+        var val = div.attributes.getNamedItem('id').nodeValue;
+        var val1 = div.attributes['id'].nodeValue;
+        console.log('val', val);
+        console.log('val1:', val1);
+
+        console.log(outputAttributes(div));
+        // outputAttributes
+        function outputAttributes(element) {
+            var arr = [], attrName, attrValue, i, len;
+
+            for (i = 0, len = element.attributes.length; i < len; i++) {
+                attrName = element.attributes[i].nodeName;
+                attrValue = element.attributes[i].nodeValue;
+                // 如果是用户指定的，那么specified为true
+                if (element.attributes[i].specified) {
+                    arr.push(attrName + '="' + attrValue + '"');
+                }
+            }
+            return arr.join(' ');
+        }
+    })();
+
+    //    getElementsByTagNameDemo
+    // 包含后代元素
+    +(function () {
+        var ul = document.getElementById('getElementsByTagNameDemo');
+        var li = ul.getElementsByTagName('li');
+        console.log(li.length); // 8
+    })();
 </script>
+<h3>Text类型</h3>
+<div id="textDemo"></div>
+<script type="text/javascript">
+    // textDemo
+    +(function () {
+        var el = document.createElement('div');
+        el.className = 'message';
+
+        var textNode = document.createTextNode('Hello world!');
+        el.appendChild(textNode);
+
+        var anotherTextNode = document.createTextNode('Yippee!!');
+        el.appendChild(anotherTextNode);
+
+        document.body.appendChild(el);
+        console.log(el.childNodes.length); // 2
+
+        el.normalize();
+        console.log(el.childNodes.length); // 1
+        console.log(el.firstChild.nodeValue); // Hello world!Yippee!!
+
+        var newNode = el.firstChild.splitText(12);
+        console.log(el.firstChild.nodeValue); // 'Hello world!'
+        console.log(newNode.nodeValue); // 'Yippee!!'
+        console.log(el.childNodes.length); // 2
+    })();
+</script>
+<!-- ----------------------- Comment类型 /S ------------------------------------------------ -->
+<h3>Comment类型</h3>
+<div id="CommentDemo"><!--A comment--></div>
+<script type="text/javascript">
+    // nodeType的值为8
+    +(function () {
+        var div = document.getElementById('CommentDemo');
+        var comment = div.firstChild;
+        console.log(comment.data); // "A comment"
+        console.log(comment.nodeValue); // "A comment"
+    })();
+</script>
+<!-- ----------------------- Comment类型 /E ------------------------------------------------ -->
+<!-- ----------------------- DocumentFragment /S ------------------------------------------------ -->
+<h3>DocumentFragment</h3>
+<ul id="DocumentFragmentUL"></ul>
+<script type="text/javascript">
+    +(function () {
+        // nodeType 11
+        var fragment = document.createDocumentFragment();
+        var ul = document.getElementById('DocumentFragmentUL');
+        var li = null;
+
+        for (var i = 0; i < 3; i++) {
+            li = document.createElement('li');
+            li.appendChild(document.createTextNode('Item ' + (i + 1)));
+            fragment.appendChild(li);
+        }
+        ul.appendChild(fragment);
+    })();
+</script>
+<!-- ----------------------- DocumentFragment /E ------------------------------------------------ -->
+
 </body>
 </html>
