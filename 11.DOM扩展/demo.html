@@ -64,5 +64,31 @@
         el.insertAdjacentHTML('afterend', '<p>aterend</p>'); // 作为后一个同辈元素插入
     })();
 </script>
+<div style="height: 2000px; border: 1px solid #06c;"></div>
+<h3 id="scrollIntoView">scrollIntoView</h3>
+<script type="text/javascript">
+    (function () {
+        window.onload = function () {
+            // 只在页面第一次打开的时候有效???
+            var el = document.getElementById('scrollIntoView');
+            el.scrollIntoView({block: "end", behavior: "smooth"});
+        }
+    })();
+</script>
+<h3>children 属性</h3>
+<ul id="children">
+    <li>item 1</li>
+    <li>item 2</li>
+    <li>item 3</li>
+</ul>
+<script type="text/javascript">
+    (function () {
+        var el = document.getElementById('children');
+        var childCount = el.children.length;
+        var firstChild = el.children[0];
+        console.log('childCount', childCount);
+        console.log('firstChild', firstChild);
+    })();
+</script>
 </body>
 </html>
