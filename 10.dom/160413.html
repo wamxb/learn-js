@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="">
+    <input type="text" id="input1" value="1"/>
+    <input type="text" name="input1" value="2"/>
+    <img src="http://dummyimage.com/50x50" width="50" height="50" alt=""/>
+    <img src="http://dummyimage.com/90x90" width="90" height="90" alt="" name="bigImg"/>
+    <button type="reset">reset</button>
+</form>
+<script src="../9.客户端监测/client.js"></script>
+<script type="text/javascript">
+
+    // NodeList 转换为数组
+    function convertToArray(nodes) {
+        var array = null;
+        try {
+            array = Array.prototype.slice.call(nodes, 0);
+        } catch (ex) {
+            array = new Array();
+            for (var i = 0, len = nodes.length; i < len; i++) {
+                array.push(nodes[i]);
+            }
+        }
+        return array;
+    }
+
+
+    (function () {
+
+        var input1 = document.getElementById('input1');
+        try {
+            console.log(input1 && input1.value); // 1
+        } catch (e) {
+            console.log(e);
+        }
+
+        var imgs = document.getElementsByTagName('img');
+        console.log(imgs.length); // 2
+        console.log(imgs[0].src); // http://dummyimage.com/50x50
+        console.log(imgs.item(0).src); // http://dummyimage.com/50x50
+
+        console.log(imgs.namedItem('bigImg').src); // http://dummyimage.com/90x90
+
+
+        console.log(input1.tagName); // INPUT
+        console.log(input1.nodeName); // INPUT
+
+        /*if (client.browser.ie && client.browser.ie <= 7) {
+         // 创建一个带 name 特性的 iframe 元素
+         var iframe = document.createElement('<iframe name="myframe"></iframe>');
+
+         // 创建input 元素
+         var input = document.createElement('<input type="checkbox">');
+
+         // 创建button 元素
+         var button = document.createElement('<button type="reset"></button>');
+
+         // 创建单选按钮
+         var radio1 = document.createElement('<input type="radio" name="choice" value="1">');
+         var radio2 = document.createElement('<input type="radio" name="choice" value="2">');
+         }*/
+
+        var iframe = document.createElement('iframe');
+        iframe.name = 'myframe';
+        document.body.appendChild(iframe);
+
+        var newInput = document.createElement('input');
+        newInput.name = 'newInput';
+        document.body.appendChild(newInput); // reset 无法重置动态添加的元素
+
+
+        var reset = document.createElement('button');
+        reset.setAttribute('type', 'reset');
+        reset.setAttribute('name', 'reset');
+        reset.innerHTML = '重置';
+        document.body.appendChild(reset); // 动态创建的 type特性为 reset  button元素重设不了表单
+
+
+        var radio1 = document.createElement('input');
+        radio1.setAttribute('type', 'radio');
+        radio1.name = 'choice';
+        radio1.value = 1;
+
+        var radio2 = document.createElement('input');
+        radio2.setAttribute('type', 'radio');
+        radio2.name = 'choice';
+        radio2.value = 2;
+        document.body.appendChild(radio1);
+        document.body.appendChild(radio2);
+
+    })();
+</script>
+</body>
+</html>

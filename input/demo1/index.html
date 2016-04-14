@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>blur</title>
+    <style type="text/css">
+        #list {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<input type="text" id="input"/>
+<div id="list">
+    <input type="button" name="num" value="1"/>
+    <input type="button" name="num" value="2"/>
+    <input type="button" name="num" value="3"/>
+    <input type="button" name="num" value="4"/>
+    <input type="button" name="num" value="5"/>
+</div>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+    var $input = $('#input');
+    var $list = $('#list');
+    $input.on('focus', function () {
+        $list.show();
+    }).on('blur', function () {
+        $list.hide();
+    });
+
+    $list.on('mousedown', 'input[name="num"]', function () {
+        var val = $(this).val();
+        $input.val(val);
+        setTimeout(function () {
+            $input.focus();
+        }, 0);
+    });
+</script>
+</body>
+</html>

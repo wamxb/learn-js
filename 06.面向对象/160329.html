@@ -315,7 +315,7 @@
             return values;
         }
 
-        var colors = SpecialArray('red', 'blue', 'green');
+        var colors = new SpecialArray('red', 'blue', 'green');
         console.log(colors.toPipedString()); // 'red|blue|green'
 
     })();
@@ -464,6 +464,8 @@
 
     /***************************************************
      * 借用构造函数
+     *
+     * 问题: 在超类型中定义的方法,对子类型是不可见的
      ***************************************************/
     (function () {
         function SuperType() {
@@ -480,6 +482,13 @@
 
         var instance2 = new SubType();
         console.log(instance2.colors); //[1,2,3]
+
+
+        try {
+            instance1.sayName();
+        } catch (e) {
+            console.log(e); //s1.sayName is not a function(…)
+        }
     })();
 
     /**
@@ -557,9 +566,7 @@
      * 原型式继承
      ***************************************************/
     function object(o) {
-        function F() {
-        }
-
+        function F() {}
         F.prototype = o;
         return new F();
     }
@@ -709,6 +716,24 @@
 
         inheritPrototype(Rectangle, Shape);
 
+
+    })();
+
+
+    /**
+     * 寄生组合式继承
+     */
+
+    (function(){
+
+        function inheritPrototype(subtype, supertype){
+            // 创建超类型原型的一个副本
+            var prototype = object(supertype.prototype);
+            // 为创建的副本添加 constructor 属性,弥补因重写原型而失去的默认的 constructor 属性
+            prototype.constructor = subtype;
+            // 将创建的对象(即副本)赋值给子类型的原型
+            subtype.prototype = prototype;
+        }
 
     })();
 

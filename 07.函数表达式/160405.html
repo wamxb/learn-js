@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>函数表达式</title>
+</head>
+<body>
+<script type="text/javascript">
+
+    (function () {
+
+//        'use strict';
+        function factorial(num) {
+            if (num <= 1) {
+                return 1;
+            } else {
+                return num * arguments.callee(num - 1); // 严格模式下不能通过脚本访问 arguments.callee
+            }
+        }
+
+
+        // 解除对匿名函数的引用,以便释放内存
+//        compareNames = null;
+    })();
+
+    (function () {
+        /**
+         * 闭包与变量
+         *
+         * 闭包保存的是整个变量对象,而不是某个特殊的变量
+         */
+        function createFunctions() {
+            var result = new Array();
+
+            for (var i = 0; i < 10; i++) {
+                /**
+                 * 每个函数的作用域链中都保存着 createFunction() 函数的活动对象,
+                 * 所以它们引用同一个变量
+                 */
+                result[i] = function () {
+                    return i;
+                };
+            }
+
+            return result;
+        }
+
+        var arr = createFunctions();
+        console.log(arr[1]());
+    })();
+
+    (function () {
+
+        function createFunctions() {
+            var result = new Array();
+
+            for (var i = 0; i < 10; i++) {
+                result[i] = function (num) {
+                    return function () {
+                        return num;
+                    }
+                }(i);
+            }
+
+            return result;
+        }
+
+        var arr = createFunctions();
+        console.log(arr[1]());
+
+    })();
+
+
+    (function () {
+        var object = {
+            name: 'My Object',
+            getName: function () {
+                /*var that = this;
+                 return function () {
+                 return that.name;
+                 }*/
+
+                return this.name;
+            }
+        };
+//        console.log(object.getNameFunc()());
+        console.log(object.getName());
+        console.log((object.getName)());
+    })();
+
+    /**
+     * 内存泄漏
+     **/
+    (function () {
+
+        /**
+         * 包含函数的活动对象中也会保存一个引用
+         */
+        function assignHandler() {
+            var el = document.getElementById('demo1');
+            var id = element.id;
+            el.onclick = function () {
+                console.log(id);
+            };
+            el = null;
+        }
+    })();
+
+
+    /**
+     * 模仿块级作用域
+     */
+    (function () {
+
+        function outputNumbers(count) {
+            for (var i = 0; i < count; i++) {
+                console.log(i);
+            }
+            console.log(i);
+        }
+
+    })();
+
+
+    /**
+     * 私有变量
+     */
+    (function () {
+
+        function MyObject() {
+            // 私有变量
+            var privateVariable = 10;
+
+            // 私有函数
+            function privateFunction() {
+                return false;
+            }
+
+            // 特权方法
+            this.publicMethod = function () {
+                privateVariable++;
+                console.log(privateVariable);
+                return privateFunction();
+            }
+        }
+
+        var o1 = new MyObject();
+        o1.publicMethod();
+        o1.publicMethod();
+        o1.publicMethod();
+
+        var o2 = new MyObject();
+        o2.publicMethod();
+
+    })();
+
+
+    /**
+     * 静态私有变量
+     *
+     *
+     * name 变成静态的,所有实例共享的属性
+     */
+    (function () {
+
+        (function () {
+            var name = '';
+
+            Person = function (value) {
+                name = value;
+            };
+
+            Person.prototype.getName = function () {
+                return name;
+            };
+
+            Person.prototype.setName = function (value) {
+                name = value;
+            };
+        })();
+
+        var p1 = new Person('zplus');
+        console.log(p1.getName());  // zplus
+        p1.setName('greg');
+        console.log(p1.getName());  // greg
+
+        var p2 = new Person('michael');
+        console.log(p1.getName());  // michael
+        console.log(p2.getName());  // michael
+
+    })();
+
+
+    /**
+     *
+     * 模块模式
+     *
+     *
+     * 如果必须创建一个对象并以某些数据对其进行初始化,同时还要公开一些能够访问这些私有数据的方法,那么就可以使用模块模式.
+     * 在 web 应用程序中,经常需要使用一个单例来管理应用程序级的信息
+     */
+    (function () {
+
+        var singleton = function () {
+            // 私有变量和函数
+            var privateVariable = 10; // 所有实例共享
+
+            function privateFunction() {
+                return false;
+            }
+
+            return {
+                publicProperty: true,
+                publicMethod: function () {
+                    privateVariable++;
+                    console.log(privateVariable);
+                    return privateFunction();
+                }
+            };
+        }();
+
+        var s1 = singleton;
+        s1.publicMethod(); // 11
+
+
+        function BaseComponents() {
+        }
+
+        var application = function () {
+            // 私有变量和函数
+            var components = new Array();
+
+            // 初始化
+            components.push(new BaseComponents());
+
+            return {
+                getComponentCount: function () {
+                    return components.length;
+                },
+                registerComponent: function (component) {
+                    if (typeof  component == 'object') {
+                        components.push(component)
+                    }
+                }
+            }
+        }();
+
+    })();
+
+    /**
+     * 增强的模块模式
+     *
+     * 适合单例必须是某种类型的实例
+     */
+    (function () {
+        function CustomType() {
+
+        }
+
+        var singleton = function () {
+            // 私有变量和私有函数
+            var privateVariable = 10;
+
+            function privateFunction() {
+                return false;
+            }
+
+            // 创建对象
+            var object = new CustomType();
+
+            // 添加特权/公有属性和方法
+            object.publicProperty = true;
+
+            object.publicMethod = function () {
+                privateVariable++;
+                return privateFunction();
+            };
+
+            // 返回这个对象
+            return object;
+        }();
+
+        function BaseComponent() {
+        }
+
+        var application = function () {
+            // 私有变量和函数
+            var components = new Array();
+
+            // 初始化
+            components.push(new BaseComponent());
+
+            // 创建 application 的一个局部副本
+            var app = new BaseComponent();
+
+            // 公共接口
+            app.getComponentCount = function () {
+                return components.length;
+            };
+
+            app.registerComponent = function (component) {
+                if (typeof component == 'object') {
+                    components.push(component);
+                }
+            };
+
+            // 返回这个副本
+            return app;
+        }();
+
+
+    })();
+
+    /**
+     * 寄生构造函数模式
+     * 洗牌
+     *
+     */
+    (function () {
+
+        function poker() {
+            var arr = new Array();
+            arr.push.apply(arr, arguments);
+
+            arr.shuffle = function () {
+                var that = this;
+
+                for (var i = that.length - 1; i > 0; i--) {
+                    var randomIndex = Math.floor(Math.random() * (i + 1));
+                    var itemAtIndex = that[randomIndex];
+
+                    that[randomIndex] = that[i];
+                    that[i] = itemAtIndex;
+                }
+
+                return that;
+            };
+
+            return arr;
+        }
+
+        var testArr = poker(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        testArr.shuffle();
+        console.log(testArr);
+
+
+    })();
+
+</script>
+</body>
+</html>

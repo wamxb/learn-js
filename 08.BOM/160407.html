@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BOM</title>
+</head>
+<body>
+<script type="text/javascript">
+    (function () {
+
+        /**
+         * 取得屏幕上可见页面区域大小
+         * @type {Number}
+         */
+        // 在移动设备,window.innerWidth保存着可视口(屏幕上可见页面区域大小)
+        var pageWidth = window.innerWidth,
+                pageHeight = window.innerHeight;
+
+        if (typeof pageWidth != 'number') {
+            if (document.compatMode == 'CSS1Compat') {
+                pageWidth = document.documentElement.clientWidth;
+                pageHeight = document.documentElement.clientHeight;
+            } else {
+                pageWidth = document.body.clientWidth;
+                pageHeight = document.body.clientHeight;
+            }
+        }
+
+        console.log(pageWidth);
+        console.log(pageHeight);
+    })();
+    var f = (function () {
+        // 接收浏览器窗口的新宽度和新高度
+        window.resizeTo(100, 100);
+        setTimeout(function () {
+            // 接受新窗口与原窗口的宽度和高度之差
+            window.resizeBy(100, 50);
+        }, 500);
+
+        // 检测弹出窗口是否被屏蔽
+        var blocked = false;
+        try {
+            var win = window.open('http://www.baidu.com', 'topFrame', 'height=400,width=400,location=no,menubar=yes,resizable=no,scrollbars=no,status=yes,toolbar=yes,top=10,left=100');
+            if (win == null) {
+                blocked = true;
+            }
+
+
+            win.moveTo(100, 100);
+
+            window.setTimeout(function () {
+                win.close();
+                console.log(win.closed);
+            }, 800);
+        } catch (ex) {
+            blocked = true;
+        }
+        if (blocked) {
+            alert('the popup was blocked!');
+        }
+
+    });
+
+    var s = (function () {
+
+        prompt('what\' your name?', 'michael');
+
+    });
+
+
+    (function () {
+
+        function getQueryStringArgs() {
+            var qs = (location.search.length > 0 ? location.search.substring(1) : ''),
+                    args = {},
+                    items = qs.length ? qs.split('&') : [],
+                    item = null,
+                    name = null,
+                    value = null,
+                    i = 0,
+                    len = items.length;
+
+            for (i = 0; i < len; i++) {
+                item = items[i].split('=');
+                name = decodeURIComponent(item[0]);
+                value = decodeURIComponent(item[1]);
+
+                if (name.length) {
+                    args[name] = value;
+                }
+            }
+
+            return args;
+        }
+
+    })();
+
+
+    (function(){
+
+        console.log(window.navigator.platform);
+
+    })();
+
+
+    (function(){
+        //检测插件（在 IE 中无效）
+        function hasPlugin(name){
+            name = name.toLowerCase();
+            for (var i=0; i < navigator.plugins.length; i++){
+                if (navigator.plugins[i].name.toLowerCase().indexOf(name) > -1){
+                    return true;
+                }
+            }
+            return false;
+        }
+//检测 Flash
+        console.log(hasPlugin("Flash"));
+//检测 QuickTime
+        console.log(hasPlugin("QuickTime"));
+    })();
+</script>
+</body>
+</html>
