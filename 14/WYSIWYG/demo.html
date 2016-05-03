@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>WYSIWYG</title>
+</head>
+<body>
+<iframe name="richedit" style="width:100px;height:100px;" src="iframe.html" frameborder="1"></iframe>
+<script>
+    window.addEventListener('load', function(){
+        frames['richedit'].document.designMode = 'on';
+
+        // //转换粗体文本
+        // frames["richedit"].document.execCommand('bold', false, null);
+
+        // //转换斜体文本
+        // frames["richedit"].document.execCommand("italic", false, null);
+
+        // //创建指向 www.wrox.com 的链接
+        // frames["richedit"].document.execCommand("createlink", false, "http://www.wrox.com");
+
+        // // 格式化为1级标题
+        // frames["richedit"].document.execCommand("formatblock", false, "<h1>");
+        //
+
+        var selection = frames["richedit"].getSelection();
+
+        //取得选择的文本
+        var selectedText = selection.toString();
+
+        //取得代表选区的范围
+        var range = selection.getRangeAt(0);
+
+        //突出显示选择的文本
+        var span = frames["richedit"].document.createElement("span");
+        span.style.backgroundColor = "yellow";
+        range.surroundContents(span);
+    }, false);
+</script>
+</body>
+</html>

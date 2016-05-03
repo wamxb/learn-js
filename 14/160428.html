@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<form id="form1">
+    <input type="text" name="textbox1"/>
+</form>
+<form id="formauto">
+    <input type="text" name="tel1" id="txtTel1" maxlength="3">
+    <input type="text" name="tel2" id="txtTel2" maxlength="3">
+    <input type="text" name="tel3" id="txtTel3" maxlength="4">
+</form>
+
+<form id="formselect" name="formselect">
+    <select name="selectbox" id="selectbox" multiple size="3">
+        <option value="1">01</option>
+        <option value="2">02</option>
+        <option value="3">03</option>
+        <option value="4">04</option>
+        <option value="5">05</option>
+        <option value="6">06</option>
+        <option value="7">07</option>
+        <option value="8">08</option>
+    </select>
+</form>
+
+<form name="formAppendChild">
+    <select name="selectbox1" id="selectbox1">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+    <select name="selectbox2" id="selectbox2">
+        <option value="01">01</option>
+        <option value="02">02</option>
+        <option value="03">03</option>
+    </select>
+</form>
+<script type="text/javascript">
+    // 移动和重排选项
+    (function(){
+
+        var selectbox1 = document.forms['formAppendChild'].elements['selectbox1'];
+        var selectbox2 = document.forms['formAppendChild'].elements['selectbox2'];
+
+        selectbox1.appendChild(selectbox2.options[0]);
+        selectbox1.size = selectbox1.options.length;
+
+        var optionToMove = selectbox1.options[1];
+        console.log('optionToMove text:'+optionToMove.text);
+        selectbox1.insertBefore(optionToMove, selectbox1.options[optionToMove.index+3]);
+
+    })();
+
+    // 添加选项
+    (function(){
+
+        var selectbox = document.forms['formselect'].elements['selectbox'];
+        for (var i=0,len=selectbox.options.length; i<len; i++) {
+            // selectbox.remove(0);
+        }
+
+    })();
+
+    // 添加选项
+    (function(){
+
+        var selectbox = document.forms['formselect'].elements['selectbox'];
+        var newOption = document.createElement('option');
+        newOption.appendChild(document.createTextNode('Option text'));
+        newOption.value = 'Option value';
+        selectbox.appendChild(newOption);
+        selectbox.size = selectbox.options.length;
+
+    })();
+
+    // 选择选项
+    (function(){
+        var selectbox = document.forms['formselect'].elements['selectbox'];
+        selectbox.options[0].selected = true;
+        selectbox.options[3].selected = true;
+
+        var selectedOptions = getSelectedOptions(selectbox);
+        var message = "";
+        for (var i=0,len=selectedOptions.length; i< len; i++) {
+            var option = selectedOptions[i];
+            message += 'Selected index: ' + option.index + '\nSelected text: ' + option.text + '\nSelected value: ' + option.value + '\n\n';
+        }
+        console.log(message);
+
+        function getSelectedOptions(selectbox) {
+            var result = [];
+            var option = null;
+
+            for (var i=0, len=selectbox.options.length; i<len; i++) {
+                option = selectbox.options[i];
+                if (option.selected) {
+                    result.push(option);
+                }
+            }
+            return result;
+        }
+    })();
+
+    // 自动切换焦点
+    (function(){
+
+        function tabForward(event){
+            var event = event || window.event;
+            var target = event.target || event.srcElement;
+
+            if (target.value.length == target.maxLength) {
+                var form = target.form;
+
+                for (var i=0, len = form.elements.length; i<len; i++) {
+                    if (form.elements[i] == target) {
+                        if (form.elements[i+1]) {
+                            form.elements[i+1].focus();
+                        }
+                        return;
+                    }
+                }
+            }
+        }
+
+        var textbox1 = document.getElementById('txtTel1');
+        var textbox2 = document.getElementById('txtTel2');
+        var textbox3 = document.getElementById('txtTel3');
+
+        textbox1.addEventListener('keyup', tabForward, false);
+        textbox2.addEventListener('keyup', tabForward, false);
+        textbox3.addEventListener('keyup', tabForward, false);
+    })();
+
+    (function () {
+        var form = document.getElementById('form1');
+        // 取得表单中的第一个字段
+        var field1 = form.elements[0];
+        // 取得名为"textbox1"的字段
+        var field2 = form.elements['textbox1'];
+
+        var fieldCount = form.elements.length;
+        console.log(field1);
+        console.log(field2);
+        console.log(fieldCount);
+    })();
+
+    (function () {
+
+        var textbox = document.forms[0].elements[0];
+        textbox.addEventListener('focus', function (event) {
+            var e = event || window.event;
+            var target = e.target || e.srcElement;
+
+            if (target.style.backgroundColor != 'red') {
+                target.style.backgroundColor = 'yellow';
+            }
+        }, false);
+
+        textbox.addEventListener('blur', function (event) {
+            var e = event || window.event;
+            var target = e.target || e.srcElement;
+
+            if (/[^\d]/.test(target.value)) {
+                target.style.backgroundColor = 'red';
+            } else {
+                target.style.backgroundColor = '';
+            }
+        }, false);
+
+        textbox.addEventListener('change', function (event) {
+            var e = event || window.event;
+            var target = e.target || e.srcElement;
+
+            if (/[^\d]/.test(target.value)) {
+                target.style.backgroundColor = 'red';
+            } else {
+                target.style.backgroundColor = '';
+            }
+        }, false);
+    })();
+
+
+    // 取得选择的文本
+    (function () {
+        var form1 = document.getElementById('form1');
+        var textbox1 = form1.elements['textbox1'];
+
+        function getSelectedText(textbox) {
+            if (typeof textbox.selectionStart == 'number') {
+                return textbox.value.substring(textbox.selectionStart, textbox.selectionEnd);
+            } else if (document.selection) { // IE8-
+                return document.selection.createRange().text;
+            }
+        }
+
+        textbox1.addEventListener('select', function () {
+            console.log(getSelectedText(textbox1));
+        }, false);
+    })();
+
+    // 选择部分文本
+    (function () {
+        var form1 = document.getElementById('form1');
+        var textbox = form1.elements['textbox1'];
+        textbox.value = 'Hello world';
+
+        // 选择所有文本
+        textbox.setSelectionRange(0, textbox.value.length);  // 'Hello world'
+
+        // 选择前3个字符
+        textbox.setSelectionRange(0, 3);    // 'Hel'
+
+        // 选择第4列到第6个字符
+        textbox.setSelectionRange(4, 7);    // 'o w'
+    })();
+
+    // 选择部分文本
+    (function () {
+        function selectText(textbox, startIndex, stopIndex) {
+            if (textbox.setSelectionRange) {
+                textbox.setSelectionRange(startIndex, stopIndex);
+            } else if (textbox.createTextRange) {   // IE8 -
+                var range = textbox.createTextRange();
+                range.collapse(true);
+                range.moveStart('character', startIndex);
+                range.moveEnd('character', stopIndex - startIndex);
+                range.select();
+            }
+
+            // 文本框获得焦点，才有被选择的效果
+            textbox.focus();
+        }
+
+
+        var form1 = document.getElementById('form1');
+        var textbox = form1.elements['textbox1'];
+
+        selectText(textbox, 0, 4);
+
+    })();
+
+    // 屏蔽字符
+    (function () {
+        var form1 = document.getElementById('form1');
+        var textbox = form1.elements['textbox1'];
+
+        textbox.addEventListener('keypress', function(event){
+            var event = event || window.event;
+            var target = event.target || event.srcElement;
+            var charCode = getCharCode(event);
+
+            if (!/\d/.test(String.fromCharCode(charCode)) && charCode > 9 && !event.ctrlKey) {
+                event.preventDefault(event);
+            }
+        }, false);
+
+    })();
+
+    function getCharCode(event) {
+        if (typeof event.charCode == 'number') {
+            return event.charCode;
+        } else {
+            return event.keyCode;
+        }
+    }
+
+
+    // 剪贴板
+    (function(){
+        function getClipboardText(event) {
+            var clipboardData = (event.clipboardData || window.clipboardData);
+            return  clipboardData.getData('text');
+        }
+
+        function setClipboardText(event, value) {
+            if (event.clipboardData) {
+                return event.clipboardData.setData('text/plain', value);
+            } else if (window.clipboardData) {
+                return window.clipboardData.setData('text', value);
+            }
+        }
+    })();
+</script>
+</html>

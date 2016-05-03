@@ -94,6 +94,123 @@
         document.body.appendChild(radio2);
 
     })();
+
+
+    function loadScript(url) {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = url;
+        document.body.appendChild(script);
+    }
+    function loadScriptString(code) {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        try {
+            script.appendChild(document.createTextNode(code));
+        } catch (ex) {
+            script.text = code;
+        }
+        document.body.appendChild(script);
+    }
+
+    function loadStyleString(css) {
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        try {
+            style.appendChild(document.createTextNode(css));
+        } catch (ex) {
+            style.stylesheet.cssText = css;
+        }
+        var head = document.getElementsByTagName('head')[0];
+        head.appendChild(style);
+    }
+    function loadStyles(url) {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = url;
+        var head = document.getElementsByTagName('head')[0];
+        head.appendChild(link);
+    }
+
+
+    (function () {
+        // 创建 table
+        var table = document.createElement('table');
+        table.border = 1;
+        table.width = '100%';
+
+        // 创建 tbody
+        var tbody = document.createElement('tbody');
+        table.appendChild(tbody);
+
+        // 创建第一行
+        tbody.insertRow(0);
+        tbody.rows[0].insertCell(0);
+        tbody.rows[0].cells[0].appendChild(document.createTextNode('cell 1,1'));
+        tbody.rows[0].insertCell(1);
+        tbody.rows[0].cells[1].appendChild(document.createTextNode('cell 2,1'));
+
+        // 创建第二行
+        tbody.insertRow(1);
+        tbody.rows[1].insertCell(0);
+        tbody.rows[1].cells[0].appendChild(document.createTextNode('cell 2,1'));
+        tbody.rows[1].insertCell(1);
+        tbody.rows[1].cells[1].appendChild(document.createTextNode('cell 2,2'));
+
+        document.body.appendChild(table);
+
+    })();
+
+    (function () {
+
+        var table = document.createElement('table');
+        table.border = 1;
+        table.width = '100%';
+
+        var tbody = document.createElement('tbody');
+        table.appendChild(tbody);
+
+        tbody.insertRow(0);
+        tbody.rows[0].insertCell(0);
+        tbody.rows[0].cells[0].appendChild(document.createTextNode('cells 1,1'));
+        tbody.rows[0].insertCell(1);
+        tbody.rows[0].cells[1].appendChild(document.createTextNode('cells 1,2'));
+
+        tbody.insertRow(1);
+        tbody.rows[1].insertCell(0);
+        tbody.rows[1].cells[0].appendChild(document.createTextNode('cells 2,1'));
+        tbody.rows[1].insertCell(1);
+        tbody.rows[1].cells[1].appendChild(document.createTextNode('cells 2,2'));
+
+        document.body.appendChild(table);
+
+    })();
+
+    (function () {
+
+        var table = document.createElement('table');
+        table.border = 1;
+        table.width = '100%';
+
+        var tbody = document.createElement('tbody');
+        table.appendChild(tbody);
+
+        tbody.insertRow(0);
+        tbody.rows[0].insertCell(0);
+        tbody.rows[0].cells[0].appendChild(document.createTextNode('cell- 1,1'));
+        tbody.rows[0].insertCell(1);
+        tbody.rows[0].cells[1].appendChild(document.createTextNode('cell- 1,2'));
+
+        tbody.insertRow(1);
+        tbody.rows[1].insertCell(0);
+        tbody.rows[1].cells[0].appendChild(document.createTextNode('cell- 2,1'));
+        tbody.rows[1].insertCell(1);
+        tbody.rows[1].cells[1].appendChild(document.createTextNode('cell- 2,2'));
+
+        document.body.appendChild(table);
+
+    })();
 </script>
 </body>
 </html>

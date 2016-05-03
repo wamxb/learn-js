@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="output"></div>
+<button id="myBtn">myBtn</button>
+<input type="text" id="myTextbox"/>
+<script type="text/javascript">
+    (function () {
+        function handleTouchEvent(event) {
+            if (event.touches.length == 1) {
+                var output = document.getElementById('output');
+                switch (event.type) {
+                    case 'touchstart':
+                        output.innerHTML = 'Touch started (' + event.touches[0].clientX + ',' + event.touches[0].clientY + ')';
+                        break;
+                    case 'touchend':
+                        output.innerHTML += '<br>Touch <b>ended</b> (' + event.changedTouches[0].clientX + ',' + event.changedTouches[0].clientY + ')';
+                        break;
+                    case 'touchmove':
+                        event.preventDefault(); // 阻止滚动
+                        output.innerHTML += '<br>Touch moved (' + event.changedTouches[0].clientX + ',' + event.changedTouches[0].clientY + ')';
+                        break;
+                }
+            }
+        }
+
+        document.addEventListener('touchstart', handleTouchEvent, false);
+        document.addEventListener('touchmove', handleTouchEvent, false);
+        document.addEventListener('touchend', handleTouchEvent, false);
+    })();
+
+    (function () {
+        // 模拟鼠标事件
+        var btn = document.getElementById('myBtn');
+        btn.addEventListener('click', function () {
+            console.log(this.id);
+        }, false);
+        var event = document.createEvent('MouseEvents');
+        event.initMouseEvent('click', true, true, document.view, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        btn.dispatchEvent(event);
+    })();
+
+    (function () {
+        // 模拟键盘事件
+        var textbox = document.getElementById('myTextbox'), event;
+        if (document.implementation.hasFeature('KeyboardEvents', '3.0')) {
+            event = document.createEvent('KeyboardEvent');
+            event.initKeyboardEvent('keydown', true, true, document.defaultView, 'a', 0, 'Shift', 0);
+        }
+        textbox.dispatchEvent(event);
+    })();
+
+    /*    (function(){
+
+     var textbox = document.getElementById('myTextbox');
+     var event = document.createEvent('keyEvents');
+     event.initKeyEvent('keypress', true, true, document.defaultView, false, false, false, false, 65, 65);
+     textbox.dispatchEvent(event);
+
+     })();*/
+
+    (function () {
+
+        var textbox = document.getElementById('myTextbox');
+        var event = document.createEvent('HTMLEvents');
+        event.initEvent('focus', true, false);
+        textbox.dispatchEvent(event);
+    })();
+
+    (function () {
+
+        // 模拟鼠标事件
+        var div = document.getElementById('output'), event;
+        div.addEventListener('myevent', function (event) {
+            console.log('DIV: ' + event.detail);
+        }, false);
+        document.addEventListener('myevent', function (event) {
+            console.log('DOCUMENT: ' + event.detail);
+        }, false);
+
+        if (document.implementation.hasFeature('CustomEvents', '3.0')) {
+            event = document.createEvent('CustomEvent');
+            event.initCustomEvent('myevent', true, false, 'Hello world!');
+            div.dispatchEvent(event);
+        }
+    })();
+
+    (function(){
+        // IE下的模拟事件
+        /*var btn = document.getElementById('myBtn');
+        // 创建事件对象
+        var event = document.createEventObject();
+    // 初始化事件对象
+        event.screenX = 100;
+        event.screenY = 0;
+        event.clientX = 0;
+        event.clientY = 0;
+        event.ctrlKey = false;
+        event.altKey = false;
+        event.shiftKey = false;
+        event.button = 0;
+        btn.fireEvent('onclick', event);*/
+    })();
+</script>
+</body>
+</html>

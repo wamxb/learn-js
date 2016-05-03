@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-compatible" content="IE=IEVersion">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button id="myButton">myButton</button>
+<script type="text/javascript">
+    function processChild(){
+
+    }
+    /*(function () {
+        var i,
+                len,
+                child = element.firstChild;
+        while (child != element.lastChild) {
+            if (child.nodeType == 1) {
+                processChild(child);
+            }
+            child = child.nextSibling;
+        }
+    })();
+
+    (function(){
+
+        var i,len,child = element.firstElementChild;
+        while (child != element.lastElementChild) {
+            processChild(child);
+            child = child.nextElementSibling;
+        }
+
+    })();*/
+
+    (function(){
+
+        var btn = document.getElementById('myButton');
+        btn.focus();
+        console.log(document.activeElement);
+
+
+        //作为前一个同辈元素插入
+        btn.insertAdjacentHTML("beforebegin", "<p>Hello world!</p>");
+//作为第一个子元素插入
+        btn.insertAdjacentHTML("afterbegin", "<p>Hello world!</p>");
+//作为最后一个子元素插入
+        btn.insertAdjacentHTML("beforeend", "<p>Hello world!</p>");
+//作为后一个同辈元素插入
+        btn.insertAdjacentHTML("afterend", "<p>Hello world!</p>");
+    })();
+
+    (function(){
+//        div.innerText = div.innerText
+        console.log(document.documentMode);
+
+    })();
+
+</script>
+</body>
+</html>

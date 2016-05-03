@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button id="myBtn">click me!</button>
+<button id="myBtn1">click me1!</button>
+<button id="myBtn2">click me2!</button>
+<div style="margin-top: 1000px; width: 200px; height: 200px; background-color:royalblue;">
+    <p id="pageXY" style="width: 100px; background-color:#ddd; height: 100px;">pageXY</p>
+</div>
+
+<ul id="myList">
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+</ul>
+
+
+<div id="myDiv">Right click or Ctrl+click me to get a custom context menu.
+    Click anywhere else to get the default context menu.
+</div>
+<ul id="myMenu" style="position:absolute;visibility:hidden;background-color: silver">
+    <li><a href="http://www.qq.com">QQ</a></li>
+    <li><a href="http://www.g.cn">Google</a></li>
+    <li><a href="http://www.baidu.com">baidu!</a></li>
+</ul>
+
+
+<a href="event.html">pageshow,pagehide</a>
+<script type="text/javascript">
+    /*var EventUtil = {
+     addHandler: function (el, type, handler) {
+     if (el.addEventListener) {
+     el.addEventListener(type, handler, false);
+     } else if (el.attachEvent) {
+     el.attachEvent('on' + type, handler);
+     } else {
+     el['on' + type] = handler;
+     }
+     },
+     removeHandler: function (el, type, handler) {
+     if (el.removeEventListener) {
+     el.removeEventListener(type, handler, false);
+     } else if (el.detachEvent) {
+     el.detachEvent('on' + type, handler);
+     } else {
+     el['on' + type] = null;
+     }
+     }
+     };
+
+     (function () {
+     document.body.onclick = function (event) {
+     console.log(event.currentTarget === document.body);
+     console.log(this === document.body);
+     console.log(event.target === document.getElementById('myBtn'));
+     };
+     })();
+
+     (function () {
+     // 通过一个函数处理多个事件时,可以使用 type 属性
+     var btn = document.getElementById('myBtn');
+
+     var handler = function (event) {
+     switch (event.type) {
+     case 'click':
+     console.log('Clicked');
+     break;
+     case 'mouseover':
+     event.target.style.backgroundColor = 'red';
+     break;
+     case 'mouseout':
+     event.target.style.backgroundColor = '';
+     break;
+     }
+     };
+
+     btn.onclick = handler;
+     btn.onmouseover = handler;
+     btn.onmouseout = handler;
+     })();
+
+
+     (function () {
+
+     // stopPropagation 立即停止事件在 DOM 层次中的传播,取消进一步的事件捕获或冒泡
+     var btn = document.getElementById('myBtn1');
+     btn.onclick = function (event) {
+     console.log('Click');
+     event.stopPropagation();
+     };
+
+     document.body.onclick = function (event) {
+     console.log('Body clicked');
+     };
+
+     })();
+
+     (function () {
+
+     var btn = document.getElementById('myBtn2');
+     btn.onclick = function (event) {
+     console.log('btn.onclick');
+     console.log(event.eventPhase);  // 2
+     };
+
+     document.body.addEventListener('click', function (event) {
+     console.log('document.body.addEventListener');
+     console.log(event.eventPhase);  // 1
+     }, true);
+
+     document.body.onclick = function (event) {
+     console.log('document.body.onclick');
+     console.log(event.eventPhase);  // 3
+     };
+
+
+     })();*/
+
+    /*    (function () {
+     var btn = document.getElementById('myBtn');
+     btn.onclick = function () {
+     console.log(event.srcElement);
+     console.log(this);
+
+     };
+
+     btn.attachEvent('onclick', function (event) {
+     console.log(event.srcElement === this);
+     console.log(event.srcElement);
+     console.log(this);
+     });
+     })();*/
+
+    /*(function () {
+     var EventUtil = {
+     getTarget: function (event) {
+     return event ? event : window.event;
+     }
+     };
+     })*/
+
+
+    /*var isSupported = document.implementation.hasFeature('HTMLEvents', '2.0');
+
+     var isSupported = document.implementation.hasFeature('UIEvent', '3.0');
+
+
+
+     */
+
+
+    /*window.onload = function () {
+     var link = document.createElement('link');
+     link.type = 'text/css';
+     link.rel = 'stylesheet';
+     if (link.addEventListener) {
+     link.addEventListener('load', function (event) {
+     console.log('css loaded');
+     }, false);
+     } else {
+     link.attachEvent('onload', function (event) {
+     console.log('css loaded');
+     });
+     }
+
+     link.href = 'xxx.css';
+     document.getElementsByTagName('head')[0].appendChild(link);
+
+
+     }*/
+
+
+    /*(function () {
+        // 页面坐标位置
+
+        var div = document.getElementById('pageXY');
+        div.onclick = function (event) {
+            var e = event || window.event;
+            var page = {
+                x: e.pageX,
+                y: e.pageY
+            };
+
+            if (page.x === undefined) {
+                page.x = e.clientX + (document.body.scrollLeft || document.documentElement.scrollLeft);
+            }
+
+            if (page.y === undefined) {
+                page.y = e.clientY + (document.body.scrollTop || document.documentElement.scrollTop);
+            }
+            console.log(page.x, page.y);
+        };
+
+    })();
+
+
+    (function () {
+        var div = document.getElementById('pageXY');
+        div.onclick = function (event) {
+            var e = event || window.event;
+
+            var keys = [];
+
+            if (e.shiftKey) {
+                keys.push('shift');
+            }
+            if (e.ctrlKey) {
+                keys.push('ctrl');
+            }
+            if (e.altKey) {
+                keys.push('alt');
+            }
+            if (e.metaKey) {
+                keys.push('meta');
+            }
+            console.log('keys: ' + keys.join(','));
+        };
+    })();
+
+
+    (function () {
+
+        var div = document.getElementById('pageXY');
+        div.onmouseout = function (event) {
+            var e = event || window.event;
+
+            var target = e.target || e.srcElement;
+
+            var relatedTarget = function (e) {
+                if (e.relatedTarget) {
+                    return e.relatedTarget;
+                } else if (e.toElement) {
+                    return e.toElement;
+                } else if (e.fromElement) {
+                    return e.fromElement;
+                } else {
+                    return null;
+                }
+            }(e);
+
+            console.log('moused out of ' + target.tagName + ' to ' + relatedTarget.tagName);
+        };
+
+    })();
+
+    (function () {
+
+        function getButton(event) {
+            if (document.implementation.hasFeature('MouseEvents', '2.0')) {
+                return event.button;
+            } else {
+                switch (event.button) {
+                    case 0:
+                    case 1:
+                    case 3:
+                    case 5:
+                    case 7:
+                        return 0;
+                    case 2:
+                    case 6:
+                        return 2;
+                    case 4:
+                        return 1;
+                }
+            }
+        }
+
+    })();
+
+    (function () {
+
+        function getWheelDelta(event) {
+            var e = event || window.event;
+            if (e.wheelDelta) {
+                return (client.engine.opera && client.engine.opera < 9.5 ? -e.wheelDelta : e.wheelDelta);
+            } else {
+                return -e.detail * 40;
+            }
+        }
+
+
+        function getCharCode(event) {
+            if (typeof event.charCode == 'number') {
+                return event.charCode;
+            } else {
+                return event.keyCode;
+            }
+        }
+
+        var list = document.getElementById('myList');
+        document.addEventListener('DOMSubtreeModified', function (event) {
+            console.info('=====================DOMSubtreeModified==================');
+            console.log(event.type);
+            console.log(event.target);
+        }, false);
+
+        document.addEventListener('DOMNodeRemoved', function (event) {
+            console.info('=====================DOMNodeRemoved==================');
+            console.log(event.type);
+            console.log(event.target);
+            console.log(event.relatedNode);
+        }, false);
+
+        list.firstChild.addEventListener('DOMNodeRemovedFromDocument', function (event) {
+            console.info('=====================DOMNodeRemovedFromDocument==================');
+            console.log(event.type);
+            console.log(event.target);
+        }, false);
+
+        list.parentNode.removeChild(list);
+    })();
+
+    (function () {
+
+        var div = document.getElementById('myDiv');
+        div.addEventListener('contextmenu', function (event) {
+            var e = event || window.event;
+            e.preventDefault();
+            e.returnValue = false;
+
+            var menu = document.getElementById('myMenu');
+            menu.style.left = e.pageX + 'px';
+            menu.style.top = e.pageY + 'px';
+            menu.style.visibility = 'visible';
+        }, false);
+
+        document.addEventListener('click', function (event) {
+            document.getElementById('myMenu').style.visibility = 'hidden';
+        }, false);
+
+    })();
+
+    (function () {
+
+        var script = document.createElement('script');
+        script.addEventListener('readystatechange', function (event) {
+            var e = event || window.event;
+            var target = e.target || e.srcElement;
+
+            if (target.readyState == 'loaded' || target.readyState == 'complete') {
+                target.removeEventListener('readystatechange', arguments.callee);
+                alert("Script Loaded");
+            }
+        }, false);
+        script.src = 'EventUtil.js';
+        document.body.appendChild(script);
+
+    })();*/
+
+    (function () {
+
+        var showCount = 0;
+        window.addEventListener('load', function () {
+            console.log('load fired');
+        }, false);
+
+        window.addEventListener('pageshow', function (event) {
+            showCount++;
+            console.log('Show has been fired ' + showCount + ' times.');
+            console.log('Persisted? ' + event.persisted);
+        }, false);
+    })();
+</script>
+</body>
+</html>
