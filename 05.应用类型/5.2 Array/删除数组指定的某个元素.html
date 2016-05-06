@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>删除数组指定的某个元素</title>
+</head>
+<body>
+http://caibaojian.com/js-splice-element.html?wb
+<script>
+    Array.prototype.indexOf = function(val) {
+        for (var i=0; i<this.length; i++) {
+            if (this[i] == val) return i;
+        }
+        return -1;
+    };
+
+    Array.prototype.remove = function(val) {
+        var i = this.indexOf(val);
+        (i > - 1) && this.splice(i, 1);
+    }
+
+    // var emp = ['abs','dsf','sdf','fd'];
+    // emp.remove('fd');
+    // console.log(emp);
+</script>
+</body>
+</html>

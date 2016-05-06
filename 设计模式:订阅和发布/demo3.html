@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+
+    (function ($) {
+
+        var o = $({});
+
+        $.subscribe = function () {
+            o.on.apply(o, arguments);
+        };
+
+        $.unsubscribe = function () {
+            o.off.apply(o, arguments);
+        };
+
+        $.publish = function () {
+            o.trigger.apply(o, arguments);
+        };
+
+    })(jQuery);
+
+
+    //回调函数
+    function handle(e, a, b, c) {
+        // `e`是事件对象，不需要关注
+        console.log(a + b + c);
+    }
+    ;
+
+    //订阅
+    $.subscribe("/some/topic", handle);
+    //发布
+    $.publish("/some/topic", ["a1", "b1", "c1"]); // 输出abc
+
+
+    $.unsubscribe("/some/topic", handle); // 退订
+
+
+    $.publish("/some/topic", ["a11", "b11", "c11"]);
+
+    //订阅
+    $.subscribe("/some/topic", function (e, a, b, c) {
+        console.log(a + b + c);
+    });
+
+    $.publish("/some/topic", ["a2", "b2", "c2"]); // 输出abc
+
+    //退订（退订使用的是/some/topic名称，而不是回调函数哦，和版本一的例子不一样
+    $.unsubscribe("/some/topic");
+
+    $.publish("/some/topic", ["a22", "b22", "c22"]);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+<script>
+
+    var pubsub = {};
+    (function (p) {
+
+        var topics = [],
+                subUid = -1;
+
+        // 发布消息
+        p.publish = function (topic, args) {
+            if (!topics[topic]) return false;
+
+            setTimeout(function () {
+                var subscribers = topics[topic];
+                var len = subscribers ? subscribers.length : 0;
+
+                while (len--) {
+                    subscribers[len].fn(topic, args);
+                }
+            }, 0);
+
+            return true;
+        };
+
+        // 订阅
+        p.subscribe = function (topic, fn) {
+            !topics[topic] && (topics[topic] = []);
+
+            var token = (++subUid).toString();
+            topics[topic].push({
+                token: token,
+                fn: fn
+            });
+            return token;
+        };
+
+        p.unsubscribe = function (token) {
+            for (var pro in topics) {
+                if (topics[pro]) {
+                    for (var i = 0, len = topics[pro].length; i < len; i++) {
+                        if (topics[pro][i].token === token) {
+                            topics[pro].splice(i, 1);
+                            return token;
+                        }
+                    }
+                }
+            }
+            return false;
+        };
+
+    })(pubsub);
+
+    var testSubscribe = pubsub.subscribe('example1', function (topics, data) {
+        console.log(topics + ': ' + data);
+    });
+    //发布通知
+    pubsub.publish('example1', 'hello world!');
+    pubsub.publish('example1', ['test', 'a', 'b', 'c']);
+    pubsub.publish('example1', [{'color': 'blue'}, {'text': 'hello'}]);
+
+    setTimeout(function () {
+        pubsub.unsubscribe(testSubscribe);
+    });
+    pubsub.publish('example1', 'hello world!');
+
+</script>
+</body>
+</html>

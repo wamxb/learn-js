@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+<script>
+
+    function Observer() {
+        this.fns = [];
+    }
+    Observer.prototype = {
+        constructor: Observer,
+        subscribe: function (fn) {
+            this.fns.push(fn);
+        },
+        unsubscribe: function (fn) {
+            this.fns = this.fns.filter(function (_fn) {
+                if (_fn !== fn) return _fn;
+            });
+        },
+        update: function (args, context) {
+            var context = context || window;
+            this.fns.forEach(function (_fn) {
+                _fn.call(context, args);
+            });
+        }
+    };
+
+    Array.prototype.forEach = Array.prototype.forEach || function (fn, context) {
+                var context = context || window;
+                for (var i = 0, len = this.length; i < len; i++) {
+                    fn.call(context, this[i], i, this);
+                }
+            };
+
+    Array.prototype.filter = Array.prototype.filter || function (fn, context) {
+                var context = context || window;
+                var arr = [];
+                for (var i = 0, len = this.length; i < len; i++) {
+                    if (!fn.call(this[i], i, this)) {
+                        continue;
+                    }
+                    arr.push(this[i]);
+                }
+                return arr;
+            };
+
+
+    //测试
+    var o = new Observer;
+    var f1 = function (data) {
+        console.log('Robbin: ' + data + ', 赶紧干活了！');
+    };
+
+    var f2 = function (data) {
+        console.log('Randall: ' + data + ', 找他加点工资去！');
+    };
+
+    o.subscribe(f1);
+    o.subscribe(f2);
+
+    o.update("Tom回来了！")
+
+    //退订f1
+    o.unsubscribe(f1);
+    //再来验证
+    o.update("Tom回来了！");
+
+</script>
+</body>
+</html>

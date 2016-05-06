@@ -23,16 +23,16 @@
     (function () {
         var oDrags = document.querySelectorAll('.j_drag');
         Array.prototype.forEach.call(oDrags, function (el) {
-            el.style.position = 'absolute';
-
             parent = el.parentNode;
+            el.style.position = 'relative';
+            parent.style.position = 'relative';
+
             var bounded = {
                 top: 0,
                 bottom: parent.clientHeight - el.offsetHeight,
                 left: 0,
                 right: parent.clientWidth - el.offsetWidth
             };
-            parent.style.position = 'relative';
 
             var disX = 0;
             var disY = 0;
@@ -42,6 +42,7 @@
                 var e = event || window.event;
                 disX = e.clientX - el.offsetLeft;
                 disY = e.clientY - el.offsetTop;
+
                 document.onmousemove = function (event) {
                     var e = event || window.event;
                     position = setPosition(e.clientX - disX, e.clientY - disY);
