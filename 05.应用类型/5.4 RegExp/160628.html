@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RegExp</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<script>
+    var css0 = "position: relative; left: 158px; top: -322px;";
+    var css1 = "position: relative; left: 215px; top: -257px;";
+    var pattern = /left:\s+(-?\d+)px;\s+top:\s+(-?\d+)px;/i;
+    var retuslt0 = pattern.exec(css0);
+    var retuslt1 = pattern.exec(css1);
+    console.log(retuslt0[1], retuslt0[2], retuslt1[1], retuslt1[2]);
+
+
+    var youkuurl = 'http://v.youku.com/v_show/id_XMTYyMTk4OTU0OA==.html?f=26378220&from=y1.3-idx-beta-1519-23042.223465.4-1';
+    var qqurl = 'http://v.qq.com/cover/v/vrgnu9enfhsmqxx.html?vid=d0020oqhxbo';
+    // <iframe frameborder="0" width="640" height="498" src="http://v.qq.com/iframe/player.html?vid=d0020oqhxbo&tiny=0&auto=0" allowfullscreen></iframe>
+
+    $('body').append(getVideoUrl(qqurl));
+
+
+    function getVideoUrl(url) {
+        var msg = '请输入正确的地址';
+        if (url.length == 0) return msg;
+        if (url.indexOf('http://v.youku.com') > -1) { // 优酷地址
+            var vid = function () {
+                var _vid = /id_(\w+==)/ig.exec(url);
+                return _vid ? _vid[1] : false;
+            }();
+            if (!vid) {
+                return msg;
+            }
+            var size = calculateSize(510, 498);
+            return '<iframe height=' + size.height + ' width=' + size.width + ' src="http://player.youku.com/embed/' + vid + '" frameborder=0 allowfullscreen></iframe>';
+        } else if (url.indexOf('http://v.qq.com') > -1) { // 腾讯视频
+            var vid = function () {
+                var _vid = /(vid=\w+)/ig.exec(url);
+                return _vid ? _vid[1] : false;
+            }();
+            if (!vid) {
+                return msg;
+            }
+            var size = calculateSize(640,498);
+            return '<iframe frameborder="0" width="'+size.width+'" height="'+size.height+'" src="http://v.qq.com/iframe/player.html?'+vid+'&tiny=0&auto=0" allowfullscreen></iframe>';
+        } else {
+            return msg;
+        }
+
+        function calculateSize(VH,VW) {
+            // var iframeW = Math.floor($(window).width() - lib.flexible.rem2px(0.315)*2);
+            var iframeW = Math.floor($(window).width());
+            // var iframeH = VH / VW * iframeW;
+            return {
+                width: Math.floor(iframeW),
+                height: Math.floor(iframeW)
+            }
+        }
+    }
+</script>
+</body>
+</html>

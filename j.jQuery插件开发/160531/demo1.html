@@ -2,9 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>jQuery 插件开发</title>
+    <style type="text/css">
+        p {
+            float: left;
+            color: #fff;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
+<p class="demo1">1</p>
+<p class="demo2">2</p>
+<p class="demo3">3</p>
+<p class="demo4">4</p>
+<p class="demo5">5</p>
+<p class="demo6">6</p>
+<p class="demo7">7</p>
+<p class="demo8">8</p>
+<p class="demo9">9</p>
+<p class="demo10">10</p>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="demo1.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.demo1').pluginName();
+        $('.demo2').pluginName('init');
+        $('.demo3').pluginName('init', {color: 'red'});
+        $('.demo4').pluginName({size: 100});
+        $('.demo5').pluginName('init', 'argument1', 'argument2');
 
+        setTimeout(function () {
+            $('.demo1').pluginName('destroy');
+            $('.demo2').pluginName('destroy', {});
+        }, 1000);
+
+        $('.demo6').pluginName('noexistantMehond');
+
+        $('.demo7').pluginName('init', 'argument1', 'argument2');
+//        $('.demo7').pluginName('noexistantMehond', {});
+//        $('.demo8').pluginName('argument 1');
+//        $('.demo9').pluginName('argument 1', 'argument 2');
+//        $('.demo10').pluginName('privateFunction');
+    });
+</script>
 </body>
 </html>
