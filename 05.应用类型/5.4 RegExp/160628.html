@@ -58,8 +58,7 @@
         }
 
         function calculateSize(VH,VW) {
-            // var iframeW = Math.floor($(window).width() - lib.flexible.rem2px(0.315)*2);
-            var iframeW = Math.floor($(window).width());
+            var iframeW = Math.floor($(window).width() - lib.flexible.rem2px(0.315)*2);
             // var iframeH = VH / VW * iframeW;
             return {
                 width: Math.floor(iframeW),
