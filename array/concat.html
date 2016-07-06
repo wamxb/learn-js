@@ -7,7 +7,7 @@
 <body>
 <script>
     function isArray(obj){
-        return Object.prototype.toString.call(obj).substr(8, 5) == 'Array';
+        return typeof obj === 'object' && Object.prototype.toString.call(obj).slice(8, -1) == 'Array';
     }
 
    (function(){
@@ -162,7 +162,6 @@
 
 <script>
 (function(){
-    console.clear();
     function flatten(arr) {
         return arr.reduce(function(flat, toFlatten){
             console.log('flat, toFlatten');

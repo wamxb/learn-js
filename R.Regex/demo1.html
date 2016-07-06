@@ -9,6 +9,7 @@
     var s = 'aaalllsss0tAAAnnn999';
     var re2 = /(\w)\1{2}(?=(\w)\2{2})/g;  // 用到了 *零宽度正预测先行断言*
     console.log(s.match(re2));  // 输出 => [ 'aaa', 'lll', 'AAA', 'nnn' ]
+});
 </script>
 </body>
 </html>
