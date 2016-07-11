@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>属性的查询和设置</title>
+</head>
+<body>
+<script src="main.js"></script>
+<script>
+    var o = {};
+    o.x = 1;
+
+    var p = inherit(o);
+    p.y = 2;
+
+    var q = inherit(p);
+    q.z = 3;
+
+    var s = q.toString();
+    console.log(q.x + q.y + q.z, s); // 6 "[object Object]"
+
+
+    var a1 = [{size: 1}, {size: 2}, 3];
+    var _a1 = inherit(a1);
+    _a1[0].size = 11;
+    _a1.splice(1, 1, {size: 22}); // 不直接对 [0].size 对象级操作，不会发生改变
+    _a1.splice(-1, 1, 33);
+    console.log(a1); // [improtant]: a1[0].size 被修改为11
+    for (var i in _a1) {
+        // 先遍历本身拥有
+        if (!_a1.hasOwnProperty(i)) continue;
+        // 1 {size: 22}
+        // 2 33
+        // length 3
+        console.log(i, _a1[i]);
+    }
+
+    console.info('================================');
+    var a2 = [1, 2, 3, 4, 5];
+    var _a2 = inherit(a2);
+    // _a2.pop();
+    _a2.unshift(0);
+    _a2.push(6);
+    _a2.shift();
+    console.log(_a2, a2); //a2不改变
+    for (var i in _a2) {
+        // 先遍历本身拥有
+        if (!_a2.hasOwnProperty(i)) continue;
+        // 会拥有length属性
+
+        // if: pop()
+        // length 4
+
+        // if: unshift()
+        // query&set.html:59 0 0
+        // query&set.html:59 1 1
+        // query&set.html:59 2 2
+        // query&set.html:59 3 3
+        // query&set.html:59 4 4
+        // query&set.html:59 5 5
+        // query&set.html:59 length 6
+
+        // if: shift()
+        //         0 2
+        // query&set.html:67 1 3
+        // query&set.html:67 2 4
+        // query&set.html:67 3 5
+        // query&set.html:67 length 4
+
+        // if: push()
+        // query&set.html:74 5 6
+        // query&set.html:74 length 6
+
+        console.log(i, _a2[i]);
+    }
+
+</script>
+</body>
+</html>

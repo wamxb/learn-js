@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+<script>
+// 'use strict';
+// ECMAScript5
+ var a = [1, 2, 3];
+Object.defineProperty(a, 'length', {writable: false});
+a.length = 0; // 严格模式下报错
+console.log(a.length); // 非严格模式下，length不变
+</script>
+</body>
+</html>

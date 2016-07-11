@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>属性访问错误</title>
+</head>
+<body>
+<script src="main.js"></script>
+<script>
+// 在这些场景下给对象o设置设置属性 p会失败
+        'use strict';
+        // 属性 p是只读的
+    (function(argument) {
+        var o = {};
+        Object.defineProperty(o, 'p', {
+            value: 0,
+            writable: false
+        });
+
+        try{
+            o.p = 5;
+        } catch(e) {
+            console.error(e); // Uncaught TypeError: Cannot assign to read only property 'p' of object '#<Object>'
+        }
+        console.log(o.p); // 0
+    })();
+
+    // 属性 p是继承属性，且是只读的
+    // 不能通过同名 自有属性 覆盖 只读的继承属性
+    (function(){
+
+        var obj = {};
+        Object.defineProperty(obj, 'p', {
+            value: 1,
+            writable: false
+        });
+
+        var o = inherit(obj);
+
+        try{
+            o.p = 5;
+        } catch(e) {
+            console.error(e); // Uncaught TypeError: Cannot assign to read only property 'p' of object '#<Object>'
+        }
+        console.log(o.p); // 1
+
+    })();
+
+    // o 的可扩展性是 false
+    (function(){
+
+        var o = {};
+        Object.defineProperty(o, 'p', {
+            value: 2,
+            configurable: false
+        });
+
+
+        try{
+            o.p = 5;
+        } catch(e) {
+            console.error(e); // Uncaught TypeError: Cannot assign to read only property 'p' of object '#<Object>'
+        }
+        console.log(o.p); // 2
+
+    })();
+
+    try {
+         Object.prototype = 0;
+     } catch(e) {
+        console.error(e); // TypeError: Cannot assign to read only property 'prototype' of function 'function Object() { [native code] }'
+     }
+
+</script>
+</body>
+</html>

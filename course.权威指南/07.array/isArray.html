@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title> 判断数组</title>
+</head>
+<body>
+<pre>
+编写一个JavaScript函数 isArray
+
+判断一个对象是否是数组
+
+注意浏览器下的特殊性
+</pre>
+<script>
+function isArray(obj){ //判断数组，注意 instanceof 的局限性
+  return !!obj && (Object.prototype.toString.call(obj).slice(8,-1) === 'Array');
+}
+
+[[1,2],[],['abc'],'def'.split('')].forEach(function(o){
+    console.log(isArray(o)); // true
+});
+["abc",undefined,123,/abc/,{}].forEach(function(o){
+  console.log(isArray(o)); // false
+});
+
+var frame = document.createElement('iframe');
+    document.body.appendChild(frame);
+    frames[0].document.write('<script>window.arr = [1,2,3]</'+'script>');
+    console.log(isArray(frames[0].arr)); // true
+</script>
+</body>
+</html>

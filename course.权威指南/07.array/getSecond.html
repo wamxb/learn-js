@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>寻找第二大的数</title>
+</head>
+<body>
+<pre>
+    编写一个JavaScript函数 getSecond
+
+返回一个数组里第二大的数
+
+注意边界条件判断
+</pre>
+<script>
+
+// length less 2 not have second number
+function getSecond(arr) {
+    if (!arr || Object.prototype.toString.call(arr).slice(8, -1) !== 'Array' || arr.length < 2) {
+        return undefined;
+    }
+    return arr.sort(function(a, b){
+        return b - a;
+    })[1];
+}
+
+console.log(getSecond([]));
+console.log(getSecond([1]));
+console.log(getSecond([2,5]));
+console.log(getSecond());
+console.log(getSecond(undefined));
+console.log(getSecond(null));
+</script>
+</body>
+</html>

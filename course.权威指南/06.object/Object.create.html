@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Object.create()</title>
+</head>
+<body>
+<script>
+    // ECMAScript5 的方法
+    var o1 = Object.create({x:1,y:2});
+    console.log(o1);
+    console.log(o1.x);
+    console.log(o1.toString());
+    console.log(o1 + 'test'); // [object Object]test
+
+    var a1 = [1, 3, [2, 3], {2: 3}];
+    console.log(a1.toString()); // 1,3,2,3,[object Object]
+
+
+    var o2 = Object.create(null);
+    try {
+        o2.toString();
+    } catch(e){
+        console.error(e); // TypeError: o2.toString is not a function(…)
+    }
+    try {
+        o2 += 'test';
+    } catch (e) {
+        console.error(e); // TypeError: Cannot convert object to primitive value(…)
+    }
+
+    // 创建空对象
+    var o3 = Object.create(Object.prototype);
+    console.log(o3);
+
+    // 原型链继承
+    function inherit(p) {
+        if (p == null) throw TypeError();
+        if (Object.create) return Object.create(p);
+        var t = typeof p;
+        if (t !== 'object' && t !== 'function') throw TypeError();
+        function f(){};
+        f.prototype = p;
+        return new f();
+    }
+
+    var o = {x: "don't change this value"};
+    var _o = inherit(o);
+    console.log(_o.x);
+    _o.x = 'haha i change';
+    console.log(_o.x, o.x);
+</script>
+</body>
+</html>

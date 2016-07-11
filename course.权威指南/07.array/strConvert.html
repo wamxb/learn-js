@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>字符串堆栈操作</title>
+</head>
+
+<body>
+    <pre>
+    实现一个函数 convert
+
+    给定一个字符串，例如 "abacd"，给定一个次序变换后的结果，例如： "abcda"
+
+    找出可以完成这一“变换”的“交换堆栈“操作，用i表示push，用o表示pop
+
+    上面的例子变换，结果是：["iiiooioioo", "ioioiioioo"]
+</pre>
+    <script>
+    // http://bbs.csdn.net/topics/391953028
+    function convert(from, to) {
+        //排序后判断是否一致
+        if (from.split('').sort().join('') != to.split('').sort().join('')) {
+            return [];
+        }
+        var res = [];
+
+        proceed('', 0, '', '', '');
+        function proceed(stack, pos, prefix, ops) {
+            //找到一个解
+            if (prefix == to) {
+                res.push(ops);
+                return;
+            }
+            //不能pop
+            if (to.indexOf(prefix) != 0) {
+                return;
+            }
+            if (pos < from.length) {
+                //先尝试push进堆栈
+                proceed(stack + from[pos], pos + 1, prefix, ops + 'i');
+            }
+            if (stack.length) {
+                //再尝试pop出来
+                proceed(stack.slice(0, -1), pos, prefix + stack.slice(-1), ops + 'o');
+            }
+        }
+        return res;
+    }
+    var reuslt = convert('abacd', 'abcda');
+    console.log(reuslt);
+    </script>
+</body>
+
+</html>

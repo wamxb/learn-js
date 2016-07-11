@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title> 数组找结果</title>
+</head>
+
+<body>
+    <pre>
+实现一个函数 find
+
+传入一个数组，得到其中任意两个数之和为10的所有结果。
+
+例如：
+
+[-1,2,9,8,1,11,3,5,7]
+
+得到：
+
+[[-1,11],[2,8],[9,11],[3,7]]
+</pre>
+    <script>
+    function find(arr) {
+        var result = [];
+        var len = arr.length;
+        proceed(0);
+
+        function proceed(pos) {
+            var need = 10 - arr[pos];
+            var index = 0;
+            var res = arr.some(function(o, i) {
+                return index = i, o === need;
+            });
+            if (res && index != pos) {
+                result.push([arr[pos], arr[index]]);
+                arr.splice(index, 1, undefined);
+            }
+            arr.splice(pos, 1, undefined);
+            (pos+1 < len-1) && proceed(pos+1);
+        }
+        return result;
+    }
+    var arr = [-1, 2, 9, 8, 1, 11, 3, 5, 7];
+    var reuslt = find(arr);
+    console.log(reuslt);
+    </script>
+</body>
+
+</html>

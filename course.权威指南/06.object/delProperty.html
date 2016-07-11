@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>删除属性</title>
+</head>
+<body>
+<script src="main.js"></script>
+<script>
+    (function(){
+        'use strict';
+        var obj = {};
+        Object.defineProperty(obj, 'p', {
+            value: 1,
+            writable: false
+        });
+
+        var o = inherit(obj);
+        o.x = 2;
+        delete o.x;
+        delete o.p;
+        // 只能删除自有属性
+        console.log(o.p, o.x); // 1 undefined
+
+        var a = {
+            p: {
+                x: 1
+            }
+        };
+
+        var b = a.p;
+
+        // delete只是断开 属性 和 宿主对象的联系
+        // 已经删除的属性的 引用 依然存在
+        // delete a.p;
+        console.log('before', b.x); // 1
+
+
+        // 遍历属性，依次删除后
+        delProperty(a);
+        console.log(a.p); // defined
+        console.log('after', b.x); // undefined
+
+        // 成功删除属性，或者无副作用，返回true
+        var o = {x: 1};
+        var d1 = delete o.x;
+        console.log(d1); // true
+        var d2 = delete o.x;
+        console.log(d2); // true
+        var d3 = delete o.toString;
+        console.log(d3); // true
+        var d4 = delete 1;
+        console.log(d4); // true
+    })();
+
+    (function() {
+        'use strict';
+        // 内置对象的属性是不可配置的，通过 变量声明 和 函数声明 创建的全局对象的属性
+        try {
+            var d1 = delete Object.prototype;
+            console.info(d1); // false // TypeError: Cannot delete property 'prototype' of function Object() { [native code] }
+        } catch(e) {
+            console.error(e);
+        }
+
+        try {
+            var x = 1;
+            var d2 = delete this.x;
+            console.info(d2); // true 非严格模式 // TypeError: Cannot convert undefined or null to object
+        } catch(e) {
+            console.error(e);
+        }
+
+        try {
+            x = 1;
+            var d2 = delete this.x;
+            console.log(this.x); // undefined
+            console.info(d2); // true 非严格模式 // TypeError: Cannot convert undefined or null to object
+        } catch(e) {
+            console.error(e);
+        }
+
+        try {
+            function f(){}
+            var d3 = delete this.f;
+            console.log(this.f); // undefined
+            console.info(d3); // true 非严格模式 //TypeError: Cannot convert undefined or null to object
+        } catch(e) {
+            console.error(e);
+        }
+
+        try {
+            var y = 1;
+            var d4 = delete y;
+            // 严格模式下
+            console.info(d4); // Uncaught SyntaxError: Delete of an unqualified identifier in strict mode.
+        } catch(e) {
+            console.error(e);
+        }
+
+    })();
+
+</script>
+</body>
+</html>

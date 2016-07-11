@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>序列化对象</title>
+</head>
+<body>
+<script>
+    var o = {
+        valueOf: function () {
+            console.info('valueof...');
+        },
+        toString: function(){
+            console.info('toString...');
+        }
+    };
+    console.log(parseInt(o, 10));
+    console.log(o + '222');
+    console.clear();
+
+    console.log(parseInt(null, 10)); // NaN
+    console.log(parseInt(undefined, 10)); // NaN
+    console.log(parseInt(NaN, 10)); // NaN
+    console.log(parseInt([], 10)); // NaN
+    console.log(parseInt([1], 10)); // 1
+    console.log(parseInt([1,2,3], 10)); // 1
+    console.log(parseInt({}, 10)); // NaN
+    console.log(parseInt({x:1, valueOf: function(){
+        console.info('valueOf parseInt');
+        return 1; // 没有调用
+    }}, 10)); // NaN
+
+    console.log(+null); // 0
+    console.log(+undefined); // NaN
+    console.log(+void 0); // NaN
+    console.log(+NaN);  // NaN
+    console.log(+[]); // 0
+    console.log(+[1]); // 1
+    console.log(+[1,2,3]); // NaN
+    console.log(+{}); // NaN
+    console.log(+{x:1, valueOf: function(){
+        console.info('valueOf "+"');
+        return 1;
+    }}); // NaN ==> 1
+
+    console.info('~~');
+    console.log(~~null); // 0
+    console.log(~~undefined); // 0
+    console.log(~~NaN); // 0
+    console.log(~~[]); // 0
+    console.log(~~[1]); // 1
+    console.log(~~{}); // 0
+    console.log(~~{x:1, valueOf: function(){
+        console.info('valueOf~~');
+        return 1;
+    }}); // 0 ==> 1
+
+    console.log(!null); // true
+    console.log(!undefined); // true
+    console.log(!NaN); // true
+    console.log(![]); // false
+    console.log(![1]); // false
+    console.log(![1,2,3]); // false
+    console.log(!{}); // false
+    console.log(!{x:1}); // false
+    console.log(!0);    // true
+    console.log(!1);    // false
+
+    var o = {
+        x: 1,
+        toString: function(){
+            console.log(this);
+            return this.x + 1;
+        }
+    };
+    console.log(o.toString()); // 2
+
+    var o = {
+        x: 1
+    };
+    console.log(o.toString()); // [object Object]
+
+    var i, j;
+
+    loop1:
+    for (i = 0; i < 3; i++) {      //The first for statement is labeled "loop1"
+       loop2:
+       for (j = 0; j < 3; j++) {   //The second for statement is labeled "loop2"
+          if (i === 1 && j === 1) {
+             continue loop1;
+          }
+          console.log("i = " + i + ", j = " + j);
+       }
+    }
+    // break:
+    // i = 0, j = 0
+    // i = 0, j = 1
+    // i = 0, j = 2
+    // i = 1, j = 0
+
+    // continue:
+    // i = 0, j = 0
+    // i = 0, j = 1
+    // i = 0, j = 2
+    // i = 1, j = 0
+    // i = 2, j = 0
+    // i = 2, j = 1
+    // i = 2, j = 2
+
+</script>
+</body>
+</html>

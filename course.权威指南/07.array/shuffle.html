@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>shuffle</title>
+</head>
+<body>
+<script>
+(function(){
+    function shuffle(a) {
+        return a.concat().sort(function(a, b) {
+            return Math.random() - 0.5;
+        });
+    }
+    var arr = [];
+    var sum = [];
+    for (var i = 0; i <= 10; i++) {
+        arr.push(i);
+        sum.push(0);
+    }
+    console.time('shuffle');
+    var times = 10000;
+    for (var i = 0; i < times; i++) {
+        var b = shuffle(arr);
+
+        sum.forEach(function(o, j){
+            sum[j] += b[j];
+        });
+    }
+    console.log(sum);
+    console.timeEnd('shuffle');
+
+    sum.forEach(function(o, i){
+        sum[i] /= times;
+    });
+
+    console.log(sum);
+
+})();
+
+(function(){
+    // 后往前
+    function shuffle(arr) {
+        var a = arr.concat();
+        for (var i = a.length - 1; i >0; i--) {
+            var j = Math.floor(Math.random() * (i+1));
+            // 将其值与任意元素交换
+            var temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+        }
+        return a;
+    }
+
+    // 前往后
+    function shuffle(a) {
+        var len = a.length;
+        var shuffled = Array(len);
+
+        for (var i = 0; i < len; i++) {
+            var rand = ~~(Math.random() * (i+1));
+            if (rand !== i) shuffle[i] = shuffled[rand];
+            shuffled[rand] = a[i];
+        }
+        return shuffled;
+    }
+    // https://www.h5jun.com/post/array-shuffle.html
+    // 对 n个数进行随机：
+    // 1. 先考虑 n=2的情况，1/2的概率两个数交换
+    // 2. 假设 n > 2, 算法随机性符合要求，即每个数出现在 n个位置上的概率为1/n;
+    // 3. 对于 n+1 个数，按照算法，第一次循环时，
+    // 每个数都有 1/(n+1) 的概率被交换到最末尾,所以每个元素出现在最末尾的概率都是 1/(n+1),
+    // 如果不被交换，第二次循环回到 n 个数随机，根据2.的假设，它们出现在 n 个位置的概率是 1/n;
+    // 因此每个数出现在任意一位置的概率是 n/(n+1) * 1/n = 1/(n+1)
+    // 4. 综合1.2.3.得出，对于任意 n>=2 ,每个元素出现在 n 个位置任意一个位置的概率都是 1/n;
+
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+<h3>题 1：查找数组对象中 age 大于 18 对象</h3>
+<pre>
+    filterAdult([
+        {age: 19, name:'Jack'},
+        {age: 5, name:'Apple'},
+        {age: 12, name:'Lynn'},
+        {age: 25, name:'David'}
+    ]);
+    // 输出
+    [
+        {age: 19, name:'Jack'},
+        {age: 25, name:'David'}
+    ]
+</pre>
+<script>
+(function() {
+
+    var arr = [
+        {age: 19, name:'Jack'},
+        {age: 5, name:'Apple'},
+        {age: 12, name:'Lynn'},
+        {age: 25, name:'David'}
+    ]
+    console.log(filterAdult(arr));
+
+    function filterAdult(arr){
+        return arr.filter(function(x){
+            return x.age > 18;
+        });
+    }
+
+})();
+</script>
+
+<h3>题 2：判断数组中是否所有的数字都大于 0
+编写函数 isAllNumPosive,满足
+</h3>
+<pre>
+isAllNumPosive([1, 2, 3, 4]);  // 输出 true
+isAllNumPosive([1, 2, 3, 4, -1]);  // 输出 false
+isAllNumPosive([1, 2, 3, 4, 'a', {a:3}]);  // 输出 true
+</pre>
+<script>
+(function(){
+
+    function isAllNumPosive(arr){
+        if (arr.filter) {
+            return arr.every(function(x){
+                return x > 0;
+            });
+        } else {
+            var results = [];
+            arr.forEach(function(x){
+                if (x>0) {
+                    results.push(x);
+                }
+            });
+            return results;
+        }
+    }
+
+    isAllNumPosive([1, 2, 3, 4]);  // 输出 true
+    isAllNumPosive([1, 2, 3, 4, -1]);  // 输出 false
+    isAllNumPosive([1, 2, 3, 4, 'a', {a:3}]);  // 输出 true
+})();
+</script>
+</body>
+</html>

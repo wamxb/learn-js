@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title> 属性的特征</title>
+</head>
+<body>
+<script>
+    'use strict';
+    var p = Object.getOwnPropertyDescriptor({x: 1}, 'x');
+    console.log(p); // {value: 1, writable: true, enumerable: true, configurable: true}
+
+    var p = Object.getOwnPropertyDescriptor({}, 'x');
+    console.log(p); // undefined
+
+    var p = Object.getOwnPropertyDescriptor({}, 'toString');
+    console.log(p); // undefined
+
+
+    var o = {};
+
+    Object.defineProperty(o, 'x', {
+        value: 1,
+        writable: true,
+        enumerable: false,
+        configurable: true
+    });
+    console.log(o.x); // 1
+    // 这个数组由对象中可枚举的自有属性的名称组成
+    console.log(Object.keys(o)); // []
+    // 对属性 x做修改，变为只读
+    Object.defineProperty(o, 'x', {
+        writable: false
+    });
+
+    try {
+        o.x = 2; // Uncaught TypeError: Cannot assign to read only property 'x' of object '#<Object>'
+            console.log(o.x);
+        } catch(e){
+            console.error(e);
+        }
+
+    Object.defineProperty(o, 'x', {value: 2});
+    console.log(o.x); // 2
+
+    Object.defineProperty(o, 'x', {get: function() {
+        return 0;
+    }});
+    console.log(o.x);   // 0
+
+    var p = Object.defineProperties({}, {
+        x: { value: 1, writable: true, enumerable: true, configurable: true},
+        y: { value: 1, writable: true, enumerable: true, configurable: true},
+        r: {
+            get: function() { return Math.sqrt(this.x*this.x + this.y*this.y)},
+            enumerable: true,
+            configurable: true
+        }
+    });
+
+    console.log(p.x); // 1
+    console.log(p.y); // 1
+    console.log(p.r); // 1.4142135623730951
+
+
+    // p.isPrototypeOf(o) 来检测 p是不是 o的原型
+    var p = {x: 1};             // 定义一个原型对象
+    var o = Object.create(p);   // 使用这个原型创建一个对象
+    console.log(p.isPrototypeOf(o));        // true
+    Object.prototype.isPrototypeOf(o);
+
+    // isExtensible
+    var isExtensible = Object.isExtensible(p);
+    console.log(isExtensible); // true
+
+    Object.preventExtensions(p);
+    try {
+        p.y = 2;
+        console.log(p.y);
+    } catch(e) {
+        console.error(e);   // TypeError: Can't add property y, object is not extensible
+    }
+    console.log(Object.isExtensible(p));    // false
+
+    Object.seal(p);
+
+    var o = Object.defineProperty({}, 'x', {
+        value: 1,
+        writable: true,
+        enumerable: false,
+        configurable: true
+    });
+    Object.preventExtensions(o);
+    var p = Object.create(o);
+    console.log(Object.isExtensible(p));
+
+    Object.seal(o);
+    o.x = 2;
+    console.log(o.x);
+    try {
+        o.y = 3;
+        console.log(o.y);
+    } catch(e) {
+        console.error(e);
+    }
+
+    try {
+        delete o.x;
+        console.log(o.x);   // Uncaught TypeError: Can't add property y, object is not extensible
+    } catch(e) {
+        console.error(e);   // Uncaught TypeError: Cannot delete property 'x' of #<Object>
+    }
+    console.log(Object.isSealed(o)); // true
+    console.log(Object.isSealed(p)); // false
+
+
+    var o = {
+        z: 100,
+        get method() {
+            return this.z;
+        },
+        set method(val){
+            this.z += val;
+        }
+    }
+    o = Object.defineProperty(o, 'x', {
+        value: 1,
+        writable: true,
+        enumerable: false,
+        configurable: true
+    });
+
+
+    o.method = 3;
+    console.log(o.method); // 103
+
+    Object.freeze(o);
+    try {
+        o.x = 2;
+        console.log(o.x);
+    } catch (e) {
+        console.error(e); // TypeError: Cannot assign to read only property 'x' of object '#<Object>'
+    }
+    try {
+        o.method = 3;
+        console.log(o.method); // TypeError: Cannot assign to read only property 'z' of object '#<Object>'
+    } catch (e) {
+        console.error(e); // TypeError: Can't add property method, object is not extensible
+    }
+    console.log(Object.isFrozen(o)); // true
+
+
+
+    var o = Object.seal(Object.create(Object.freeze({x: 1}), {y: {value: 2, writable: true}}));
+    try {
+        o.x = 2; // read only
+        console.log(o.x); // TypeError: Cannot assign to read only property 'x' of object '#<Object>'
+    } catch(e) {
+        console.error(e);
+    }
+
+    o.y = 3;
+    console.log(o.y); // 3
+</script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 * @Author: zplus
 * @Date:   2016-07-04 19:37:44
 * @Last Modified by:   zplus
-* @Last Modified time: 2016-07-06 19:33:01
+* @Last Modified time: 2016-07-10 00:04:13
 */
 
 'use strict';
@@ -52,6 +52,23 @@ function extend(o, p) {
     }
     return o;
 }
+
+
+Object.defineProperty(Object.prototype, 'extend', {
+    writable: true,
+    enumerable: false,
+    configurable: true,
+    value: function(o) {
+        // 得到所有自有属性，包括不可枚举属性
+        var names = Object.getOwnPropertyNames(o);
+        for (var i=0; i<names.length; i++) {
+            if (names[i] in this) continue;
+            var des = Object.getOwnPropertyDescriptor(o, names[i]);
+            // 用它给 this 创建一个属性
+            Object.defineProperty(this, names[i], des);
+        }
+    }
+})
 
 /**
  * 将 p中的可枚举属性(且不与 o同名的属性)复制到o中，并返回o
@@ -116,4 +133,11 @@ function keys(o) {
         }
     }
     return arr;
+}
+
+
+function classof(o) {
+    if (o === null) return 'Null';
+    if (o === undefined) return 'Undefined';
+    return Object.prototype.toString.call(o).slice(8, -1);
 }
