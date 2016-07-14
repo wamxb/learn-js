@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+<script>
+    'use strict'; // 顶部才有效果
+
+    console.log(0/0); // NaN
+    console.log(1/0); // Infinity
+    console.log(-1/0); // -Infinity
+
+    console.log(NaN + NaN); // NaN
+    console.log(null + null); // 0 (null 转换为0然后运算)
+    console.log(undefined + undefined); // NaN
+
+    var a = 1;
+    var b = (++a) + a;
+    console.log(b); // 4
+    a = 1;
+    b = a + (++a);
+    console.log(b); // 3
+    a = 1;
+    b = a + (a++);
+    console.log(b); // 2
+    a = 1;
+    b = (a++) + a;
+    console.log(b); // 3
+
+    var i = 1, j = ++i;
+    console.log(i, j); // 2 2
+    var i = 1, j = i++;
+    console.log(i, j); // 2 1
+
+    var x = '1';
+    var y = ++x;
+    console.log(typeof y, y); // number 2
+    var x = '1';
+    var y = x++;
+    console.log(typeof y, y); // number 1
+    var x = '1';
+    y = x + 1;
+    console.log(typeof y, y); // string 11
+
+    console.info('位运算符');
+    var a = [0, 1, 1];
+    var b = 1;
+    var c = 0;
+    a.forEach(function(x, i){
+        b = b & x;
+        c = 1 | x;
+    });
+    console.log(b, c); // 0 1
+    console.log(-7 >> 1); // -4
+    var x = NaN;
+    console.log(x !== x); // true
+    var x = null;
+    console.log(x !== x); // false
+    var x = undefined;
+    console.log(x !== x); // false
+
+    console.info('比较运算符');
+    console.log(0 > NaN); // false
+    console.log(0 < NaN); // false
+    console.log(undefined == undefined); // true
+    console.log(undefined === undefined); // true
+    console.log(null == null);  // true
+    console.log(null === null);  // true
+    console.log(NaN == NaN);    // false
+    console.log('Zoo' < 'aardvark');    // true
+
+    console.log(1+2); // 3
+    console.log('1' + '2'); // '12'
+    console.log('1' + 2); // '12'
+    console.log(11 < 3); // false
+    console.log('11' < '3'); // true
+    console.log('11' < 3); // false
+    console.log('one' < 3); // false
+
+    console.info('in运算符');
+    var point = {x:1, y:1};
+    console.log('x' in point);  // true
+    console.log('z' in point);  // false
+    console.log('toString' in point);   // true
+
+    var data = [7,8,9];
+    console.log('0' in data);   // true
+    console.log(1 in data); // true
+    console.log(3 in data); // false
+
+    console.info('带符号右移');
+    var a = 5;
+    a >>= 1;
+    console.log(a); // 2
+    var a = -5;
+    a >>= 1;
+    console.log(a); // -3
+    console.info('无符号右移');
+    var a = -1;
+    console.log(a >>> 1);
+    console.log(a >>> 2);
+    console.log(a >>> 4);
+
+    var i = 0;
+    var arr = [5, 6, 7, 8, 9, 10];
+    arr[i++] *= 2;
+    console.log(arr);   // [10, 6, 7, 8, 9, 10]
+
+    var i = 0;
+    var arr = [5, 6, 7, 8, 9, 10];
+    arr[i++] = arr[i++] * 2;
+    console.log(arr); // [12, 6, 7, 8, 9, 10];
+
+    var i = 0;
+    var arr = [5, 6, 7, 8, 9, 10];
+    arr[++i] *= 2;
+    console.log(arr);   // [5, 12, 7, 8, 9, 10]
+
+    var i = 0;
+    var arr = [5, 6, 7, 8, 9, 10];
+    // 先运算左边的 ++i, 为 arr[1]
+    // arr[1] = arr[2] * 2
+    arr[++i] = arr[++i] * 2;
+    console.log(arr);   // [5, 14, 7, 8, 9, 10]
+
+    console.info('eval');
+    var geval = eval;
+    var x = 'global', y = 'global';
+    function f(){
+        var x = 'local';
+        eval('x += "changed";');
+        return x;
+    }
+
+    function g(){
+        var y = 'local';
+        geval('y += "changed";');
+        return y;
+    }
+
+    console.log(f(), x);    // localchanged global
+    console.log(g(), y);    // local globalchanged
+
+    // Uncaught SyntaxError: Unexpected eval or arguments in strict mode
+    // var eval = 1;
+    // function eval(){
+    //     console.log(1);
+    // }
+    // var eval = function(){
+    //     console.log(1);
+    // }
+
+    console.info('typeof 运算符');
+    console.log(typeof NaN); // number
+    var arr = [];
+    console.log(Array.prototype.isPrototypeOf(arr));    // true
+    console.log(Object.prototype.isPrototypeOf(arr));   // true
+    console.log(arr instanceof Array); // true
+    console.log(arr instanceof Object); // true
+    console.log(typeof arr); // object
+
+    console.info('delete 运算符');
+    var a = [1, 2, 3];
+    delete a[2];
+    console.log(2 in a); // false
+    for (var p in a) {
+        console.log(p); // 0 1
+    }
+    console.log(a.length); // 3
+
+    // Uncaught SyntaxError: Delete of an unqualified identifier in strict mode.
+    // var a = 1;
+    // delete a;
+    // function f(){
+    // }
+    // delete f;
+
+    var o = Object.defineProperty({}, 'x', {
+        value: 1,
+        writable: false,
+        enumerable: true,
+        configurable: true
+    });
+    console.log(o.x); // 1
+    console.log(delete o.x); // true Uncaught TypeError: Cannot delete property 'x' of #<Object>
+
+
+
+</script>
+</body>
+</html>

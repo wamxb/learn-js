@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>变量作用域</title>
+</head>
+<body>
+<script>
+
+function test(o) {
+    var i = 0;
+    if (typeof o == 'object') {
+        var j = 0;
+        for (var k=0; k<10; k++) {
+            console.log(k);
+        }
+        console.log('k', k);
+    }
+    console.log(j);
+}
+test({x: 1});
+
+console.info('作为属性的变量');
+'use strict';
+var truevar = 1;
+fakevar = 2;
+this.fakevar2 = 3;
+console.log(delete truevar); // false
+console.log(delete fakevar); // true
+console.log(delete this.fakevar2); // true
+
+console.log('a' > 'b');
+var a = ['e', 'd', 'b', 'a', 'c'];
+a.sort(function(a, b){
+    return a > b ? 1 : (a<b ? -1: 0);
+});
+console.log(a);
+
+</script>
+</body>
+</html>

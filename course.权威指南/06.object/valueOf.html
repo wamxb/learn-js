@@ -18,6 +18,7 @@
     console.log(o + '222');
     console.clear();
 
+    console.log(parseInt('', 10));  // NaN
     console.log(parseInt(null, 10)); // NaN
     console.log(parseInt(undefined, 10)); // NaN
     console.log(parseInt(NaN, 10)); // NaN
@@ -30,6 +31,7 @@
         return 1; // 没有调用
     }}, 10)); // NaN
 
+    console.log(+''); // 0
     console.log(+null); // 0
     console.log(+undefined); // NaN
     console.log(+void 0); // NaN
@@ -43,7 +45,8 @@
         return 1;
     }}); // NaN ==> 1
 
-    console.info('~~');
+    console.info('~~ ~~ ~~ ~~ ~~');
+    console.log(~~''); // 0
     console.log(~~null); // 0
     console.log(~~undefined); // 0
     console.log(~~NaN); // 0
@@ -55,6 +58,7 @@
         return 1;
     }}); // 0 ==> 1
 
+    console.log(!''); // true
     console.log(!null); // true
     console.log(!undefined); // true
     console.log(!NaN); // true
