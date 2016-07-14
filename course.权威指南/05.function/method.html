@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title> 方法调用</title>
+</head>
+
+<body>
+    <header id="1">001</header>
+    <header id="2">002</header>
+    <header id="31">003</header>
+    <header id="14">004</header>
+    <header id="5">005</header>
+    <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        'use strict';
+        var calculator = {
+            operand1: 1,
+            operand2: 2,
+            add: function() {
+                this.result = this.operand1 + this.operand2;
+            }
+        };
+        calculator.add();
+        console.log(calculator.result); // 3
+
+        var result = $('header')
+            .map(function(){
+                return this.id
+            })
+            .get()
+            .sort();
+        console.log(result); // ["1", "14", "2", "31", "5"]
+    </script>
+</body>
+
+</html>
