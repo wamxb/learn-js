@@ -2,7 +2,7 @@
 * @Author: zplus
 * @Date:   2016-07-04 19:37:44
 * @Last Modified by:   zplus
-* @Last Modified time: 2016-07-10 00:04:13
+* @Last Modified time: 2016-07-16 11:42:06
 */
 
 'use strict';
@@ -43,15 +43,38 @@ function delProperty(obj) {
 /**
  * 把 p中的可枚举属性赋值到 o中，返回o
  */
-function extend(o, p) {
-    if (typeof o !== 'object' || o === null){
-        o = {};
+// function extend(o, p) {
+//     if (typeof o !== 'object' || o === null){
+//         o = {};
+//     }
+//     for (var prop in p) {
+//         o[prop] = p[prop];
+//     }
+//     return o;
+// }
+var extend = (function(){
+    for (var p in {toString: null}) {
+        return function extend(o){
+            for (var i = 0; i < arguments.length; i++) {
+                var source = arguments[i];
+                for (var prop in source) o[prop] = source[prop];
+            }
+            return o;
+        }
     }
-    for (var prop in p) {
-        o[prop] = p[prop];
+    return function patched_extend(o) {
+        for (var i = 0; i < arguments.length; i++) {
+            var source = arguments[i];
+            for (var prop in source) o[prop] = source[prop];
+            for (var j = 0; j < protoprops.length; j++) {
+                prop = protoprops[j];;
+                if (source.hasOwnProperty(prop)) o[prop] = source[prop];
+            }
+        }
+        return o;
     }
-    return o;
-}
+    var protoprops = ['toString', 'valueOf', 'constructor', 'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocalString'];
+}());
 
 
 Object.defineProperty(Object.prototype, 'extend', {
