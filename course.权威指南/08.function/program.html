@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title> 函数属性、方法和构造函数</title>
+</head>
+
+<body>
+    <script>
+    // 'use strict';
+    function check(args) {
+        var actual = args.length;
+        var expected = args.callee.length; // f
+        if (actual !== expected)
+            throw Error('Expected ' + expected + ' args; got ' + actual);
+    }
+
+    function f(x, y, z) {
+        check(arguments);
+        return x + y + z;
+    }
+    var result = f(1, 2, 3);
+    console.log(result);
+
+    console.info('call()方法和apply()方法');
+
+    /**
+     * 将对象 o中名为 m()的方法替换为另一个方法
+     * @param  {[type]} o [description]
+     * @param  {[type]} m [description]
+     * @return {[type]}   [description]
+     */
+    function trace(o, m) {
+        var original = o[m];
+        o[m] = function() {
+            console.log(new Date(), 'Entering:', m);
+            var result = original.apply(this, arguments);
+            console.log(new Date(), 'Exiting:', m);
+            return result;
+        };
+    }
+
+    console.info('bind()方法');
+    var sum = function(x, y) {
+        return x + y;
+    };
+    var succ = sum.bind(null, 1);
+    console.log(succ(2)); // 3
+
+    function f(y, z) {
+        return this.x + y + z
+    };
+    var g = f.bind({
+        x: 1
+    }, 2);
+    console.log(g(3)); // 6
+
+
+    function callerDemo() {
+        if (arguments.caller) {
+            var a = callerDemo.caller.toString();
+            console.log(a);
+        } else {
+            console.log("this is a top function");
+        }
+    }
+
+    function handleCaller() {
+        callerDemo();
+    }
+    handleCaller();
+
+    function calleeDemo() {
+        console.log(arguments.callee);
+    }
+    calleeDemo();
+
+
+    // ECMAScript3版本的 Function.prototype.bind
+    if (!Function.prototype.bind) {
+        Function.prototype.bind = function(o /*, args */) {
+            var self = this, boundArgs = arguments;
+            return function(){
+                var args = [], i;
+                for (i = 1; i < boundArgs.length; i++) args.push(boundArgs[i]);
+                for (i = 0; i < arguments.length; i++) args.push(arguments[i]);
+                return self.apply(o, args);
+            };
+        };
+    }
+
+    var sum = function(x,y){return x+y;};
+    var square = function(x){return x*x;};
+    var data = [1, 1, 3 ,5, 5];
+    var mean = data.reduce(sum)/data.length;
+    var deviations = data.map(function(x) {return x-mean;});
+    var stddev = Math.sqrt(deviations.map(square).reduce(sum)/(data.length-1));
+
+    var map = Array.prototype.map
+        ? function(a, f) {return a.map(f);}
+        : function(a, f) {
+            var results = [];
+            for (var i = 0, len = a.length; i < len; i++) {
+                if (i in a) results[i] = f.call(null, a[i], i, a);
+            }
+            return results;
+        };
+
+    var reduce = Array.prototype.reduce
+        ? function(a, f, initial) {
+            if (arguments.length > 2) {
+                return a.reduce(f, initial);
+            } else {
+                return a.reduce(f);
+            }
+        }
+        : function(a, f, initial) {
+            var i = 0, len = a.length, accumulator;
+
+            if (arguments.length > 2) accumulator = initial;
+            else {
+                if (len == 0) throw TypeError();
+                while(i < len) {
+                    if (i in a) {
+                        accumulator = a[i++];
+                        break;
+                    }
+                    else i++;
+                }
+                if (i == len) throw TypeError();
+            }
+
+            while (i < len) {
+                if (i in a)
+                    accumulator = f.call(undefined, accumulator, a[i], i, a);
+                i++;
+            }
+            return accumulator;
+        }
+
+
+        var sum = function(x,y){return x+y;};
+        var square = function(x){return x*x;};
+        var data = [1, 1, 3 ,5, 5];
+        var mean = reduce(data, sum)/data.length;
+        console.log('mean', mean);
+        var deviations = map(data, function(x) {return x-mean;});
+        console.log('deviations', deviations);
+        var stddev = Math.sqrt(reduce(map(deviations, square), sum)/(data.length-1));
+        console.log('stddev', stddev);
+
+    </script>
+</body>
+
+</html>
