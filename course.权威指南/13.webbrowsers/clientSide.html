@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <div id="timestamp"></div>
+  <script>
+  var timestamp = document.getElementById('timestamp');
+  if (timestamp.firstChild == null) {
+    timestamp.appendChild(document.createTextNode(new Date().toString()));
+  }
+  timestamp.style.backgroundColor = 'yellow';
+  timestamp.className = 'highlight';
+  </script>
+</body>
+
+</html>

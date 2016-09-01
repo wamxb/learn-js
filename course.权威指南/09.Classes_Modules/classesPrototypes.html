@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <script>
+  /**
+   * 继承
+   * @param  {object} p [description]
+   * @return {[type]}   [description]
+   */
+  function inherit(p) {
+    if (p == null) throw TypeError(); // 不能是 null
+    if (Object.create) return Object.create(p);
+    var t = typeof p;
+    if (t !== 'object' && t !== 'function') throw TypeError();
+
+    function f() {};
+    f.prototype = p;
+    return new f();
+  }
+
+  var extend = (function() {
+    for (var p in {
+        toString: null
+      }) {
+      return function extend(o) {
+        for (var i = 1; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var prop in source) o[prop] = source[prop];
+        }
+      }
+    }
+
+    return function patched_extend(o) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
+        // 复制所有的可枚举属性
+        for (var prop in source) o[prop] = source[prop];
+
+        // 检查特殊属性
+        for (var j = 0; j < protoprops.length; j++) {
+          prop = protoprops[j];
+          if (source.hasOwnProperty(prop)) o[prop] = source[prop];
+        }
+      }
+      return 0;
+    }
+
+    var protoprops = ['toString', 'valueOf', 'constructor', 'hasOwnProperty', 'isPrototypeOf',
+      'propertyIsEnumerable', 'toLocalString'
+    ];
+
+  }());
+
+  function range(from, to) {
+    var r = inherit(range.methods);
+    r.from = from;
+    r.to = to;
+    return r;
+  }
+
+  range.methods = {
+    includes: function(x) {
+      return this.from <= x && x <= this.to;
+    },
+    foreach: function(f) {
+      for (var x = Math.ceil(this.from); x <= this.to; x++) f(x);
+    },
+    toString: function() {
+      return '(' + this.from + '...' + this.to + ')';
+    },
+    valueOf: function() {
+      return 'valueOf: (' + this.from + '...' + this.to + ')';
+    }
+  };
+
+  var r = range(1, 3);
+  console.log(r.includes(2));
+  console.log(r.foreach(console.log));
+  console.log(r);
+  console.log(r instanceof range); // false
+
+  // constructor属性
+  (function() {
+    // constructor 属性
+
+    var F = function() {};
+    var p = F.prototype;
+    var c = p.constructor;
+    console.log(c === F);
+  })();
+
+  console.info('javascript 中 java 式的类继承');
+  (function() {
+
+    /**
+     * 定义简单类的函数
+     * @param  {[type]} constructor 设置实例的属性的函数
+     * @param  {[type]} methods     实例的方法，复制至原型中
+     * @param  {[type]} statics     类属性，复制至构造函数中
+     * @return {[type]}             [description]
+     */
+    function defineClass(constructor, methods, statics) {
+      if (methods) extend(constructor.prototype, methods);
+      if (statics) extend(constructor, statics);
+      return constructor;
+    }
+
+    var SimpleRange = defineClass(
+      function(f, t) {
+        this.f = f;
+        this.t = t;
+      }, {
+        includes: function(x) {
+          return this.f <= x && x <= this.t;
+        },
+        toString: function() {
+          return this.f + '...' + this.t;
+        }
+      }, {
+        upto: function(t) {
+          return new SimpleRange(0, t);
+        }
+      });
+  })();
+
+  console.info('类的扩充');
+  String.prototype.trim = String.prototype.trim || function() {
+    if (!this) return this; // 空格字符串不做处理
+    return this.replace(/^\s+|\s+$/g, '');
+  }
+
+  Function.prototype.getName = function() {
+    return this.name || this.toString().match(/function\s*([^)]*)\(/)[1];
+  }
+
+  function test() {
+    // ...
+  }
+
+  function test2() {
+    // ...
+  }
+  var b = function() {
+
+  }
+  console.log(test.getName());
+  console.log(test2.getName());
+  console.log(b.getName());
+
+
+  function classof(o) {
+    return Object.prototype.toString.call(o).slice(8, -1);
+  }
+
+  function Set() {
+    this.values = {};
+    this.n = 0;
+    this.add.apply(this, arguments);
+  }
+  // 将每个参数都添加至集合中
+  Set.prototype.add = function() {
+    for (var i = 0; i < arguments.length; i++) {
+      var val = arguments[i];
+
+      var str = Set._v2s(val);
+      if (!this.values.hasOwnProperty(str)) {
+        this.values[str] = val;
+        this.n++;
+      }
+    }
+    console.log(this.values);
+    return this;
+  };
+
+  Set.prototype.remove = function() {
+    for (var i = 0; i < arguments.length; i++) {
+      var str = Set._v2s(arguments[i]);
+      if (this.values.hasOwnProperty(str)) {
+        delete this.values[str];
+        this.n--;
+      }
+    }
+    return this;
+  };
+
+  Set.prototype.contains = function(value) {
+    return this.values.hasOwnProperty(Set._v2s(value));
+  };
+
+  Set.prototype.size = function() {
+    return this.n;
+  };
+
+  Set.prototype.foreach = function(f, context) {
+    for (var s in this.values) {
+      if (this.values.hasOwnProperty(s)) {
+        f.call(context, this.values[s]);
+      }
+    }
+  }
+  Set._v2s = function(val) {
+    switch (val) {
+      case undefined:
+        return 'u';
+      case null:
+        return 'n';
+      case true:
+        return 't';
+      case false:
+        return 'f';
+      default:
+        switch (typeof val) {
+          case 'number':
+            return '#' + val;
+          case 'string':
+            return '"' + val;
+          default:
+            return '@' + objectId(val);
+        }
+    }
+
+    function objectId(o) {
+      var prop = "|**objectid**|";
+      if (!o.hasOwnProperty(prop)) {
+        o[prop] = Set._v2s.next++;
+      }
+      return o[prop];
+    }
+  };
+  Set._v2s.next = 100;
+
+  console.info('Set');
+  var set = new Set('a', false, null, undefined, 1, {
+    obj: 2
+  }, NaN, Infinity, null, true);
+  var a = set.contains('a');
+  console.log(a);
+  set.foreach(console.log, null);
+  console.log('set._v2s.next', Set._v2s.next);
+
+  (function(){
+    console.log('inherit');
+    function inherit(o) {
+      if (o === null) throw TypeError();
+      if (Object.create) return Object.create(o);
+      var t = typeof o;
+      if (t !== 'object' || t !== 'function') throw TypeError();
+      function f() {}
+      f.prototype = o;
+      return new f();
+    }
+    var obj = {x: 1, y: 2};
+    var test = inherit(obj);
+    console.log(test);
+    console.log(test.x);
+    test.y = 3;
+    console.log(obj.y);
+  })();
+  </script>
+</body>
+
+</html>

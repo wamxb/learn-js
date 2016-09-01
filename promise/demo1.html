@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <script>
+  (function() {
+    // var promise = new Promise(function(resolve, reject) {
+    // 	if (/**/) {
+    // 		resolve(value);
+    // 	} else {
+    // 		reject(error);
+    // 	}
+    // });
+
+    // promise.then(function(value) {
+    // 	// success
+    // }, function(error){
+    // 	// failure
+    // });
+
+    var promise = new Promise(function(resolve, reject) {
+      resolve('value');
+      // reject('error');
+      // throw Error('exception');
+      return 'return'; // 没有输出
+    });
+
+    promise.then(function(value) {
+      console.log('fulfilled', value);
+    }, function(error) {
+      console.log('rejected', error);
+    });
+
+    // setTimeout(function() {
+    //   promise.then(function(value) {
+    //     console.log('fulfilled1', value);
+    //   }, function(error) {
+    //     console.log('rejected1', error);
+    //   });
+    // }, 1000);
+
+    //================================================================================
+    // getUeserAdmin()
+    // 	.then(getProjects)
+    // 	.then(getModules)
+    // 	.then(getInterfaces)
+    // 	.then(procResult)
+
+    // getModules(projectID).then(function(modules) {
+    // 	var tasks = [];
+    // 	modules.forEach(function(modlue) {
+    // 		tasks.push(removeModule(modlue.modlueID));
+    // 	});
+    // 	// Promise.all方法用于将多个Promise实例，包装成一个新的Promise实例。
+    // 	// Promise.all 方法的参数可以不是数组，但必须具有 Iterator
+    // 	return Promise.all(tasks); // 一定要有 return
+    // }).then(function(result) {
+    // 	// ...
+    // });
+
+    // getModules(projectID).then(function(modules) {
+    // 	return Promise.all(modules.map(modlue) { // 一定要有 return
+    // 		return removeModule(modlue.modlueID); // 一定要有 return
+    // 	})
+    // }).then(function(result){
+
+    // });
+
+    // resolve(value)
+    var d = new Date();
+    var promise = new Promise(function(resolve, reject) {
+      // 1秒后进入 resolve,并传递值
+      setTimeout(resolve, 1000, 'resolve from promise');
+    });
+
+    // 绑定回调函数
+    promise.then(function(result) {
+      console.log('result:', result, new Date() - d);
+    }, function(error) {
+      console.log('error', error)
+    });
+
+    // resolve(promise)
+    var d = new Date();
+    var promise1 = new Promise(function(resolve, reject) {
+      setTimeout(reject, 2000, 'resolve from promise 1');
+    });
+
+    var promise2 = new Promise(function(resolve, reject) {
+      setTimeout(resolve, 1000, promise1);
+    });
+
+    promise2.then(function(result) {
+      console.log('result:', result, new Date() - d);
+    }, function(error) {
+      console.log('error', error, new Date() - d)
+    });
+
+    var d = new Date();
+    var promise = new Promise(function(resolve, reject) {
+      setTimeout(resolve, 1000, 'resolve from promise');
+    });
+
+    var promise2 = promise.then(function(result) {
+      console.log(result);
+    });
+
+    promise.tag = '1';
+    console.log(promise);
+    console.log(promise2);
+
+    var d = new Date();
+    var promise3 = new Promise(function(resolve, reject) {
+      setTimeout(reject, 1000, 'reject from promise3');
+    });
+
+    var promise4 = promise3.then(function(result) {
+      console.log('promise3.then(resolve):', result);
+      return result;
+    }, function(error) {
+      console.log('promise3.then(error):', error);
+      return error;
+    });
+
+    promise4.then(function(result) {
+      console.log('result:', result, new Date() - d);
+    }, function(error) {
+      console.log('error', error, new Date() - d)
+    });
+
+  });
+
+
+  (function() {
+    console.info('回调方法返回 promise实例');
+
+    var d = new Date();
+    var promise5 = new Promise(function(resolve, reject) {
+      setTimeout(resolve, 1000, 'resolve from promise5');
+    });
+
+    var promise6 = promise5.then(function(result) {
+      console.log('promise1.then(resolve):', result);
+
+      return new Promise(function(resolve, reject) {
+        setTimeout(reject, 2000, 'from new promise');
+      }); // promise5 返回 Promise实例，则返回的状态决定了 promise6 的状态
+    });
+
+    promise6.then(function(result) {
+      console.log('result:', result, new Date() - d);
+    }, function(error) {
+      console.log('error', error, new Date() - d)
+    });
+  });
+
+  (function() {
+    console.info('回调方法没有返回语句');
+
+    var d = new Date();
+    var promise1 = new Promise(function(resolve, reject) {
+      setTimeout(resolve, 1000, 'resolve from promise1');
+    });
+
+    var promise2 = promise1.then(function(result) {
+      console.log('promise1.then(resolve):', result, new Date() - d);
+    });
+
+    promise2.then(function(result) {
+      console.log('promise2 result:', result, new Date() - d);
+    }, function(error) {
+      console.log('promise2 error', error, new Date() - d)
+    });
+  })();
+  </script>
+</body>
+
+</html>

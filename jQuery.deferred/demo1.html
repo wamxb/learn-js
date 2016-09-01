@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <button>Filter Resolve</button>
+  <p></p>
+  <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script>
+  function fn1(value) {
+    console.log('fn1: ' + value);
+  }
+
+  function fn2(value) {
+    fn1('fn2: ' + value);
+    return false;
+  }
+
+  var callbacks = $.Callbacks();
+  callbacks.add(fn1);
+  callbacks.fire('one');
+  console.log('=====');
+
+  callbacks.add(fn2);
+  callbacks.fire('two');
+  console.log('=====');
+
+  callbacks.remove(fn2);
+  callbacks.fire('three');
+
+  console.info('once');
+  var callbacks = $.Callbacks('once');
+  callbacks.add(fn1);
+  callbacks.fire('one');
+  console.log('=====');
+
+  callbacks.add(fn2);
+  callbacks.fire('two');
+  console.log('=====');
+
+  callbacks.remove(fn2);
+  callbacks.fire('three');
+
+  console.info('memory');
+  var callbacks = $.Callbacks('memory');
+  callbacks.add(fn1);
+  callbacks.fire('one');
+  console.log('=====');
+
+  callbacks.add(fn2);
+  callbacks.fire('two');
+  console.log('=====');
+
+  callbacks.remove(fn2);
+  callbacks.fire('three');
+
+  console.info('unique');
+  var callbacks = $.Callbacks('unique');
+  callbacks.add(fn1);
+  callbacks.fire('one');
+  callbacks.add(fn1);
+  console.log('=====');
+
+  callbacks.add(fn2);
+  callbacks.fire('two');
+  console.log('=====');
+
+  callbacks.remove(fn2);
+  callbacks.fire('three');
+
+  console.info('$.Callbacks( "stopOnFalse" ):');
+
+  function fn1(value) {
+    console.log('fn1 says: ' + value);
+    return false;
+  }
+
+  function fn2(value) {
+    fn1("fn2 says: " + value);
+    return false;
+  }
+
+  var callbacks = $.Callbacks("stopOnFalse");
+  callbacks.add(fn1);
+  callbacks.fire("foo");
+  callbacks.add(fn2);
+  callbacks.fire("bar");
+  callbacks.remove(fn2);
+  callbacks.fire("foobar");
+
+
+
+  console.info('$.Callbacks( "unique memory" ):');
+
+  function fn1(value) {
+    console.log('fn1 says: ' + value);
+    return false;
+  }
+
+  function fn2(value) {
+    fn1("fn2 says: " + value);
+    return false;
+  }
+
+  var callbacks = $.Callbacks("unique memory");
+  callbacks.add(fn1);
+  callbacks.fire("foo");
+  console.log('==============');
+  callbacks.add(fn1); // repeat addition
+  callbacks.add(fn2);
+  callbacks.fire("bar");
+  console.log('==============');
+  callbacks.add(fn2);
+  callbacks.fire("baz");
+  console.log('==============');
+  callbacks.remove(fn2);
+  callbacks.fire("foobar");
+
+  console.info('Topic');
+
+  function fn1(val) {
+    console.log('fn1: ' + val);
+  }
+
+  function fn2(val) {
+    console.log('fn2: ' + val);
+  }
+  var topics = {};
+  jQuery.Topic = function(id) {
+    var callbacks,
+      method,
+      topic = id && topics[id];
+    if (!topic) {
+      callbacks = jQuery.Callbacks();
+      topic = {
+        publish: callbacks.fire,
+        subscribe: callbacks.add,
+        unsubscribe: callbacks.remove
+      };
+      id && (topics[id] = topic);
+    }
+    return topic;
+  };
+  $.Topic('mailArrived').subscribe(fn1);
+  $.Topic('mailArrived').subscribe(fn2);
+  $.Topic('mailSent').subscribe(fn1);
+
+  $.Topic('mailArrived').publish('hello world!');
+  $.Topic('mailSent').publish('woo! mail!');
+
+  console.info('Deferred');
+  $.Topic('mailArrived').subscribe(fn1);
+  var dfd = $.Deferred();
+  var topic = $.Topic('mailArrived');
+  dfd.done(topic.publish);
+  dfd.resolve('it\'s been published!');
+
+  var filterResolve = function() {
+    var defer = $.Deferred(),
+      filtered = defer.then(null, function(value) {
+        return value * 2;
+      });
+    // defer.resolve(5);
+    // filtered.done(function(value) {
+    //   $('p').html('value is (2*5=) 10: ' + value);
+    // });
+    defer.reject(6);
+    filtered.fail(function(value) {
+      $('p').html('value is (2*6=) 12: ' + value);
+    });
+  };
+  $('button').on('click', filterResolve);
+
+  var request = $.ajax('verifyLogin.json', {
+      dataType: 'json'
+    }),
+    chained = request.then(function(data) {
+      return $.ajax('target.json', {
+        data: {
+          user: data.data.success
+        }
+      });
+    });
+  chained.done(function(data) {
+    console.log(data);
+  });
+
+
+  (function() {
+    var dfd = $.Deferred();
+    var wait = function(dfd) {
+      var tasks = function() {
+        console.log('执行完毕');
+        dfd.resolve(); // 改变 Deferred 对象的执行状态
+      };
+      setTimeout(tasks, 2e3);
+      return dfd;
+    };
+
+    $.when(wait(dfd))
+      .done(function() {
+        console.log('等待执行!');
+      })
+      .fail(function() {
+        console.log('出错啦!');
+      });
+    dfd.reject();
+  })();
+
+  (function() {
+    var wait = function() {
+      var dfd = $.Deferred();
+      var tasks = function() {
+        console.log('执行完毕2');
+        dfd.reject(); // 改变 Deferred 对象的执行状态
+      };
+      setTimeout(tasks, 2e3);
+      return dfd.promise();
+    };
+
+    $.when(wait(dfd))
+      .done(function() {
+        console.log('哈哈，成功了2!');
+      })
+      .fail(function() {
+        console.log('出错啦2!');
+      });
+  })();
+  </script>
+</body>
+
+</html>

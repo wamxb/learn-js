@@ -26,7 +26,7 @@ function isArray(obj){ //判断数组，注意 instanceof 的局限性
 
 var frame = document.createElement('iframe');
     document.body.appendChild(frame);
-    frames[0].document.write('<script>window.arr = [1,2,3]</'+'script>');
+    frames[0].document.write('<script>window.arr = [1,2,3]<\/'+'script>');
     console.log(isArray(frames[0].arr)); // true
 </script>
 </body>
