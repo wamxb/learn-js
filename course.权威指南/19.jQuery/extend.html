@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+  <p draggable="true">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi at eaque a sapiente, incidunt earum nam ipsam provident cupiditate. Suscipit impedit, beatae tempora, facere exercitationem illo voluptatem commodi ducimus aliquam.</p>
+  <p data-x="1">1</p>
+  <p data-y="2">2</p>
+  <p data-z="3">3</p>
+  <script>
+  (function($) {
+    $.fn.println = function() {
+      var msg = Array.prototype.join.call(arguments, ' ');
+
+      return this.each(function() {
+        $(this).append(document.createTextNode(msg)).append('<br/>');
+      });
+    };
+
+    $.debug = function() {
+      var elt = $('#debug');
+      if (!elt.length) {
+        elt = $('<div id="debug"><h1>Debugging Output</h1></div>');
+        $(document.body).append(elt);
+      }
+      elt.println.apply(elt, arguments);
+    };
+
+    $.expr[':'].draggable = function(e) {
+      return e.draggable === true;
+    };
+
+    $.expr[':'].data = function(element, index, match, array) {
+    	console.log(element, index, match, array);
+      return element.hasAttribute('data-' + match[3]);
+    };
+
+  }(jQuery));
+
+  $.debug('x = ', 3, '; y = ', 5);
+  $.debug('x = ', 5, '; y = ', 3);
+
+  var $draggable = $('p:draggable');
+  console.log($draggable);
+
+  var $exprData = $('p:data(x)');
+  console.log($exprData);
+
+  var $img = $('<img/>', {
+    src: 'https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo_top_ca79a146.png',
+    alt: '测试',
+    className: 'translucent_image',
+    click: function() {
+      $(this).css('opacity', '0.5');
+    }
+  });
+  $('body').append($img);
+
+  // document.body.addEventListener('click', function() {
+  //   console.log('body');
+  // }, false);
+  // document.getElementById('debug').addEventListener('click', function() {
+  //   console.log(this.innerHTML);
+  // }, false);
+  </script>
+</body>
+
+</html>

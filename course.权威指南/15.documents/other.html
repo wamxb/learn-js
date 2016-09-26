@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>其他</title>
+</head>
+
+<body>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos dolores enim sequi deserunt impedit ipsa expedita harum, illum ratione sed aut est sit beatae magnam sint, quidem optio qui amet.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos dolores enim sequi deserunt impedit ipsa expedita harum, illum ratione sed aut est sit beatae magnam sint, quidem optio qui amet.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos dolores enim sequi deserunt impedit ipsa expedita harum, illum ratione sed aut est sit beatae magnam sint, quidem optio qui amet.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos dolores enim sequi deserunt impedit ipsa expedita harum, illum ratione sed aut est sit beatae magnam sint, quidem optio qui amet.</p>
+  <script>
+  console.log('document.cookie', document.cookie);
+  console.log('document.domain', document.domain);
+  console.log('document.lastModified', document.lastModified);
+  console.log('document.location', document.location);
+  console.log('document.referrer', document.referrer);
+  console.log('document.title', document.title);
+
+  var ref = document.referrer;
+  if (ref.indexOf('http://www.google.com.hk/search?') == 0) {
+
+    var args = ref.substring(ref.indexOf('?') + 1).split('&');
+    for (var i = 0; i < args.length; i++) {
+      if (args[i].substring(0, 2) == 'q=') {
+        document.write('<p>Welcom Goole User. You searched for: ' + unescape(args[i].substring(2)).replace('+', ' '));
+        break;
+      }
+    }
+  }
+  </script>
+  <script>
+  // 查询选取的文本
+  function getSelectedText() {
+    if (window.getSelection) {
+      return window.getSelection().toString();
+    } else if (document.selection) {
+      return document.selection.createRange().text;
+    }
+  }
+  </script>
+  <!-- <div contenteditable>
+  	click to edit
+  </div> -->
+  <script>
+  	document.designMode = 'on';
+  </script>
+</body>
+
+</html>

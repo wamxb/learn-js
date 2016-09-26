@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <style id="disable">
+  a {
+    color: #0c6;
+    text-decoration: underline;
+  }
+
+  h1 {
+    color: #6c0;
+  }
+
+  #shake {
+    border: 1px solid #000;
+    width: 100px;
+    height: 100px;
+    background: #eee;
+  }
+
+  .shake2 {
+    border: 1px solid #000;
+    width: 100px;
+    height: 100px;
+    background: #eee;
+  }
+  </style>
+  <a href="">removeRule deleteRule</a>
+  <h1>test insertRule and addRule</h1>
+  <h2>test insertRule and addRule</h2>
+  <div id="shake">shake</div>
+  <div class="insertRule">insertRule</div>
+  <div class="add-styles">add-styles</div>
+  <script>
+  function shake(el, oncomplete, distance, time) {
+    if (typeof el === 'string') el.document.getElementById(el);
+
+    time = time || 500;
+    distance = distance || 5;
+
+    var originalStyle = el.style.cssText;
+    el.style.position = 'relative';
+    var start = (new Date()).getTime();
+    animate();
+
+    function animate() {
+      var now = (new Date()).getTime();
+      var elapsed = now - start;
+      var fraction = elapsed / time; // 是总时间的几分之几
+
+      if (fraction < 1) {
+        var x = distance * Math.sin(fraction * 4 * Math.PI);
+        el.style.left = x + 'px';
+
+        setTimeout(animate, Math.min(25, time - elapsed));
+      } else {
+        el.style.cssText = originalStyle;
+        if (oncomplete) oncomplete(el);
+      }
+    }
+  }
+
+  function fadeOut(el, oncomplete, time) {
+    if (typeof el === 'string') el = document.getElementById(el);
+    time = time || 500;
+
+    // 使用 Math.sqrt 作为一个简单的“缓动函数”来创建动画
+    // 一开始还淡出得比较快，然后缓慢了一些
+    var ease = Math.sqrt;
+
+    var start = (new Date()).getTime();
+    animate();
+
+    function animate() {
+      var elapsed = (new Date()).getTime() - start;
+      var fraction = elapsed / time;
+
+      if (fraction < 1) {
+        var opacity = 1 - ease(fraction); // 计算元素的不透明度
+        el.style.opacity = String(opacity);
+        setTimeout(animate, Math.min(25, time - elapsed));
+      } else {
+        el.style.opacity = '0';
+        if (oncomplete) oncomplete(el);
+      }
+    }
+  }
+
+  // test
+  (function() {
+    var el = document.getElementById('shake');
+    el.addEventListener('click', function() {
+      shake(this, null, 10);
+      fadeOut(this);
+    }, false);
+  })();
+  </script>
+  <script>
+  (function() {
+    var el = document.getElementById('shake');
+    var style = window.getComputedStyle(el, null);
+    console.log(style);
+
+    scale(el, 2);
+  })();
+
+  // 用指定的因子缩放元素 el 的文本尺寸
+  function scale(el, factor) {
+    var size = parseInt(window.getComputedStyle(el, '').fontSize);
+    el.style.fontSize = factor * size + 'px';
+    console.log(factor * size);
+  }
+
+  function scaleColor(el, factor) {
+    var color = window.getComputedStyle(el, '').backgroundColor;
+    var components = color.match(/[\d\.]/g); // 解析 r,g,b,a 分量
+    for (var i = 0; i < 3; i++) {
+      var x = Number(components[i]) * factor;
+      x = Math.round(Math.min(Math.max(x, 0), 255));
+      components[i] = String(x);
+    }
+    if (components.length == 3) {
+      el.style.backgroundColor = 'rgb(' + components.join() + ')';
+    } else {
+      el.style.backgroundColor = 'rgba(' + components.join() + ')';
+    }
+  }
+  </script>
+  <script>
+  function classList(el) {
+    if (el.classList) {
+      return el.classList;
+    } else {
+      return new CSSClassList(el);
+    }
+  }
+
+  function CSSClassList(el) {
+    this.el = el;
+  }
+  CSSClassList.prototype.contains = function(cls) {
+    if (cls.length === 0 || cls.indexOf(' ') != -1) {
+      throw new Error('Invalid class name: "' + cls + '"');
+    }
+    var classes = this.el.className;
+    if (!classes) return false;
+    if (classes === cls) return true;
+
+    return classes.search('\\b' + cls + '\\b') != -1;
+  };
+
+  CSSClassList.prototype.add = function(cls) {
+    if (this.contains(cls)) return;
+    var classes = this.el.className;
+    if (classes && classes[classes.length - 1] != ' ') {
+      cls = ' ' + cls;
+    }
+    this.el.className += cls;
+  };
+
+  CSSClassList.prototype.remove = function(cls) {
+    if (cls.length === 0 || cls.indexOf(' ') != -1) {
+      throw new Error('Invalid class name: "' + cls + '"');
+    }
+    var pattern = new RegExp('\\b' + cls + '\\b\\s*', 'g');
+    this.el.className = this.el.className.replace(pattern, '');
+  };
+
+  CSSClassList.prototype.toggle = function(cls) {
+    if (this.contains(cls)) {
+      this.remove(cls);
+      return false;
+    } else {
+      this.add(cls);
+      return true;
+    }
+  };
+
+  CSSClassList.prototype.toString = function() {
+    return this.el.className;
+  };
+
+  CSSClassList.prototype.toArray = function() {
+    return this.el.className.match(/\b\w+\b/g) || [];
+  };
+  </script>
+  <script>
+  // disableStylesheet
+  function disableStylesheet(ss) {
+    if (typeof ss === 'number') {
+      document.styleSheets[ss].disabled = true;
+    } else {
+      var sheets = document.querySelectorAll(ss);
+      for (var i = 0; i < sheets.length; i++) {
+        sheets[i].disabled = true;
+      }
+    }
+  }
+
+  // disableStylesheet(0);
+  </script>
+  <script>
+  // 查询，插入与删除样式表规则
+  var firstRule = document.styleSheets[0].cssRules[0];
+  document.styleSheets[0].insertRule('.insertRule {color: #60c;}', 0);
+
+  var ss = document.styleSheets[0];
+  var rules = ss.cssRules ? ss.cssRules : ss.rules;
+
+  for (var i = 0; i < rules.length; i++) {
+    var rule = rules[i];
+    if (!rule.selectorText) continue;
+
+    var selector = rule.selectorText;
+    var ruleText = rule.style.cssText;
+    console.info('================')
+    console.log(rule);
+    console.log(rule.style.cssText);
+
+
+    if (selector == 'h1') {
+      if (ss.insertRule) {
+        ss.insertRule('h2 {' + ruleText + '}', rules.length);
+      } else if (ss.addRule) {
+        ss.addRule('h2', ruleText, rules.length);
+      }
+    }
+
+    if (rule.style.textDecoration) {
+      if (ss.deleteRule) {
+        ss.deleteRule(i);
+      } else if (ss.removeRule) {
+        ss.removeRule(i);
+      }
+      i--; // 删除之后rules的长度变了
+    }
+
+  }
+  </script>
+  <script>
+  // 创建一个新样式表
+  function addStyles(styles) {
+    var styleEl, styleSheet;
+    if (document.createStyleSheet) {
+      styleSheet = document.createStyleSheet();
+    } else {
+      var head = document.getElementsByTagName('head')[0];
+      styleEl = document.createElement('style');
+      head.appendChild(styleEl);
+      styleSheet = document.styleSheets[document.styleSheets.length - 1];
+    }
+
+    if (typeof styles === 'string') {
+      if (styleEl) {
+        styleEl.innerHTML = styles;
+      } else {
+        styleSheet.cssText = styles;
+      }
+    } else {
+      var i = 0;
+      for (selector in styles) {
+        if (styleSheet.insertRule) {
+          var rule = selector + ' {' + styles[selector] + '}';
+          styleSheet.insertRule(rule, i++);
+        } else {
+          styleSheet.addRule(selector, styles[selector], i++);
+        }
+      }
+    }
+  }
+  addStyles('h1 {font-style: italic;}');
+  addStyles({
+  	h2: 'font-size: 20px;',
+  	'.insertRule': 'font-size: 25px;',
+  	'.add-styles': 'font-size: 30px;'
+  });
+  </script>
+</body>
+
+</html>

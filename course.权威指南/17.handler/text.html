@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <input type="text" id="zip" data-allowed-chars="0123456789" data-messageid="zipwarn">
+  <span id="zipwarn" style="color:red;visibility:hidden;">只支持数字</span>
+  <script>
+  var inputels = document.getElementsByTagName('input');
+  for (var i = 0; i < inputels.length; i++) {
+    var el = inputels[i];
+
+    if (el.type != 'text' || !el.getAttribute('data-allowed-chars')) {
+      continue;
+    }
+
+    if (el.addEventListener) {
+      el.addEventListener('keypress', filter, false);
+      el.addEventListener('textInput', filter, false); // textInput (混合大小写)在2010年后 Safari 和 Chrome 支持
+      el.addEventListener('textinput', filter, false); // textinput (小写)是3级 DOM 事件规范草案中的版本
+    } else { // IE
+      el.attachEvent('onkeypress', filter);
+    }
+  }
+
+  function filter(event) {
+    var e = event || window.event;
+    var target = e.target || e.srcElement;
+    var text = null;
+
+    // 获取输入的字符或文本
+    if (e.type === 'textinput' || e.type === 'textInput') {
+      text = e.data;
+    } else { // 传统的 keypress 事件
+      // 对于可打印键的 keypress 事件，Firefox 使用 charCode
+      var code = e.charCode || e.keyCode;
+      // 按下的是任何形式的功能键，不过滤
+      if (code < 32 || // ASCII 控制字符
+        e.charCode == 0 || // 功能键（仅 Firefox)
+        e.ctrlKey || e.altKey) { // 按下辅助键
+        return; // 不过滤这个事件
+      }
+
+      // 把字符编码转化为字符串
+      text = String.fromCharCode(code);
+    }
+
+    var allowed = target.getAttribute('data-allowed-chars');
+    var messageid = target.getAttribute('data-messageid');
+    if (messageid) {
+      var messageEl = document.getElementById('messageid');
+    }
+
+    for (var i = 0; i < text.length; i++) {
+      var c = text.charAt(i);
+      if (allowed.indexOf(c) == -1) {
+        if (messageEl) messageEl.style.visibility = 'visible';
+
+        // 取消默认行为
+        if (e.preventDefault) e.preventDefault();
+        if (e.returnValue) e.returnValue = false;
+        return false;
+      }
+    }
+
+    if (messageEl) messageEl.style.visibility = 'hidden';
+  }
+  </script>
+  <label>
+    toUpperCase:
+    <input type="text" id="toUpperCase">
+  </label>
+  <script>
+  function forceToUpperCase(el) {
+    if (typeof el === 'string') el = document.getElementById(el);
+
+    el.oninput = upcase;
+    el.onpropertychange = upcasePropertyChange;
+
+    function upcase(event) {
+      this.value = this.value.toUpperCase();
+    }
+
+    function upcasePropertyChange(event) {
+      var e = event || window.event;
+      // 如果 value 属性发生改变
+      if (e.propertyName === 'value') {
+        // 避免循环调用
+        this.onpropertychange = null;
+        this.value = this.value.toUpperCase();
+        this.onpropertychange = upcasePropertyChange;
+      }
+    }
+  }
+  forceToUpperCase(document.getElementById('toUpperCase'));
+  </script>
+</body>
+
+</html>

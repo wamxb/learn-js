@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <script src="//cdn.bootcss.com/jquery/1.9.0/jquery.min.js"></script>
+  <style>
+  body {
+    background: #ddd;
+  }
+
+  .highlight {
+    background: yellow;
+  }
+  </style>
+</head>
+
+<body>
+  <script>
+  (function($) {
+    $.fn.println = function() {
+      var msg = Array.prototype.join.call(arguments, ' ');
+      return this.each(function() {
+        $(this).append(msg).append('<br/>');
+      });
+    };
+
+    $.debug = function() {
+      var elt = $('#debug');
+      if (!elt.length) {
+        elt = $('<div id="debug"><h1>Debug Log</h1></div>');
+        $(document.body).append(elt);
+      }
+      elt.println.apply(elt, arguments);
+    }
+
+
+  }(jQuery));
+  var contains = $.contains(document.documentElement, document.body);
+  $.debug('contains', contains);
+  var _undefined;
+  var each = $.each({
+    name: 'john',
+    lang: 'js',
+    _undefined: _undefined
+  }, function(k, v) {
+    // if (k === 'name') return false;
+    $.debug('key: ' + k + ', value: ' + v);
+  });
+  $.debug('each: ', JSON.stringify(each));
+
+  var arr = [1, 9, 3, 8, 6, 1, 5, 9, 4, 7, 3, 8, 6, 9, 1];
+  arr = $.grep(arr, function(n, i) {
+    return (n != 5 && i > 4);
+  });
+  $.debug(arr);
+
+  var inArray = $.inArray(3, arr);
+  $.debug(inArray);
+
+
+  (function() {
+    var agrs = $.makeArray(arguments);
+    $.debug(agrs, $.isArray(agrs) === true);
+  })(3, 3, 4, 5);
+
+  var arr = ["a", "b", "c", "d", "e"];
+  arr = $.map(arr, function(n, i) {
+    return (n.toUpperCase() + i);
+  });
+  $.debug(arr.join(', '));
+
+  // var clone = $.merge([], original);
+  var clone = $.merge([], arr);
+  $.debug(clone);
+
+  var obj = $.parseJSON('{"name": "John"}');
+  $.debug(obj.name === 'John');
+  </script>
+  <p>
+    <button type="button" id="test">Test</button>
+  </p>
+  <div id="log"></div>
+  <script>
+  var me = {
+    type: "zombie",
+    test: function(event) {
+      /* Without proxy, `this` would refer to the event target */
+      /* use event.target to reference that element. */
+      var element = event.target;
+      $(element).css("background-color", "red");
+
+      /* With proxy, `this` refers to the me object encapsulating */
+      /* this function. */
+      $("#log").append("Hello " + this.type + "<br>");
+      $("#test").unbind("click", this.test);
+    }
+  };
+
+  var you = {
+    type: "person",
+    test: function(event) {
+      $("#log").append(this.type + " ");
+    }
+  };
+
+  var youClick = $.proxy(you.test, you);
+
+  $('#test')
+    .on('click', $.proxy(me.test, me))
+    .on('click', youClick)
+    .on('click', $.proxy(you.test, me))
+    .on('click', you.test);
+  </script>
+  <p class="val-s cls2">1</p>
+  <p class="cls1 class1">2</p>
+  <p class="cls2">2</p>
+  <p>3</p>
+  <div class="andBack">div<span>span</span></div>
+  <script>
+  var els = $('p[class]');
+  $.debug('p[class].length: <i style="color:red">', els.length, '</i>');
+
+  els = $('p[class|=val]');
+  $.debug('p[class|=val].length: <i style="color:red">', els.length, '</i>');
+
+  els = $('p[class="cls2"]');
+  $.debug('p[class="cls2"].length: <i style="color:red">', els.length, '</i>');
+
+  els = $('p[class!=cls2]');
+  $.debug('p[class!=cls2].length: <i style="color:red">', els.length, '</i>');
+
+  els = $('p[class^=cls]');
+  $.debug('p[class^=cls].length: <i style="color:red">', els.length, '</i>');
+
+  els = $('p[class$=2]');
+  $.debug('p[class$=2].length: <i style="color:red">', els.length, '</i>');
+
+  els = $('p[class*=class]');
+  $.debug('p[class*=class].length: <i style="color:red">', els.length, '</i>');
+
+  els = $('p[class~=cls2]');
+  $.debug('p[class~=class].length: <i style="color:red">', els.length, '</i>');
+
+  els = $(':header');
+  $.debug(':header.length: <i style="color:red">', els.length, '</i>');
+
+  $('.andBack').find('span').andSelf()
+    .addClass('highlight')
+    .end().end()
+    .css('border', 'solid black 1px');
+
+  $('h1').offset(function(idx, curpos) {
+  	$.debug(idx, JSON.stringify(curpos));
+    return {
+      left: curpos.left + 25 * (idx+1),
+      top: curpos.top + 25 * (idx+1)
+    }
+  });
+  </script>
+  <label><input type="checkbox" value="1">val1</label>
+  <label><input type="checkbox" value="2">val2</label>
+  <label><input type="checkbox" value="3">val3</label>
+  <label><input type="checkbox" value="4">val4</label>
+  <input type="text" value="input-text">
+  <script>
+  	$('input:checkbox').val(['1', '2']);
+  	$('input:text').val(function(){
+  		return this.defaultValue + 'append';
+  	});
+
+  	var headline = $('h1').html();
+  	$('h1').text(function(n, current) {
+  		$.debug(n, current);
+  		return '$' + (n+1) + ': ' + current;
+  	});
+  </script>
+</body>
+
+</html>

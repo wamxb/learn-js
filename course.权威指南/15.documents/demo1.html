@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+</head>
+
+<body>
+  <div class="outerwrap">
+    <div id="outerHTML">outerHTML</div>
+  </div>
+  <div id="insertAdjacentHTML">This is the element content</div>
+  <div id="cloneNode">clone node</div>
+  <div id="insertAt">insert at</div>
+  <table id="table">
+    <thead>
+      <tr>
+        <th>分数</th>
+        <th>选项</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>100</td>
+        <td>a</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>b</td>
+      </tr>
+    </tbody>
+  </table>
+  <div id="replaceChild">replaceChild</div>
+  <div id="reverse">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+  </div>
+  <div id="insertBox">insertBox</div>
+  <script>
+  // DocumentFragment
+
+  function getElements( /*ids...*/ ) {
+    var elements = {};
+    for (var i = 0; i < arguments.length; i++) {
+      var id = arguments[i];
+      var el = document.getElementById(id);
+      if (el == null) throw new Error('No element with id: ' + id);
+      elements[id] = el;
+    }
+    return elements;
+  }
+
+  // document.getElementsByName
+  // document.getElementsByTagName
+  // document.body
+  // document.head
+  // document.getElementsByClassName lt IE8 不支持
+  // document.querySelectorAll() IE8支持
+
+  var els = document.querySelectorAll('.testquery');
+  console.log(els); // []
+
+
+  // 文档结构和遍历
+  // 作为节点树的文档
+  // parentNode 该节点的父节点
+  //  childNodes
+  //  firstChild, lastChild
+  //  nextSibling, previousSibling
+  //  nodeType
+  //  nodeValue
+  //  nodeName
+
+
+  /**
+   * 返回元素el 的第n个祖先元素
+   */
+  function parent(el, n) {
+    if (n === undefined) n = 1;
+    while (n-- && el) el = el.parentNode;
+    if (!el || el.nodeType !== 1) return null;
+    return el;
+  }
+
+  /**
+   * 返回元素的 el 的第 n个兄弟元素
+   */
+  function sibling(el, n) {
+    while (el && n !== 0) {
+      if (n > 0) { // 查找后继的兄弟元素
+        if (el.nextElementSibling) {
+          el = el.nextElementSibling;
+        } else {
+          for (el = el.nextSibling; el && el.nodeType !== 1; el = el.nextSibling) {}
+          // 空循环
+        }
+        n--;
+      } else { // 查找前面的兄弟元素
+        if (el.previousElementSibling) {
+          el = el.previousElementSibling;
+        } else {
+          for (el = el.previousSibling; el && el.nodeType !== 1; el = el.previousSibling) {}
+        }
+        n++;
+      }
+    }
+    return el; // 如果 n 为0，返回本身
+  }
+
+  /**
+   * 返回元素 el 的第 n 代子元素，如果不存在则为 null
+   * @param  {[type]} el [description]
+   * @param  {[type]} n  [description]
+   * @return {[type]}    [description]
+   */
+  function child(el, n) {
+    if (el.children) {
+      if (n < 0) n += el.children.length;
+      if (n < 0) return null;
+      return el.children[n];
+    }
+
+    if (n >= 0) {
+      if (el.firstElementChild) {
+        el = el.firstElementChild;
+      } else {
+        for (el = el.firstChild; el && el.nodeType !== 1; el = el.nextSibling) {}
+      }
+      return sibling(el, n); // 返回第一个子元素的第 n 个兄弟元素
+    } else { // n 为负: 从最后一个子元素往回数
+      if (el.lastElementChild) {
+        el = el.lastElementChild;
+      } else {
+        for (el = el.lastChild; el && el.nodeType !== 1; el = el.previousSibling) {}
+      }
+      return sibling(el, n + 1);
+    }
+  }
+
+  if (!document.documentElement.children) {
+    Element.prototype.__defineGetter__('children', function() {
+      var kids = [];
+      for (var c = this.firstChild; c != null; c = c.nextSibling) {
+        if (c.nodeType === 1) kids.push(c);
+      }
+      return kids;
+    });
+  }
+
+
+  // outerHTML
+  (function() {
+    var el = document.getElementById('outerHTML');
+    var html = el.outerHTML;
+    console.log(html);
+    el.outerHTML = '<div>replacehtml</div>';
+  })();
+
+
+  // insertAdjacentHTML
+  (function() {
+    var el = document.getElementById('insertAdjacentHTML');
+    el.insertAdjacentHTML('beforebegin', '<br>beforebeginHTML<br>');
+    el.insertAdjacentHTML('afterbegin', '<br>afterbeginHTML<br>');
+    el.insertAdjacentHTML('beforeend', '<br>beforeendHTML<br>');
+    el.insertAdjacentHTML('afterend', '<br>afterHTML<br>');
+  }());
+
+  /**
+   * 一个参数，返回 textContent 或 innerText
+   * 两个参数，用 value 参数的值设置元素的 textContent 或 innerText
+   */
+  function textContent(element, value) {
+    var content = element.textContent;
+    if (value === undefined) {
+      if (content !== undefined) return content;
+      return element.innerText;
+    } else {
+      if (content !== undefined) element.textContent = value;
+      else element.innerText = value;
+    }
+  }
+
+  // test
+  // (function(){
+  //   var el = document.getElementById('insertAdjacentHTML');
+  //   console.log(textContent(el));
+  //   textContent(el, 'textContentHandler');
+  // })();
+  //
+
+  /**
+   * 返回元素 e 的纯文本内容，递归进入其子元素
+   * @param  {[type]} e [description]
+   * @return {[type]}   [description]
+   */
+  function textContentAll(e) {
+    var child, type, s = ''; // s 保存所有子节点的文本
+    for (child = e.firstChild; child != null; child = child.nextSibling) {
+      type = child.nodeType;
+      if (type === 3 || type === 4) { // Text 和 CDATASection 节点
+        s += child.nodeValue;
+      } else if (type === 1) { // Element 节点
+        s += textContentAll(child);
+      }
+    }
+    return s;
+  }
+
+  // 递归地把 el 的后代子节点中的所有 Text 节点内容转换为大写形式
+  function upcase(el) {
+    if (el.nodeType == 3 || el.nodeType == 4) {
+      el.data = el.data.toUpperCase();
+    } else {
+      for (var i = 0; i < el.childNodes.length; i++) {
+        upcase(el.childNodes[i]);
+      }
+    }
+  }
+
+  var nodes = document.body.childNodes;
+  console.log(nodes);
+  upcase(document.body);
+
+  var newnode = document.createTextNode('text node content');
+
+  // cloneNode test
+  (function() {
+
+    var el = document.getElementById('cloneNode');
+    var cloneEl = el.cloneNode(true);
+    console.log(cloneEl);
+    document.body.appendChild(cloneEl);
+
+  }());
+
+  // 插入节点
+  //  appendChild, insertBefore
+  /**
+   * 将 child 节点插入到 parent 中，使其成为第 n 个子节点
+   */
+  function insertAt(parent, child, n) {
+    if (n < 0 || n > parent.childNodes.length) throw new Error('invalid index');
+    console.log('parent.childNodes.length', parent.childNodes.length);
+    if (n === parent.childNodes.length) parent.appendChild(child);
+    else parent.insertBefore(child, parent.childNodes[n]);
+  }
+
+  // insertAt test
+  (function() {
+    var el = document.getElementById('insertAt');
+    insertAt(document.body, el, 3);
+  }());
+
+  /**
+   * 根据指定表格每行第 n 个单元格的值，对第一个<tbody>中的行进行排序
+   * 如果存在 comparator 函数则使用它，否则按字母表顺序比较
+   */
+  function sortrows(table, n, comparator) {
+    var tbody = table.tBodies[0];
+    var rows = tbody.getElementsByTagName('tr');
+    rows = Array.prototype.slice.call(rows, 0);
+
+    rows.sort(function(row1, row2) {
+      var cell1 = row1.getElementsByTagName('td')[n];
+      var cell2 = row2.getElementsByTagName('td')[n];
+      var val1 = cell1.textContent || cell1.innerText;
+      var val2 = cell2.textContent || cell2.innerText;
+      if (comparator) return comparator(val1, val2);
+      return val1 < val2 ? -1 : (val1 > val2 ? 1 : 0)
+    });
+    // 在 tbody 中按它们的顺序把行添加到最后
+    // 如果<tbody>还包含了除了<tr>的任何其他元素，这些节点将会悬浮到顶部位置
+    for (var i = 0; i < rows.length; i++) {
+      tbody.appendChild(rows[i]);
+    }
+  }
+
+  // 单击标题进行排序
+  function makeSortable(table) {
+    var headers = table.getElementsByTagName('th');
+    for (var i = 0; i < headers.length; i++) {
+      (function(n) {
+        headers[i].onclick = function() {
+          sortrows(table, n);
+        }
+      }(i))
+    }
+  }
+
+  makeSortable(document.getElementById('table'));
+
+  (function() {
+
+    var el = document.getElementById('replaceChild');
+    // el.parentNode.replaceChild(document.createTextNode('[ redacted ]'), el);
+    embolden(el);
+  }());
+
+  function embolden(el) {
+    if (typeof el == 'string') el = document.getElementById(el);
+    var parent = el.parentNode;
+    var b = document.createElement('b');
+    parent.replaceChild(b, el);
+    b.appendChild(el);
+  }
+
+  (function() {
+
+    if (document.createElement('div').outerHTML) return;
+
+    function outerHTMLGetter() {
+      var container = document.createElement('div'); // 虚拟元素
+      container.appendChild(this.cloneNode(true)); // 复制到该虚拟节点
+      return container.innerHTML;
+    }
+
+    function outerHTMLSetter(value) {
+      var container = document.createElement('div');
+      container.innerHTML = value;
+
+      while (container.firstChild) {
+        this.parentNode.insertBefore(container.firstChild, this);
+      }
+      this.parentNode.removeChild(this);
+    }
+
+    if (Object.defineProperty) {
+      Object.defineProperty(Element.prototype, 'outerHTML', {
+        get: outerHTMLGetter,
+        set: outerHTMLSetter,
+        enumerable: false,
+        configurable: true
+      });
+    } else {
+      Element.prototype.__defineGetter__('outerHTML', outerHTMLGetter);
+      Element.prototype.__defineSetter__('outerHTML', outerHTMLSetter);
+    }
+
+  }());
+
+  // DocumentFragment
+  function reverse(el) {
+    var frag = document.createDocumentFragment();
+
+    // 给 frag 添加一个子节点，该节点就自动从 el 中删除
+    while (el.lastChild) {
+      frag.appendChild(el.lastChild);
+    }
+    el.appendChild(frag);
+  }
+  reverse(document.getElementById('reverse'));
+
+
+  // before beforebegin
+  // after afterend
+  // atStart afterbegin
+  // atEnd beforeend
+  var Insert = (function() {
+    if (document.createElement('div').insertAdjacentHTML) {
+      return {
+        before: function(el, html) {
+          el.insertAdjacentHTML('beforebegin', html);
+        },
+        after: function(el, html) {
+          el.insertAdjacentHTML('afterend', html);
+        },
+        atStart: function(el, html) {
+          el.insertAdjacentHTML('afterbegin', html);
+        },
+        atEnd: function(el, html) {
+          el.insertAdjacentHTML('beforeend', html);
+        }
+      };
+    }
+
+    function fragment(html) {
+      var el = document.createElement('div');
+      var frag = document.createDocumentFragment();
+      el.innerHTML = html;
+      while (el.firstChild) {
+        frag.appendChild(el.firstChild);
+      }
+      return frag;
+    }
+
+    var Insert = {
+      before: function(el, html) {
+        el.parentNode.insertBefore(fragment(html), el);
+      },
+      after: function(el, html) {
+        el.parentNode.insertBefore(fragment(html), el.nextSibling);
+      },
+      atStart: function(el, html) {
+        el.insertBefore(fragment(html), el.firstChild);
+      },
+      atEnd: function(el, html) {
+        el.appendChild(fragment(html));
+      }
+    }
+
+    Element.prototype.insertAdjacentHTML = function(pos, html) {
+      switch (pos.toLowerCase()) {
+        case 'beforebegin':
+          return Insert.before(this, html);
+        case 'afterend':
+          return Insert.after(this, html);
+        case 'afterbegin':
+          return Insert.atStart(this, html);
+        case 'beforeend':
+          return Insert.atEnd(this, html);
+      }
+    }
+
+    return Insert;
+  }());
+
+  (function() {
+    var el = document.getElementById('insertBox');
+
+    Insert.before(el, '<br>Insert.before</br>');
+    Insert.after(el, '<br>Insert.after</br>');
+    Insert.atStart(el, '<br>Insert.atStart</br>');
+    Insert.atEnd(el, '<br>Insert.atEnd</br>');
+  }());
+
+
+  function getScrollOffsets(w) {
+    // 使用指定窗口，如果不待参数则使用当前窗口
+    w = w || window;
+
+    // 除了 lt IE8
+    if (w.pageXOffset != null) {
+      return {
+        x: w.pageXOffset,
+        y: w.pageYOffset
+      };
+    }
+
+    var d = w.document;
+
+    // 标准模式
+    if (document.compatMode == 'CSS1Compat') {
+      return {
+        x: d.documentElement.scrollLeft,
+        y: d.documentElement.scrollTop
+      };
+    }
+
+    // 怪异模式下
+    return {
+      x: d.body.scrollLeft,
+      y: d.body.scrollTop
+    };
+  }
+  console.log('getScrollOffsets', getScrollOffsets());
+
+
+  // 查询窗口的视口尺寸
+  function getViewportSize(w) {
+    w = w || window;
+
+    // ! lt IE8
+    if (w.innerWidth != null) {
+      return {
+        w: w.innerWidth,
+        h: w.innerHeight
+      };
+    }
+
+    var d = w.document;
+
+    if (document.compatMode == 'CSS1Compat') {
+      return {
+        w: d.documentElement.clientWidth,
+        h: d.documentElement.clientHeight
+      };
+    }
+
+    return {
+      w: d.body.clientWidth,
+      h: d.body.clientHeight
+    };
+  }
+
+  console.log('getViewportSize', getViewportSize());
+  </script>
+  <style>
+  #getBoundingClientRect {
+    width: 100px;
+    height: 100px;
+    border: 5px;
+    padding: 5px;
+    margin: 20px;
+    background: #ddd;
+  }
+
+  #getClientRects {
+    font-size: 12px;
+    line-height: 1.5;
+    background: #000;
+    color: #fff;
+  }
+  </style>
+  <div id="getBoundingClientRect">
+    查询元素的几何尺寸
+  </div>
+  <span id="getClientRects">
+     查询内敛元素的坐标 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo veniam ex fugit dicta expedita reprehenderit, molestias, soluta repellendus laboriosam provident blanditiis deleniti perferendis tenetur enim nam reiciendis cum iste nesciunt.
+  </span>
+  <script>
+  (function() {
+    var el = document.getElementById('getBoundingClientRect');
+    var box = el.getBoundingClientRect();
+    var offsets = getScrollOffsets();
+    console.log(box, offsets);
+    var x = box.left + offsets.x;
+    var y = box.top + offsets.y;
+    console.log(x, y);
+    var w = box.width || (box.right - box.left);
+    var h = box.height || (box.bottom - box.top);
+    console.log(w, h);
+
+
+    // 内联
+    var el = document.getElementById('getClientRects');
+    var box = el.getClientRects();
+    console.log(box);
+  }());
+  </script>
+  <script>
+  // 滚动
+
+  function onLoad(fn) {
+    if (onLoad.Loaded) {
+      window.setTimeout(fn, 0);
+    } else if (window.addEventListener) {
+      window.addEventListener('load', fn, false);
+    } else if (window.attachEvent) {
+      window.attachEvent('onload', fn);
+    }
+  }
+  onLoad.loaded = false;
+  onLoad(function() {
+    onLoad.loaded = true;
+
+    setTimeout(function(argument) {
+      var documentHeight = document.documentElement.offsetHeight;
+      var viewportHeight = window.innerHeight;
+      // chrome 会有 bug 需要等 loaded 之后的一点时间
+      //
+      // window.scrollTo(0, documentHeight - viewportHeight);
+      // scrollBy(0, documentHeight- viewportHeight);
+
+      var el = document.getElementById('getClientRects');
+      el.scrollIntoView();
+    }, 100);
+  });
+  </script>
+  <script>
+  // 关于元素尺寸，位置和溢出的更多信息
+  function getElementPosition(el) {
+    var x = 0,
+      y = 0;
+    while (el != null) {
+      x += el.offsetLeft;
+      y += el.offsetTop;
+      el = el.offsetParent;
+    }
+    return {
+      x: x,
+      y: y
+    };
+  }
+
+  function getElementPos(el) {
+    var x = 0,
+      y = 0;
+    for (var e = el; e != null; e = e.offsetParent) {
+      x += e.offsetLeft;
+      y += e.offsetTop;
+    }
+
+    for (var e = el.parentNode; e != null && e.nodeType == 1; e = e.parentNode) {
+      x -= e.scrollLeft;
+      y -= e.scrollTop;
+    }
+
+    return {
+      x: x,
+      y: y
+    };
+  }
+  </script>
+  <input id="input" type="text" />
+  <script>
+  // onkeypress, onkeydown, onkeyup
+  var input = document.getElementById('input');
+  input.addEventListener('keydown', function() {
+    console.log('keydown');
+  }, false);
+  input.addEventListener('keypress', function() {
+    console.log('keypress');
+  }, false);
+  input.addEventListener('keyup', function() {
+    console.log('keyup');
+  }, false);
+  </script>
+  <form action="" name="address">
+    <select name="country" id="" multiple>
+      <option>请选择</option>
+    </select>
+  </form>
+  <script>
+  var zaire = new Option(
+    'Zaire', // text 属性
+    'zaire', // vlaue 属性
+    false, // defaultSelected 属性
+    false // selected 属性
+  );
+
+  // 得到 Select 对象
+  var countries = document.address.country;
+  countries.addEventListener('change', function() {
+    var type = countries.type;
+    if (type === 'select-one') {
+      var index = countries.selectedIndex;
+      var option = countries.options[index];
+      console.log(option.text, option.value);
+    } else {
+      var options = countries.options;
+      var selecteds = [];
+      for (var i = 0; i < options.length; i++) {
+        var el = options[i];
+        if (el.selected) {
+          selecteds.push({
+            value: el.value,
+            text: el.text
+          });
+        }
+      }
+      console.table(selecteds);
+    }
+  }, false);
+  countries.options[countries.options.length] = zaire;
+  countries.options[countries.options.length] = new Option('China', 'china', false, false);
+
+
+  var america = document.createElement('option');
+  america.text = 'America';
+  america.value = 'america';
+  countries.insertBefore(america, countries.options[0]);
+  </script>
+  <form action="" name="shipping">
+    <fieldset>
+      <legend>shipping Method</legend>
+      <label>
+        <input type="radio" name="method" value="1st">First-class
+      </label>
+      <label>
+        <input type="radio" name="method" value="2day">2-day Air
+      </label>
+      <label>
+        <input type="radio" name="method" value="overnite">overnite
+      </label>
+    </fieldset>
+  </form>
+  <script>
+  var methods = document.forms.shipping.elements.method;
+  console.log(methods);
+  var radios = Array.prototype.slice.call(methods, 0);
+  radios.forEach(function(el) {
+    el.addEventListener('change', function(evt) {
+      // for (var i = 0; i < methods.length; i++) {
+      //   if (methods[i].checked) {
+      //     console.log(methods[i].value);
+      //   }
+      //   }
+      evt = evt || window.event;
+      target = evt.target || evt.srcElement;
+      console.log(target.value);
+    }, false);
+  });
+  </script>
+</body>
+
+</html>

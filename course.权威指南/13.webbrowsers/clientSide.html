@@ -3,10 +3,22 @@
 
 <head>
   <meta charset="utf-8">
+  <style>
+  #clock {
+    font: bold 13px sans;
+    background: #ddf;
+    padding: 10px;
+    border: solid black 2px;
+    border-radius: 10px;
+  }
+  </style>
+  <!--[if IE 6]>
+  <![endif]-->
 </head>
 
 <body>
   <div id="timestamp"></div>
+  <span id="clock"></span>
   <script>
   var timestamp = document.getElementById('timestamp');
   if (timestamp.firstChild == null) {
@@ -14,6 +26,41 @@
   }
   timestamp.style.backgroundColor = 'yellow';
   timestamp.className = 'highlight';
+
+  function displayTime() {
+    var el = document.getElementById('clock');
+    var now = new Date();
+    el.innerHTML = now.toLocaleTimeString();
+    setTimeout(displayTime, 1e3);
+  }
+  window.onload = displayTime;
+
+
+  function loadasync(url) {
+    var head = document.getElementsByTagName('head')[0];
+    var s = document.createElement('script');
+    s.src = url;
+    head.appendChild(s);
+  }
+  // window.attachEvent
+  //
+  function onLoad(fn) {
+    if (onLoad.loaded) {
+      window.setTimeout(fn, 0);
+    } else if (window.addEventListener) {
+      window.addEventListener('load', fn, false);
+    } else if (window.attachEvent) {
+      window.attachEvent('onload', fn);
+    }
+  }
+  onLoad.loaded = false;
+  onLoad(function() {
+    console.log('loaded');
+    onLoad.loaded = true;
+  });
+
+  console.log(document.compatMode == 'CSS1Compat'); // 标准模式
+
   </script>
 </body>
 

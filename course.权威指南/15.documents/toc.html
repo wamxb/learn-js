@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <style>
+  #TOC {
+    border: solid black 1px;
+    margin: 10px;
+    padding: 10px;
+  }
+
+  .TOCEntry {
+    font-family: sans-serif;
+  }
+
+  .TOCEntry a {
+    text-decoration: none;
+  }
+
+  .TOCLevel1 {
+    font-size: 16pt;
+    font-weight: bold;
+  }
+
+  .TOCLevel2 {
+    font-size: 12pt;
+    margin-left: 24px;
+  }
+
+  .TOCSectNum:after {
+    content: ": ";
+  }
+  </style>
+</head>
+
+<body>
+  <div id="readme" class="readme boxed-group clearfix announce instapaper_body md">
+    <h3>
+      <svg aria-hidden="true" class="octicon octicon-book" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path></svg>
+      README.md
+    </h3>
+    <article class="markdown-body entry-content" itemprop="text">
+      <h1><a id="user-content-jquery--new-wave-javascript" class="anchor" href="#jquery--new-wave-javascript" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a href="https://jquery.com/">jQuery</a> — New Wave JavaScript</h1>
+      <h2><a id="user-content-contribution-guides" class="anchor" href="#contribution-guides" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contribution Guides</h2>
+      <p>In the spirit of open source software development, jQuery always encourages community code contribution. To help you get started and before you jump into writing code, be sure to read these important contribution guidelines thoroughly:</p>
+      <ol>
+        <li><a href="https://contribute.jquery.org/">Getting Involved</a></li>
+        <li><a href="https://contribute.jquery.org/style-guide/js/">Core Style Guide</a></li>
+        <li><a href="https://contribute.jquery.org/code/">Writing Code for jQuery Foundation Projects</a></li>
+      </ol>
+      <h2><a id="user-content-environments-in-which-to-use-jquery" class="anchor" href="#environments-in-which-to-use-jquery" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Environments in which to use jQuery</h2>
+      <ul>
+        <li><a href="https://jquery.com/browser-support/">Browser support</a></li>
+        <li>jQuery also supports Node, browser extensions, and other non-browser environments.</li>
+      </ul>
+      <h2><a id="user-content-what-you-need-to-build-your-own-jquery" class="anchor" href="#what-you-need-to-build-your-own-jquery" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>What you need to build your own jQuery</h2>
+      <p>In order to build jQuery, you need to have the latest Node.js/npm and git 1.7 or later. Earlier versions might work, but are not supported.</p>
+      <p>For Windows, you have to download and install <a href="https://git-scm.com/downloads">git</a> and <a href="https://nodejs.org/en/download/">Node.js</a>.</p>
+      <p>OS X users should install <a href="http://brew.sh/">Homebrew</a>. Once Homebrew is installed, run <code>brew install git</code> to install git, and <code>brew install node</code> to install Node.js.</p>
+      <p>Linux/BSD users should use their appropriate package managers to install git and Node.js, or build from source if you swing that way. Easy-peasy.</p>
+      <h2><a id="user-content-how-to-build-your-own-jquery" class="anchor" href="#how-to-build-your-own-jquery" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How to build your own jQuery</h2>
+      <p>Clone a copy of the main jQuery git repo by running:</p>
+      <div class="highlight highlight-source-shell"><pre>git clone git://github.com/jquery/jquery.git</pre></div>
+      <p>Enter the jquery directory and run the build script:</p>
+      <div class="highlight highlight-source-shell"><pre><span class="pl-c1">cd</span> jquery <span class="pl-k">&amp;&amp;</span> npm run build</pre></div>
+      <p>The built version of jQuery will be put in the <code>dist/</code> subdirectory, along with the minified copy and associated map file.</p>
+      <p>If you want to create custom build or help with jQuery development, it would be better to install <a href="https://github.com/gruntjs/grunt-cli">grunt command line interface</a> as a global package:</p>
+      <pre><code>npm install -g grunt-cli
+</code></pre>
+      <p>Make sure you have <code>grunt</code> installed by testing:</p>
+      <pre><code>grunt -V
+</code></pre>
+      <p>Now by running the <code>grunt</code> command, in the jquery directory, you can build a full version of jQuery, just like with an <code>npm run build</code> command:</p>
+      <pre><code>grunt
+</code></pre>
+      <p>There are many other tasks available for jQuery Core:</p>
+      <pre><code>grunt -help
+</code></pre>
+      <h3><a id="user-content-modules" class="anchor" href="#modules" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Modules</h3>
+      <p>Special builds can be created that exclude subsets of jQuery functionality. This allows for smaller custom builds when the builder is certain that those parts of jQuery are not being used. For example, an app that only used JSONP for <code>$.ajax()</code> and did not need to calculate offsets or positions of elements could exclude the offset and ajax/xhr modules.</p>
+      <p>Any module may be excluded except for <code>core</code>, and <code>selector</code>. To exclude a module, pass its path relative to the <code>src</code> folder (without the <code>.js</code> extension).</p>
+      <p>Some example modules that can be excluded are:</p>
+      <ul>
+        <li><strong>ajax</strong>: All AJAX functionality: <code>$.ajax()</code>, <code>$.get()</code>, <code>$.post()</code>, <code>$.ajaxSetup()</code>, <code>.load()</code>, transports, and ajax event shorthands such as <code>.ajaxStart()</code>.</li>
+        <li><strong>ajax/xhr</strong>: The XMLHTTPRequest AJAX transport only.</li>
+        <li><strong>ajax/script</strong>: The <code>&lt;script&gt;</code> AJAX transport only; used to retrieve scripts.</li>
+        <li><strong>ajax/jsonp</strong>: The JSONP AJAX transport only; depends on the ajax/script transport.</li>
+        <li><strong>css</strong>: The <code>.css()</code> method. Also removes <strong>all</strong> modules depending on css (including <strong>effects</strong>, <strong>dimensions</strong>, and <strong>offset</strong>).</li>
+        <li><strong>css/showHide</strong>: Non-animated <code>.show()</code>, <code>.hide()</code> and <code>.toggle()</code>; can be excluded if you use classes or explicit <code>.css()</code> calls to set the <code>display</code> property. Also removes the <strong>effects</strong> module.</li>
+        <li><strong>deprecated</strong>: Methods documented as deprecated but not yet removed.</li>
+        <li><strong>dimensions</strong>: The <code>.width()</code> and <code>.height()</code> methods, including <code>inner-</code> and <code>outer-</code> variations.</li>
+        <li><strong>effects</strong>: The <code>.animate()</code> method and its shorthands such as <code>.slideUp()</code> or <code>.hide("slow")</code>.</li>
+        <li><strong>event</strong>: The <code>.on()</code> and <code>.off()</code> methods and all event functionality. Also removes <code>event/alias</code>.</li>
+        <li><strong>event/alias</strong>: All event attaching/triggering shorthands like <code>.click()</code> or <code>.mouseover()</code>.</li>
+        <li><strong>event/focusin</strong>: Cross-browser support for the focusin and focusout events.</li>
+        <li><strong>event/trigger</strong>: The <code>.trigger()</code> and <code>.triggerHandler()</code> methods. Used by <strong>alias</strong> and <strong>focusin</strong> modules.</li>
+        <li><strong>offset</strong>: The <code>.offset()</code>, <code>.position()</code>, <code>.offsetParent()</code>, <code>.scrollLeft()</code>, and <code>.scrollTop()</code> methods.</li>
+        <li><strong>wrap</strong>: The <code>.wrap()</code>, <code>.wrapAll()</code>, <code>.wrapInner()</code>, and <code>.unwrap()</code> methods.</li>
+        <li><strong>core/ready</strong>: Exclude the ready module if you place your scripts at the end of the body. Any ready callbacks bound with <code>jQuery()</code> will simply be called immediately. However, <code>jQuery(document).ready()</code> will not be a function and <code>.on("ready", ...)</code> or similar will not be triggered.</li>
+        <li><strong>deferred</strong>: Exclude jQuery.Deferred. This also removes jQuery.Callbacks. <em>Note</em> that modules that depend on jQuery.Deferred(AJAX, effects, core/ready) will not be removed and will still expect jQuery.Deferred to be there. Include your own jQuery.Deferred implementation or exclude those modules as well (<code>grunt custom:-deferred,-ajax,-effects,-core/ready</code>).</li>
+        <li><strong>exports/global</strong>: Exclude the attachment of global jQuery variables ($ and jQuery) to the window.</li>
+        <li><strong>exports/amd</strong>: Exclude the AMD definition.</li>
+      </ul>
+      <p>As a special case, you may also replace Sizzle by using a special flag <code>grunt custom:-sizzle</code>.</p>
+      <ul>
+        <li><strong>sizzle</strong>: The Sizzle selector engine. When this module is excluded, it is replaced by a rudimentary selector engine based on the browser's <code>querySelectorAll</code> method that does not support jQuery selector extensions or enhanced semantics. See the <a href="https://github.com/jquery/jquery/blob/master/src/selector-native.js">selector-native.js</a> file for details.</li>
+      </ul>
+      <p><em>Note</em>: Excluding Sizzle will also exclude all jQuery selector extensions (such as <code>effects/animatedSelector</code> and <code>css/hiddenVisibleSelectors</code>).</p>
+      <p>The build process shows a message for each dependent module it excludes or includes.</p>
+      <h5><a id="user-content-amd-name" class="anchor" href="#amd-name" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>AMD name</h5>
+      <p>As an option, you can set the module name for jQuery's AMD definition. By default, it is set to "jquery", which plays nicely with plugins and third-party libraries, but there may be cases where you'd like to change this. Simply set the <code>"amd"</code> option:</p>
+      <div class="highlight highlight-source-shell"><pre>grunt custom --amd=<span class="pl-s"><span class="pl-pds">"</span>custom-name<span class="pl-pds">"</span></span></pre></div>
+      <p>Or, to define anonymously, set the name to an empty string.</p>
+      <div class="highlight highlight-source-shell"><pre>grunt custom --amd=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span></pre></div>
+      <h4><a id="user-content-custom-build-examples" class="anchor" href="#custom-build-examples" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom Build Examples</h4>
+      <p>To create a custom build, first check out the version:</p>
+      <div class="highlight highlight-source-shell"><pre>git pull<span class="pl-k">;</span> git checkout VERSION</pre></div>
+      <p>Where VERSION is the version you want to customize. Then, make sure all Node dependencies are installed:</p>
+      <div class="highlight highlight-source-shell"><pre>npm install</pre></div>
+      <p>Create the custom build using the <code>grunt custom</code> option, listing the modules to be excluded.</p>
+      <p>Exclude all <strong>ajax</strong> functionality:</p>
+      <div class="highlight highlight-source-shell"><pre>grunt custom:-ajax</pre></div>
+      <p>Excluding <strong>css</strong> removes modules depending on CSS: <strong>effects</strong>, <strong>offset</strong>, <strong>dimensions</strong>.</p>
+      <div class="highlight highlight-source-shell"><pre>grunt custom:-css</pre></div>
+      <p>Exclude a bunch of modules:</p>
+      <div class="highlight highlight-source-shell"><pre>grunt custom:-ajax,-css,-deprecated,-dimensions,-effects,-event/alias,-offset,-wrap</pre></div>
+      <p>For questions or requests regarding custom builds, please start a thread on the <a href="https://forum.jquery.com/developing-jquery-core">Developing jQuery Core</a> section of the forum. Due to the combinatorics and custom nature of these builds, they are not regularly tested in jQuery's unit test process. The non-Sizzle selector engine currently does not pass unit tests because it is missing too much essential functionality.</p>
+      <h2><a id="user-content-running-the-unit-tests" class="anchor" href="#running-the-unit-tests" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running the Unit Tests</h2>
+      <p>Make sure you have the necessary dependencies:</p>
+      <div class="highlight highlight-source-shell"><pre>npm install</pre></div>
+      <p>Start <code>grunt watch</code> or <code>npm start</code> to auto-build jQuery as you work:</p>
+      <div class="highlight highlight-source-shell"><pre>grunt watch</pre></div>
+      <p>Run the unit tests with a local server that supports PHP. Ensure that you run the site from the root directory, not the "test" directory. No database is required. Pre-configured php local servers are available for Windows and Mac. Here are some options:</p>
+      <ul>
+        <li>Windows: <a href="http://www.wampserver.com/en/">WAMP download</a></li>
+        <li>Mac: <a href="https://www.mamp.info/en/downloads/">MAMP download</a></li>
+        <li>Linux: <a href="https://www.linux.com/learn/tutorials/288158-easy-lamp-server-installation">Setting up LAMP</a></li>
+        <li><a href="https://code.google.com/p/mongoose/">Mongoose (most platforms)</a></li>
+      </ul>
+      <h2><a id="user-content-building-to-a-different-directory" class="anchor" href="#building-to-a-different-directory" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Building to a different directory</h2>
+      <p>To copy the built jQuery files from <code>/dist</code> to another directory:</p>
+      <div class="highlight highlight-source-shell"><pre>grunt <span class="pl-k">&amp;&amp;</span> grunt dist:/path/to/special/location/</pre></div>
+      <p>With this example, the output files would be:</p>
+      <div class="highlight highlight-source-shell"><pre>/path/to/special/location/jquery.js
+/path/to/special/location/jquery.min.js</pre></div>
+      <p>To add a permanent copy destination, create a file in <code>dist/</code> called ".destination.json". Inside the file, paste and customize the following:</p>
+      <div class="highlight highlight-source-json"><pre>{
+  <span class="pl-s"><span class="pl-pds">"</span>/Absolute/path/to/other/destination<span class="pl-pds">"</span></span>: <span class="pl-c1">true</span>
+}</pre></div>
+      <p>Additionally, both methods can be combined.</p>
+      <h2><a id="user-content-essential-git" class="anchor" href="#essential-git" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Essential Git</h2>
+      <p>As the source code is handled by the Git version control system, it's useful to know some features used.</p>
+      <h3><a id="user-content-cleaning" class="anchor" href="#cleaning" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Cleaning</h3>
+      <p>If you want to purge your working directory back to the status of upstream, the following commands can be used (remember everything you've worked on is gone after these):</p>
+      <div class="highlight highlight-source-shell"><pre>git reset --hard upstream/master
+git clean -fdx</pre></div>
+      <h3><a id="user-content-rebasing" class="anchor" href="#rebasing" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Rebasing</h3>
+      <p>For feature/topic branches, you should always use the <code>--rebase</code> flag to <code>git pull</code>, or if you are usually handling many temporary "to be in a github pull request" branches, run the following to automate this:</p>
+      <div class="highlight highlight-source-shell"><pre>git config branch.autosetuprebase <span class="pl-k">local</span></pre></div>
+      <p>(see <code>man git-config</code> for more information)</p>
+      <h3><a id="user-content-handling-merge-conflicts" class="anchor" href="#handling-merge-conflicts" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Handling merge conflicts</h3>
+      <p>If you're getting merge conflicts when merging, instead of editing the conflicted files manually, you can use the feature
+        <code>git mergetool</code>. Even though the default tool <code>xxdiff</code> looks awful/old, it's rather useful.</p>
+      <p>The following are some commands that can be used there:</p>
+      <ul>
+        <li><code>Ctrl + Alt + M</code> - automerge as much as possible</li>
+        <li><code>b</code> - jump to next merge conflict</li>
+        <li><code>s</code> - change the order of the conflicted lines</li>
+        <li><code>u</code> - undo a merge</li>
+        <li><code>left mouse button</code> - mark a block to be the winner</li>
+        <li><code>middle mouse button</code> - mark a line to be the winner</li>
+        <li><code>Ctrl + S</code> - save</li>
+        <li><code>Ctrl + Q</code> - quit</li>
+      </ul>
+      <h2><a id="user-content-qunit-reference" class="anchor" href="#qunit-reference" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><a href="https://api.qunitjs.com">QUnit</a> Reference</h2>
+      <h3><a id="user-content-test-methods" class="anchor" href="#test-methods" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Test methods</h3>
+      <div class="highlight highlight-source-js"><pre><span class="pl-en">expect</span>( numAssertions );
+<span class="pl-en">stop</span>();
+<span class="pl-en">start</span>();</pre></div>
+      <p><em>Note</em>: QUnit's eventual addition of an argument to stop/start is ignored in this test suite so that start and stop can be passed as callbacks without worrying about their parameters.</p>
+      <h3><a id="user-content-test-assertions" class="anchor" href="#test-assertions" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Test assertions</h3>
+      <div class="highlight highlight-source-js"><pre><span class="pl-en">ok</span>( value, [message] );
+<span class="pl-en">equal</span>( actual, expected, [message] );
+<span class="pl-en">notEqual</span>( actual, expected, [message] );
+<span class="pl-en">deepEqual</span>( actual, expected, [message] );
+<span class="pl-en">notDeepEqual</span>( actual, expected, [message] );
+<span class="pl-en">strictEqual</span>( actual, expected, [message] );
+<span class="pl-en">notStrictEqual</span>( actual, expected, [message] );
+<span class="pl-en">throws</span>( block, [expected], [message] );</pre></div>
+      <h2><a id="user-content-test-suite-convenience-methods-reference-see-testdatatestinitjs" class="anchor" href="#test-suite-convenience-methods-reference-see-testdatatestinitjs" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Test Suite Convenience Methods Reference (See <a href="https://github.com/jquery/jquery/blob/master/test/data/testinit.js">test/data/testinit.js</a>)</h2>
+      <h3><a id="user-content-returns-an-array-of-elements-with-the-given-ids" class="anchor" href="#returns-an-array-of-elements-with-the-given-ids" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Returns an array of elements with the given IDs</h3>
+      <div class="highlight highlight-source-js"><pre><span class="pl-en">q</span>( <span class="pl-k">...</span> );</pre></div>
+      <p>Example:</p>
+      <div class="highlight highlight-source-js"><pre><span class="pl-en">q</span>(<span class="pl-s"><span class="pl-pds">"</span>main<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>);
+
+<span class="pl-k">=&gt;</span> [ div#main, span#foo, input#bar ]</pre></div>
+      <h3><a id="user-content-asserts-that-a-selection-matches-the-given-ids" class="anchor" href="#asserts-that-a-selection-matches-the-given-ids" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Asserts that a selection matches the given IDs</h3>
+      <div class="highlight highlight-source-js"><pre><span class="pl-en">t</span>( testName, selector, [ <span class="pl-s"><span class="pl-pds">"</span>array<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>of<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>ids<span class="pl-pds">"</span></span> ] );</pre></div>
+      <p>Example:</p>
+      <div class="highlight highlight-source-js"><pre><span class="pl-en">t</span>(<span class="pl-s"><span class="pl-pds">"</span>Check for something<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>//[a]<span class="pl-pds">"</span></span>, [<span class="pl-s"><span class="pl-pds">"</span>foo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>]);</pre></div>
+      <h3><a id="user-content-fires-a-native-dom-event-without-going-through-jquery" class="anchor" href="#fires-a-native-dom-event-without-going-through-jquery" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Fires a native DOM event without going through jQuery</h3>
+      <div class="highlight highlight-source-js"><pre><span class="pl-en">fireNative</span>( node, eventType )</pre></div>
+      <p>Example:</p>
+      <div class="highlight highlight-source-js"><pre><span class="pl-en">fireNative</span>( <span class="pl-en">jQuery</span>(<span class="pl-s"><span class="pl-pds">"</span>#elem<span class="pl-pds">"</span></span>)[<span class="pl-c1">0</span>], <span class="pl-s"><span class="pl-pds">"</span>click<span class="pl-pds">"</span></span> );</pre></div>
+      <h3><a id="user-content-add-random-number-to-url-to-stop-caching" class="anchor" href="#add-random-number-to-url-to-stop-caching" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Add random number to url to stop caching</h3>
+      <div class="highlight highlight-source-js"><pre><span class="pl-en">url</span>( <span class="pl-s"><span class="pl-pds">"</span>some/url.php<span class="pl-pds">"</span></span> );</pre></div>
+      <p>Example:</p>
+      <div class="highlight highlight-source-js"><pre><span class="pl-en">url</span>(<span class="pl-s"><span class="pl-pds">"</span>data/test.html<span class="pl-pds">"</span></span>);
+
+<span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>data/test.html?10538358428943<span class="pl-pds">"</span></span>
+
+
+<span class="pl-en">url</span>(<span class="pl-s"><span class="pl-pds">"</span>data/test.php?foo=bar<span class="pl-pds">"</span></span>);
+
+<span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>data/test.php?foo=bar&amp;10538358345554<span class="pl-pds">"</span></span></pre></div>
+      <h3><a id="user-content-run-tests-in-an-iframe" class="anchor" href="#run-tests-in-an-iframe" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Run tests in an iframe</h3>
+      <p>Some tests may require a document other than the standard test fixture, and these can be run in a separate iframe. The actual test code and assertions remain in jQuery's main test files; only the minimal test fixture markup and setup code should be placed in the iframe file.</p>
+      <div class="highlight highlight-source-js"><pre><span class="pl-en">testIframe</span>( testName, fileName,
+  <span class="pl-k">function</span> <span class="pl-en">testCallback</span>(
+      <span class="pl-smi">assert</span>, <span class="pl-smi">jQuery</span>, <span class="pl-c1">window</span>, <span class="pl-c1">document</span>,
+      [ <span class="pl-smi">additional</span> <span class="pl-smi">args</span> ] ) {
+    <span class="pl-k">...</span>
+  } );</pre></div>
+      <p>This loads a page, constructing a url with fileName <code>"./data/" + fileName</code>. The iframed page determines when the callback occurs in the test by including the "/test/data/iframeTest.js" script and calling
+        <code>startIframeTest( [ additional args ] )</code> when appropriate. Often this will be after either document ready or <code>window.onload</code> fires.</p>
+      <p>The <code>testCallback</code> receives the QUnit <code>assert</code> object created by <code>testIframe</code> for this test, followed by the global <code>jQuery</code>, <code>window</code>, and <code>document</code> from the iframe. If the iframe code passes any arguments to <code>startIframeTest</code>, they follow the <code>document</code> argument.</p>
+      <h2><a id="user-content-questions" class="anchor" href="#questions" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Questions?</h2>
+      <p>If you have any questions, please feel free to ask on the
+        <a href="https://forum.jquery.com/developing-jquery-core">Developing jQuery Core forum</a> or in #jquery on irc.freenode.net.1</p>
+    </article>
+  </div>
+  <script>
+  function onLoad(fn) {
+    if (onLoad.loaded) {
+      window.setTimeout(fn, 0);
+    } else if (window.addEventListener) {
+      window.addEventListener('load', fn, false);
+    } else if (window.attachEvent) {
+      window.attachEvent('onload', fn);
+    }
+  }
+  onLoad.loaded = false;
+  onLoad(function() {
+    var toc = document.getElementById('TOC');
+
+    // 如果不存在，则在文档开头处创建一个
+    if (!toc) {
+      toc = document.createElement('div');
+      toc.id = 'TOC';
+      document.body.insertBefore(toc, document.body.firstChild);
+    }
+
+    var headings;
+    if (document.querySelectorAll) {
+      headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    } else {
+      headings = findHeadings(document.body, []);
+    }
+
+    // 递归遍历 document的 body，查找标题元素
+    function findHeadings(root, sects) {
+      for (var c = root.firstChild; c != null; c = c.nextSibling) {
+        if (c.nodeType !== 1) continue;
+        if (c.tagName.length == 2 && c.tagName.charAt(0) == 'H') {
+          sects.push(c);
+        } else {
+          findHeadings(c, sects);
+        }
+      }
+      return sects;
+    }
+
+    // 初始化一个数组来保持跟踪章节号
+    var sectionNumbers = [0, 0, 0, 0, 0, 0];
+
+    // 循环已找到的标题元素
+    for (var h = 0; h < headings.length; h++) {
+      var heading = headings[h];
+
+      if (heading.parentNode == toc) continue;
+
+      // 判定标题的级别
+      var level = parseInt(heading.tagName.charAt(1));
+      if (isNaN(level) || level < 1 || level > 6) continue;
+
+      sectionNumbers[level - 1]++;
+      for (var i = level; i < 6; i++) {
+        sectionNumbers[i] = 0;
+      }
+
+      var sectionNumber = sectionNumbers.slice(0, level).join('.');
+
+      var span = document.createElement('span');
+      span.className = 'TOCSectNum';
+      span.innerHTML = sectionNumber;
+      heading.insertBefore(span, heading.firstChild);
+
+      // 用命名的锚点将标题包起来，以便为它增加链接
+      var anchor = document.createElement('a');
+      anchor.name = 'TOC' + sectionNumber;
+      heading.parentNode.insertBefore(anchor, heading);
+      // heading.parentNode.appendChild(anchor);
+      anchor.appendChild(heading);
+
+      var link = document.createElement('a');
+      link.href = '#TOC' + sectionNumber;
+      link.innerHTML = heading.innerHTML;
+
+      var entry = document.createElement('div');
+      entry.className = 'TOCEntry TOCLevel' + level;
+      entry.appendChild(link);
+
+      toc.appendChild(entry);
+    }
+  });
+
+  </script>
+</body>
+
+</html>

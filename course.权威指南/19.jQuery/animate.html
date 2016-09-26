@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <!-- // jQuery.fx.off = true; jQuery.fx.speeds['medium-fast'] = 300; jQuery.easing['squareroot'] = Math.sqrt; -->
+  <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+  <style>
+  .box {
+    width: 50px;
+    height: 50px;
+    background: gray;
+  }
+
+  #message {
+    /* opacity: 0; */
+  }
+
+  .typography {
+    margin-left: 0;
+    background: #ddd;
+    border: red 2px solid;
+    width: 100px;
+    padding: 20px;
+  }
+  </style>
+  <div id="blinker" class="box"></div>
+  <div id="message" class="box"></div>
+  <p class="typography" id="typography">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus repellendus, natus odit quidem quo in mollitia, sint quasi dolorum a totam enim nihil, commodi nesciunt libero velit voluptates veritatis at.</p>
+  <script>
+  $(function() {
+    $('#blinker')
+      .fadeIn(100)
+      .fadeOut(100)
+      .fadeIn(100)
+      .fadeOut(100)
+      .fadeIn();
+
+    $('#message').fadeIn({
+      duration: 'slow',
+      complete: function() {
+        $(this).text('Hello World');
+      }
+    });
+
+    $('img').fadeOut().show(300).slideUp().slideToggle();
+
+    var $typography = $('p.typography');
+
+    // $typography.animate({
+    //   marginLeft: '+=0.5in',
+    //   opacity: '-=0.5',
+    //   width: 'hide',
+    //   paddingLeft: 'hide'
+
+    // });
+
+
+    // $typography
+    //   .fadeIn(500)
+    //   .animate({
+    //     width: '+=100'
+    //   }, {
+    //     queue: true,	// 是否需要等到所有尚未发生的动画都完成后再执行该动画
+    //     duration: 1000,
+    //     easing: 'squareroot'
+    //   })
+    //   .fadeOut(500);
+
+
+    // $typography.animate({
+    //   width: 'hide',
+    //   height: 'hide',
+    //   opacity: 'hide'
+    // }, {
+    //   specialEasing: {
+    //     width: 'linear',
+    //     height: 'squareroot'
+    //   }
+    // });
+
+    // $typography.animate({
+    // 	width: ['+=100', 'linear'],
+    // 	height: ['+=100', 'squareroot']
+    // });
+    //
+
+    // $typography.bind({
+    //   mouseover: function() {
+    //     $(this).stop(true).delay(100).fadeTo(300, 1.0);
+    //   },
+    //   mouseout: function() {
+    //     $(this).stop(true).fadeTo(300, 0.5);
+    //   }
+    // });
+
+    // $typography
+    // .fadeTo(100, 0.5)
+    // .delay(600)
+    // .slideUp();
+    //
+
+    $typography
+      .fadeIn()
+      .delay(200)
+      .queue(function(next) {
+        $(this).text('Hello world');
+        next();
+        console.log(next);
+      }).animate({
+        borderWidth: '+=10'
+      });
+
+
+  });
+  </script>
+</body>
+
+</html>

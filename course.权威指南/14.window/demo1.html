@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>window</title>
+</head>
+
+<body>
+  <div id="input">input content</div>
+  <div id="head">head content</div>
+  <iframe src="childFrame.html" frameborder="0" id="f1"></iframe>
+  <script>
+  function invoke(fn, start, interval, end) {
+    if (!start) start = 0;
+    if (arguments.length <= 2) {
+      window.setTimeout(fn, start);
+    } else {
+      window.setTimeout(repeat, start);
+
+      function repeat() {
+        var h = window.setInterval(fn, interval);
+        if (end) {
+          window.setTimeout(function() {
+            clearInterval(h);
+          }, end);
+        }
+      }
+    }
+  }
+
+  // protocol
+  // host
+  // hostname
+  // port
+  // pathname
+  // search
+  //
+  /**
+   * 提取 URL的搜索字符串中的参数
+   */
+  function urlArgs() {
+    var args = {};
+    var query = location.search.substring(1); // 查找到查询串，去掉'?'
+    var pairs = query.split('&');
+    for (var i = 0; i < pairs.length; i++) {
+      var pos = pairs[i].indexOf('=');
+      if (pos == -1) continue;
+      var name = pairs[i].substring(0, pos);
+      var value = pairs[i].substring(pos + 1);
+      value = decodeURIComponent(value);
+      args[name] = value;
+    }
+    return args;
+  }
+
+
+  console.log(navigator.userAgent);
+  console.log(navigator.onLine);
+  window.onload = function() {
+    console.log(onLine);
+  }
+
+  console.log(screen);
+  // availWidth
+  // confirm
+
+  window.onerror = function(msg, url, line) {
+    // console.log(msg, url, line);
+    if (onerror.num++ < onerror.max) {
+      console.log('ERROR: ' + msg + '\n' + url + ':' + line);
+      return true;
+    }
+  }
+  onerror.max = 3;
+  onerror.num = 0;
+
+  // 不推荐
+  // var ui = ['input', 'head'];
+  // ui.forEach(function(id) {
+  //   ui[id] = document.getElementById(id);
+  // });
+  // console.log(ui.input);
+  //
+
+  var $ = function(id) {
+    return document.getElementById(id);
+  };
+  var ui = {};
+  ui.input = $('input');
+  console.log(ui.input);
+
+
+  var iframeEl = document.getElementById('f1');
+  var childFrame = document.getElementById('f1').contentWindow;
+  console.log(childFrame);
+  console.log('window.frameElement === null', window.frameElement === null); // 对顶级窗口永远是 true
+
+  // 交互窗口中的 javascript
+  var i = 3;
+  console.log(i);
+  setTimeout(function(){
+    console.log(i);
+  }, 2e3);
+
+  function Set(){
+    this.value = 1;
+  }
+  var s = new Set();
+  console.log('s.value', s.value);
+  </script>
+</body>
+
+</html>

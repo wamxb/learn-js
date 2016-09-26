@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <style>
+    html,
+    body {
+        height: 100%;
+    }
+    </style>
+</head>
+
+<body>
+    <script>
+    // window.addEventListener('focus', function (event) {
+    // 	document.body.style.backgroundColor = '#fff';
+    // }, false);
+    // window.addEventListener('blur', function (event) {
+    // 	document.body.style.backgroundColor = '#000';
+    // }, false);
+    //
+
+    function addEvent(target, type, handler) {
+        if (target.addEventListener) {
+            target.addEventListener(type, handler, false);
+        } else {
+            target.attachEvent('on' + type, function(event) {
+                return handler.call(target, event);
+            });
+        }
+    }
+
+    // 事件取消
+    function cancelHandler(event) {
+        var event = event || window.event; // 用于 IE
+
+        // 取消事件相关的默认行为
+        if (event.preventDefault) {
+            event.preventDefault();
+        } else if (event.returnValue) {
+            event.returnValue = false;
+        }
+        return false;
+    }
+
+    // stopImmediatePropagation()
+    // stopPropapation
+    // cancelBubble IE
+
+    /**
+     * 当文档准备就绪时调用函数
+     */
+    var whenReady = (function() {
+        var funcs = [];
+        var ready = false;
+
+        function handler(e) {
+            if (ready) return;
+            if (e.type === 'readystatechange' && document.readyState !== 'complete') {
+                return;
+            }
+
+            for (var i = 0; i < funcs.length; i++) {
+                funcs[i].call(document);
+            }
+
+            ready = true;
+            funcs = null;
+        }
+
+        if (document.addEventListener) {
+            document.addEventListener('DOMContentLoaded', handler, false);
+            document.addEventListener('readystatechange', handler, false);
+            window.addEventListener('load', handler, false);
+        } else if (document.attachEvent) {
+            document.attachEvent('onreadystatechange', handler);
+            window.attachEvent('onload', handler);
+        }
+
+        return function whenReady(f) {
+            if (ready) {
+                f.call(document);
+            } else {
+                funcs.push(f);
+            }
+        }
+    })();
+
+    // contextmenu 可以取消的事件，当上下文菜单即将出现时触发
+    </script>
+</body>
+</html>

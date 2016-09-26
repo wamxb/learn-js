@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <style>
+  #clock {
+    font: bold 16px sans;
+    background: #ddf;
+    padding: 10px;
+    border: solid black 2px;
+    border-radius: 10px;
+  }
+  </style>
+  <span id="clock"></span>
+  <textarea name="" id="" cols="30" rows="10"></textarea>
+  <script src="whenReady.js"></script>
+  <script>
+  whenReady(function() {
+    var clock = document.getElementById('clock');
+    var icon = new Image();
+    icon.src = 'https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo_top_ca79a146.png';
+
+    function displayTime() {
+      var now = new Date();
+      var hrs = now.getHours(),
+        mins = now.getMinutes();
+      if (mins < 10) {
+        mins = '0' + mins;
+      }
+      clock.innerHTML = hrs + ':' + mins;
+      setTimeout(displayTime, 6e4);
+    }
+    displayTime();
+
+    clock.draggable = true;
+    clock.ondragstart = function(event) {
+      var event = event || window.event;
+
+      var dt = event.dataTransfer;
+      console.log(dt);
+
+      dt.setData('Text', Date() + '\n');
+      if (dt.setDragImage) {
+        dt.setDragImage(icon, 0, 0);
+      }
+    }
+
+
+
+  });
+  </script>
+</body>
+
+</html>
