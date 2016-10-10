@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <script>
+  var NS = {
+    add: function(ns) {
+      var parts = ns.split('.'),
+        obj = this,
+        i, len;
+
+      for (var i = 0; i < parts.length; i++) {
+        obj[parts[i]] = obj[parts[i]] || {};
+        obj = obj[parts[i]];
+      }
+
+      return obj;
+    }
+  };
+
+  NS.ns1 = {};
+  NS.ns1.method1 = function() {
+    console.log('ns1.method1');
+  };
+  NS.ns1.method1.attribute1 = 1;
+
+  NS.add('ns1.method2');
+  NS.ns1.method2.attribute2 = 2;
+  console.log(NS.ns1.method2.attribute2);
+
+
+  </script>
+</body>
+
+</html>

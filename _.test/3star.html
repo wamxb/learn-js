@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>星级评分系统</title>
+  <style>
+  body,
+  div,
+  ul,
+  li,
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    color: #666;
+    font: 12px/1.5 Arial;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+
+  .star {
+    position: relative;
+    width: 600px;
+    margin: 10px auto;
+  }
+
+  .star ul,
+  .star span {
+    float: left;
+    display: inline;
+    height: 19px;
+    line-height: 19px;
+  }
+
+  .star ul {
+    margin: 0 10px;
+  }
+
+  .star li {
+    float: left;
+    width: 24px;
+    cursor: pointer;
+    text-indent: -9999px;
+    background: url("http://www.fgm.cc/learn/lesson4/img/star.png") no-repeat;
+  }
+
+  .star strong {
+    color: #f60;
+    padding-left: 10px;
+  }
+
+  .star li.on {
+    background-position: 0 -28px;
+  }
+
+  .star p {
+    position: absolute;
+    top: 20px;
+    width: 159px;
+    height: 60px;
+    display: none;
+    background: url("http://www.fgm.cc/learn/lesson4/img/icon.gif") no-repeat;
+    padding: 7px 10px 0;
+  }
+
+  .star p em {
+    color: #f60;
+    display: block;
+    font-style: normal;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="star" class="star" data-star="5">
+    <span>点击星星就能打分</span>
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+    </ul>
+    <span></span>
+    <p></p>
+  </div>
+  <script src="utils.js"></script>
+  <script>
+  var aMsg = [
+    "很不满意|差得太离谱，与卖家描述的严重不符，非常不满",
+    "不满意|部分有破损，与卖家描述的不符，不满意",
+    "一般|质量一般，没有卖家描述的那么好",
+    "满意|质量不错，与卖家描述的基本一致，还是挺满意的",
+    "非常满意|质量非常好，与卖家描述的完全一致，非常满意"
+  ];
+  var oStar = $('#star');
+  var oUl = $('ul', oStar);
+  var aLi = $$('li', oStar);
+  var oSpan = $$('span', oStar)[1];
+  var oP = $('p', oStar);
+  var activeCls = 'on';
+  var iStar = 0;
+
+  function initScore() {
+    var _star = oStar.getAttribute('data-star');
+    var idx = (_star != null) && (_star - 1);
+    if (idx > -1) {
+      iconHandler(idx);
+      textHandler(idx);
+    }
+  }
+  initScore();
+
+  Event.on(oStar, 'mouseover', function(event) {
+    var event = event || window.event;
+    var target = event.target || event.srcElement;
+    if (target.tagName.toLowerCase() === 'li') {
+      var idx = index(target, aLi);
+      iconHandler(idx);
+
+      oP.style.display = 'block';
+      oP.style.left = oUl.offsetLeft + (idx + 1) * target.offsetWidth - 104 + 'px';
+      oP.innerHTML = '<em><b>' + (idx + 1) + '</b> 分 ' + aMsg[idx].match(/(.+)\|/)[1] + '</em>' + aMsg[idx].match(/\|(.+)/)[1];
+    }
+  }, false);
+  Event.on(oStar, 'mouseout', function(event) {
+    var event = event || window.event;
+    var target = event.target || event.srcElement;
+    if (target.tagName.toLowerCase() === 'li') {
+      iconHandler();
+      oP.style.display = 'none';
+    }
+  }, false);
+  Event.on(oStar, 'click', function(event) {
+    var event = event || window.event;
+    var target = event.target || event.srcElement;
+    if (target.tagName.toLowerCase() === 'li') {
+      textHandler(index(target, aLi));
+    }
+  }, false);
+
+  function index(current, aLi) {
+    if (current.index != null) return current.index;
+    var i = 0,
+      len = aLi.length;
+    for (; i < len; i++) {
+      if (aLi[i] == current) {
+        aLi[i].index = i;
+        return i;
+      }
+    }
+  }
+
+  // 高亮处理
+  function iconHandler(index) {
+    index = index == null ? iStar : index; // index 从0 开始，不可以直接用“||”
+    var i = 0,
+      len = aLi.length;
+    for (; i < len; i++) {
+      classfn[i <= index ? 'add' : 'remove'](aLi[i], activeCls);
+    }
+  }
+
+  function textHandler(index) {
+    iStar = index;
+    oP.style.display = 'none';
+    oSpan.innerHTML = '<strong>' + (index + 1) + ' 分</strong> (' + aMsg[index].match(/\|(.+)/)[1] + ')';
+  }
+  </script>
+</body>
+
+</html>
