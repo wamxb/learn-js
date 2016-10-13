@@ -23,7 +23,7 @@
     font: 12px/20px Arial;
   }
 
-  #box {
+  .box {
     position: relative;
     width: 492px;
     height: 172px;
@@ -34,33 +34,33 @@
     cursor: pointer;
   }
 
-  #box .list {
+  .box .list {
     position: relative;
     width: 490px;
     height: 170px;
     overflow: hidden;
   }
 
-  #box .list ul {
+  .box .list ul {
     position: absolute;
     top: 0;
     left: 0;
     /* filter: blur(15px); */
   }
 
-  #box .list li {
+  .box .list li {
     width: 490px;
     height: 170px;
     overflow: hidden;
   }
 
-  #box .count {
+  .box .count {
     position: absolute;
     right: 0;
     bottom: 5px;
   }
 
-  #box .count li {
+  .box .count li {
     color: #fff;
     float: left;
     width: 20px;
@@ -74,7 +74,7 @@
     border-radius: 20px;
   }
 
-  #box .count li.current {
+  .box .count li.current {
     color: #fff;
     opacity: 1;
     filter: alpha(opacity=100);
@@ -92,7 +92,18 @@
 </head>
 
 <body>
-  <div id="box">
+  <div id="box1" class="box">
+    <div class="list">
+      <ul>
+        <li><img src="http://www.fgm.cc/learn/lesson10/img/01.jpg" width="490" height="170" /></li>
+        <li><img src="http://www.fgm.cc/learn/lesson10/img/02.jpg" width="490" height="170" /></li>
+        <li><img src="http://www.fgm.cc/learn/lesson10/img/03.jpg" width="490" height="170" /></li>
+        <li><img src="http://www.fgm.cc/learn/lesson10/img/04.jpg" width="490" height="170" /></li>
+        <li><img src="http://www.fgm.cc/learn/lesson10/img/05.jpg" width="490" height="170" /></li>
+      </ul>
+    </div>
+  </div>
+  <div id="box2" class="box">
     <div class="list">
       <ul>
         <li><img src="http://www.fgm.cc/learn/lesson10/img/01.jpg" width="490" height="170" /></li>
@@ -105,20 +116,20 @@
   </div>
   <script src="utils.js"></script>
   <script>
-  var Slide = function(selector) {
+  var Slide = function(opts) {
     var defaults = {
       selector: '',
-      delay: 3e3
+      delay: 3e3,
+      isAuto: true
     };
-    // this.cfgs =
-    this.initialize(selector);
+    this.cfgs = extend(defaults, opts);
+    this.initialize(this.cfgs.selector);
   };
 
   Slide.prototype = {
     constructor: Slide,
     initialize: function(selector) {
       var s = this;
-      s.iDelay = 3e3;
       s.oBox = $(selector);
       if (s.oBox == null) {
         throw Error('selector is null');
@@ -131,9 +142,6 @@
       s.len = s.aImgLi.length;
       s.h = s.aImgLi[0].offsetHeight;
       s.timer = null;
-      s.autoTimer = setInterval(function() {
-        s.next();
-      }, s.iDelay);
       s.bindEvents();
     },
     creatCount: function() {
@@ -150,17 +158,21 @@
     },
     bindEvents: function() {
       var s = this;
-      s.oBox.onmouseover = function() {
-        clearInterval(s.autoTimer);
-      };
-      s.oBox.onmouseout = function() {
+      if (s.cfgs.isAuto) {
         s.autoTimer = setInterval(function() {
           s.next();
-        }, s.iDelay);
-      };
+        }, s.cfgs.delay);
+        s.oBox.onmouseover = function() {
+          clearInterval(s.autoTimer);
+        };
+        s.oBox.onmouseout = function() {
+          s.autoTimer = setInterval(function() {
+            s.next();
+          }, s.cfgs.delay);
+        };
+      }
       s.aBtn.forEach(function(el, idx) {
         el.index = idx;
-        console.log('el.index', el.index);
         el.onmouseover = function() {
           s.iNow = el.index;
           s.toggle();
@@ -196,7 +208,14 @@
   }
 
   window.onload = function() {
-    new Slide('#box');
+    var s1 = new Slide({
+      selector: '#box1',
+      delay: 5e3
+    });
+    var s2 = new Slide({
+      selector: '#box2',
+      isAuto: false
+    });
   };
   </script>
 </body>

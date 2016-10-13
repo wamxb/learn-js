@@ -2,7 +2,7 @@
  * @Author: zplus
  * @Date:   2016-10-09 15:15:06
  * @Last Modified by:   zplus
- * @Last Modified time: 2016-10-12 16:52:36
+ * @Last Modified time: 2016-10-13 10:41:14
  */
 
 'use strict';
@@ -83,3 +83,35 @@ var classfn = {
     }
   }
 }
+
+// 如果
+var extend = (function() {
+  var _obj = {
+    toString: null
+  };
+  for (var p in _obj) {
+    return function extend(o) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
+        for (var prop in source) o[prop] = source[prop];
+      }
+      return o;
+    };
+  };
+
+  return function patch_extend(o) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      // 复制所有可枚举属性
+      for (var prop in source) o[prop] = source[prop];
+      // 检查特殊属性
+      for (var j = 0; j < properties.length; j++) {
+        prop = properties[j];
+        if (source.hasOwnProperty(prop)) o[prop] = source[prop];
+      }
+    }
+    return o;
+  };
+
+  var properties = ['constructor', 'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocalString', 'toString', 'valueOf'];
+})();
