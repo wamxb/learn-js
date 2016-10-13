@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>星级评分系统</title>
+  <style>
+  body,
+  div,
+  ul,
+  li,
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    color: #666;
+    font: 12px/1.5 Arial;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+
+  .star {
+    position: relative;
+    width: 600px;
+    margin: 10px auto;
+    padding-bottom: 80px;
+    overflow: hidden;
+  }
+
+  .star ul,
+  .star span {
+    float: left;
+    display: inline;
+    height: 19px;
+    line-height: 19px;
+  }
+
+  .star ul {
+    margin: 0 10px;
+  }
+
+  .star li {
+    float: left;
+    width: 24px;
+    cursor: pointer;
+    text-indent: -9999px;
+    background: url("http://www.fgm.cc/learn/lesson4/img/star.png") no-repeat;
+  }
+
+  .star strong {
+    color: #f60;
+    padding-left: 10px;
+  }
+
+  .star li.on {
+    background-position: 0 -28px;
+  }
+
+  .star p {
+    position: absolute;
+    top: 20px;
+    width: 159px;
+    height: 60px;
+    display: none;
+    background: url("http://www.fgm.cc/learn/lesson4/img/icon.gif") no-repeat;
+    padding: 7px 10px 0;
+  }
+
+  .star p em {
+    color: #f60;
+    display: block;
+    font-style: normal;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="star1" class="star" data-star="5">
+    <span>点击星星就能打分</span>
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+    </ul>
+    <span></span>
+    <p></p>
+  </div>
+  <div id="star2" class="star" data-star="4">
+    <span>点击星星就能打分</span>
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+    </ul>
+    <span></span>
+    <p></p>
+  </div>
+  <div id="star3" class="star" data-star="3">
+    <span>点击星星就能打分</span>
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+    </ul>
+    <span></span>
+    <p></p>
+  </div>
+  <script src="utils.js"></script>
+  <script>
+  function StarScore(opts) {
+    var ss = this;
+    ss.aMsg = [
+      "很不满意|差得太离谱，与卖家描述的严重不符，非常不满",
+      "不满意|部分有破损，与卖家描述的不符，不满意",
+      "一般|质量一般，没有卖家描述的那么好",
+      "满意|质量不错，与卖家描述的基本一致，还是挺满意的",
+      "非常满意|质量非常好，与卖家描述的完全一致，非常满意"
+    ];
+    ss.oStar = $(opts.starSelector);
+    if (ss.oStar == null) {
+      throw Error('选择器不存在');
+      return;
+    }
+    ss.oUl = $('ul', ss.oStar);
+    ss.aLi = $$('li', ss.oStar);
+    ss.oSpan = $$('span', ss.oStar)[1];
+    ss.oP = $('p', ss.oStar);
+    ss.sActiveCls = 'on';
+    ss.iStar = 0;
+    ss.init();
+    ss.bindEvents();
+  }
+
+  StarScore.prototype = {
+    constructor: StarScore,
+    init: function() {
+      var ss = this;
+      var _star = ss.oStar.getAttribute('data-star');
+      var idx = (_star != null) && (_star - 1);
+      if (idx > -1) {
+        ss.iconHandler(idx);
+        ss.textHandler(idx);
+      }
+    },
+    bindEvents: function() {
+      var ss = this;
+      Event.bind(ss.oStar, 'mouseover', function(event) {
+        var event = event || window.event;
+        var target = event.target || event.srcElement;
+        if (target.tagName.toLowerCase() === 'li') {
+          var idx = ss.index(target, ss.aLi);
+          ss.iconHandler(idx);
+
+          ss.oP.style.display = 'block';
+          ss.oP.style.left = ss.oUl.offsetLeft + (idx + 1) * target.offsetWidth - 104 + 'px';
+          ss.oP.innerHTML = '<em><b>' + (idx + 1) + '</b> 分 ' + ss.aMsg[idx].match(/(.+)\|/)[1] + '</em>' + ss.aMsg[idx].match(/\|(.+)/)[1];
+        }
+      });
+      Event.bind(ss.oStar, 'mouseout', function(event) {
+        var event = event || window.event;
+        var target = event.target || event.srcElement;
+        if (target.tagName.toLowerCase() === 'li') {
+          ss.iconHandler();
+          ss.oP.style.display = 'none';
+        }
+      });
+      Event.bind(ss.oStar, 'click', function(event) {
+        var event = event || window.event;
+        var target = event.target || event.srcElement;
+        if (target.tagName.toLowerCase() === 'li') {
+          var idx = ss.index(target, ss.aLi);
+          ss.textHandler(idx);
+        }
+      });
+    },
+    // 获取索引
+    index: function(current, array) {
+      if (current.index != null) return current.index;
+      var i = 0,
+        len = array.length;
+      for (; i < len; i++) {
+        if (array[i] == current) {
+          array[i].index = i;
+          return i;
+        }
+      }
+    },
+    // 图标
+    iconHandler: function(index) {
+      var ss = this;
+      index = index == null ? ss.iStar : index; // index 从0 开始，不可以直接用“||”
+      var i = 0,
+        len = ss.aLi.length;
+      for (; i < len; i++) {
+        classfn[i <= index ? 'add' : 'remove'](ss.aLi[i], ss.sActiveCls);
+      }
+    },
+    // 文字
+    textHandler: function(index) {
+      var ss = this;
+      ss.iStar = index;
+      ss.oP.style.display = 'none';
+      ss.oSpan.innerHTML = '<strong>' + (index + 1) + ' 分</strong> (' + ss.aMsg[index].match(/\|(.+)/)[1] + ')';
+    }
+  };
+
+  var ss = $$('.star');
+  ss.forEach(function(el) {
+    new StarScore({
+      starSelector: el
+    });
+  });
+  </script>
+</body>
+
+</html>

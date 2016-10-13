@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>iPhone 手机解锁效果</title>
+  <style>
+  #iphone {
+    position: relative;
+    width: 426px;
+    height: 640px;
+    margin: 10px auto;
+    background: url(http://fgm.cc/iphone/1.jpg) no-repeat;
+  }
+
+  #lock {
+    position: absolute;
+    left: 50%;
+    bottom: 33px;
+    width: 358px;
+    height: 62px;
+    margin-left: -179px;
+  }
+
+  #lock span {
+    position: absolute;
+    width: 93px;
+    height: 62px;
+    cursor: pointer;
+    background: url(http://fgm.cc/iphone/btn.jpg) no-repeat;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="iphone">
+    <div id="lock"><span></span></div>
+  </div>
+  <script>
+  var doc = document;
+  var oiPhone = doc.getElementById('iphone');
+  var oLock = doc.getElementById('lock');
+  var oBtn = oLock.getElementsByTagName('span')[0];
+  var max = oLock.offsetWidth - oBtn.offsetWidth;
+  var oBg = new Image();
+  oBg.src = 'http://fgm.cc/iphone/2.jpg'; // ！预加载
+  var disX = 0;
+  oBtn.onmousedown = function(event) {
+    var event = event || window.event;
+    event.cancelBubble = true;
+    event.stopPropagation();
+
+    disX = event.clientX - this.offsetLeft;
+
+    doc.onmousemove = function(event) {
+      var event = event || window.event;
+      oBtn.timer = setTimeout(function() {
+        clearTimeout(oBtn.timer);
+        var x = event.clientX - disX;
+        x < 0 && (x = 0);
+        x > max && (x = max);
+        oBtn.style.left = x + 'px';
+        oBtn.offsetLeft == max && unlock();
+      }, 30);
+    };
+
+    doc.onmouseup = function(event) {
+      doc.onmousemove = null;
+      doc.onmouseup = null;
+      oBtn.releaseCapture && oBtn.releaseCapture();
+      oBtn.offsetLeft > max / 2 ? move(max, unlock) : move(0);
+    };
+
+    this.setCapture && this.setCapture();
+    return false;
+  };
+
+  function move(iTarget, cb) {
+    clearInterval(oBtn.timer);
+    oBtn.timer = setInterval(function() {
+      var x = (iTarget - oBtn.offsetLeft) / 5;
+      x = x > 0 ? Math.ceil(x) : Math.floor(x);
+      iTarget == oBtn.offsetLeft ? (clearInterval(oBtn.timer), cb && cb()) : oBtn.style.left = x + oBtn.offsetLeft + 'px';
+    }, 30);
+  }
+
+  function unlock() {
+    oiPhone.style.background = 'url(' + oBg.src + ')';
+    oLock.style.display = 'none';
+  }
+  </script>
+</body>
+
+</html>

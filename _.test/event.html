@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <button id="btn">click</button>
+  <script>
+  var btn = document.getElementById('btn');
+  btn.onclick = function(event) {
+    console.log('btn.onclick', event.eventPhase);
+  };
+  var body = document.body;
+  body.addEventListener('click', function(event) {
+    console.log('body.addEventListener', event.eventPhase);
+  }, true);
+  body.onclick = function(event) {
+    console.log('body.onclick', event.eventPhase);
+  };
+
+  // body.addEventListener 1
+  // btn.onclick 2
+  // body.onclick 3
+  </script>
+</body>
+
+</html>

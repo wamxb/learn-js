@@ -62,33 +62,33 @@
   var imgList = $('#imgList');
   var lis = $$('li', imgList);
   // lis.forEach(function(li) {
-  //   Event.on(li, 'mouseover', function(event) {
+  //   Event.bind(li, 'mouseover', function(event) {
   //     var event = event || window.event;
   //     var target = event.target || event.srcElement;
   //     console.log(target.tagName.toLowerCase());
   //     this.className = 'active';
-  //   }, false);
-  //   Event.on(li, 'mouseout', function(event) {
+  //   });
+  //   Event.bind(li, 'mouseout', function(event) {
   //     this.className = '';
-  //   }, false);
+  //   });
   // });
 
-  Event.on(imgList, 'mouseover', function(event) {
+  Event.bind(imgList, 'mouseover', function(event) {
     var event = event || window.event;
     var target = event.target || event.srcElement;
     // console.log('mouseover', target.tagName.toLowerCase());
     var tagName = target.tagName.toLowerCase();
     if (tagName=='ul') return;
     classfn.add(target, 'active');
-  }, false);
-  Event.on(imgList, 'mouseout', function(event) {
+  });
+  Event.bind(imgList, 'mouseout', function(event) {
     var event = event || window.event;
     var target = event.target || event.srcElement;
     // console.log('mouseout', target.tagName.toLowerCase());
     var tagName = target.tagName.toLowerCase();
     if (tagName=='ul') return;
     classfn.remove(target, 'active');
-  }, false);
+  });
   </script>
 </body>
 

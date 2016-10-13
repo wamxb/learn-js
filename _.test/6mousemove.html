@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>按轨迹移动</title>
+  <style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  div.cartoom {
+    position: absolute;
+    width: 66px;
+    height: 45px;
+    background: url("http://www.fgm.cc/learn/lesson7/img/1.gif");
+    background-repeat: no-repeat;
+    top: 100px;
+    left: 50px;
+  }
+
+  p,
+  input {
+    margin: 10px;
+  }
+
+  input[type="button"] {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type="button"].active {
+    background: #4285f4;
+    color: white;
+  }
+  </style>
+</head>
+
+<body>
+  <input type="button" value="根据鼠标点击位置移动" />
+  <input type="button" value="根据标鼠标轨迹移动" />
+  <p>请点击按钮激活功能！</p>
+  <div class="cartoom"></div>
+  <script src="utils.js"></script>
+  <script>
+  Event.domready(function() {
+    var oBtn = $$('input');
+    var doc = document;
+    var aPoint = [];
+    var sCls = 'active';
+    var oP = $('p');
+    var cartoom = {
+      el: $('.cartoom'),
+      normal: function() {
+        cartoom.el.style.backgroundImage = 'url("http://www.fgm.cc/learn/lesson7/img/1.gif")';
+      },
+      active: function() {
+        cartoom.el.style.backgroundImage = 'url("http://www.fgm.cc/learn/lesson7/img/2.gif")';
+      }
+    };
+    oBtn.forEach(function(el, i) {
+      el.index = i;
+      Event.bind(el, 'click', function(event) {
+        var event = event || window.event;
+        cacelBubble();
+        clearEvent();
+        classfn.add(this, sCls);
+        var _idx = el.index;
+        if (_idx == 0) {
+          oP.innerHTML = '鼠标点击页面， 人物将移动至鼠标位置！';
+          Event.bind(doc, 'click', clickHandler);
+        } else if (_idx == 1) {
+          oP.innerHTML = '按住鼠标左键，在页面划动，人物将按照鼠标轨迹移动。';
+          Event.bind(doc, 'mousedown', mousedownHandler);
+          Event.bind(doc, 'mouseup', mouseupHandler);
+        }
+      });
+      // 1-fix：点击按钮动画会跑到按钮上
+      Event.bind(el, 'mousedown', cacelBubble); // 1
+      Event.bind(el, 'mouseup', cacelBubble); // 1
+    });
+
+    function clearEvent() {
+      Event.off(doc, 'click', clickHandler);
+      Event.off(doc, 'mousedown', mousedownHandler);
+      Event.off(doc, 'mousemove', mousemoveHandler);
+      Event.off(doc, 'mouseup', mouseupHandler);
+      oBtn.forEach(function(el, i) {
+        classfn.remove(el, sCls);
+      });
+    }
+
+    function clickHandler(event) {
+      var event = event || window.event;
+      cartoom.active();
+      move4point(cartoom.el, Event.getPoint(event), cartoom.normal);
+    }
+
+    function mousedownHandler(event) {
+      var event = event || window.event;
+      aPoint.push(Event.getPoint(event));
+      Event.bind(doc, 'mousemove', mousemoveHandler); // 绑定事件
+    }
+
+    function mousemoveHandler(event) {
+      var event = event || window.event;
+      aPoint.push(Event.getPoint(event));
+    }
+
+    function mouseupHandler(event) {
+      var event = event || window.event;
+      Event.off(doc, 'mousemove', mousemoveHandler); // 移除事件
+      cartoom.active();
+      move4path(cartoom.el, aPoint, cartoom.normal);
+    }
+  });
+
+  // 点对点
+  function move4point(el, point, cb) {
+    clearInterval(el.timer);
+    el.timer = setInterval(function() {
+      var x = (point.x - el.offsetLeft) / 5;
+      var y = (point.y - el.offsetTop) / 5;
+
+      x = x > 0 ? Math.ceil(x) : Math.floor(x);
+      y = y > 0 ? Math.ceil(y) : Math.floor(y);
+
+      if (point.x == el.offsetLeft && point.y == el.offsetTop) {
+        clearInterval(el.timer);
+        cb && cb();
+        return;
+      }
+      el.style.left = el.offsetLeft + x + 'px';
+      el.style.top = el.offsetTop + y + 'px';
+    }, 30);
+  }
+
+  // 轨迹
+  function move4path(el, aPoint, cb) {
+    el.timer = setInterval(function() {
+      if (aPoint.length == 0) {
+        clearInterval(el.timer);
+        cb && cb();
+        return;
+      }
+      el.style.left = aPoint[0].x + 'px';
+      el.style.top = aPoint[0].y + 'px';
+      aPoint.shift();
+    }, 30);
+  }
+  </script>
+</body>
+
+</html>

@@ -116,9 +116,11 @@
   }
   initScore();
 
-  Event.on(oStar, 'mouseover', function(event) {
+  Event.bind(oStar, 'mouseover', function(event) {
     var event = event || window.event;
     var target = event.target || event.srcElement;
+    console.info(event.currentTarget.tagName);
+    console.info(target === this);
     if (target.tagName.toLowerCase() === 'li') {
       var idx = index(target, aLi);
       iconHandler(idx);
@@ -127,22 +129,22 @@
       oP.style.left = oUl.offsetLeft + (idx + 1) * target.offsetWidth - 104 + 'px';
       oP.innerHTML = '<em><b>' + (idx + 1) + '</b> 分 ' + aMsg[idx].match(/(.+)\|/)[1] + '</em>' + aMsg[idx].match(/\|(.+)/)[1];
     }
-  }, false);
-  Event.on(oStar, 'mouseout', function(event) {
+  });
+  Event.bind(oStar, 'mouseout', function(event) {
     var event = event || window.event;
     var target = event.target || event.srcElement;
     if (target.tagName.toLowerCase() === 'li') {
       iconHandler();
       oP.style.display = 'none';
     }
-  }, false);
-  Event.on(oStar, 'click', function(event) {
+  });
+  Event.bind(oStar, 'click', function(event) {
     var event = event || window.event;
     var target = event.target || event.srcElement;
     if (target.tagName.toLowerCase() === 'li') {
       textHandler(index(target, aLi));
     }
-  }, false);
+  });
 
   function index(current, aLi) {
     if (current.index != null) return current.index;

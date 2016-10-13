@@ -65,7 +65,7 @@
   var cls = 'cancel';
   var tid = null;
 
-  Event.on(btn, 'click', function(event) {
+  Event.bind(btn, 'click', function(event) {
     var el = this;
     var total = parseInt(minute.textContent) * 60 + parseInt(second.textContent);
 
@@ -76,7 +76,7 @@
       classfn.add(el, cls);
       updateTime(total);
     }
-  }, false);
+  });
 
   function updateTime(total) {
     if (total == 0) {

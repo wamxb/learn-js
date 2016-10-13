@@ -484,13 +484,13 @@ MECHAT.Lang.html_encode = function(str) {
 //时间的格式化
 Date.prototype.format = function(format) {
     var o = {
-        "M+": this.getMonth() + 1, //month 
-        "d+": this.getDate(), //day 
-        "h+": this.getHours(), //hour 
-        "m+": this.getMinutes(), //minute 
-        "s+": this.getSeconds(), //second 
-        "q+": Math.floor((this.getMonth() + 3) / 3), //quarter 
-        "S": this.getMilliseconds() //millisecond 
+        "M+": this.getMonth() + 1, //month
+        "d+": this.getDate(), //day
+        "h+": this.getHours(), //hour
+        "m+": this.getMinutes(), //minute
+        "s+": this.getSeconds(), //second
+        "q+": Math.floor((this.getMonth() + 3) / 3), //quarter
+        "S": this.getMilliseconds() //millisecond
     }
     if (/(y+)/.test(format)) {
         format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
@@ -785,7 +785,7 @@ MECHAT.Ajax.jsonp = function(url, data, callback, param) {
     }
 };
 
-//文件的上传 
+//文件的上传
 MECHAT.Ajax.fileUp = function() {
 
 };

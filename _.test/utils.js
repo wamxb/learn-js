@@ -2,15 +2,14 @@
  * @Author: zplus
  * @Date:   2016-10-09 15:15:06
  * @Last Modified by:   zplus
- * @Last Modified time: 2016-10-09 17:22:42
+ * @Last Modified time: 2016-10-12 16:52:36
  */
 
 'use strict';
 
 function $(selector, context) {
-  context = context || document;
   if (typeof selector == 'object') return selector;
-  return context.querySelector(selector);
+  return (context || document).querySelector(selector);
 }
 
 function $$(selector, context) {
@@ -20,16 +19,47 @@ function $$(selector, context) {
 }
 
 var Event = {
-  on: function(el, type, fn) {
-    if (el.addEventLisenter) {
-      el.addEventLisenter(type, fn, false);
+  bind: function(el, type, handler) {
+    if (el.addEventListener) {
+      el.addEventListener(type, handler, false);
     } else if (el.attachEvent) {
-      el.attachEvent('on' + type, fn);
+      el.attachEvent('on' + type, handler);
     } else {
-      el['on' + type] = fn;
+      el['on' + type] = handler;
     }
+  },
+  off: function(el, type, handler) {
+    if (el.removeEventListener) {
+      el.removeEventListener(type, handler, false);
+    } else if (el.detachEvent) {
+      el.detachEvent('on' + type, handler);
+    } else {
+      el['on' + type] = null;
+    }
+  },
+  domready: function(handler) {
+    this.bind(window, 'load', handler);
+  },
+  getPoint: function(event) {
+    var pageX = event.pageX,
+      pageY = event.pageY;
+    if (pageX === undefined) {
+      pageX = event.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft);
+    }
+    if (pageY === undefined) {
+      pageY = event.clientY + (document.documentElement.scrollTop || document.body.scrollTop);
+    }
+    return {
+      x: pageX,
+      y: pageY
+    };
+  },
+  cacelBubble: function(event) {
+    (event || window.event).cancelBubble = true;
+    event.stopPropagation();
+    return false;
   }
-}
+};
 
 var classfn = {
   has: function(el, cls) {

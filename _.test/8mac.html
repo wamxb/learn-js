@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title> 仿苹果电脑任务栏菜单</title>
+  <style type="text/css">
+  body {
+    margin: 0;
+    padding: 0
+  }
+
+  #menu {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    text-align: center;
+    background: silver;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="menu">
+    <img src="http://www.fgm.cc/learn/lesson9/img/1.png" alt="">
+    <img src="http://www.fgm.cc/learn/lesson9/img/2.png" alt="">
+    <img src="http://www.fgm.cc/learn/lesson9/img/3.png" alt="">
+    <img src="http://www.fgm.cc/learn/lesson9/img/4.png" alt="">
+    <img src="http://www.fgm.cc/learn/lesson9/img/5.png" alt="">
+    <img src="http://www.fgm.cc/learn/lesson9/img/6.png" alt="">
+    <img src="http://www.fgm.cc/learn/lesson9/img/7.png" alt="">
+    <img src="http://www.fgm.cc/learn/lesson9/img/8.png" alt="">
+  </div>
+  <script>
+  window.onload = function() {
+    var oMenu = document.getElementById('menu');
+    var aImg = oMenu.getElementsByTagName('img');
+    var aWidth = [];
+    var i = 0;
+
+    for (i = 0; i < aImg.length; i++) {
+      aWidth.push(aImg[i].offsetWidth);
+      aImg[i].width = parseInt(aImg[i].offsetWidth / 2); // 为了2倍的效果，先缩小
+    }
+    // ???
+    document.onmousemove = function(event) {
+      var event = event || window.event;
+      for (i = 0; i < aImg.length; i++) {
+        var a = event.clientX - aImg[i].offsetLeft - aImg[i].offsetWidth / 2;
+        var b = event.clientY - oMenu.offsetTop - aImg[i].offsetTop - aImg[i].offsetHeight / 2;
+        var iScale = 1 - Math.sqrt(a * a + b * b) / 300;
+        iScale < 0.5 && (iScale = 0.5);
+        aImg[i].width = aWidth[i] * iScale;
+      }
+    };
+  };
+  </script>
+</body>
+
+</html>
