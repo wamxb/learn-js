@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>面试题-动态生成表格</title>
+  <style>
+  body {
+    font: 700 14px/1.5 Arial;
+    margin: 0;
+    padding: 0 10px;
+  }
+
+  table {
+    clear: both;
+    border: 1px solid #000;
+  }
+
+  td {
+    /* color: #FFF; */
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid #000;
+    padding: 5px;
+  }
+
+  #setting {
+    float: left;
+    clear: left;
+    line-height: 28px;
+    margin: 10px 0;
+  }
+
+  #setting input {
+    width: 50px;
+    font-family: inherit;
+    border: 2px solid #CCC;
+    margin: 0 5px;
+    padding: 4px;
+  }
+
+  #btn {
+    font-size: 14px;
+    line-height: 18px;
+    color: #fff;
+    text-decoration: none;
+    background: #353535;
+    border-top: 1px #999 solid;
+    border-radius: 5px;
+    padding: 4px 6px;
+  }
+
+  #msg {
+    float: left;
+    clear: both;
+    height: 25px;
+    display: none;
+    line-height: 25px;
+    margin-bottom: 10px;
+  }
+
+  #msg em {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  #setting label,
+  #setting input,
+  #setting a,
+  #msg span,
+  #msg em {
+    float: left;
+  }
+  </style>
+</head>
+
+<body>
+  <pre>
+ 要求：
+ 1) 任意输入行数或列数, 生成对应表格;
+ 2) 行数, 列数必须为正整数类型, 否则提示非法;(这里我用正则限制1-100, 避免网友测试输入过大值造成浏览器假死)
+ 3) 在生成表格的单元格中随机填入1到15之间的随机数, 并给每个单元格设置随机背景颜色;
+ 4) 点击任意单元格, 将其数和背景颜色输出显示;
+ 5) 效率要求：100*100生成表格时间小于3秒;
+ 6) 代码中要用到事件代理机制;
+ 7) 设计一种简单机制, 使单元格数小于255*255*255时, 颜色不重复
+ 8) 要求符合w3c验证, 兼容IE, Firefox, chrome等浏览器
+</pre>
+  <div id="setting">
+    <label for="row">行数</label>
+    <input type="text" id="row" />
+    <label for="col">列数</label>
+    <input type="text" id="col" />
+    <a href="javascript:;" id="btn">生成表格</a>
+  </div>
+  <div id="msg">
+  </div>
+  <script src="utils.js"></script>
+  <script>
+  /**
+   * 1. Date
+   * 2. regex
+   * 4. object
+   */
+  function $(selector) {
+    return document.getElementById(selector);
+  }
+  var oBtn = $('btn'),
+    oRow = $('row'),
+    oCol = $('col'),
+    oMsg = $('msg');
+  var irow = '100';
+  var icol = '100';
+  var oBody = document.body;
+  var existTable = null;
+  oBtn.onclick = function() {
+    // irow = oRow.value;
+    // icol = oCol.value;
+    if (!check()) {
+      alert('请输入[1-100]的正整数');
+      return;
+    }
+    oMsg.style.display = 'none';
+    createTable();
+  };
+  Event.bind(document, 'click', function clickHandler(event) {
+    var event = event || window.event;
+    var target = event.target || event.srcElement;
+    var tagName = target.tagName.toLowerCase();
+
+    if (tagName == 'td') {
+      var color = window.getComputedStyle(target, null).backgroundColor;
+      oMsg.innerHTML = '<span>您选择的区域数字是：' + target.textContent + '，颜色为：</span><em style="background:' + color + '"></em><span>' + color + '</span>';
+      oMsg.style.display = 'block';
+    }
+  });
+
+  function check() {
+  	// todo
+    var regRow = irow.match(/^\d+$/);
+    var regCol = icol.match(/^\d+$/);
+    if (regRow && regCol) {
+      irow = parseInt(irow);
+      icol = parseInt(icol);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function createTable() {
+    // var d = +new Date(); todo
+    console.time('生成表格时间');
+    var table = document.createElement('table');
+    var html = '';
+    for (var i = 0; i < irow; i++) {
+      html += '<tr>';
+      for (var j = 0; j < icol; j++) {
+        html += '<td style="background:' + getRanColor() + '">' + selectFrom(1, 15) + '</td>';
+      }
+      html += '</tr>';
+    }
+    table.innerHTML = html;
+    existTable && oBody.removeChild(existTable);
+    oBody.appendChild(table);
+    console.timeEnd('生成表格时间');
+    oTable = table;
+  }
+
+  function randomRange(lower, upper) {
+    return Math.floor(Math.random() * (upper - lower + 1) + lower)
+  }
+
+  function getRanColor() {
+    getRanColor.list = getRanColor.list || {};
+    var str = randomRange(0, 0xF0F0F0).toString(16);
+    while (str.length < 6) str = '0' + str;
+    while (getRanColor.list[str]) {
+      str += 100000;
+    }
+    getRanColor.list[str] = 1;
+    return '#' + str;
+  }
+
+  function selectFrom(lower, upper) {
+    return Math.floor(Math.random() * (upper - lower + 1) + lower);
+  }
+  </script>
+</body>
+
+</html>
