@@ -17,7 +17,7 @@
   }
 
   td {
-    /* color: #FFF; */
+    color: #FFF;
     cursor: pointer;
     text-align: center;
     border: 1px solid #000;
@@ -99,11 +99,6 @@
   </div>
   <script src="utils.js"></script>
   <script>
-  /**
-   * 1. Date
-   * 2. regex
-   * 4. object
-   */
   function $(selector) {
     return document.getElementById(selector);
   }
@@ -111,17 +106,16 @@
     oRow = $('row'),
     oCol = $('col'),
     oMsg = $('msg');
-  var irow = '100';
-  var icol = '100';
+  var irow = 0;
+  var icol = 0;
   var oBody = document.body;
   var existTable = null;
   oBtn.onclick = function() {
-    // irow = oRow.value;
-    // icol = oCol.value;
-    if (!check()) {
-      alert('请输入[1-100]的正整数');
-      return;
-    }
+    irow = oRow.value;
+    icol = oCol.value;
+    if (!check()) return;
+    irow = parseInt(irow);
+    icol = parseInt(icol);
     oMsg.style.display = 'none';
     createTable();
   };
@@ -138,27 +132,28 @@
   });
 
   function check() {
-  	// todo
-    var regRow = irow.match(/^\d+$/);
-    var regCol = icol.match(/^\d+$/);
-    if (regRow && regCol) {
-      irow = parseInt(irow);
-      icol = parseInt(icol);
-      return true;
-    } else {
+    var reg = /^((?!0)\d{1,2}|100)$/;
+    if (!reg.test(irow)) {
+      alert('请输入正确的数值：\n\n列数范围【1-100】');
+      oRow.select();
+      return false;
+    } else if (!reg.test(icol)) {
+      alert('请输入正确的数值：\n\n列数范围【1-100】');
+      oCol.select();
       return false;
     }
+    return true;
   }
 
   function createTable() {
-    // var d = +new Date(); todo
+    var today = new Date();
     console.time('生成表格时间');
     var table = document.createElement('table');
     var html = '';
     for (var i = 0; i < irow; i++) {
       html += '<tr>';
       for (var j = 0; j < icol; j++) {
-        html += '<td style="background:' + getRanColor() + '">' + selectFrom(1, 15) + '</td>';
+        html += '<td style="background:' + getRanColor() + '">' + randomRange(1, 15) + '</td>';
       }
       html += '</tr>';
     }
@@ -166,7 +161,9 @@
     existTable && oBody.removeChild(existTable);
     oBody.appendChild(table);
     console.timeEnd('生成表格时间');
-    oTable = table;
+    oMsg.innerHTML = (new Date().getTime() - today.getTime()) / 1000 + '秒';
+    oMsg.style.display = 'block';
+    existTable = table;
   }
 
   function randomRange(lower, upper) {
@@ -182,10 +179,6 @@
     }
     getRanColor.list[str] = 1;
     return '#' + str;
-  }
-
-  function selectFrom(lower, upper) {
-    return Math.floor(Math.random() * (upper - lower + 1) + lower);
   }
   </script>
 </body>

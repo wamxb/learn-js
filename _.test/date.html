@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <script>
+  var today = new Date();
+  </script>
+</head>
+
+<body>
+  <script>
+  var then = new Date(2010, 0, 1);
+  var later = new Date(2016, 9, 1, 10, 20, 30);
+
+  var now = new Date();
+  var elapsed = now - then;
+
+  console.log('later.getFullYear()', later.getFullYear());
+  console.log('later.getMonth()', later.getMonth());
+  console.log('later.getDate()', later.getDate());
+  console.log('later.getDay()', later.getDay());
+  console.log('later.getHours()', later.getHours());
+  console.log('later.getUTCHours()', later.getUTCHours());
+  console.log('later.getTime()', later.getTime());
+  console.log('later.valueOf()', later.valueOf());
+  console.log('later.getMilliseconds()', later.getMilliseconds()); // 0
+
+  console.log('later.toString()', later.toString());
+  console.log('later.toUTCString()', later.toUTCString());
+  console.log('later.toLocaleDateString()', later.toLocaleDateString());
+  console.log('later.toLocaleTimeString()', later.toLocaleTimeString());
+  console.log('later.toISOString()', later.toISOString());
+  console.log('星期：' + '日一二三四五六'.charAt(later.getDay()));
+  // later.setDate(0);
+  // console.log('later.getMonth()', later.getMonth());
+  // console.log('later.getDate()', later.getDate());
+  // console.log('later.getDay()', later.getDay());
+  // console.log('星期：' + '日一二三四五六'.charAt(later.getDay()));
+
+  function distance(opts) {
+    var today = new Date();
+    var feast = new Date();
+    feast.setFullYear(opts.yyyy || today.getFullYear(), opts.MM, opts.dd);
+    var difference = feast.getTime() - today.getTime();
+    if (difference > 0) {
+      difference = Math.floor(difference / (1000 * 60 * 60 * 24));
+      return difference;
+    }
+  }
+  console.log('距潮婚礼只有 ' + distance({
+    MM: 9,
+    dd: 21
+  }) + ' 天了！');
+  console.log('距二表婚礼只有 ' + distance({
+    MM: 10,
+    dd: 17
+  }) + ' 天了！');
+  console.log('距圣诞还有 ' + distance({
+    MM: 11,
+    dd: 25
+  }) + ' 天');
+  console.log('距元旦还有 ' + distance({
+    yyyy: 2017,
+    MM: 0,
+    dd: 1
+  }) + ' 天');
+
+  console.log('加载本页花费了 ' + (new Date().getTime() - today.getTime()) / 1000 + ' 秒');
+
+  console.log('later.toDateString()', later.toDateString());
+  console.log('later.toISOString()', later.toISOString());
+  console.log('later.toJSON()', later.toJSON());
+  console.log('JSON.stringify()', JSON.stringify(later));
+  console.log('later.toLocaleDateString()', later.toLocaleDateString());
+  console.log('later.toLocaleString()', later.toLocaleString());
+  console.log('later.toLocaleTimeString()', later.toLocaleTimeString());
+  console.log('later.toString()', later.toString());
+  console.log('later.toTimeString()', later.toTimeString());
+  </script>
+</body>
+
+</html>
