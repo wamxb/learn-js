@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <style>
+  * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  body,
+  input,
+  select,
+  label {
+    margin: 0;
+    font: 15px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  input,
+  select {
+    outline: none;
+  }
+  /* grid */
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  [class^=col-] {
+    float: left;
+    padding: 0 15px;
+  }
+
+  .offset-md-2 {
+    margin-left: calc(100%/12*2);
+  }
+
+  .col-md-2 {
+    width: calc(100%/12*2);
+  }
+
+  .col-md-5 {
+    width: calc(100%/12*5);
+  }
+
+  .col-md-6 {
+    width: calc(100%/12*6);
+  }
+
+  .col-md-8 {
+    width: calc(100%/12*8);
+  }
+  /* form */
+
+  .form-horizontal {
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+
+  .form-group {
+    margin: 20px -15px;
+    overflow: hidden;
+    _zoom: 1;
+  }
+
+  .control-label {
+    text-align: right;
+    padding-top: 5px;
+  }
+
+  .form-control {
+    width: 100%;
+    height: 29px;
+    padding: 5px 15px;
+    line-height: 1;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .075) inset;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    background-image: none;
+  }
+
+  input[type="radio"],
+  input[type="checkbox"] {
+    margin-right: 5px;
+  }
+  /* example */
+
+  .form-horizontal {
+    width: 540px;
+  }
+
+  .hide {
+    display: none;
+  }
+  </style>
+</head>
+
+<body>
+  <div class="contrainer">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <div class="col-md-4 offset-md-2">
+          <label class="radio-inline">
+            <input type="radio" name="isStudent" value="1" checked>在校生
+          </label>
+        </div>
+        <div class="col-md-6">
+          <label class="radio-inline">
+            <input type="radio" name="isStudent" value="0">非在校生
+          </label>
+        </div>
+      </div>
+      <div class="form-group inSchool">
+        <label class="col-md-2 control-label">学校</label>
+        <div class="col-md-5">
+          <select name="city" id="city" class="form-control">
+            <option value="">请选择城市</option>
+          </select>
+        </div>
+        <div class="col-md-5">
+          <select name="school" id="school" class="form-control">
+            <option value="">请选择学校</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group outSchool">
+        <label for="company" class="col-md-2 control-label">就业单位</label>
+        <div class="col-md-8">
+          <input name="company" id="company" type="text" class="form-control">
+        </div>
+      </div>
+    </form>
+  </div>
+  <script src="utils.js"></script>
+  <script>
+  window.onload = function() {
+    var json = 'bj:北京|北京大学,清华大学,北京航天航空大学;sh:上海|上海交通大学,复旦大学,同济大学;zj:浙江|浙江大学,杭州电子科技大学,浙江工业大学;';
+    var oForm = $('.form-horizontal'),
+      oCity = $('#city'),
+      oSchool = $('#school'),
+      oInSchool = $('.inSchool'),
+      oOutSchool = $('.outSchool');
+
+    init();
+
+    function init() {
+      classfn.add(oOutSchool, 'hide'); // 隐藏 就业单位
+      renderCity('sh', 'sh_1');
+      bindFormEvent();
+    }
+
+    // 绑定事件
+    function bindFormEvent() {
+      Event.bind(oForm, 'change', function(event) {
+        var event = event || window.event;
+        var target = event.target || event.srcElement;
+        var value = target.value;
+        switch (target.name) {
+          case 'isStudent':
+            classfn[+value ? 'remove' : 'add'](oInSchool, 'hide'); // 1，显示
+            classfn[+value ? 'add' : 'remove'](oOutSchool, 'hide'); // 0，显示
+            break;
+          case 'city':
+            renderSchool(value);
+            var index = target.selectedIndex;
+            console.log(target.options[index].text);
+            break;
+        }
+      });
+    }
+    // 渲染城市
+    function renderCity(cityVal, schoolVal) {
+      var arr = json.match(/(\S+?);/g);
+      var oFrag = document.createDocumentFragment();
+      arr.forEach(function(item, i) {
+        var value = item.match(/(\w+)/)[1];
+        var selected = cityVal ? value === cityVal : !i;
+        var option = new Option(item.match(/((?!\:)\W+)\|/)[1], value, selected, selected);
+        oFrag.appendChild(option);
+      });
+      oCity.options.length = 0;
+      oCity.appendChild(oFrag);
+      renderSchool(schoolVal || cityVal || oCity.value);
+    }
+    // 渲染学校
+    function renderSchool(value) {
+      if (value.indexOf('_') > -1) {
+        var shcoolVal = value;
+        var arr = value.match(/(\w+)_(\d+)/);
+        value = arr ? arr[1] : value;
+      }
+      var reg = new RegExp(value + '\\:\\S+?\\|(\\S+?);');
+      var arr = reg.exec(json);
+      arr = arr ? arr[1].split(',') : [];
+      var oFrag = document.createDocumentFragment();
+      arr.forEach(function(item, i) {
+        var optVal = value + '_' + i;
+        var selected = shcoolVal ? optVal == shcoolVal : !i;
+        var option = new Option(item, optVal, selected, selected);
+        oFrag.appendChild(option);
+      });
+      oSchool.options.length = 0;
+      oSchool.appendChild(oFrag);
+    }
+  };
+  </script>
+</body>
+
+</html>
