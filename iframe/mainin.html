@@ -1,0 +1,29 @@
+<html>
+
+<head>
+  <title>mainin Frame</title>
+  <script>
+  function callIn() {
+    console.info("This is call in in in");
+  }
+
+  function callMainInParent() {
+    console.log(top.mainFrame.document.title);
+    console.warn(top.frames[0].document.title);
+    top.mainFrame.callMain();
+  }
+  </script>
+</head>
+
+<body>
+  This is top frame
+  <a href="javascript:callMainInParent()">maininmaininmaininmaininmainin</a>
+  <script>
+  window.onload = function() {
+    var a = document.querySelector('a');
+    a.click();
+  }
+  </script>
+</body>
+
+</html>

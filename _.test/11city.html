@@ -190,7 +190,7 @@
     function renderSchool(value) {
       if (value.indexOf('_') > -1) {
         var shcoolVal = value;
-        var arr = value.match(/(\w+)_(\d+)/);
+        var arr = value.match(/(\w+)_\d+/);
         value = arr ? arr[1] : value;
       }
       var reg = new RegExp(value + '\\:\\S+?\\|(\\S+?);');

@@ -1,0 +1,28 @@
+<html>
+
+<head>
+  <title>Main Frame</title>
+  <script>
+  function callParent() {
+    parent.topFrame.callIt();
+  }
+
+  function callMain() {
+    console.info("This is main frame function");
+  }
+  </script>
+</head>
+
+<body>
+  This is main frame
+  <a href="javascript:callParent()">Call top frame function</a>
+  <script>
+  var oIn = document.createElement('iframe');
+  oIn.src = "mainin.html";
+  oIn.id = 'mainIn';
+  oIn.name = 'in_' + Math.floor(Math.random() * 20);
+  document.body.append(oIn);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<html>
+
+<head>
+  <title>top Frame</title>
+  <script>
+  function callIt() {
+    console.info("This is top function calling");
+  }
+
+  function callMainParent() {
+    console.log(top);
+    console.log(parent);
+    console.log(parent.top);
+    console.log(top === parent);
+    console.log(top === parent.top);
+    console.log(parent === parent.top);
+    console.log(top.mainFrame);
+    parent.mainFrame.callMain();
+  }
+
+  function callMainIn() {
+    console.info('callMainIn============');
+    console.log(top.mainFrame.document.title);
+    console.log('top.mainFrame', top.mainFrame);
+    top.mainFrame.document.getElementById('mainIn').contentWindow.callIn();
+  }
+  </script>
+</head>
+
+<body>
+  This is top frame
+  <a href="javascript:callMainIn()">Call main frame function</a>
+</body>
+
+</html>

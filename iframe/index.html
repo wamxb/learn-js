@@ -1,0 +1,23 @@
+<html>
+
+<head>
+  <title>index</title>
+</head>
+
+<body>
+	<a href="http://www.easywayserver.com/java/calling-parent-child-function-in-frame/">http://www.easywayserver.com/java/calling-parent-child-function-in-frame/</a>
+  <iframe src="left.html" name="leftFrame" id="leftFrame"></iframe>
+  <iframe src="top.html" name="topFrame" id="topFrame"></iframe>
+  <iframe src="main.html" name="mainFrame" id="mainFrame"></iframe>
+  <script>
+  window.onload = function() {
+    var elt = document.getElementById('leftFrame');
+    console.log(elt);
+    var win = elt.contentWindow;
+    console.log(win.frameElement === elt);
+    console.log(win.frameElement === null);
+  }
+  </script>
+</body>
+
+</html>
