@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <script>
+  (function(argument) {
+    function baz() {
+      console.log('baz');
+      bar();
+    }
+
+    function bar() {
+      console.log('bar');
+      foo();
+    }
+
+    function foo() {
+      // debugger;
+      console.log('foo');
+    }
+    baz();
+  })();
+
+  (function() {
+    function foo() {
+      'use strict';
+      try {
+        console.log(this.a); // if 'use strict' cannot read property 'a' of undefined
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    var a = 2;
+    foo();
+  })();
+
+  console.info('隐式绑定的规则，是调用是否有上下文对象，或者说是被某个对象拥有或包含');
+  (function() {
+    console.info('实际引用的是foo本身，此时的 bar()其实不带任何一个修饰的函数调用，因此应用了默认绑定');
+
+    function foo() {
+      console.log(this.a);
+    }
+    var obj = {
+      a: 2,
+      foo: foo
+    };
+
+    var bar = obj.foo; //函数别名
+    var a = 'oops, global'; // a 是全局对象的属性
+    bar(); // undefined
+  })();
+
+  (function() {
+    console.info('把函数传入语言内置的函数而不是传入你自己声明的函数');
+
+    function foo() {
+      console.log(this.a);
+    }
+
+    function doFoo(fn) {
+      // fn其实引用的是foo
+      fn(); // <-- 调用位置!
+    }
+    var obj = {
+      a: 2,
+      foo: foo
+    };
+    var a = "oops, global"; // a是全局对象的属性
+    doFoo(obj.foo); // "oops, global"
+  })();
+
+  (function() {
+    function foo() {
+      console.log('回调函数丢失 this 绑定是非常常见的', this.a); // undefined
+    }
+    var obj = {
+      a: 2,
+      foo: foo
+    };
+    var a = 'oops,global';
+    setTimeout(obj.foo, 100);
+  })();
+  console.info('显示绑定');
+  (function() {
+    function foo() {
+      console.log(this.a);
+    }
+    var obj = {
+      a: 2
+    };
+    foo.call(obj); // 2
+  })();
+
+  (function() {
+    function foo() {
+      console.log('硬绑定', this.a);
+    }
+    var obj = {
+      a: 2
+    };
+    var bar = function() {
+      foo.call(obj);
+    };
+    bar(); // 2
+    setTimeout(bar, 100); // 2
+    console.info('硬绑定的 bar 不可能再修改它的 this');
+    bar.call(window); // 2
+  })();
+
+  (function() {
+    console.info('创建一个包裹函数，传入所有的参数并返回接受到的所有值');
+
+    function foo(something) {
+      console.log(this.a, something);
+      return this.a + something;
+    }
+    var obj = {
+      a: 2
+    };
+    var bar = function() {
+      return foo.apply(obj, arguments);
+    };
+    var b = bar(3); // 2 3
+    console.log(b); // 5
+  })();
+
+  (function() {
+    console.info('创建一个 i 可以重复使用的辅助函数');
+
+    function foo(something) {
+      console.log(this.a, something);
+      return this.a + something;
+    }
+
+    function bind(fn, obj) {
+      return function() {
+        return fn.apply(obj, arguments);
+      };
+    }
+    var obj = {
+      a: 2
+    };
+    var bar = bind(foo, obj);
+    var b = bar(3); // 2 3
+    console.log(b); // 5
+  })();
+
+  (function() {
+    function foo(something) {
+      console.log('Function.prototype.bind', this.a, something);
+      return this.a + something;
+    }
+    var obj = {
+      a: 2
+    };
+    var bar = foo.bind(obj);
+    var b = bar(3); // 2 3
+    console.log(b); // 5
+  })();
+
+  (function() {
+    console.log('API 调用的“上下文”');
+
+    function foo(el) {
+      console.log(el, this.id);
+    }
+    var obj = {
+      id: 'awesome'
+    };
+    [1, 2, 3].forEach(foo, obj); // 1 'awesome' 2 'awesome' 3 'awesome'
+  })();
+
+  (function() {
+    function foo(a) {
+      this.a = a;
+    }
+    var bar = new foo(2);
+    console.log('new 绑定', bar.a); // 2
+  })();
+
+  console.info('优先级');
+  (function() {
+    function foo(something) {
+      this.a = something;
+    }
+    var obj1 = {};
+    var bar = foo.bind(obj1);
+    bar(2);
+    console.log(obj1.a); // 2
+    var baz = new bar(3);
+    console.log(obj1.a); // 2
+    console.log( baz.a ); // 3
+  })();
+  </script>
+</body>
+
+</html>

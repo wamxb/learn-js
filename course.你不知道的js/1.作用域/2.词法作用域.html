@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <script>
+  function foo(obj) {
+    with(obj) {
+      a = 2;
+    }
+  }
+  var o1 = {
+    a: 3
+  };
+  var o2 = {
+    b: 3
+  };
+  foo(o1);
+  console.log(o1.a); // 2
+  foo(o2);
+  console.log(o2.a); // undefined, o2 没有 a 这个属性
+  console.log(a); // 2——不好,a 被泄漏到全局作用域上了!
+  </script>
+</body>
+
+</html>
