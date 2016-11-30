@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <style>
+  .demo {
+    background: #000;
+    width: 100px;
+    height: 100px;
+    border: 1px solid red;
+  }
+  </style>
+</head>
+
+<body>
+  <h1>zepto demo1</h1>
+  <div id="demo" class="demo" style="color: #fff; position: relative;">Lorem ipsum dolor sit amet</div>
+  <table id="table">
+    <tr id="tr">
+      <th id="th">111</th>
+    </tr>
+    <tr>
+      <td id="td"></td>
+    </tr>
+  </table>
+  <span id="span">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span>
+  <!-- <script src="http://zeptojs.com/zepto.js"></script> -->
+  <script>
+  var myDiv = document.getElementById('demo');
+  for (var i = 0; i < myDiv.style.length; i++) {
+    var prop = myDiv.style[i];
+    var value = myDiv.style.getPropertyValue(prop);
+    // var value2 = myDiv.style.getPropertyCSSValue(prop); ??? 高级程序p332
+    // console.log(value2)
+    console.log('%s : %s', prop, value)
+  }
+  console.log(myDiv.style.item(1))
+  myDiv.style.cssText = "width: 25px; height: 100px; background-color: green";
+  console.log(myDiv.style.cssText);
+  console.log(myDiv.style.length);
+  console.log(myDiv.style.removeProperty('width'))
+  console.log(document.defaultView.getComputedStyle(myDiv, null).display); // block
+  console.log(document.defaultView.getComputedStyle === getComputedStyle); // true
+  console.log(document.defaultView.getComputedStyle(document.getElementById('table'), null).display) // table
+  console.log(document.defaultView.getComputedStyle(document.getElementById('tr'), null).display) // table-row
+  console.log(document.defaultView.getComputedStyle(document.getElementById('th'), null).display) // table-col
+  console.log(document.defaultView.getComputedStyle(document.getElementById('td'), null).display)
+  console.log(document.defaultView.getComputedStyle(document.getElementById('span'), null).display) // inline
+  console.log(getComputedStyle(document.getElementById('span'), null).display) // inline
+  console.log(getComputedStyle(document.getElementById('span'), null).getPropertyValue('display')) // inline
+  console.info('IE支持 currentStyle 的方法')
+  try {
+    console.log(document.getElementById('span').currentStyle.display) // inline
+  } catch(e) {
+    console.warn(e);
+  }
+  </script>
+  <svg id="svg" class="demo"></svg>
+  <script>
+      var svg = document.getElementById('svg');
+      console.log(svg.className, svg.className.baseVal) // SVGAnimatedString {baseVal: "demo", animVal: "demo"} "demo"
+  </script>
+</body>
+
+</html>
