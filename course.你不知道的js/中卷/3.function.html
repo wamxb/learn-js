@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <script>
+  {
+    var a = new String('abc');
+    console.log(a);
+  } {
+    var a = new Array(3);
+    var b = [undefined, undefined, undefined];
+    var a1 = a.map(function(v, i) {
+      return i;
+    });
+    console.log(a1); // []
+    var b1 = b.map(function(v, i) {
+      return i;
+    });
+    console.log(b1); // [1, 2, 3]
+
+    console.info('以下方式来创建包含 undefined 单元（而非“空单元”）的数组');
+    var a = Array.apply(null, {
+      length: 3
+    });
+    console.log(a); // [undefined, undefined, undefined]
+  } {
+    console.info('Date() 和 Error()')
+    if (!Date.now) {
+      Date.now = function() {
+        return (new Date()).getTime();
+      };
+    }
+
+    var mysym = Symbol('my own symbol');
+    console.log(mysym); // Symbol(my own symbol)
+    console.log(mysym.toString()) // "Symbol(my own symbol)"
+    console.log(typeof mysym) // "symbol"
+
+    console.info('抽象值操作');
+    console.log(JSON.stringify(42)) // "42"
+    console.log(JSON.stringify("42")) // ""42""
+    console.log(JSON.stringify(null)) // "null"
+    console.log(JSON.stringify(true)) // "true"
+
+    console.log(JSON.stringify(undefined)) // undefined
+    console.log(JSON.stringify(function() {})) // undefined
+    console.log(JSON.stringify([1, undefined, function() {}, 4])) // [1, null, null, 4]
+    console.log(JSON.stringify({
+        a: 2,
+        b: function() {}
+      })) // {"a": 2}
+
+    var o = {};
+    var a = {
+      b: 42,
+      c: o,
+      d: function() {}
+    };
+    console.info('自定义的 JSON 序列化')
+    a.toJSON = function() {
+      return {
+        b: this.b
+      }
+    };
+    console.log(JSON.stringify(a)); // {"b": 42}
+
+    var a = {
+      b: 42,
+      c: "42",
+      d: [1, 2, 3]
+    };
+    console.log(JSON.stringify(a, ["b", "c"], 3)); // {"b":42,"c":"42"}
+    var result = JSON.stringify(a, function(k, v) {
+      if (k != 1) {
+        return v
+      } else {
+        // 不写也返回 null
+        return undefined; // 返回 null
+      }
+    }, 10)
+    console.log(result);  // {"b":42,"d":[1,null,3]}
+
+  }
+  </script>
+</body>
+
+</html>

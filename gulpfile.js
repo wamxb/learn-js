@@ -1,7 +1,7 @@
 var gulp = require('gulp'),
     browserSync = require('browser-sync');
 
-gulp.task('browser-sync', function () {
+gulp.task('browser-sync', function() {
     var files = ['**/*.html'];
 
     browserSync.init(files, {
@@ -15,4 +15,4 @@ gulp.task('browser-sync', function () {
     });
 });
 
-gulp.task('default', ['browser-sync']);
+gulp.task('dev', ['browser-sync']);

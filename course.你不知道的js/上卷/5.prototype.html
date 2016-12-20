@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <script>
+  (function() {
+    // 'use strict';
+    var anotherObject = {
+      get foo() {
+        return this._a_;
+      },
+      set foo(val) {
+        this._a_ = val * 2
+      }
+    };
+    // 设置为 writable: false 那么无法覆盖原型链上的属性， 严格模式下会报错
+    Object.defineProperties(anotherObject, {
+      a: {
+        value: 2,
+        writable: false,
+        enumerable: true,
+        configurable: true
+      },
+      num: {
+        value: 0,
+        writable: true,
+        enumerable: true,
+        configurable: true
+      },
+      // foo: {get: function(){ return this.num; }, set: function(value){ return console.info('set', value),this.num += value; }, enumerable: true}
+    });
+    var myObject = Object.create(anotherObject);
+    console.log('myObject.a', myObject.a) // 2
+    myObject.a++;
+    console.log('myObject.a', myObject.a) // 2
+    Object.defineProperty(myObject, 'a', {
+      writable: true,
+      value: 1
+    });
+    console.log('myObject.a', myObject.a) // 1
+
+    console.log(myObject.foo) // undefined
+    myObject.foo = 2;
+    console.log('myObject.foo', myObject.foo) // 4
+    console.log('anotherObject.foo', anotherObject.foo) // undefined
+
+
+    function Foo() {}
+    // Foo.prototype 的 .constructor 属性 只是 Foo 函数在声明时的默认属性
+    // 创建一个新对象，并替换了函数默认的 .prototype 对象引用，那么新对象并不会自动获得 .constructor 属性
+    Foo.prototype = {}
+      // 给 Foo.prototype 添加一个 .constructor 属性
+    Object.defineProperty(Foo.prototype, 'constructor', {
+      enumerable: false,
+      writable: true,
+      configurable: true,
+      value: Foo
+    });
+    var a = new Foo();
+    // a本身没有 constructor 属性，所以会委托 [[prototype]] 链上的 Foo.prototype
+    //  但是这个对象也没有 .constructor 属性 （默认的 Foo.prototype 对象有这个）
+    //  所以它的委托顶端的 Object.prototype ，这个对象有 .constructor 属性，指向内置的 Object(...) 函数
+    console.log(a.constructor === Foo) // false  修复后为 true
+    console.log(a.constructor === Object) // true
+  })();
+
+  (function(){
+
+    function Foo(name) { this.name = name; }
+    Foo.prototype.myName = function(){ return this.name; }
+
+    function Bar(name, label){
+      Foo.call(this, name);
+      this.label = label;
+    }
+
+    // Bar.prototype = Object.create(Foo.prototype);
+    Object.setPrototypeOf( Bar.prototype, Foo.prototype ); // ES6
+    Bar.prototype.myLabel = function() {
+      return this.label;
+    }
+
+    var a = new Bar('a', 'obj a');
+
+    console.log(a.myName());  // a
+    console.log(a.myLabel()); // obj a
+
+  })();
+
+  (function(){
+    var anotherObject = { a: 2 };
+
+    var myObject = Object.create( anotherObject, {
+      b: {
+        enumerable: false,
+        writable: true,
+        configurable: false,
+        value: 3
+      },
+      c: {
+        enumerable: true,
+        writable: false,
+        configurable: false,
+        value: 4
+      }
+    });
+
+    console.log(myObject.hasOwnProperty('a')) // false
+    console.log(myObject.hasOwnProperty('b')) // true
+    console.log(myObject.hasOwnProperty('c')) // true
+    console.log(myObject.a) // 2
+    console.log(myObject.b) // 3
+    console.log(myObject.c) // 4
+  })();
+  </script>
+</body>
+
+</html>
